@@ -8,7 +8,7 @@ class DescriptorHeap
 {
 public:
 
-	void Initialize(ID3D12Device* device);
+	void Initialize(ID3D12Device* Device);
 
 
 	UINT64 CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Resource* resource);

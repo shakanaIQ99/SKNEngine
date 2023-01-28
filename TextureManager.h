@@ -4,6 +4,7 @@
 #include<DirectXTex.h>
 #include <DirectXMath.h>
 #include<string>
+#include <unordered_map>
 
 using namespace std;
 
@@ -13,26 +14,21 @@ using namespace DirectX;
 
 struct TextureData
 {
-	//テクスチャバッファ
 	ComPtr<ID3D12Resource> texBuff;
 
-	//デスクプリタヒープ
 	ComPtr <ID3D12DescriptorHeap> srvHeap;
 
-	//GPUデスクプリタハンドル
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 
-	//横幅
 	size_t width = 0;
-	//縦幅
+
 	size_t height = 0;
 
-	//カラー
 	XMFLOAT4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 	string path;
 
-	uint32_t textureHandle;
+	uint32_t texHandle;
 };
 
 class TextureManager
@@ -42,9 +38,9 @@ public:
 
 	void StaticInitialize(DirectXCommon* dxcommon);
 	
-	uint32_t LoadTexture(const std::string& path);
+	uint32_t LoadTexture(const string& path);
 
-	static uint32_t Load(const std::string& path);
+	static uint32_t Load(const string& path);
 
 	static TextureData* GetTextureData(uint32_t handle);
 
@@ -54,9 +50,25 @@ public:
 
 private:
 
+	void FileLoad(const string& path, TexMetadata& metadata, ScratchImage& scratchImg);
+
+	TextureData* LoadFromTextureData(const string& path);
+
+	ComPtr<ID3D12Resource>CreateTexBuff(TexMetadata& metadata, ScratchImage& scratchImg);
+
+	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12Resource* texBuff, TexMetadata& metadata);
+
 	DirectXCommon* dxCommon;
 
-	D3D12_HEAP_PROPERTIES textureHeapProp{};
+	static TextureManager* texManager;
+
+	D3D12_HEAP_PROPERTIES texHeapProp{};
+
+	static vector<string>FilePaths;
+
+	static unordered_map<string, unique_ptr<TextureData>> texDatas;
+
+	uint32_t TextureSize;
 
 };
 

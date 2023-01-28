@@ -6,6 +6,7 @@
 #include"DirectXCommon.h"
 #include"WorldTronsform.h"
 #include"Pipeline.h"
+#include"TextureManager.h"
 
 using namespace DirectX;
 
@@ -17,29 +18,19 @@ class SpriteCommon
 public:
     void Initialize(DirectXCommon* dxcommon);
 
-    void InitializeGraphicsPipeline();
-
-    void CreateDescriptorHeap();
+    //void InitializeGraphicsPipeline();
 
     void PreDraw();
 
     void PostDraw();
 
-    void DrawCommand(D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
-
-    void LoadTexture(UINT texnumber, const wchar_t* filename);
+    void DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
 
     DirectXCommon* GetDirextXCommon() { return dxcommon; }
 
     XMMATRIX Getmat() { return matProjection; }
 
-    ID3D12DescriptorHeap* GetDescHeap() { return descHeap.Get(); }
-
 private:
-
-    static const int SrvCount = 512;
-
-    ComPtr<ID3D12Resource> texBuff[SrvCount];
 
     DirectXCommon* dxcommon;
 
@@ -47,13 +38,11 @@ private:
 
     ID3D12GraphicsCommandList* commandList;
 
-    ComPtr<ID3D12DescriptorHeap> descHeap;
-
-    ComPtr<ID3D12RootSignature> rootsignature;
+  //  ComPtr<ID3D12RootSignature> rootsignature;
     // パイプラインステートオブジェクト
-    ComPtr<ID3D12PipelineState> pipelinestate;
+   // ComPtr<ID3D12PipelineState> pipelinestate;
 
-    D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
+   // D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
 
     XMMATRIX matProjection{};
 };

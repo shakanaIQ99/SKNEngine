@@ -2,6 +2,7 @@
 #include"SpriteCommon.h"
 #include"WorldTronsform.h"
 #include <DirectXTex.h>
+#include"TextureManager.h"
 class Sprite2D
 {
 public:
@@ -20,7 +21,7 @@ public:
 
 
 
-    void Initialize(SpriteCommon* spritecommon, WorldTransform* wt);
+    void Initialize(SpriteCommon* spritecommon, WorldTransform* wt, uint32_t handle);
 
     void Update();
 
@@ -40,5 +41,7 @@ private:
 
     D3D12_VERTEX_BUFFER_VIEW vbView;
     D3D12_INDEX_BUFFER_VIEW ibView;
+
+    TextureData* tex;
    
 };

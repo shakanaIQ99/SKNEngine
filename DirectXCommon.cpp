@@ -26,8 +26,8 @@ void DirectXCommon::Initialize(DxWindow* win, int32_t backBufferWidth, int32_t b
 
 	InitializeFence();
 
-	//descHeap = std::make_unique<DescriptorHeap>();
-	//descHeap->Initialize(device.Get());
+	descHeap = make_unique<DescriptorHeap>();
+	descHeap->Initialize(device.Get());
 }
 
 void DirectXCommon::PreDraw()

@@ -1,9 +1,10 @@
 #include "Sprite2D.h"
 
-void Sprite2D::Initialize(SpriteCommon* spritecommon, WorldTransform* wt)
+void Sprite2D::Initialize(SpriteCommon* spritecommon, WorldTransform* wt, uint32_t handle)
 {
 	this->spritecommon = spritecommon;
 	this->Wt = wt;
+	tex = TextureManager::GetTextureData(handle);
 
 	device = spritecommon->GetDirextXCommon()->GetDevice();
 
@@ -127,7 +128,7 @@ void Sprite2D::Update()
 
 void Sprite2D::Draw()
 {
-	spritecommon->DrawCommand(vbView,ibView,Wt);
+	spritecommon->DrawCommand(tex,vbView,ibView,Wt);
 
 }
 

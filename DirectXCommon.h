@@ -1,4 +1,5 @@
 #pragma once
+#include "DxWindow.h"
 #include<d3d12.h>
 #include<dxgi1_6.h>
 #include<wrl.h>
@@ -7,8 +8,8 @@
 #include<memory>
 
 using namespace Microsoft::WRL;
+using namespace std;
 
-#include "DxWindow.h"
 
 class DirectXCommon
 {
@@ -29,6 +30,7 @@ public:
 	/// <returns>描画コマンドリスト</returns>
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
 
+	DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }
 
 	//DescriptorHeap* GetDescriptorHeap()const { return descHeap.get(); }
 
@@ -47,13 +49,13 @@ private:
 	ComPtr<ID3D12DescriptorHeap> dsvHeap;
 	
 
-	std::vector<ComPtr<ID3D12Resource>> backBuffers;
+	vector<ComPtr<ID3D12Resource>> backBuffers;
 
 	ComPtr<ID3D12Fence> fence;
 
 	ComPtr<ID3D12Resource> depthBuffer;
 
-	//std::unique_ptr<DescriptorHeap> descHeap;
+	unique_ptr<DescriptorHeap> descHeap;
 
 	int32_t backBufferWidth = 0;
 	int32_t backBufferHeight = 0;
