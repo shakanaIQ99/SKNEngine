@@ -38,11 +38,5 @@ private:
 
     ID3D12GraphicsCommandList* commandList;
 
-  //  ComPtr<ID3D12RootSignature> rootsignature;
-    // パイプラインステートオブジェクト
-   // ComPtr<ID3D12PipelineState> pipelinestate;
-
-   // D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
-
     XMMATRIX matProjection{};
 };

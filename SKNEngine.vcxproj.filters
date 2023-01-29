@@ -25,6 +25,12 @@
     <Filter Include="ヘッダー ファイル\Core">
       <UniqueIdentifier>{77ce8447-efd4-48d7-9689-d9d2d0ad54be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Core\Buff">
+      <UniqueIdentifier>{c6fe266e-70c3-4365-b996-8e51e8613fbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Core\Buff">
+      <UniqueIdentifier>{5e91cd97-467c-4942-8d92-e1909a496c18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Input.cpp">
@@ -72,6 +78,18 @@
     <ClCompile Include="Light.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ConstBuffer.cpp">
+      <Filter>ソース ファイル\Core\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>ソース ファイル\Core\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>ソース ファイル\Core\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCommon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -114,6 +132,18 @@
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstBuffer.h">
+      <Filter>ヘッダー ファイル\Core\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>ヘッダー ファイル\Core\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>ヘッダー ファイル\Core\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawCommon.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

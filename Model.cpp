@@ -11,8 +11,6 @@ Model* Model::LoadFromOBJ(const string& modelname, bool smoothing)
 {
     Model* model = new Model();
 
-	model->CreateDescriptorHeap();
-
 	model->LoadFromOBJInternal(modelname,smoothing);
 
 	model->CreateBuffers();
@@ -28,32 +26,17 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList, UINT rootParamIndexMate
 
 	commandList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
 
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
-
-	commandList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = descHeap.Get()->GetGPUDescriptorHandleForHeapStart();
+	commandList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
 
 	if (material.textureFilename.size() > 0)
 	{
-		commandList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+		commandList->SetGraphicsRootDescriptorTable(2, tex->gpuHandle);
 	}
-
+	//commandList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
-void Model::CreateDescriptorHeap()
-{
-	HRESULT result = S_FALSE;
 
-	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
-	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
-	descHeapDesc.NumDescriptors = SrvCount;
-	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
-	assert(SUCCEEDED(result));
-
-	srvHandle = descHeap->GetCPUDescriptorHandleForHeapStart();
-}
 
 void Model::LoadFromOBJInternal(const string& modelname, bool smoothing)
 {
@@ -276,88 +259,11 @@ void Model::LoadMaterial(const string& directoryPath, const string& filename)
 
 void Model::LoadTexture(const string& directoryPath, const string& filename)
 {
-	HRESULT result = S_FALSE;
-
 	string filepath = directoryPath + filename;
 
-	wchar_t wfilepath[128];
-	int iBufferSize = MultiByteToWideChar(CP_ACP, 0,
-		filepath.c_str(), -1, wfilepath, _countof(wfilepath));
+	uint32_t handl = TextureManager::Load(filepath);
 
-	TexMetadata metadata{};
-	ScratchImage scratchImg{};
-
-	//result = LoadFromWICFile(
-	//	filename,
-	//	WIC_FLAGS_NONE,
-	//	&metadata, scratchImg
-	//);
-
-	result = LoadFromWICFile(
-		wfilepath,
-		WIC_FLAGS_NONE,
-		&metadata, scratchImg
-	);
-
-
-	ScratchImage mipChain{};
-
-	result = GenerateMipMaps(
-		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
-		TEX_FILTER_DEFAULT, 0, mipChain);
-	if (SUCCEEDED(result)) {
-		scratchImg = std::move(mipChain);
-		metadata = scratchImg.GetMetadata();
-	}
-
-	metadata.format = MakeSRGB(metadata.format);
-
-	D3D12_HEAP_PROPERTIES HeapProp{};
-	HeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	HeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	HeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-
-	D3D12_RESOURCE_DESC rsDesc{};
-	rsDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	rsDesc.Format = metadata.format;
-	rsDesc.Width = metadata.width;
-	rsDesc.Height = (UINT)metadata.height;
-	rsDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
-	rsDesc.MipLevels = (UINT16)metadata.mipLevels;
-	rsDesc.SampleDesc.Count = 1;
-
-	result = device->CreateCommittedResource(
-		&HeapProp,		//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&rsDesc,	//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&texBuff)
-	);
-
-	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		const Image* img = scratchImg.GetImage(i, 0, 0); // 生データ抽出
-		result = texBuff->WriteToSubresource(
-			(UINT)i,
-			nullptr,              // 全領域へコピー
-			img->pixels,          // 元データアドレス
-			(UINT)img->rowPitch,  // 1ラインサイズ
-			(UINT)img->slicePitch // 1枚サイズ
-		);
-		assert(SUCCEEDED(result));
-	}
-
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = rsDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = rsDesc.MipLevels;
-
-	device->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
-
-
-
+	tex = TextureManager::GetTextureData(handl);
 }
 
 void Model::CreateBuffers()

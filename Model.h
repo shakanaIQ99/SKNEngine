@@ -6,12 +6,14 @@
 #include <d3d12.h>
 #include <wrl.h>
 #include"TextureManager.h"
+#include"WorldTronsform.h"
 
 using namespace DirectX;
 
 using namespace Microsoft::WRL;
 
 using namespace std;
+
 
 class Model
 {
@@ -68,8 +70,6 @@ public:
 
 private:
 
-	void CreateDescriptorHeap();
-
 	static ID3D12Device* device;
 
 	void LoadFromOBJInternal(const string& modelname,bool smoothing);
@@ -84,8 +84,8 @@ private:
 
 	void CaliculateSmoothedVertexNormals();
 
-	std::vector<unsigned short>indices;
-	std::vector<VertexPos> vertices;
+	vector<unsigned short>indices;
+	vector<VertexPos> vertices;
 
 	ComPtr<ID3D12Resource> vertBuff;
 
@@ -95,13 +95,11 @@ private:
 
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	D3D12_INDEX_BUFFER_VIEW ibView;
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle;
-
-	ComPtr<ID3D12DescriptorHeap> descHeap;
-	const int SrvCount = 2056;
+	
 	ComPtr<ID3D12Resource> constBuffB1;
 
-	std::unordered_map<unsigned short, std::vector<unsigned short>>smoothData;
+	unordered_map<unsigned short, vector<unsigned short>>smoothData;
 
+	TextureData* tex;
 };
 

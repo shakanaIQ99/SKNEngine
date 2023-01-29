@@ -146,9 +146,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="DescriptorHeap.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
+    <ClCompile Include="DrawCommon.cpp" />
     <ClCompile Include="DxWindow.cpp" />
+    <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
@@ -159,13 +162,17 @@
     <ClCompile Include="Sprite2D.cpp" />
     <ClCompile Include="SpriteCommon.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="ViewProjection.cpp" />
     <ClCompile Include="WorldTronsform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConstBuffer.h" />
     <ClInclude Include="DescriptorHeap.h" />
     <ClInclude Include="DirectXCommon.h" />
+    <ClInclude Include="DrawCommon.h" />
     <ClInclude Include="DxWindow.h" />
+    <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />
@@ -175,6 +182,7 @@
     <ClInclude Include="Sprite2D.h" />
     <ClInclude Include="SpriteCommon.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="ViewProjection.h" />
     <ClInclude Include="WorldTronsform.h" />
   </ItemGroup>

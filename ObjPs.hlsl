@@ -28,7 +28,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 	float4 texcolor = tex.Sample(smp, input.uv);
 
-	return input.color;
+	return input.color*texcolor;
 
 	////return	float4(input.normal,1);
 	//return float4(texcolor.rgb * brightness, texcolor.a);
