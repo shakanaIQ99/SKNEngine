@@ -8,6 +8,8 @@
 #include<string>
 #include"Model.h"
 #include"Pipeline.h"
+#include"ViewProjection.h"
+#include"Light.h"
 
 using namespace DirectX;
 
@@ -36,27 +38,16 @@ public:
 
 	static Object3D* Create(WorldTransform* wt);
 
+	static void SetLight(Light* light) { Object3D::light = light; }
+
 private:
 
-	static void InitializeCamera();
-
-	static void UpdateViewMat();
-
-	
 	static ID3D12Device* device;
 
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* commandList;
 
-	static XMMATRIX matView;
-
-	static XMMATRIX matProjection;
-
-	static XMFLOAT3 eye ;
-
-	static XMFLOAT3 target ;
-
-	static XMFLOAT3 up ;
+	static Light* light;
 
 
 public:
@@ -65,7 +56,7 @@ public:
 
 	bool Initialize();
 
-	void Update();
+	void Update(ViewProjection* camera);
 
 	void Draw();
 
@@ -86,6 +77,8 @@ private:
 private:
 
 	Model* model = nullptr;
+
+
 
 	static PipelineSet ObjPipeline;
 	 

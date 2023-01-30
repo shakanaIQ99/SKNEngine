@@ -12,7 +12,9 @@ using namespace Microsoft::WRL;
 struct ConstBufferDataWorldTransformB0
 {
 	XMFLOAT4 color;
-	XMMATRIX matWorld; // ローカル → ワールド変換行列
+	XMMATRIX viewproj;
+	XMMATRIX world;
+	XMFLOAT3 cameraPos;
 };
 
 
@@ -51,7 +53,7 @@ struct WorldTransform {
 	/// <summary>
 	/// 行列を更新する
 	/// </summary>
-	void UpdateMatrix(XMMATRIX view,XMMATRIX projection);
+	void UpdateMatrix(XMMATRIX view,XMMATRIX projection,XMFLOAT3 camerapos);
 
 	void UpdateSpriteMatrix(XMMATRIX projection);
 };

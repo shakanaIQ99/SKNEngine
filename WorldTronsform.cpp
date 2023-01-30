@@ -40,7 +40,7 @@ void WorldTransform::Map()
 	
 }
 
-void WorldTransform::UpdateMatrix(XMMATRIX view, XMMATRIX projection)
+void WorldTransform::UpdateMatrix(XMMATRIX view, XMMATRIX projection,XMFLOAT3 camerapos)
 {
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -65,7 +65,10 @@ void WorldTransform::UpdateMatrix(XMMATRIX view, XMMATRIX projection)
 
 	// 定数バッファに書き込み
 	constMap->color = color;
-	constMap->matWorld = matWorld_ * view * projection;
+	//constMap->matWorld = matWorld_ * view * projection;
+	constMap->viewproj = view * projection;
+	constMap->world = matWorld_;
+	constMap->cameraPos = camerapos;
 	
 }
 
@@ -94,6 +97,6 @@ void WorldTransform::UpdateSpriteMatrix(XMMATRIX projection)
 
 	// 定数バッファに書き込み
 	constMap->color = color;
-	constMap->matWorld = matWorld_ * projection;
+	constMap->world = matWorld_ * projection;
 
 }

@@ -26,6 +26,8 @@ public:
 
 	static void StaticInitialize(ID3D12Device* device);
 
+	static Light* Create();
+
 	void Initialize();
 
 	void TransferConstBuffer();
@@ -34,12 +36,12 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList*cmdlist,UINT rootParamIndex);
 
-
-private:
-
 	void SetLightDir(const XMVECTOR& lightdir);
 
 	void SetLightColor(const XMFLOAT3& lightcolor);
+
+private:
+
 
 
 	static ID3D12Device* device;

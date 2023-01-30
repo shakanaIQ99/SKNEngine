@@ -1,69 +1,47 @@
-//#pragma once
-//
-//#include <DirectXMath.h>
-//#include <d3d12.h>
-//#include <wrl.h>
-//
-//using namespace DirectX;
-//
-//using namespace Microsoft::WRL;
-//
-//
-//// 定数バッファ用データ構造体
-//struct ConstBufferDataViewProjection {
-//	XMMATRIX view;       // ワールド → ビュー変換行列
-//	XMMATRIX projection; // ビュー → プロジェクション変換行列
-//	XMFLOAT3 cameraPos;  // カメラ座標（ワールド座標）
-//};
-//
-///// <summary>
-///// ビュープロジェクション変換データ
-///// </summary>
-//struct ViewProjection {
-//	// 定数バッファ
-//	ComPtr<ID3D12Resource> constBuff_;
-//	// マッピング済みアドレス
-//	ConstBufferDataViewProjection* constMap = nullptr;
-//
-//#pragma region ビュー行列の設定
-//	// 視点座標
-//	XMFLOAT3 eye = { 0, 0, -50.0f };
-//	// 注視点座標
-//	XMFLOAT3 target = { 0, 0, 0 };
-//	// 上方向ベクトル
-//	XMFLOAT3 up = { 0, 1, 0 };
-//#pragma endregion
-//
-//#pragma region 射影行列の設定
-//	// 垂直方向視野角
-//	float fovAngleY = DirectX::XMConvertToRadians(45.0f);
-//	// ビューポートのアスペクト比
-//	float aspectRatio = (float)16 / 9;
-//	// 深度限界（手前側）
-//	float nearZ = 0.1f;
-//	// 深度限界（奥側）
-//	float farZ = 1000.0f;
-//#pragma endregion
-//
-//	// ビュー行列
-//	XMMATRIX matView;
-//	// 射影行列
-//	XMMATRIX matProjection;
-//
-//	/// <summary>
-//	/// 初期化
-//	/// </summary>
-//	void Initialize();
-//	/// <summary>
-//	/// 定数バッファ生成
-//	/// </summary>
-//	void CreateConstBuffer();
-//	/// <summary>
-//	/// マッピングする
-//	/// </summary>
-//	void Map();
-//	/// <summary>
-//	/// 行列を更新する
-//	/// </summary>
-//	void UpdateMatrix();
-//};
+#pragma once
+#include<DirectXMath.h>
+
+using namespace DirectX;
+
+class ViewProjection
+{
+public:
+
+	void Initialize();
+
+	void Update();
+
+	void UpdateMatview();
+
+	void UpdateMatProjection();
+
+	const XMMATRIX& GetMAtView();
+	const XMMATRIX& GetMatProjection();
+	const XMFLOAT3& Geteye();
+	const XMFLOAT3& Gettarget();
+	const XMFLOAT3& Getup();
+	
+	void SetEye(const XMFLOAT3& eye_);
+	void SetTarget(const XMFLOAT3& target_);
+	void SetUp(const XMFLOAT3& up_);
+
+private:
+
+	XMMATRIX matView;
+
+	XMMATRIX matProjection;
+
+	XMFLOAT3 eye;
+
+	XMFLOAT3 target;
+
+	XMFLOAT3 up;
+
+	float aspect = 0.0f;
+	float nearClip = 0.0f;
+	float farClip = 0.0f;
+	float angle = 0.0f;
+	float distance = 50.0f;
+
+};
+

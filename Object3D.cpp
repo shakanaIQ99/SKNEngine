@@ -14,12 +14,8 @@ using namespace std;
 
 ID3D12Device* Object3D::device = nullptr;
 ID3D12GraphicsCommandList* Object3D::commandList;
-XMMATRIX Object3D::matView{};
-XMMATRIX Object3D::matProjection{};
-XMFLOAT3 Object3D::eye = { 0, 20.0f, -50.0f };
-XMFLOAT3 Object3D::target = { 0,0,0 };
-XMFLOAT3 Object3D::up = { 0,1,0 };
 PipelineSet Object3D::ObjPipeline;
+Light* Object3D::light = nullptr;
 
 Object3D::Object3D(WorldTransform* wt)
 {
@@ -42,8 +38,6 @@ void Object3D::StaticInitialize(ID3D12Device* device, int window_width, int wind
 
 	Object3D::device = device;
 	Model::SetDevice(device);
-	
-	InitializeCamera();
 
 	ObjPipeline = Pipeline::CreateModelPipline(device);
 }
@@ -91,30 +85,14 @@ bool Object3D::Initialize()
 	return true;
 }
 
-void Object3D::InitializeCamera()
-{
-	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-
-	matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)DxWindow::window_width / DxWindow::window_height, 0.1f, 1000.0f);
-
-}
-
-
-
-void Object3D::Update()
+void Object3D::Update(ViewProjection* camera)
 {
 	
 	Wt->Map();
 	
-	Wt->UpdateMatrix(matView, matProjection);
+	Wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(),camera->Geteye());
 	
 }
-
-void Object3D::UpdateViewMat()
-{
-	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-}
-
 
 void Object3D::Draw()
 {
@@ -122,5 +100,6 @@ void Object3D::Draw()
 	if (model == nullptr) return;
 
 	commandList->SetGraphicsRootConstantBufferView(0, this->Wt->constBuffB0->GetGPUVirtualAddress());
+	light->Draw(commandList, 3);
 	model->Draw(commandList, 1);
 }

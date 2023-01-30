@@ -7,6 +7,10 @@
 #include"SpriteCommon.h"
 #include"WorldTronsform.h"
 #include"TextureManager.h"
+#include"ViewProjection.h"
+#include"Light.h"
+#include<sstream>
+#include<iomanip>
 //#include"Sprite.h"
 
 
@@ -48,10 +52,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	spritecommon->Initialize(dxCommon);
 	
 	Object3D::StaticInitialize(dxCommon->GetDevice(), DxWindow::window_width, DxWindow::window_height);
+	Light::StaticInitialize(dxCommon->GetDevice());
+	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("maru",true);
 	Model* model = Model::LoadFromOBJ("chr_sword");
-	WorldTransform wt1;
-	WorldTransform wt2;
+	Model* gra = Model::LoadFromOBJ("ground");
+	WorldTransform ground;
+	WorldTransform skywt;
+	WorldTransform human;
+	WorldTransform ball;
 	WorldTransform wt3;
 	WorldTransform wt4;
 	uint32_t tex1 = texturemanager->LoadTexture("Resources/visual.png");
@@ -64,15 +73,42 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite2 = new Sprite2D();
 	sprite2->Initialize(spritecommon, &wt4,tex2);
 
+	Light* light = nullptr;
+	light = Light::Create();
+	light->SetLightColor({ 1,1,1 });
+
+	Object3D::SetLight(light);
+
 	Object3D* obj1 = nullptr;
 	Object3D* obj2 = nullptr;
-	obj1 = Object3D::Create(&wt1);
+	Object3D* objskydome = nullptr;
+	Object3D* objground = nullptr;
+
+	skywt.scale_ = { 0.5f,0.5f,0.5f };
+
+	objskydome = Object3D::Create(&skywt);
+	objskydome->SetModel(skydome);
+
+	objground = Object3D::Create(&ground);
+	objground->SetModel(gra);
+
+	obj1 = Object3D::Create(&human);
 	obj1->SetModel(model);
-	obj2 = Object3D::Create(&wt2);
+	obj2 = Object3D::Create(&ball);
 	obj2->SetModel(model2);
 
 	//
 	sprite2->Wt->translation_.y = 5.0f;
+	ViewProjection camera;
+	camera.Initialize();
+
+	XMFLOAT3 eye = { 0,0,-50 };
+
+	ground.translation_.y = -10.0f;
+
+	human.translation_.x = -10.0f;
+	human.translation_.y = -5.0f;
+	ball.translation_.x = 10.0f;
 
 	while (true)
 	{
@@ -83,49 +119,67 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		input->InputUpdate();
 
-		if (input->GetKey(DIK_D))
-		{
-			sprite->Wt->translation_.x += 0.5f;
-		}
-		if (input->GetKey(DIK_A))
-		{
-			obj1->Wt->translation_.x -= 0.05f;
-		}
+		static XMVECTOR lightDir = { 0,1,5,0 };
 
-		if (input->GetKey(DIK_Q))
-		{
-			obj1->Wt->rotation_.y += 0.1f;
-		}
-	
-		obj1->Wt->rotation_.y -= 0.05f;
-		
 		if (input->GetKey(DIK_W))
 		{
-			obj1->Wt->rotation_.x += 0.1f;
+			lightDir.m128_f32[1] += 1.0f;
 		}
 		if (input->GetKey(DIK_S))
 		{
-			obj1->Wt->rotation_.x -= 0.1f;
+			lightDir.m128_f32[1] -= 1.0f;
 		}
+		if (input->GetKey(DIK_D))
+		{
+			lightDir.m128_f32[0] += 1.0f;
+		}
+		if (input->GetKey(DIK_A))
+		{
+			lightDir.m128_f32[0] -= 1.0f;
+		}
+
+		light->SetLightDir(lightDir);
+
+		human.rotation_.y -= 0.05f;
+		
 
 		
 		
-		obj2->Wt->rotation_.y -= 0.05f;
+		ball.rotation_.y -= 0.05f;
 		
 		if (input->GetKey(DIK_RIGHT))
 		{
-			obj2->Wt->rotation_.y += 0.1f;
+			eye.x += 0.2f;
 		}
+		if (input->GetKey(DIK_LEFT))
+		{
+			eye.x -= 0.2f;
+		}
+		if (input->GetKey(DIK_UP))
+		{
+			eye.y += 0.2f;
+		}
+		if (input->GetKey(DIK_DOWN))
+		{
+			eye.y -= 0.2f;
+		}
+		light->Update();
 		
-		obj1->Update();
-		obj2->Update();
+		obj1->Update(&camera);
+		obj2->Update(&camera);
+		objskydome->Update(&camera);
+		objground->Update(&camera);
 		sprite->Update();
 		sprite2->Update();
+		camera.SetEye(eye);
+		camera.Update();
 
 		dxCommon->PreDraw();
 
 		Object3D::PreDraw(dxCommon->GetCommandList());
 
+		objskydome->Draw();
+		objground->Draw();
 		obj1->Draw();
 		obj2->Draw();
 
@@ -145,8 +199,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete obj2;
 	delete model;
 	delete model2;
+	delete objskydome;
+	delete objground;
+	delete gra;
+	delete skydome;
 	delete sprite;
 	delete sprite2;
+	delete light;
 	delete spritecommon;
 	delete dxCommon;
 	texturemanager->DeleteInstance();

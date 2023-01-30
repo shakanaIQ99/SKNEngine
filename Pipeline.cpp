@@ -300,7 +300,7 @@ PipelineSet Pipeline::CreateModelPipline(ID3D12Device* device)
 
 
 
-	D3D12_ROOT_PARAMETER rootParams[3] = {};
+	D3D12_ROOT_PARAMETER rootParams[4] = {};
 
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParams[0].Descriptor.ShaderRegister = 0;
@@ -317,7 +317,12 @@ PipelineSet Pipeline::CreateModelPipline(ID3D12Device* device)
 	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
 	rootParams[2].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
 	rootParams[2].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
-	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;				//全てのシェーダーから見える
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	
+	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParams[3].Descriptor.ShaderRegister = 2;
+	rootParams[3].Descriptor.RegisterSpace = 0;	
+	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
 
 
 

@@ -13,6 +13,15 @@ void Light::StaticInitialize(ID3D12Device* device)
 
 }
 
+Light* Light::Create()
+{
+	Light* instance = new Light();
+
+	instance->Initialize();
+
+	return instance;
+}
+
 void Light::Initialize()
 {
 	HRESULT result;
@@ -70,6 +79,11 @@ void Light::Update()
 		TransferConstBuffer();
 		dirty = false;
 	}
+}
+
+void Light::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamIndex)
+{
+	cmdlist->SetGraphicsRootConstantBufferView(rootParamIndex, constBuff->GetGPUVirtualAddress());
 }
 
 void Light::SetLightDir(const XMVECTOR& lightdir)
