@@ -118,6 +118,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,6 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,11 +155,13 @@
     <ClCompile Include="DxWindow.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="DirectionLight.cpp" />
+    <ClCompile Include="LightGroup.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Pipeline.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprite2D.cpp" />
     <ClCompile Include="SpriteCommon.cpp" />
@@ -174,10 +178,12 @@
     <ClInclude Include="DxWindow.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Light.h" />
+    <ClInclude Include="DirectionLight.h" />
+    <ClInclude Include="LightGroup.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Pipeline.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Sprite2D.h" />
     <ClInclude Include="SpriteCommon.h" />

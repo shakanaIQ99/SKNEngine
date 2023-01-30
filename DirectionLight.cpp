@@ -1,28 +1,28 @@
-#include "Light.h"
+#include "DirectionLight.h"
 #include<cassert>
 using namespace DirectX;
 
-ID3D12Device* Light::device = nullptr;
+ID3D12Device* DirectionLight::device = nullptr;
 
-void Light::StaticInitialize(ID3D12Device* device)
+void DirectionLight::StaticInitialize(ID3D12Device* device)
 {
-	assert(!Light::device);
+	assert(!DirectionLight::device);
 	assert(device);
-	Light::device = device;
+	DirectionLight::device = device;
 
 
 }
 
-Light* Light::Create()
+DirectionLight* DirectionLight::Create()
 {
-	Light* instance = new Light();
+	DirectionLight* instance = new DirectionLight();
 
 	instance->Initialize();
 
 	return instance;
 }
 
-void Light::Initialize()
+void DirectionLight::Initialize()
 {
 	HRESULT result;
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -54,7 +54,7 @@ void Light::Initialize()
 
 }
 
-void Light::TransferConstBuffer()
+void DirectionLight::TransferConstBuffer()
 {
 	HRESULT result;
 
@@ -72,7 +72,7 @@ void Light::TransferConstBuffer()
 
 }
 
-void Light::Update()
+void DirectionLight::Update()
 {
 	if (dirty)
 	{
@@ -81,18 +81,18 @@ void Light::Update()
 	}
 }
 
-void Light::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamIndex)
+void DirectionLight::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamIndex)
 {
 	cmdlist->SetGraphicsRootConstantBufferView(rootParamIndex, constBuff->GetGPUVirtualAddress());
 }
 
-void Light::SetLightDir(const XMVECTOR& lightdir)
+void DirectionLight::SetLightDir(const XMVECTOR& lightdir)
 {
 	this->lightdir = XMVector3Normalize(lightdir);
 	dirty = true;
 }
 
-void Light::SetLightColor(const XMFLOAT3& lightcolor)
+void DirectionLight::SetLightColor(const XMFLOAT3& lightcolor)
 {
 	this->lightcolor = lightcolor;
 	dirty = true;

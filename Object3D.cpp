@@ -15,7 +15,7 @@ using namespace std;
 ID3D12Device* Object3D::device = nullptr;
 ID3D12GraphicsCommandList* Object3D::commandList;
 PipelineSet Object3D::ObjPipeline;
-Light* Object3D::light = nullptr;
+LightGroup* Object3D::lightGroup = nullptr;
 
 Object3D::Object3D(WorldTransform* wt)
 {
@@ -100,6 +100,6 @@ void Object3D::Draw()
 	if (model == nullptr) return;
 
 	commandList->SetGraphicsRootConstantBufferView(0, this->Wt->constBuffB0->GetGPUVirtualAddress());
-	light->Draw(commandList, 3);
+	lightGroup->Draw(commandList, 3);
 	model->Draw(commandList, 1);
 }

@@ -4,7 +4,7 @@
 #include <d3d12.h>
 
 
-class Light
+class DirectionLight
 {
 private:
 
@@ -22,11 +22,12 @@ public:
 	{
 		XMVECTOR lightv;
 		XMFLOAT3 lightcolor;
+		unsigned int active;
 	};
 
 	static void StaticInitialize(ID3D12Device* device);
 
-	static Light* Create();
+	static DirectionLight* Create();
 
 	void Initialize();
 
@@ -39,6 +40,13 @@ public:
 	void SetLightDir(const XMVECTOR& lightdir);
 
 	void SetLightColor(const XMFLOAT3& lightcolor);
+
+	XMVECTOR GetLightDir() { return lightdir; }
+
+	XMFLOAT3 GetLightColor() { return lightcolor; }
+
+	inline void SetActive(bool active) { this->active = active; }
+	inline bool IsActive() { return active; }
 
 private:
 
@@ -53,6 +61,8 @@ private:
 	XMFLOAT3 lightcolor = { 1,1,1 };
 
 	bool dirty = false;
+
+	bool active = false;
 
 };
 

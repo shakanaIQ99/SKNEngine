@@ -9,7 +9,7 @@
 #include"Model.h"
 #include"Pipeline.h"
 #include"ViewProjection.h"
-#include"Light.h"
+#include"LightGroup.h"
 
 using namespace DirectX;
 
@@ -38,7 +38,7 @@ public:
 
 	static Object3D* Create(WorldTransform* wt);
 
-	static void SetLight(Light* light) { Object3D::light = light; }
+	static void SetLight(LightGroup* light) { Object3D::lightGroup = light; }
 
 private:
 
@@ -47,7 +47,7 @@ private:
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* commandList;
 
-	static Light* light;
+	static LightGroup* lightGroup;
 
 
 public:

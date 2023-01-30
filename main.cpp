@@ -8,7 +8,7 @@
 #include"WorldTronsform.h"
 #include"TextureManager.h"
 #include"ViewProjection.h"
-#include"Light.h"
+#include"LightGroup.h"
 #include<sstream>
 #include<iomanip>
 //#include"Sprite.h"
@@ -52,7 +52,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	spritecommon->Initialize(dxCommon);
 	
 	Object3D::StaticInitialize(dxCommon->GetDevice(), DxWindow::window_width, DxWindow::window_height);
-	Light::StaticInitialize(dxCommon->GetDevice());
+	LightGroup::StaticInitialize(dxCommon->GetDevice());
 	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("maru",true);
 	Model* model = Model::LoadFromOBJ("chr_sword");
@@ -73,9 +73,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite2 = new Sprite2D();
 	sprite2->Initialize(spritecommon, &wt4,tex2);
 
-	Light* light = nullptr;
-	light = Light::Create();
-	light->SetLightColor({ 1,1,1 });
+	LightGroup* light = nullptr;
+	light = LightGroup::Create();
 
 	Object3D::SetLight(light);
 
@@ -110,6 +109,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	human.translation_.y = -5.0f;
 	ball.translation_.x = 10.0f;
 
+	int scenenum = 0;
+
+	float ambientColor[3] = { 1,1,1 };
+
+	float lightDir0[3] = { 0,0,-1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
+
+	float pointLightPos[3] = { 0.5f,1.0f,0 };
+	float pointLightColor[3] = { 1,1,1 };
+
+	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
+
+	light->SetDirLightActive(0, false);
+	light->SetDirLightActive(1, false);
+	light->SetDirLightActive(2, false);
+	light->SetPointLightActive(0, true);
+
+	
+
 	while (true)
 	{
 		if (window->ProcessMessage())
@@ -138,11 +162,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			lightDir.m128_f32[0] -= 1.0f;
 		}
 
-		light->SetLightDir(lightDir);
-
 		human.rotation_.y -= 0.05f;
 		
+		if (input->GetKey(DIK_0))
+		{
+			scenenum = 0;
+		}
+		if (input->GetKey(DIK_1))
+		{
 
+			scenenum = 1;
+		}
+		
 		
 		
 		ball.rotation_.y -= 0.05f;
@@ -163,6 +194,38 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			eye.y -= 0.2f;
 		}
+
+		switch (scenenum)
+		{
+		case 1:
+			light->SetDirLightActive(0, true);
+			light->SetDirLightActive(1, true);
+			light->SetDirLightActive(2, true);
+			light->SetPointLightActive(0, false);
+			light->SetAmbientColor(XMFLOAT3(ambientColor));
+			light->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
+			light->SetDirLightColor(0, XMFLOAT3(lightColor0));
+			light->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
+			light->SetDirLightColor(1, XMFLOAT3(lightColor1));
+			light->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
+			light->SetDirLightColor(2, XMFLOAT3(lightColor2));
+
+			break;
+		case 0:
+
+			light->SetDirLightActive(0, false);
+			light->SetDirLightActive(1, false);
+			light->SetDirLightActive(2, false);
+			light->SetPointLightActive(0, true);
+
+			light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
+			light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
+			light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
+
+			break;
+
+		}
+
 		light->Update();
 		
 		obj1->Update(&camera);
