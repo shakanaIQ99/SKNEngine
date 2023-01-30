@@ -11,7 +11,6 @@
 #include"LightGroup.h"
 #include<sstream>
 #include<iomanip>
-//#include"Sprite.h"
 
 
 
