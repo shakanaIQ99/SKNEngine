@@ -6,6 +6,14 @@
 
 
 
+DirectXCommon::DirectXCommon()
+{
+	backBufferWidth = 0;
+	backBufferHeight = 0;
+
+	fenceVal = 0;
+}
+
 void DirectXCommon::Initialize(DxWindow* win, int32_t backBufferWidth, int32_t backBufferHeight)
 {
 	assert(win);
@@ -311,58 +319,6 @@ void DirectXCommon::InitializeCommand()
 
 }
 
-//void DirectXCommon::InitializeDepthBuffer()
-//{
-//	HRESULT result = S_FALSE;
-//
-//	D3D12_HEAP_PROPERTIES depthHeapProp{};
-//
-//	//ヒーププロパティ
-//	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
-//
-//	D3D12_RESOURCE_DESC depthResourceDesc{};
-//
-//	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-//	depthResourceDesc.Width = backBufferWidth;
-//	depthResourceDesc.Height = backBufferHeight;
-//	depthResourceDesc.DepthOrArraySize = 1;
-//	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;
-//	depthResourceDesc.SampleDesc.Count = 1;
-//	depthResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
-//
-//	D3D12_CLEAR_VALUE depthClearValue{};
-//
-//	//深度値のクリア設定
-//	depthClearValue.DepthStencil.Depth = 1.0f;
-//	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
-//
-//	result = device->CreateCommittedResource(
-//		&depthHeapProp,
-//		D3D12_HEAP_FLAG_NONE,
-//		&depthResourceDesc,
-//		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-//		&depthClearValue,
-//		IID_PPV_ARGS(&depthBuffer)
-//	);
-//	assert(SUCCEEDED(result));
-//
-//	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
-//	dsvHeapDesc.NumDescriptors = 1;
-//	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-//	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
-//	assert(SUCCEEDED(result));
-//	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-//
-//	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
-//	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-//	device->CreateDepthStencilView(
-//		depthBuffer.Get(),
-//		&dsvDesc,
-//		dsvHeap->GetCPUDescriptorHandleForHeapStart()
-//	);
-//
-//
-//}
 
 void DirectXCommon::InitializeFence()
 {

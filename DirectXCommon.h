@@ -15,6 +15,8 @@ class DirectXCommon
 {
 public:
 
+	DirectXCommon();
+
 	void Initialize(DxWindow* win, int32_t backBufferWidth = DxWindow::window_width, int32_t backBufferHeight = DxWindow::window_height);
 
 	void PreDraw();
@@ -31,6 +33,8 @@ public:
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
 
 	DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }
+
+	size_t GetBackBufferCount()const { return backBuffers.size(); }
 
 	//DescriptorHeap* GetDescriptorHeap()const { return descHeap.get(); }
 

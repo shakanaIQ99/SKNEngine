@@ -11,6 +11,7 @@
 #include"LightGroup.h"
 #include<sstream>
 #include<iomanip>
+#include"ImGuiManager.h"
 
 
 
@@ -35,16 +36,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(window);
 
-
-	//HRESULT result;
+	ImGuiManager* imGuiManager = nullptr;
+	imGuiManager = new ImGuiManager();
+	imGuiManager->Initialize(window->GetHwnd(),dxCommon);
 
 	Input* input = nullptr;
 	input = new Input();
 	input->Initialize(window->GetHInstance(),window->GetHwnd());
 
+
+	//HRESULT result;
+
 	TextureManager* texturemanager = TextureManager::GetInstance();
 	//TextureManager* texturemanager = nullptr;
 	texturemanager->StaticInitialize(dxCommon);
+
+	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
 
 	SpriteCommon* spritecommon = nullptr;
 	spritecommon = new SpriteCommon();
@@ -52,6 +59,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Object3D::StaticInitialize(dxCommon->GetDevice(), DxWindow::window_width, DxWindow::window_height);
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
+	uint32_t tex1 = texturemanager->LoadTexture("Resources/visual.png");
+	uint32_t tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
+
 	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("maru",true);
 	Model* model = Model::LoadFromOBJ("chr_sword");
@@ -62,8 +72,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WorldTransform ball;
 	WorldTransform wt3;
 	WorldTransform wt4;
-	uint32_t tex1 = texturemanager->LoadTexture("Resources/visual.png");
-	uint32_t tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
 
 	Sprite2D* sprite = nullptr;
 	sprite = new Sprite2D();
@@ -141,7 +149,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 
 		input->InputUpdate();
-
+		imGuiManager->Begin();
 		static XMVECTOR lightDir = { 0,1,5,0 };
 
 		if (input->GetKey(DIK_W))
@@ -235,7 +243,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sprite2->Update();
 		camera.SetEye(eye);
 		camera.Update();
-
+		imGuiManager->End();
 		dxCommon->PreDraw();
 
 		Object3D::PreDraw(dxCommon->GetCommandList());
@@ -252,6 +260,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sprite->Draw();
 		sprite2->Draw();
 		spritecommon->PostDraw();
+
+		imGuiManager->Draw();
 		dxCommon->PostDraw();
 
 	}
@@ -269,7 +279,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete sprite2;
 	delete light;
 	delete spritecommon;
+	imGuiManager->Finalize();
 	delete dxCommon;
+	delete imGuiManager;
 	texturemanager->DeleteInstance();
 	window->TerminateGameWindow();
 }

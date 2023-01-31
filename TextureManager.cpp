@@ -39,8 +39,8 @@ uint32_t TextureManager::LoadTexture(const string& path)
 		texDatas[path] = move(data);
 		FilePaths[TextureSize] = path;
 		uint32_t handl = TextureSize;
-
 		TextureSize++;
+
 
 		return handl;
 	}
