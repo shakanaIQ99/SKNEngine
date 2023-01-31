@@ -12,6 +12,7 @@
 #include<sstream>
 #include<iomanip>
 #include"ImGuiManager.h"
+#include"imgui.h"
 
 
 
@@ -139,7 +140,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	light->SetDirLightActive(2, false);
 	light->SetPointLightActive(0, true);
 
-	
+	wt3.translation_ = { 100.0f,100.0f,0.0f };
 
 	while (true)
 	{
@@ -243,6 +244,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sprite2->Update();
 		camera.SetEye(eye);
 		camera.Update();
+		ImGui::Text("PosX %4.1f", wt3.translation_.x);
+		ImGui::Text("PosY %4.1f", wt3.translation_.y);
+		ImGui::SliderFloat("posX", &wt3.translation_.x, 0.0f, 1280.0f);
+		ImGui::SliderFloat("posY", &wt3.translation_.y, 0.0f, 720.0f);
+
 		imGuiManager->End();
 		dxCommon->PreDraw();
 
