@@ -40,7 +40,7 @@ void DirectXCommon::Initialize(DxWindow* win, int32_t backBufferWidth, int32_t b
 
 void DirectXCommon::PreDraw()
 {
-	HRESULT result;
+	//HRESULT result;
 	//バックバッファの番号を取得(2つなので0番か1番)
 	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 

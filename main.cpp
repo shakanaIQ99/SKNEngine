@@ -13,6 +13,8 @@
 #include<iomanip>
 #include"ImGuiManager.h"
 #include"imgui.h"
+#include"CollisionPrimitive.h"
+#include"Collision.h"
 
 
 
@@ -67,6 +69,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Model* model2 = Model::LoadFromOBJ("maru",true);
 	Model* model = Model::LoadFromOBJ("chr_sword");
 	Model* gra = Model::LoadFromOBJ("ground");
+	Model* tri = Model::LoadFromOBJ("sankaku");
 	WorldTransform ground;
 	WorldTransform skywt;
 	WorldTransform human;
@@ -142,6 +145,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	wt3.translation_ = { 100.0f,100.0f,0.0f };
 
+	Sphere sp;
+	Plane pl;
+	Triangle triangle;
+	triangle.p0 = XMVectorSet(-1.0f, ground.translation_.y, -1.0f, 1);
+	triangle.p1 = XMVectorSet(-1.0f, ground.translation_.y, 1.0f, 1);
+	triangle.p2 = XMVectorSet(1.0f, ground.translation_.y, -1.0f, 1);
+	triangle.normal = XMVectorSet(0.0f, 1.0f, 0.0f, 0);
+	pl.normal = XMVectorSet(0, 1, 0, 0);
+
+	bool Hit;
+	
 	while (true)
 	{
 		if (window->ProcessMessage())
@@ -155,26 +169,38 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		if (input->GetKey(DIK_W))
 		{
-			lightDir.m128_f32[1] += 1.0f;
+			ball.translation_.z += 0.2f;
 		}
 		if (input->GetKey(DIK_S))
 		{
-			lightDir.m128_f32[1] -= 1.0f;
+			ball.translation_.z -= 0.2f;
 		}
 		if (input->GetKey(DIK_D))
 		{
-			lightDir.m128_f32[0] += 1.0f;
+			ball.translation_.x += 0.2f;
 		}
 		if (input->GetKey(DIK_A))
 		{
-			lightDir.m128_f32[0] -= 1.0f;
+			ball.translation_.x -= 0.2f;
 		}
+
+		if (input->GetKey(DIK_R))
+		{
+			ball.translation_.y += 0.2f;
+		}
+		if (input->GetKey(DIK_F))
+		{
+			ball.translation_.y -= 0.2f;
+		}
+
+
 
 		human.rotation_.y -= 0.05f;
 		
 		if (input->GetKey(DIK_0))
 		{
 			scenenum = 0;
+
 		}
 		if (input->GetKey(DIK_1))
 		{
@@ -202,10 +228,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			eye.y -= 0.2f;
 		}
+		sp.center = XMVectorSet(ball.translation_.x, ball.translation_.y, ball.translation_.z, 1);
+		sp.radius = ball.scale_.y;
+
+		pl.distance = ground.translation_.y;
 
 		switch (scenenum)
 		{
 		case 1:
+			objground->SetModel(tri);
 			light->SetDirLightActive(0, true);
 			light->SetDirLightActive(1, true);
 			light->SetDirLightActive(2, true);
@@ -218,9 +249,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			light->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
 			light->SetDirLightColor(2, XMFLOAT3(lightColor2));
 
+			Hit=Collision::CheckSphere2Triangle(sp,triangle);
+			
 			break;
 		case 0:
-
+			objground->SetModel(gra);
 			light->SetDirLightActive(0, false);
 			light->SetDirLightActive(1, false);
 			light->SetDirLightActive(2, false);
@@ -229,10 +262,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
 			light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
 			light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
-
+			
+			Hit = Collision::CheckSphere2Plane(sp, pl);
+			
 			break;
 
 		}
+
+		
 
 		light->Update();
 		
@@ -246,12 +283,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		camera.Update();
 
 		
-		ImGui::Text("PosX %4.1f", wt3.translation_.x);
-		ImGui::Text("PosY %4.1f", wt3.translation_.y);
-		ImGui::SliderFloat("posX", &wt3.translation_.x, 0.0f, 1280.0f);
-		ImGui::SliderFloat("posY", &wt3.translation_.y, 0.0f, 720.0f);
-
-
+		ImGui::Text("PosY %4.1f", sp.center.m128_f32[1]-sp.radius);
+		ImGui::Text("Plane %4.1f", pl.distance);
+		ImGui::Text("Hit %d", Hit);
+		
 		imGuiManager->End();
 		dxCommon->PreDraw();
 

@@ -148,6 +148,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="ConstBuffer.cpp" />
     <ClCompile Include="DescriptorHeap.cpp" />
     <ClCompile Include="DirectXCommon.cpp" />
@@ -179,6 +180,8 @@
     <ClCompile Include="WorldTronsform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="ConstBuffer.h" />
     <ClInclude Include="DescriptorHeap.h" />
     <ClInclude Include="DirectXCommon.h" />
