@@ -89,6 +89,8 @@ void Object3D::Update(ViewProjection* camera)
 {
 	
 	Wt->Map();
+
+	Wt->color = color;
 	
 	Wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(),camera->Geteye());
 	

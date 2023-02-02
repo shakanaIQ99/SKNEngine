@@ -113,3 +113,124 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 
 	return true;
 }
+
+bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, DirectX::XMVECTOR* inter)
+{
+	const float epslion = 1.0e-5f;
+
+	float d1 = XMVector3Dot(plane.normal, ray.dir).m128_f32[0];
+
+	if (d1 > -epslion)
+	{
+		return false;
+	}
+
+	float d2 = XMVector3Dot(plane.normal, ray.start).m128_f32[0];
+
+	float dist = d2 - plane.distance;
+
+	float t = dist / -d1;
+
+	if (t < 0)
+	{
+		return false;
+	}
+
+	if (distance)
+	{
+		*distance = t;
+	}
+
+	if (inter)
+	{
+		*inter = ray.start + t * ray.dir;
+	}
+
+	return true;
+}
+
+bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, DirectX::XMVECTOR* inter)
+{
+	Plane plane;
+	XMVECTOR interPlane;
+
+	plane.normal = triangle.normal;
+
+	plane.distance = XMVector3Dot(triangle.normal, triangle.p0).m128_f32[0];
+
+	if (!CheckRay2Plane(ray, plane, distance, &interPlane))
+	{
+		return false;
+	}
+
+	const float epsilon = 1.0e-5f;
+	XMVECTOR m;
+
+	XMVECTOR pt_p0 = triangle.p0 - interPlane;
+	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
+	m = XMVector3Cross(pt_p0, p0_p1);
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	{
+		return false;
+	}
+	XMVECTOR pt_p1 = triangle.p1 - interPlane;
+	XMVECTOR p1_p2 = triangle.p2 - triangle.p1;
+	m = XMVector3Cross(pt_p1, p1_p2);
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	{
+		return false;
+	}
+	XMVECTOR pt_p2 = triangle.p2 - interPlane;
+	XMVECTOR p2_p0 = triangle.p0 - triangle.p2;
+	m = XMVector3Cross(pt_p2, p2_p0);
+	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	{
+		return false;
+	}
+
+	if (inter)
+	{
+		*inter = interPlane;
+	}
+
+
+	return true;;
+}
+
+bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, DirectX::XMVECTOR* inter)
+{
+	XMVECTOR m = ray.start - sphere.center;
+	float b = XMVector3Dot(m, ray.dir).m128_f32[0];
+	float c = XMVector3Dot(m, m).m128_f32[0] - sphere.radius * sphere.radius;
+
+	if (c > 0.0f && b > 0.0f)
+	{
+		return false;
+	}
+
+	float discr = b * b - c;
+
+	if (discr < 0.0f)
+	{
+		return false;
+	}
+
+	float t = -b - sqrtf(discr);
+
+	if (t < 0)
+	{
+		t = 0.0f;
+	}
+	if(distance)
+	{
+		*distance = t;
+	}
+	if (inter)
+	{
+		*inter = ray.start + t * ray.dir;
+	}
+
+
+
+	return true;
+}

@@ -70,12 +70,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Model* model = Model::LoadFromOBJ("chr_sword");
 	Model* gra = Model::LoadFromOBJ("ground");
 	Model* tri = Model::LoadFromOBJ("sankaku");
+	Model* box = Model::LoadFromOBJ("boxobj");
 	WorldTransform ground;
 	WorldTransform skywt;
 	WorldTransform human;
 	WorldTransform ball;
 	WorldTransform wt3;
 	WorldTransform wt4;
+	WorldTransform raybox;
 
 	Sprite2D* sprite = nullptr;
 	sprite = new Sprite2D();
@@ -93,6 +95,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3D* obj2 = nullptr;
 	Object3D* objskydome = nullptr;
 	Object3D* objground = nullptr;
+	Object3D* Objray = nullptr;
+
+	Objray = Object3D::Create(&raybox);
+	Objray->SetModel(box);
 
 	skywt.scale_ = { 0.5f,0.5f,0.5f };
 
@@ -103,7 +109,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	objground->SetModel(gra);
 
 	obj1 = Object3D::Create(&human);
-	obj1->SetModel(model);
+	obj1->SetModel(model2);
 	obj2 = Object3D::Create(&ball);
 	obj2->SetModel(model2);
 
@@ -111,6 +117,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite2->Wt->translation_.y = 5.0f;
 	ViewProjection camera;
 	camera.Initialize();
+
+	raybox.translation_ = { 0,-14.0f,0 };
+	raybox.scale_ = { 0.5f,10.0f,0.5f };
+
 
 	XMFLOAT3 eye = { 0,0,-50 };
 
@@ -148,13 +158,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Sphere sp;
 	Plane pl;
 	Triangle triangle;
-	triangle.p0 = XMVectorSet(-1.0f, ground.translation_.y, -1.0f, 1);
-	triangle.p1 = XMVectorSet(-1.0f, ground.translation_.y, 1.0f, 1);
-	triangle.p2 = XMVectorSet(1.0f, ground.translation_.y, -1.0f, 1);
+	Ray ray;
+
+	ray.dir = XMVectorSet(0, -1, 0, 0);
+
+	triangle.p0 = XMVectorSet(-10.0f, ground.translation_.y, -10.0f, 1);
+	triangle.p1 = XMVectorSet(-10.0f, ground.translation_.y, 10.0f, 1);
+	triangle.p2 = XMVectorSet(10.0f, ground.translation_.y, -10.0f, 1);
 	triangle.normal = XMVectorSet(0.0f, 1.0f, 0.0f, 0);
 	pl.normal = XMVectorSet(0, 1, 0, 0);
 
 	bool Hit;
+	bool rayHit;
+	
+	light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
+	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
+	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
+
+	float a = 0.2f;
 	
 	while (true)
 	{
@@ -166,51 +187,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		input->InputUpdate();
 		imGuiManager->Begin();
 		static XMVECTOR lightDir = { 0,1,5,0 };
-
-		if (input->GetKey(DIK_W))
-		{
-			ball.translation_.z += 0.2f;
-		}
-		if (input->GetKey(DIK_S))
-		{
-			ball.translation_.z -= 0.2f;
-		}
-		if (input->GetKey(DIK_D))
-		{
-			ball.translation_.x += 0.2f;
-		}
-		if (input->GetKey(DIK_A))
-		{
-			ball.translation_.x -= 0.2f;
-		}
-
-		if (input->GetKey(DIK_R))
-		{
-			ball.translation_.y += 0.2f;
-		}
-		if (input->GetKey(DIK_F))
-		{
-			ball.translation_.y -= 0.2f;
-		}
-
-
-
-		human.rotation_.y -= 0.05f;
 		
 		if (input->GetKey(DIK_0))
 		{
 			scenenum = 0;
+			ball.translation_.x = 10.0f;
 
 		}
 		if (input->GetKey(DIK_1))
 		{
 
 			scenenum = 1;
+			ball.translation_ = {10.0f,-5.0f,-3.0f };
+			raybox.translation_ = { 0,-14.0f,2.0f };
 		}
-		
-		
-		
-		ball.rotation_.y -= 0.05f;
+		if (input->GetKey(DIK_2))
+		{
+
+			scenenum = 2;
+			ball.translation_ = { 0,-2.0f,0 };
+
+			raybox.translation_ = { 0,0,0 };
+		}
 		
 		if (input->GetKey(DIK_RIGHT))
 		{
@@ -230,43 +228,89 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 		sp.center = XMVectorSet(ball.translation_.x, ball.translation_.y, ball.translation_.z, 1);
 		sp.radius = ball.scale_.y;
-
+		ray.start = XMVectorSet(raybox.translation_.x, raybox.translation_.y + raybox.scale_.y, raybox.translation_.z, 1.0f);
 		pl.distance = ground.translation_.y;
 
 		switch (scenenum)
 		{
 		case 1:
 			objground->SetModel(tri);
-			light->SetDirLightActive(0, true);
-			light->SetDirLightActive(1, true);
-			light->SetDirLightActive(2, true);
-			light->SetPointLightActive(0, false);
-			light->SetAmbientColor(XMFLOAT3(ambientColor));
-			light->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
-			light->SetDirLightColor(0, XMFLOAT3(lightColor0));
-			light->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
-			light->SetDirLightColor(1, XMFLOAT3(lightColor1));
-			light->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
-			light->SetDirLightColor(2, XMFLOAT3(lightColor2));
+			if (ball.translation_.y < -20.0f || ball.translation_.y > 10.0f)
+			{
+				a *= -1.0f;
+			}
+			ball.translation_.y += a;
+			raybox.translation_.z -= a;
 
-			Hit=Collision::CheckSphere2Triangle(sp,triangle);
+
+			if (Hit = Collision::CheckSphere2Triangle(sp, triangle))
+			{
+				obj2->color = { 1,0,0,1 };
+
+			}
+			else
+			{
+				obj2->color = { 1,1,1,1 };
+
+			}
+			if (rayHit = Collision::CheckRay2Triangle(ray, triangle))
+			{
+				Objray->color = { 1,0,0,1 };
+			}
+			else
+			{
+				Objray->color = { 1,1,1,1 };
+			}
+			break;
+			
 			
 			break;
 		case 0:
 			objground->SetModel(gra);
-			light->SetDirLightActive(0, false);
-			light->SetDirLightActive(1, false);
-			light->SetDirLightActive(2, false);
-			light->SetPointLightActive(0, true);
+			
+			if (ball.translation_.y < -10.0f || ball.translation_.y > 10.0f)
+			{
+				a *= -1.0f;
+			}
+			ball.translation_.y += a;
+			raybox.translation_.y += a;
 
-			light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
-			light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
-			light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
-			
-			Hit = Collision::CheckSphere2Plane(sp, pl);
-			
+
+			if (Hit = Collision::CheckSphere2Plane(sp, pl))
+			{
+				obj2->color = { 1,0,0,1 };
+				
+			}
+			else
+			{
+				obj2->color = { 1,1,1,1 };
+				
+			}
+			if (rayHit = Collision::CheckRay2Plane(ray, pl))
+			{
+				Objray->color = { 1,0,0,1 };
+			}
+			else
+			{
+				Objray->color = { 1,1,1,1 };
+			}
 			break;
 
+		case 2:
+			if (raybox.translation_.x < -20.0f || raybox.translation_.x > 20.0f)
+			{
+				a *= -1.0f;
+			}
+			raybox.translation_.x += a;
+			if (rayHit = Collision::CheckRay2Sphere(ray, sp))
+			{
+				Objray->color = { 1,0,0,1 };
+			}
+			else
+			{
+				Objray->color = { 1,1,1,1 };
+			}
+			break;
 		}
 
 		
@@ -277,6 +321,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		obj2->Update(&camera);
 		objskydome->Update(&camera);
 		objground->Update(&camera);
+		Objray->Update(&camera);
 		sprite->Update();
 		sprite2->Update();
 		camera.SetEye(eye);
@@ -286,16 +331,34 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ImGui::Text("PosY %4.1f", sp.center.m128_f32[1]-sp.radius);
 		ImGui::Text("Plane %4.1f", pl.distance);
 		ImGui::Text("Hit %d", Hit);
+		ImGui::Text("RayHit %d", rayHit);
 		
 		imGuiManager->End();
 		dxCommon->PreDraw();
 
 		Object3D::PreDraw(dxCommon->GetCommandList());
-
 		objskydome->Draw();
-		objground->Draw();
-		obj1->Draw();
-		obj2->Draw();
+		switch (scenenum)
+		{
+		case 1:
+			//obj1->Draw();
+			obj2->Draw();
+			objground->Draw();
+			Objray->Draw();
+			break;
+		case 0:
+			obj2->Draw();
+			Objray->Draw();
+			objground->Draw();
+			break;
+		case 2:
+			obj2->Draw();
+			Objray->Draw();
+			break;
+		}
+		
+		
+		
 
 		Object3D::PostDraw();
 
@@ -319,6 +382,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete objground;
 	delete gra;
 	delete skydome;
+	delete box;
+	delete tri;
+	delete Objray;
 	delete sprite;
 	delete sprite2;
 	delete light;
@@ -327,5 +393,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete dxCommon;
 	delete imGuiManager;
 	texturemanager->DeleteInstance();
+	//delete texturemanager;
 	window->TerminateGameWindow();
 }
