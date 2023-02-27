@@ -58,7 +58,7 @@ void Sprite2D::Draw(XMFLOAT2 anchor, bool flipX, bool flipY)
 
 }
 
-void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, XMFLOAT2 anchor, bool flipX, bool flipY)
+void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX, bool flipY)
 {
 	int isFlipX, isFlipY;
 	if (flipX == false)isFlipX = 1;

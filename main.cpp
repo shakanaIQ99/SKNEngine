@@ -48,7 +48,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input = new Input();
 	input->Initialize(window->GetHInstance(), window->GetHwnd());
 
-	
+	unique_ptr<FPS>fps;
+	fps = std::make_unique<FPS>();
+	fps->Initialize();
 
 	//HRESULT result;
 
@@ -86,7 +88,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	sprite->Initialize(spritecommon, &wt3, tex1);
 	Sprite2D* sprite2 = nullptr;
 	sprite2 = new Sprite2D();
-	sprite2->Initialize(spritecommon, &wt4, tex2);
+	sprite2->Initialize(spritecommon, &wt4, tex1);
 
 	LightGroup* light = nullptr;
 	light = LightGroup::Create();
@@ -111,9 +113,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	objground->SetModel(gra);
 
 	obj1 = Object3D::Create(&human);
-	obj1->SetModel(model2);
+	obj1->SetModel(model);
 	obj2 = Object3D::Create(&ball);
-	obj2->SetModel(model2);
+	obj2->SetModel(model);
 
 	//
 	sprite2->Wt->translation_.y = 5.0f;
@@ -178,6 +180,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
 
 	float a = 0.2f;
+
+	wt3.scale_ = { 0.5f,0.5f,0 };
+	wt4.scale_ = { 0.5f,0.5f,0 };
 
 	while (true)
 	{
@@ -366,12 +371,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		spritecommon->PreDraw();
 
-		sprite->Draw();
-		sprite2->Draw();
+		sprite->Draw({0,0});
+		sprite2->DrawClip({ 80.0f,180.0f },{200.0f,100.0f},{});
+
 		spritecommon->PostDraw();
 
 		imGuiManager->Draw();
 		dxCommon->PostDraw();
+
+		fps->Update();
 
 	}
 
