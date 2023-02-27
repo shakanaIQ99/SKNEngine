@@ -121,27 +121,41 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Model* playerModel = Model::LoadFromOBJ("player");
 	Model* enemyModel = Model::LoadFromOBJ("muso");
-	Model* bulletModel = Model::LoadFromOBJ("bit");
 	Model* target = Model::LoadFromOBJ("arrow");
 	Model* YUKA = Model::LoadFromOBJ("cube");
 
 
 	WorldTransform playerWt;
 	WorldTransform enemyWt;
-	WorldTransform bulletWt;
 	WorldTransform targetWt;
 	WorldTransform groundWt;
 
 	Object3D* player;
 	Object3D* enemy;
-	Object3D* bullet;
 	Object3D* arrow;
 	Object3D* ground;
 
+	player = Object3D::Create(&playerWt);
+	player->SetModel(playerModel);
+	enemy = Object3D::Create(&enemyWt);
+	enemy->SetModel(enemyModel);
+	arrow = Object3D::Create(&targetWt);
+	arrow->SetModel(target);
+	ground = Object3D::Create(&groundWt);
+	ground->SetModel(YUKA);
+
 	camera.SetEye(eye);
 	
-
+	enemyWt.scale_ = { 0.7f,0.7f,0.7f };
+	playerWt.scale_ = { 0.7f,0.7f,0.7f };
+	groundWt.scale_ = { 200.0f,1.0f,200.0f };
+	groundWt.translation_.y = -10.0f;
+	targetWt.scale_ = { 0.7f,0.7f,0.7f };
+	targetWt.rotation_.x = 0.5f;
 	
+	XMFLOAT3 lightpos = { 0,50.0f,0 };
+
+	light->SetPointLightPos(0, lightpos);
 
 	while (true)
 	{
@@ -165,10 +179,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 
-
-
-
-
+		player->Update(&camera);
+		enemy ->Update(&camera);
+		arrow ->Update(&camera);	
+		ground->Update(&camera);
 		light->Update();
 		camera.Update();
 
@@ -181,7 +195,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Object3D::PreDraw(dxCommon->GetCommandList());
 		
 		
+		player->Draw();
 		
+		enemy->Draw();
+		
+		arrow->Draw();
+		
+		ground->Draw();
+		
+
 		
 		
 
@@ -200,7 +222,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 	
 	delete input;
-	
+	delete playerModel;
+	delete enemyModel;
+	delete target;
+	delete YUKA;
+	delete player;
+	delete enemy;
+	delete arrow;
+	delete ground;
 	delete light;
 	delete spritecommon;
 	imGuiManager->Finalize();
