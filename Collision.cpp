@@ -234,3 +234,20 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 
 	return true;
 }
+
+bool Collision::CheckSphereToSphere(const Sphere& sphere, const Sphere& sphere2)
+{
+
+	XMVECTOR dis = XMVector3Length(sphere2.center - sphere.center);
+
+	float length = XMVectorGetX(dis);
+
+
+	if (length < sphere.radius + sphere2.radius)
+	{
+		return true;
+	}
+
+
+	return false;
+}

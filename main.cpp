@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
 	uint32_t title = texturemanager->LoadTexture("Resources/title.png");
-	uint32_t end = texturemanager->LoadTexture("Resources/end.png");
+	uint32_t endtitle = texturemanager->LoadTexture("Resources/end.png");
 
 	SpriteCommon* spritecommon = nullptr;
 	spritecommon = new SpriteCommon();
@@ -76,6 +76,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	ViewProjection camera;
 	camera.Initialize();
+
+	
 
 	
 	XMFLOAT3 eye = { 0,0,-50 };
@@ -102,9 +104,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	light->SetDirLightActive(1, false);
 	light->SetDirLightActive(2, false);
 	light->SetPointLightActive(0, true);
-
-	
-	Sphere sp;
 	
 	Ray ray;
 
@@ -150,6 +149,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	enemyWt.scale_ = { 0.7f,0.7f,0.7f };
 	playerWt.scale_ = { 0.7f,0.7f,0.7f };
+	playerWt.translation_ = {0,0,-150.0f };
 	groundWt.scale_ = { 200.0f,1.0f,200.0f };
 	groundWt.translation_.y = -10.0f;
 	targetWt.scale_ = { 0.7f,0.7f,0.7f };
@@ -158,6 +158,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	XMFLOAT3 lightpos = { 0,50.0f,0 };
 
 	light->SetPointLightPos(0, lightpos);
+
+	WorldTransform tex1;
+
+	Sprite2D* sprite = nullptr;
+	sprite = new Sprite2D();
+	sprite->Initialize(spritecommon, &tex1, title);
+	Sprite2D* sprite2 = nullptr;
+	sprite2 = new Sprite2D();
+	sprite2->Initialize(spritecommon, &tex1, endtitle);
+
+	tex1.translation_ = { 220.0f,160.0f,0 };
+	tex1.scale_ = { 8.0f,4.0f,4.0f };
+
+	Sphere Plsp;
+	Sphere Ensp;
+
+	Plsp.radius = playerWt.scale_.x;
+	Ensp.radius = enemyWt.scale_.x;
 
 	while (true)
 	{
@@ -182,6 +200,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 			break;
 		case 1:
+
+			Plsp.center = { playerWt.translation_.x,playerWt.translation_.y ,playerWt.translation_.z ,1};
+			Ensp.center = { enemyWt.translation_.x,enemyWt.translation_.y ,enemyWt.translation_.z ,1 };
+			
+
 			if (input->GetKey(DIK_W))
 			{
 				playerWt.translation_.z += 1.0f;
@@ -207,6 +230,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 			targetWt.rotation_.y += 0.2f;
 
+			
 
 			break;
 		case 2:
@@ -232,7 +256,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ground->Update(&camera);
 		light->Update();
 		camera.Update();
-
+		sprite->Update();
+		sprite2->Update();
 		
 		
 		
@@ -260,8 +285,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Object3D::PostDraw();
 
 		spritecommon->PreDraw();
-		
-		
+		sprite->Draw();
+		sprite2->Draw();
 		spritecommon->PostDraw();
 
 		imGuiManager->Draw();
@@ -281,6 +306,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete arrow;
 	delete ground;
 	delete light;
+	delete sprite;
 	delete spritecommon;
 	imGuiManager->Finalize();
 	delete dxCommon;

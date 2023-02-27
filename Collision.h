@@ -16,5 +16,6 @@ public:
 
 	static bool CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance = nullptr, DirectX::XMVECTOR* inter = nullptr);
 
+	static bool CheckSphereToSphere(const Sphere& sphere, const Sphere& sphere2);
 };
 
