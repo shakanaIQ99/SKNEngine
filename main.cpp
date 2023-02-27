@@ -19,6 +19,7 @@
 
 
 
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	DxWindow* window = nullptr;
@@ -26,8 +27,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	window = DxWindow::GetInstance();
 	window->CreateGameWindow();
 #ifdef _DEBUG
-		//デバッグレイヤーをオンに
-		ComPtr<ID3D12Debug1> debugController;
+	//デバッグレイヤーをオンに
+	ComPtr<ID3D12Debug1> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
 		debugController->EnableDebugLayer();
@@ -39,18 +40,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(window);
 
-	unique_ptr<FPS>fps;
-	fps = std::make_unique<FPS>();
-	fps->Initialize();
-
 	ImGuiManager* imGuiManager = nullptr;
 	imGuiManager = new ImGuiManager();
-	imGuiManager->Initialize(window->GetHwnd(),dxCommon);
+	imGuiManager->Initialize(window->GetHwnd(), dxCommon);
 
 	Input* input = nullptr;
 	input = new Input();
-	input->Initialize(window->GetHInstance(),window->GetHwnd());
+	input->Initialize(window->GetHInstance(), window->GetHwnd());
 
+	
 
 	//HRESULT result;
 
@@ -59,30 +57,82 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	texturemanager->StaticInitialize(dxCommon);
 
 	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
-	uint32_t title = texturemanager->LoadTexture("Resources/title.png");
-	uint32_t endtitle = texturemanager->LoadTexture("Resources/end.png");
 
 	SpriteCommon* spritecommon = nullptr;
 	spritecommon = new SpriteCommon();
 	spritecommon->Initialize(dxCommon);
-	
+
 	Object3D::StaticInitialize(dxCommon->GetDevice(), DxWindow::window_width, DxWindow::window_height);
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
-	
+	uint32_t tex1 = texturemanager->LoadTexture("Resources/visual.png");
+	uint32_t tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
+
+	Model* skydome = Model::LoadFromOBJ("skydome");
+	Model* model2 = Model::LoadFromOBJ("maru", true);
+	Model* model = Model::LoadFromOBJ("chr_sword");
+	Model* gra = Model::LoadFromOBJ("ground");
+	Model* tri = Model::LoadFromOBJ("sankaku");
+	Model* box = Model::LoadFromOBJ("boxobj");
+	WorldTransform ground;
+	WorldTransform skywt;
+	WorldTransform human;
+	WorldTransform ball;
+	WorldTransform wt3;
+	WorldTransform wt4;
+	WorldTransform raybox;
+
+	Sprite2D* sprite = nullptr;
+	sprite = new Sprite2D();
+	sprite->Initialize(spritecommon, &wt3, tex1);
+	Sprite2D* sprite2 = nullptr;
+	sprite2 = new Sprite2D();
+	sprite2->Initialize(spritecommon, &wt4, tex2);
+
 	LightGroup* light = nullptr;
 	light = LightGroup::Create();
 
 	Object3D::SetLight(light);
 
+	Object3D* obj1 = nullptr;
+	Object3D* obj2 = nullptr;
+	Object3D* objskydome = nullptr;
+	Object3D* objground = nullptr;
+	Object3D* Objray = nullptr;
+
+	Objray = Object3D::Create(&raybox);
+	Objray->SetModel(box);
+
+	skywt.scale_ = { 0.5f,0.5f,0.5f };
+
+	objskydome = Object3D::Create(&skywt);
+	objskydome->SetModel(skydome);
+
+	objground = Object3D::Create(&ground);
+	objground->SetModel(gra);
+
+	obj1 = Object3D::Create(&human);
+	obj1->SetModel(model2);
+	obj2 = Object3D::Create(&ball);
+	obj2->SetModel(model2);
+
+	//
+	sprite2->Wt->translation_.y = 5.0f;
 	ViewProjection camera;
 	camera.Initialize();
 
-	
+	raybox.translation_ = { 0,-14.0f,0 };
+	raybox.scale_ = { 0.5f,10.0f,0.5f };
 
-	
+
 	XMFLOAT3 eye = { 0,0,-50 };
 
-	int scenenum = 1;
+	ground.translation_.y = -10.0f;
+
+	human.translation_.x = -10.0f;
+	human.translation_.y = -5.0f;
+	ball.translation_.x = 10.0f;
+
+	int scenenum = 0;
 
 	float ambientColor[3] = { 1,1,1 };
 
@@ -104,78 +154,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	light->SetDirLightActive(1, false);
 	light->SetDirLightActive(2, false);
 	light->SetPointLightActive(0, true);
-	
+
+	wt3.translation_ = { 100.0f,100.0f,0.0f };
+
+	Sphere sp;
+	Plane pl;
+	Triangle triangle;
 	Ray ray;
 
 	ray.dir = XMVectorSet(0, -1, 0, 0);
 
-
+	triangle.p0 = XMVectorSet(-10.0f, ground.translation_.y, -10.0f, 1);
+	triangle.p1 = XMVectorSet(-10.0f, ground.translation_.y, 10.0f, 1);
+	triangle.p2 = XMVectorSet(10.0f, ground.translation_.y, -10.0f, 1);
+	triangle.normal = XMVectorSet(0.0f, 1.0f, 0.0f, 0);
+	pl.normal = XMVectorSet(0, 1, 0, 0);
 
 	bool Hit;
 	bool rayHit;
-	
+
 	light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
 	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
 	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
 
 	float a = 0.2f;
-
-	Model* playerModel = Model::LoadFromOBJ("player");
-	Model* enemyModel = Model::LoadFromOBJ("muso");
-	Model* target = Model::LoadFromOBJ("arrow");
-	Model* YUKA = Model::LoadFromOBJ("cube");
-
-
-	WorldTransform playerWt;
-	WorldTransform enemyWt;
-	WorldTransform targetWt;
-	WorldTransform groundWt;
-
-	Object3D* player;
-	Object3D* enemy;
-	Object3D* arrow;
-	Object3D* ground;
-
-	player = Object3D::Create(&playerWt);
-	player->SetModel(playerModel);
-	enemy = Object3D::Create(&enemyWt);
-	enemy->SetModel(enemyModel);
-	arrow = Object3D::Create(&targetWt);
-	arrow->SetModel(target);
-	ground = Object3D::Create(&groundWt);
-	ground->SetModel(YUKA);
-
-	camera.SetEye(eye);
-	
-	enemyWt.scale_ = { 0.7f,0.7f,0.7f };
-	playerWt.scale_ = { 0.7f,0.7f,0.7f };
-	playerWt.translation_ = {0,0,-150.0f };
-	groundWt.scale_ = { 200.0f,1.0f,200.0f };
-	groundWt.translation_.y = -10.0f;
-	targetWt.scale_ = { 0.7f,0.7f,0.7f };
-	targetWt.rotation_.x = 1.57f;
-	
-	XMFLOAT3 lightpos = { 0,50.0f,0 };
-
-	light->SetPointLightPos(0, lightpos);
-
-	WorldTransform tex1;
-
-	Sprite2D* sprite = nullptr;
-	sprite = new Sprite2D();
-	sprite->Initialize(spritecommon, &tex1, title);
-	Sprite2D* sprite2 = nullptr;
-	sprite2 = new Sprite2D();
-	sprite2->Initialize(spritecommon, &tex1, endtitle);
-
-	tex1.translation_ = { 220.0f,160.0f,0 };
-	tex1.scale_ = { 8.0f,4.0f,4.0f };
-
-	Sphere Plsp;
-	Sphere Ensp;
-
-	Plsp.radius = playerWt.scale_.x;
-	Ensp.radius = enemyWt.scale_.x;
 
 	while (true)
 	{
@@ -187,104 +189,183 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		input->InputUpdate();
 		imGuiManager->Begin();
 		static XMVECTOR lightDir = { 0,1,5,0 };
-		
+
+		if (input->GetKey(DIK_0))
+		{
+			scenenum = 0;
+			ball.translation_.x = 10.0f;
+
+		}
+		if (input->GetKey(DIK_1))
+		{
+
+			scenenum = 1;
+			ball.translation_ = { 10.0f,-5.0f,-3.0f };
+			raybox.translation_ = { 0,-14.0f,2.0f };
+		}
+		if (input->GetKey(DIK_2))
+		{
+
+			scenenum = 2;
+			ball.translation_ = { 0,-2.0f,0 };
+
+			raybox.translation_ = { 0,0,0 };
+		}
+
+		if (input->GetKey(DIK_RIGHT))
+		{
+			eye.x += 0.2f;
+		}
+		if (input->GetKey(DIK_LEFT))
+		{
+			eye.x -= 0.2f;
+		}
+		if (input->GetKey(DIK_UP))
+		{
+			eye.y += 0.2f;
+		}
+		if (input->GetKey(DIK_DOWN))
+		{
+			eye.y -= 0.2f;
+		}
+		sp.center = XMVectorSet(ball.translation_.x, ball.translation_.y, ball.translation_.z, 1);
+		sp.radius = ball.scale_.y;
+		ray.start = XMVectorSet(raybox.translation_.x, raybox.translation_.y + raybox.scale_.y, raybox.translation_.z, 1.0f);
+		pl.distance = ground.translation_.y;
+
 		switch (scenenum)
 		{
-		case 0:
-
-			if (input->GetPressKey(DIK_SPACE))
-			{
-				scenenum = 1;
-
-			}
-
-			break;
 		case 1:
-
-			Plsp.center = { playerWt.translation_.x,playerWt.translation_.y ,playerWt.translation_.z ,1};
-			Ensp.center = { enemyWt.translation_.x,enemyWt.translation_.y ,enemyWt.translation_.z ,1 };
-			
-
-			if (input->GetKey(DIK_W))
+			objground->SetModel(tri);
+			if (ball.translation_.y < -20.0f || ball.translation_.y > 10.0f)
 			{
-				playerWt.translation_.z += 1.0f;
+				a *= -1.0f;
+			}
+			ball.translation_.y += a;
+			raybox.translation_.z -= a;
+
+
+			if (Hit = Collision::CheckSphere2Triangle(sp, triangle))
+			{
+				obj2->color = { 1,0,0,1 };
 
 			}
-			if (input->GetKey(DIK_S))
+			else
 			{
-				playerWt.translation_.z -= 1.0f;
+				obj2->color = { 1,1,1,1 };
 
 			}
-			if (input->GetKey(DIK_A))
+			if (rayHit = Collision::CheckRay2Triangle(ray, triangle))
 			{
-				playerWt.translation_.x -= 1.0f;
-
+				Objray->color = { 1,0,0,1 };
 			}
-			if (input->GetKey(DIK_D))
+			else
 			{
-				playerWt.translation_.x += 1.0f;
-
+				Objray->color = { 1,1,1,1 };
 			}
+			break;
 
-			targetWt.translation_ = { enemyWt.translation_.x,enemyWt.translation_.y + 6.0f ,enemyWt.translation_.z };
-
-			targetWt.rotation_.y += 0.2f;
-
-			
 
 			break;
-		case 2:
-			if (input->GetPressKey(DIK_SPACE))
-			{
-				scenenum = 0;
+		case 0:
+			objground->SetModel(gra);
 
+			if (ball.translation_.y < -10.0f || ball.translation_.y > 10.0f)
+			{
+				a *= -1.0f;
+			}
+			ball.translation_.y += a;
+			raybox.translation_.y += a;
+
+
+			if (Hit = Collision::CheckSphere2Plane(sp, pl))
+			{
+				obj2->color = { 1,0,0,1 };
+
+			}
+			else
+			{
+				obj2->color = { 1,1,1,1 };
+
+			}
+			if (rayHit = Collision::CheckRay2Plane(ray, pl))
+			{
+				Objray->color = { 1,0,0,1 };
+			}
+			else
+			{
+				Objray->color = { 1,1,1,1 };
+			}
+			break;
+
+		case 2:
+			if (raybox.translation_.x < -20.0f || raybox.translation_.x > 20.0f)
+			{
+				a *= -1.0f;
+			}
+			raybox.translation_.x += a;
+			if (rayHit = Collision::CheckRay2Sphere(ray, sp))
+			{
+				Objray->color = { 1,0,0,1 };
+			}
+			else
+			{
+				Objray->color = { 1,1,1,1 };
 			}
 			break;
 		}
 
 
 
-
-		
-
-		camera.SetTarget(playerWt.translation_);
-		camera.SetEye({ playerWt.translation_.x,playerWt.translation_.y + 10.0f,playerWt.translation_.z - 25.0f });
-
-		player->Update(&camera);
-		enemy ->Update(&camera);
-		arrow ->Update(&camera);	
-		ground->Update(&camera);
 		light->Update();
-		camera.Update();
+
+		obj1->Update(&camera);
+		obj2->Update(&camera);
+		objskydome->Update(&camera);
+		objground->Update(&camera);
+		Objray->Update(&camera);
 		sprite->Update();
 		sprite2->Update();
-		
-		
-		
+		camera.SetEye(eye);
+		camera.Update();
+
+
+		ImGui::Text("PosY %4.1f", sp.center.m128_f32[1] - sp.radius);
+		ImGui::Text("Plane %4.1f", pl.distance);
+		ImGui::Text("Hit %d", Hit);
+		ImGui::Text("RayHit %d", rayHit);
+
 		imGuiManager->End();
 		dxCommon->PreDraw();
 
 		Object3D::PreDraw(dxCommon->GetCommandList());
-		
-		if(scenenum==1)
+		objskydome->Draw();
+		switch (scenenum)
 		{
-			player->Draw();
-
-			enemy->Draw();
-
-			arrow->Draw();
-
-			ground->Draw();
+		case 1:
+			//obj1->Draw();
+			obj2->Draw();
+			objground->Draw();
+			Objray->Draw();
+			break;
+		case 0:
+			obj2->Draw();
+			Objray->Draw();
+			objground->Draw();
+			break;
+		case 2:
+			obj2->Draw();
+			Objray->Draw();
+			break;
 		}
-		
-		
 
-		
-		
+
+
 
 		Object3D::PostDraw();
 
 		spritecommon->PreDraw();
+
 		sprite->Draw();
 		sprite2->Draw();
 		spritecommon->PostDraw();
@@ -292,21 +373,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->Draw();
 		dxCommon->PostDraw();
 
-		fps->Update();
-
 	}
-	
+
 	delete input;
-	delete playerModel;
-	delete enemyModel;
-	delete target;
-	delete YUKA;
-	delete player;
-	delete enemy;
-	delete arrow;
-	delete ground;
-	delete light;
+	delete obj1;
+	delete obj2;
+	delete model;
+	delete model2;
+	delete objskydome;
+	delete objground;
+	delete gra;
+	delete skydome;
+	delete box;
+	delete tri;
+	delete Objray;
 	delete sprite;
+	delete sprite2;
+	delete light;
 	delete spritecommon;
 	imGuiManager->Finalize();
 	delete dxCommon;

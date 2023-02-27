@@ -7,116 +7,10 @@ void Sprite2D::Initialize(SpriteCommon* spritecommon, WorldTransform* wt, uint32
 	tex = TextureManager::GetTextureData(handle);
 
 	device = spritecommon->GetDirextXCommon()->GetDevice();
-
-
-	HRESULT result;
-
-	VertexPos vertices[] = {
-		{{  0.0f,100.0f,0},{0.0f,1.0f} },
-		{{  0.0f,  0.0f,0},{0.0f,0.0f} },
-		{{100.0f,100.0f,0},{1.0f,1.0f} },
-		{{100.0f,  0.0f,0},{1.0f,0.0f} },
-
-	};
-
-	uint16_t indices[] =
-	{
-		0,1,2,
-		1,2,3,
-	};
-	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
-
-	D3D12_HEAP_PROPERTIES heapProp{};
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
-
-	D3D12_RESOURCE_DESC resDesc{};
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeVB;
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	result = device->CreateCommittedResource(
-		&heapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&vertBuff)
-	);
-	assert(SUCCEEDED(result));
-
-
-	// 頂点バッファへのデータ転送
-	VertexPos* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	if (SUCCEEDED(result))
-	{
-		memcpy(vertMap, vertices, sizeof(vertices));
-		vertBuff->Unmap(0, nullptr);
-	}
-
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(vertices[0]);
-
-	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
-
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeIB;	//インデックス情報が入るサイズ
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
-	result = device->CreateCommittedResource(
-		&heapProp,	//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc,	//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&indexBuff)
-	);
-
-	uint16_t* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	if (SUCCEEDED(result))
-	{
-		memcpy(indexMap, indices, sizeof(indices));
-		indexBuff->Unmap(0, nullptr);
-	}
-
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
-
-
-	D3D12_HEAP_PROPERTIES cbHeapProp{};
-
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPUへの転送用
-
-	D3D12_RESOURCE_DESC cbResourceDesc{};
-	//リソース設定
-	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0Xff;	//256バイトアライメント
-	cbResourceDesc.Height = 1;
-	cbResourceDesc.DepthOrArraySize = 1;
-	cbResourceDesc.MipLevels = 1;
-	cbResourceDesc.SampleDesc.Count = 1;
-	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-
+	CreateVertexIndexBuffer();
 	this->Wt->CreateConstBuffer(device);
 
-	this->Wt->Map();
-
-	this->Wt->UpdateSpriteMatrix(spritecommon->Getmat());
-
-
+	
 }
 
 void Sprite2D::Update()
@@ -126,9 +20,90 @@ void Sprite2D::Update()
 	this->Wt->UpdateSpriteMatrix(spritecommon->Getmat());
 }
 
-void Sprite2D::Draw()
+void Sprite2D::Draw(XMFLOAT2 anchor, bool flipX, bool flipY)
 {
-	spritecommon->DrawCommand(tex,vbView,ibView,Wt);
+	int isFlipX, isFlipY;
+	if (flipX == false)isFlipX = 1;
+	else isFlipX = -1;
+	if (flipY == false)isFlipY = 1;
+	else isFlipY = -1;
 
+	float left = ((0.0f - anchor.x) * tex->width) * isFlipX;
+	float right = ((1.0f - anchor.x) * tex->width) * isFlipX;
+	float top = ((0.0f - anchor.y) * tex->height) * isFlipY;
+	float bottom = ((1.0f - anchor.y) * tex->height) * isFlipY;
+
+
+
+	VertexPos vertices[] =
+	{
+		{{left,top,0.0f},{0.0f,0.0f}	},
+		{{left,bottom,0.0f},{0.0f,1.0f}	},
+		{{right,top,0.0f},{1.0f,0.0f}	},
+		{{right,bottom,0.0f},{1.0f,1.0f}}
+	};
+	uint32_t indices[] =
+	{
+		1,0,3,
+		2,3,0,
+	};
+
+	vertexBuffer->Update(vertices);
+
+	indexBuffer->Update(indices);
+
+	Update();
+
+	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
+
+}
+
+void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, XMFLOAT2 anchor, bool flipX, bool flipY)
+{
+	int isFlipX, isFlipY;
+	if (flipX == false)isFlipX = 1;
+	else isFlipX = -1;
+	if (flipY == false)isFlipY = 1;
+	else isFlipY = -1;
+
+	float left = -ClipSize.x * isFlipX;
+	float right = ClipSize.x * isFlipX;
+	float top = -ClipSize.y * isFlipY;
+	float bottom = ClipSize.y * isFlipY;
+
+
+
+	VertexPos vertices[] =
+	{
+		{{left,top,0.0f}	,{(ClipPos.x - ClipSize.x) / tex->width,(ClipPos.y - ClipSize.y) / tex->height}	},
+		{{left,bottom,0.0f}	,{(ClipPos.x - ClipSize.x) / tex->width,(ClipPos.y + ClipSize.y) / tex->height}	},
+		{{right,top,0.0f}	,{(ClipPos.x + ClipSize.x) / tex->width,(ClipPos.y - ClipSize.y) / tex->height}	},
+		{{right,bottom,0.0f},{(ClipPos.x + ClipSize.x) / tex->width,(ClipPos.y + ClipSize.y) / tex->height}}
+	};
+	uint32_t indices[] =
+	{
+		1,0,3,
+		2,3,0,
+	};
+
+	vertexBuffer->Update(vertices);
+
+	indexBuffer->Update(indices);
+
+	Update();
+
+	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
+
+}
+
+
+
+void Sprite2D::CreateVertexIndexBuffer()
+{
+	vertexBuffer = make_unique<VertexBuffer>();
+	vertexBuffer->Create(device, 4, sizeof(VertexPos));
+
+	indexBuffer = make_unique<IndexBuffer>();
+	indexBuffer->Create(device, 6);
 }
 

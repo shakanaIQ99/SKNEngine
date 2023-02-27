@@ -3,6 +3,8 @@
 #include"WorldTronsform.h"
 #include <DirectXTex.h>
 #include"TextureManager.h"
+#include"IndexBuffer.h"
+#include"VertexBuffer.h"
 class Sprite2D
 {
 public:
@@ -25,22 +27,21 @@ public:
 
     void Update();
 
-    void Draw();
+    void Draw(XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
 
+    void DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize,XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
     
     WorldTransform* Wt = nullptr;
 private:
+
+    void CreateVertexIndexBuffer();
+
     SpriteCommon* spritecommon = nullptr;
     ID3D12Device* device = nullptr;
 
-    ComPtr<ID3D12Resource> vertBuff;
+    std::unique_ptr<VertexBuffer> vertexBuffer = {};
 
-    ComPtr<ID3D12Resource> indexBuff;
-
-    
-
-    D3D12_VERTEX_BUFFER_VIEW vbView;
-    D3D12_INDEX_BUFFER_VIEW ibView;
+    std::unique_ptr<IndexBuffer> indexBuffer = {};
 
     TextureData* tex;
    
