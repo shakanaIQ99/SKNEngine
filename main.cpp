@@ -59,6 +59,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	texturemanager->StaticInitialize(dxCommon);
 
 	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
+	uint32_t title = texturemanager->LoadTexture("Resources/title.png");
+	uint32_t end = texturemanager->LoadTexture("Resources/end.png");
 
 	SpriteCommon* spritecommon = nullptr;
 	spritecommon = new SpriteCommon();
@@ -78,7 +80,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	XMFLOAT3 eye = { 0,0,-50 };
 
-	int scenenum = 0;
+	int scenenum = 1;
 
 	float ambientColor[3] = { 1,1,1 };
 
@@ -151,7 +153,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	groundWt.scale_ = { 200.0f,1.0f,200.0f };
 	groundWt.translation_.y = -10.0f;
 	targetWt.scale_ = { 0.7f,0.7f,0.7f };
-	targetWt.rotation_.x = 0.5f;
+	targetWt.rotation_.x = 1.57f;
 	
 	XMFLOAT3 lightpos = { 0,50.0f,0 };
 
@@ -170,14 +172,59 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 		switch (scenenum)
 		{
-		default:
+		case 0:
+
+			if (input->GetPressKey(DIK_SPACE))
+			{
+				scenenum = 1;
+
+			}
+
+			break;
+		case 1:
+			if (input->GetKey(DIK_W))
+			{
+				playerWt.translation_.z += 1.0f;
+
+			}
+			if (input->GetKey(DIK_S))
+			{
+				playerWt.translation_.z -= 1.0f;
+
+			}
+			if (input->GetKey(DIK_A))
+			{
+				playerWt.translation_.x -= 1.0f;
+
+			}
+			if (input->GetKey(DIK_D))
+			{
+				playerWt.translation_.x += 1.0f;
+
+			}
+
+			targetWt.translation_ = { enemyWt.translation_.x,enemyWt.translation_.y + 6.0f ,enemyWt.translation_.z };
+
+			targetWt.rotation_.y += 0.2f;
+
+
+			break;
+		case 2:
+			if (input->GetPressKey(DIK_SPACE))
+			{
+				scenenum = 0;
+
+			}
 			break;
 		}
 
 
 
 
+		
 
+		camera.SetTarget(playerWt.translation_);
+		camera.SetEye({ playerWt.translation_.x,playerWt.translation_.y + 10.0f,playerWt.translation_.z - 25.0f });
 
 		player->Update(&camera);
 		enemy ->Update(&camera);
@@ -194,14 +241,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		Object3D::PreDraw(dxCommon->GetCommandList());
 		
+		if(scenenum==1)
+		{
+			player->Draw();
+
+			enemy->Draw();
+
+			arrow->Draw();
+
+			ground->Draw();
+		}
 		
-		player->Draw();
-		
-		enemy->Draw();
-		
-		arrow->Draw();
-		
-		ground->Draw();
 		
 
 		
