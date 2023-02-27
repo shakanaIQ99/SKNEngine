@@ -154,6 +154,7 @@
     <ClCompile Include="DirectXCommon.cpp" />
     <ClCompile Include="DrawCommon.cpp" />
     <ClCompile Include="DxWindow.cpp" />
+    <ClCompile Include="FPS.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
@@ -187,6 +188,7 @@
     <ClInclude Include="DirectXCommon.h" />
     <ClInclude Include="DrawCommon.h" />
     <ClInclude Include="DxWindow.h" />
+    <ClInclude Include="FPS.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
