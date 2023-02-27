@@ -119,9 +119,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	float a = 0.2f;
 
+	Model* playerModel = Model::LoadFromOBJ("player");
+	Model* enemyModel = Model::LoadFromOBJ("muso");
+	Model* bulletModel = Model::LoadFromOBJ("bit");
+	Model* target = Model::LoadFromOBJ("arrow");
+	Model* YUKA = Model::LoadFromOBJ("cube");
 
+
+	WorldTransform playerWt;
+	WorldTransform enemyWt;
+	WorldTransform bulletWt;
+	WorldTransform targetWt;
+	WorldTransform groundWt;
+
+	Object3D* player;
+	Object3D* enemy;
+	Object3D* bullet;
+	Object3D* arrow;
+	Object3D* ground;
+
+	camera.SetEye(eye);
+	
 
 	
+
 	while (true)
 	{
 		if (window->ProcessMessage())
@@ -133,11 +154,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->Begin();
 		static XMVECTOR lightDir = { 0,1,5,0 };
 		
-		
+		switch (scenenum)
+		{
+		default:
+			break;
+		}
+
+
+
+
+
+
+
+
+
+
 		light->Update();
-		
-		
-		camera.SetEye(eye);
 		camera.Update();
 
 		
