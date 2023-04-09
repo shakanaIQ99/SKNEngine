@@ -22,6 +22,7 @@ public:
 
 	static PipelineSet CreateSpritePipline(ID3D12Device* device);
 	static PipelineSet CreateModelPipline(ID3D12Device* device);
+	static PipelineSet CreateParticlePipline(ID3D12Device* device);
 
 
 };

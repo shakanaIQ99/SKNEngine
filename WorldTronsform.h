@@ -39,6 +39,8 @@ struct WorldTransform {
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカル → ワールド変換行列
 	XMMATRIX matWorld_;
+
+	static XMMATRIX matBillboard;
 	// 親となるワールド変換へのポインタ
 	//WorldTransform* parent_ = nullptr;
 
