@@ -16,7 +16,7 @@ void DescriptorHeap::Initialize(ID3D12Device* Device)
 	startCpuHandle = descHeap->GetCPUDescriptorHandleForHeapStart();
 	startGpuHandle = descHeap->GetGPUDescriptorHandleForHeapStart();
 
-	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV); 
 
 }
 
