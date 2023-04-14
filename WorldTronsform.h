@@ -3,6 +3,7 @@
 #include <DirectXMath.h>
 #include <d3d12.h>
 #include <wrl.h>
+#include"ViewProjection.h"
 
 using namespace DirectX;
 
@@ -40,7 +41,7 @@ struct WorldTransform {
 	// ローカル → ワールド変換行列
 	XMMATRIX matWorld_;
 
-	static XMMATRIX matBillboard;
+	XMMATRIX matBillboard;
 	// 親となるワールド変換へのポインタ
 	//WorldTransform* parent_ = nullptr;
 
@@ -56,6 +57,8 @@ struct WorldTransform {
 	/// 行列を更新する
 	/// </summary>
 	void UpdateMatrix(XMMATRIX view,XMMATRIX projection,XMFLOAT3 camerapos);
+
+	void UpdateMatrixBill(ViewProjection* camera);
 
 	void UpdateSpriteMatrix(XMMATRIX projection);
 };

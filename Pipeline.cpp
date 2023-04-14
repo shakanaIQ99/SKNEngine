@@ -420,7 +420,7 @@ PipelineSet Pipeline::CreateParticlePipline(ID3D12Device* device)
 		assert(0);
 	}
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ParticleGS.hlsl",	// シェーダファイル名
+		L"ParticleGS.hlsl",	// シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",	// エントリーポイント名、シェーダーモデル指定
@@ -459,6 +459,8 @@ PipelineSet Pipeline::CreateParticlePipline(ID3D12Device* device)
 
 	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
 	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
+	pipelineDesc.GS.pShaderBytecode = gsBlob->GetBufferPointer();
+	pipelineDesc.GS.BytecodeLength = gsBlob->GetBufferSize();
 	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
 	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
 
@@ -470,7 +472,7 @@ PipelineSet Pipeline::CreateParticlePipline(ID3D12Device* device)
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	pipelineDesc.DepthStencilState.DepthEnable = true;
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
@@ -495,7 +497,7 @@ PipelineSet Pipeline::CreateParticlePipline(ID3D12Device* device)
 	pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
 
 	// 図形の形状設定
-	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
 	// その他の設定
 	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
@@ -510,30 +512,21 @@ PipelineSet Pipeline::CreateParticlePipline(ID3D12Device* device)
 
 
 
-	D3D12_ROOT_PARAMETER rootParams[4] = {};
+	D3D12_ROOT_PARAMETER rootParams[2] = {};
 
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParams[0].Descriptor.ShaderRegister = 0;
 	rootParams[0].Descriptor.RegisterSpace = 0;
 	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
-	//定数バッファ1番
-	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;		//種類
-	rootParams[1].Descriptor.ShaderRegister = 1;						//定数バッファ番号
-	rootParams[1].Descriptor.RegisterSpace = 0;							//デフォルト値
-	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;		//全てのシェーダーから見える
-
+	
 	//テクスチャレジスタ0番
-	rootParams[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
-	rootParams[2].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
-	rootParams[2].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
-	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;	//種類
+	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;			//デスクリプタレンジ
+	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;						//デスクリプタレンジ数
+	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
-	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParams[3].Descriptor.ShaderRegister = 2;
-	rootParams[3].Descriptor.RegisterSpace = 0;
-	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;//全てのシェーダーから見える
-
+	
 
 
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};

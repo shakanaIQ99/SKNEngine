@@ -20,6 +20,8 @@ using namespace std;
 class ParticleManager
 {
 public:
+
+	ParticleManager(uint32_t handle);
 	struct VertexPos
 	{
 		XMFLOAT3 pos; // xyzç¿ïW
@@ -54,13 +56,23 @@ public:
 
 	std::forward_list<Particle> particle;
 
-	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static void StaticInitialize(ID3D12Device* device);
 
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 	
 	static void PostDraw();
 
-	static ParticleManager* Create(uint32_t Handle);
+	static void CreateModel();
+
+	static ParticleManager* Create(uint32_t Handle, WorldTransform* Wt);
+
+	bool Initialize(WorldTransform* Wt);
+
+	void Update(ViewProjection* camera);
+
+	void Draw();
+
+	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
 
 private:
 	static ID3D12Device* device;
@@ -69,8 +81,15 @@ private:
 
 	static PipelineSet ParPipeline;
 
+	static const int vertexCount = 1024;
+
+	static VertexPos vertices[vertexCount];
+
+	static ComPtr<ID3D12Resource> vertBuff;
+	static D3D12_VERTEX_BUFFER_VIEW vbView;
+
 	TextureData* tex;
 
-	WorldTransform wt;
-
+	WorldTransform* wt;
+	
 };

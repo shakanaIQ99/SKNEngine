@@ -16,6 +16,7 @@
 #include"CollisionPrimitive.h"
 #include"Collision.h"
 #include"FPS.h"
+#include"ParticleManager.h"
 
 
 
@@ -65,9 +66,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	spritecommon->Initialize(dxCommon);
 
 	Object3D::StaticInitialize(dxCommon->GetDevice(), DxWindow::window_width, DxWindow::window_height);
+	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 	uint32_t tex1 = texturemanager->LoadTexture("Resources/visual.png");
 	uint32_t tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
+	uint32_t tex3 = texturemanager->LoadTexture("Resources/effect1.png");
+	uint32_t tex4 = texturemanager->LoadTexture("Resources/effect3.png");
 
 	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("maru", true);
@@ -82,13 +86,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WorldTransform wt3;
 	WorldTransform wt4;
 	WorldTransform raybox;
+	WorldTransform p1;
+	WorldTransform p2;
 
 	Sprite2D* sprite = nullptr;
 	sprite = new Sprite2D();
 	sprite->Initialize(spritecommon, &wt3, tex1);
 	Sprite2D* sprite2 = nullptr;
 	sprite2 = new Sprite2D();
-	sprite2->Initialize(spritecommon, &wt4, tex1);
+	sprite2->Initialize(spritecommon, &wt4, tex2);
 
 	LightGroup* light = nullptr;
 	light = LightGroup::Create();
@@ -100,6 +106,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3D* objskydome = nullptr;
 	Object3D* objground = nullptr;
 	Object3D* Objray = nullptr;
+
+	ParticleManager* particleMan = nullptr;
+	ParticleManager* particleMan2 = nullptr;
+
+	particleMan = ParticleManager::Create(tex3,&p1);
+	particleMan2 = ParticleManager::Create(tex4,&p2);
 
 	Objray = Object3D::Create(&raybox);
 	Objray->SetModel(box);
@@ -183,6 +195,50 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	wt3.scale_ = { 0.5f,0.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
+
+	for (int i = 0; i < 100; i++)
+	{
+		const float rnd_pos = 20.0f;
+		XMFLOAT3 pos{};
+		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+
+		const float rnd_vel = 0.1f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+		particleMan->Add(150, pos, vel, acc, 1.0f, 0.0f);
+
+	}
+	for (int j = 0; j < 100; j++)
+	{
+		const float rnd_pos = 10.0f;
+		XMFLOAT3 pos{};
+		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
+		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
+		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
+
+		const float rnd_vel = 0.1f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+		particleMan2->Add(300, pos, vel, acc, 1.0f, 0.0f);
+
+	}
+
 
 	while (true)
 	{
@@ -320,7 +376,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			break;
 		}
 
-
+		particleMan->Update(&camera);
+		particleMan2->Update(&camera);
 
 		light->Update();
 
@@ -368,6 +425,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		Object3D::PostDraw();
+		ParticleManager::PreDraw(dxCommon->GetCommandList());
+
+		// 3Dオブクジェクトの描画
+		particleMan->Draw();
+		particleMan2->Draw();
+
+
+		/// <summary>
+		/// ここに3Dオブジェクトの描画処理を追加できる
+		/// </summary>
+
+		// 3Dオブジェクト描画後処理
+		ParticleManager::PostDraw();
 
 		spritecommon->PreDraw();
 
@@ -392,6 +462,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete objground;
 	delete gra;
 	delete skydome;
+	delete particleMan;
+	delete particleMan2;
 	delete box;
 	delete tri;
 	delete Objray;
