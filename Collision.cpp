@@ -229,7 +229,7 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 	{
 		*inter = ray.start + t * ray.dir;
 	}
-
+	
 
 
 	return true;
