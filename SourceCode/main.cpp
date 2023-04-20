@@ -17,6 +17,7 @@
 #include"Collision.h"
 #include"FPS.h"
 #include"ParticleManager.h"
+#include"FbxLoader.h"
 
 
 
@@ -42,6 +43,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(window);
+
+	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 
 	ImGuiManager* imGuiManager = nullptr;
 	imGuiManager = new ImGuiManager();
@@ -81,6 +84,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Model* gra = Model::LoadFromOBJ("ground");
 	Model* tri = Model::LoadFromOBJ("sankaku");
 	Model* box = Model::LoadFromOBJ("boxobj");
+
+	FbxLoader::GetInstance()->LoadModelFlomFile("cube");
+
 	WorldTransform ground;
 	WorldTransform skywt;
 	WorldTransform human;
@@ -473,6 +479,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete sprite2;
 	delete light;
 	delete spritecommon;
+	FbxLoader::GetInstance()->Finalize();
 	imGuiManager->Finalize();
 	delete dxCommon;
 	delete imGuiManager;

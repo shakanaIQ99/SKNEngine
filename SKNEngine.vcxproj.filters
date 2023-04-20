@@ -144,6 +144,9 @@
     <ClCompile Include="SourceCode\EngineCore\Pipeline.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Draw\FbxLoader.cpp">
+      <Filter>ソース ファイル\Draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Input.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\Pipeline.h">
       <Filter>ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\FbxLoader.h">
+      <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

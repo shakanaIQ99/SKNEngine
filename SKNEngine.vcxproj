@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Collision.cpp" />
+    <ClCompile Include="SourceCode\Draw\FbxLoader.cpp" />
     <ClCompile Include="SourceCode\EngineCore\ConstBuffer.cpp" />
     <ClCompile Include="SourceCode\EngineCore\DescriptorHeap.cpp" />
     <ClCompile Include="SourceCode\EngineCore\DirectXCommon.cpp" />
@@ -190,6 +191,7 @@
   <ItemGroup>
     <ClInclude Include="SourceCode\Collision.h" />
     <ClInclude Include="SourceCode\CollisionPrimitive.h" />
+    <ClInclude Include="SourceCode\Draw\FbxLoader.h" />
     <ClInclude Include="SourceCode\EngineCore\ConstBuffer.h" />
     <ClInclude Include="SourceCode\EngineCore\DescriptorHeap.h" />
     <ClInclude Include="SourceCode\EngineCore\DirectXCommon.h" />
