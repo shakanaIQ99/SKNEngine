@@ -21,8 +21,10 @@
 
 
 
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+
 	DxWindow* window = nullptr;
 
 	window = DxWindow::GetInstance();
