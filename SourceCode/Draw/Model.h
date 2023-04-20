@@ -14,7 +14,34 @@ using namespace Microsoft::WRL;
 
 using namespace std;
 
+struct Node
+{
 
+};
+
+
+class Model
+{
+public:
+
+
+
+
+
+	friend class FbxLoader;
+
+
+
+private:
+
+	std::string name;
+
+};
+
+
+
+
+/*----------------------------ˆÈ‰ºOBJ------------------------------------------ -
 class Model
 {
 
@@ -103,3 +130,4 @@ private:
 	TextureData* tex;
 };
 
+*/
