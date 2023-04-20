@@ -48,235 +48,235 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Input.cpp">
+    <ClCompile Include="SourceCode\Input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="SourceCode\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ViewProjection.cpp">
+    <ClCompile Include="SourceCode\ViewProjection.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="WorldTronsform.cpp">
+    <ClCompile Include="SourceCode\WorldTronsform.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\Sprite2D.cpp">
+    <ClCompile Include="SourceCode\Draw\Sprite2D.cpp">
       <Filter>ソース ファイル\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\Pipeline.cpp">
+    <ClCompile Include="SourceCode\Draw\Object3D.cpp">
       <Filter>ソース ファイル\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\Object3D.cpp">
+    <ClCompile Include="SourceCode\Draw\Model.cpp">
       <Filter>ソース ファイル\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\Model.cpp">
+    <ClCompile Include="SourceCode\Draw\SpriteCommon.cpp">
       <Filter>ソース ファイル\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\SpriteCommon.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="EngineCore\DirectXCommon.cpp">
+    <ClCompile Include="SourceCode\EngineCore\DirectXCommon.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\DxWindow.cpp">
+    <ClCompile Include="SourceCode\EngineCore\DxWindow.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\DescriptorHeap.cpp">
+    <ClCompile Include="SourceCode\EngineCore\DescriptorHeap.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\TextureManager.cpp">
+    <ClCompile Include="SourceCode\Draw\TextureManager.cpp">
       <Filter>ソース ファイル\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\ConstBuffer.cpp">
+    <ClCompile Include="SourceCode\EngineCore\ConstBuffer.cpp">
       <Filter>ソース ファイル\Core\Buff</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\IndexBuffer.cpp">
+    <ClCompile Include="SourceCode\EngineCore\IndexBuffer.cpp">
       <Filter>ソース ファイル\Core\Buff</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\VertexBuffer.cpp">
+    <ClCompile Include="SourceCode\EngineCore\VertexBuffer.cpp">
       <Filter>ソース ファイル\Core\Buff</Filter>
     </ClCompile>
-    <ClCompile Include="Light\DirectionLight.cpp">
+    <ClCompile Include="SourceCode\Light\DirectionLight.cpp">
       <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\DrawCommon.cpp">
+    <ClCompile Include="SourceCode\Draw\DrawCommon.cpp">
       <Filter>ソース ファイル\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\Sprite.cpp">
+    <ClCompile Include="SourceCode\Draw\Sprite.cpp">
       <Filter>ソース ファイル\Draw</Filter>
     </ClCompile>
-    <ClCompile Include="Light\LightGroup.cpp">
+    <ClCompile Include="SourceCode\Light\LightGroup.cpp">
       <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Light\PointLight.cpp">
+    <ClCompile Include="SourceCode\Light\PointLight.cpp">
       <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\imgui.cpp">
+    <ClCompile Include="SourceCode\Imgui\imgui.cpp">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\imgui_demo.cpp">
+    <ClCompile Include="SourceCode\Imgui\imgui_demo.cpp">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\imgui_draw.cpp">
+    <ClCompile Include="SourceCode\Imgui\imgui_draw.cpp">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\imgui_tables.cpp">
+    <ClCompile Include="SourceCode\Imgui\imgui_tables.cpp">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\imgui_widgets.cpp">
+    <ClCompile Include="SourceCode\Imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\ImGuiManager.cpp">
+    <ClCompile Include="SourceCode\Imgui\ImGuiManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\imgui_impl_dx12.cpp">
+    <ClCompile Include="SourceCode\Imgui\imgui_impl_dx12.cpp">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Imgui\imgui_impl_win32.cpp">
+    <ClCompile Include="SourceCode\Imgui\imgui_impl_win32.cpp">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
+    <ClCompile Include="SourceCode\Collision.cpp">
       <Filter>ソース ファイル\Colider</Filter>
     </ClCompile>
-    <ClCompile Include="EngineCore\FPS.cpp">
+    <ClCompile Include="SourceCode\EngineCore\FPS.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Draw\ParticleManager.cpp">
+    <ClCompile Include="SourceCode\Draw\ParticleManager.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\EngineCore\Pipeline.cpp">
+      <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="SourceCode\Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ViewProjection.h">
+    <ClInclude Include="SourceCode\ViewProjection.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="WorldTronsform.h">
+    <ClInclude Include="SourceCode\WorldTronsform.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\Model.h">
+    <ClInclude Include="SourceCode\Draw\Model.h">
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\Object3D.h">
+    <ClInclude Include="SourceCode\Draw\Object3D.h">
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\Pipeline.h">
+    <ClInclude Include="SourceCode\Draw\Sprite2D.h">
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\Sprite2D.h">
+    <ClInclude Include="SourceCode\Draw\SpriteCommon.h">
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\SpriteCommon.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="EngineCore\DirectXCommon.h">
+    <ClInclude Include="SourceCode\EngineCore\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\DxWindow.h">
+    <ClInclude Include="SourceCode\EngineCore\DxWindow.h">
       <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\DescriptorHeap.h">
+    <ClInclude Include="SourceCode\EngineCore\DescriptorHeap.h">
       <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\TextureManager.h">
+    <ClInclude Include="SourceCode\Draw\TextureManager.h">
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\ConstBuffer.h">
+    <ClInclude Include="SourceCode\EngineCore\ConstBuffer.h">
       <Filter>ヘッダー ファイル\Core\Buff</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\IndexBuffer.h">
+    <ClInclude Include="SourceCode\EngineCore\IndexBuffer.h">
       <Filter>ヘッダー ファイル\Core\Buff</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\VertexBuffer.h">
+    <ClInclude Include="SourceCode\EngineCore\VertexBuffer.h">
       <Filter>ヘッダー ファイル\Core\Buff</Filter>
     </ClInclude>
-    <ClInclude Include="Light\DirectionLight.h">
+    <ClInclude Include="SourceCode\Light\DirectionLight.h">
       <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\DrawCommon.h">
+    <ClInclude Include="SourceCode\Draw\DrawCommon.h">
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\Sprite.h">
+    <ClInclude Include="SourceCode\Draw\Sprite.h">
       <Filter>ヘッダー ファイル\Draw</Filter>
     </ClInclude>
-    <ClInclude Include="Light\LightGroup.h">
+    <ClInclude Include="SourceCode\Light\LightGroup.h">
       <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Light\PointLight.h">
+    <ClInclude Include="SourceCode\Light\PointLight.h">
       <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imconfig.h">
+    <ClInclude Include="SourceCode\Imgui\imconfig.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imgui.h">
+    <ClInclude Include="SourceCode\Imgui\imgui.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imgui_internal.h">
+    <ClInclude Include="SourceCode\Imgui\imgui_internal.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imstb_rectpack.h">
+    <ClInclude Include="SourceCode\Imgui\imstb_rectpack.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imstb_textedit.h">
+    <ClInclude Include="SourceCode\Imgui\imstb_textedit.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imstb_truetype.h">
+    <ClInclude Include="SourceCode\Imgui\imstb_truetype.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\ImGuiManager.h">
+    <ClInclude Include="SourceCode\Imgui\ImGuiManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imgui_impl_dx12.h">
+    <ClInclude Include="SourceCode\Imgui\imgui_impl_dx12.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Imgui\imgui_impl_win32.h">
+    <ClInclude Include="SourceCode\Imgui\imgui_impl_win32.h">
       <Filter>ソース ファイル\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionPrimitive.h">
+    <ClInclude Include="SourceCode\CollisionPrimitive.h">
       <Filter>ヘッダー ファイル\Colider</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
+    <ClInclude Include="SourceCode\Collision.h">
       <Filter>ヘッダー ファイル\Colider</Filter>
     </ClInclude>
-    <ClInclude Include="EngineCore\FPS.h">
+    <ClInclude Include="SourceCode\EngineCore\FPS.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Draw\ParticleManager.h">
+    <ClInclude Include="SourceCode\Draw\ParticleManager.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\EngineCore\Pipeline.h">
+      <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.hlsli">
+    <None Include="Shader\Basic.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="Obj.hlsli">
+    <None Include="Shader\Obj.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
-    <None Include="Particle.hlsli">
+    <None Include="Shader\Particle.hlsli">
       <Filter>リソース ファイル</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="BasicPS.hlsl">
+    <FxCompile Include="Shader\BasicPS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="BasicVS.hlsl">
+    <FxCompile Include="Shader\BasicVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ObjPs.hlsl">
+    <FxCompile Include="Shader\ObjPs.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ObjVs.hlsl">
+    <FxCompile Include="Shader\ObjVs.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ParticleGS.hlsl">
+    <FxCompile Include="Shader\ParticleGS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ParticlePS.hlsl">
+    <FxCompile Include="Shader\ParticlePS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ParticleVS.hlsl">
+    <FxCompile Include="Shader\ParticleVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
