@@ -27,6 +27,8 @@ public:
 
 	void LoadModelFlomFile(const string& modelname);
 
+	void ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent = nullptr);
+
 	static const string baseDirectory;
 
 private:
