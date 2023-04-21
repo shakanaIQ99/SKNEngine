@@ -35,9 +35,18 @@ struct Node
 class Model
 {
 public:
+	struct VertexPosNormalUv
+	{
+		XMFLOAT3 pos;
+		XMFLOAT3 normal;
+		XMFLOAT2 uv;
+	};
 
+	Node* meshNode = nullptr;
 
+	vector<VertexPosNormalUv>vertices;
 
+	vector<unsigned short> indices;
 
 
 	friend class FbxLoader;

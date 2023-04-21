@@ -6,6 +6,7 @@
 #include <d3dx12.h>
 #include<string>
 #include"Model.h"
+#include"TextureManager.h"
 
 class FbxLoader
 {
@@ -28,6 +29,16 @@ public:
 	void LoadModelFlomFile(const string& modelname);
 
 	void ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent = nullptr);
+
+	void ParseMesh(Model* model, FbxNode* fbxNode);
+
+	void ParseMeshVertices(Model* model, FbxMesh* fbxMesh);
+
+	void ParseMeshFaces(Model* model, FbxMesh* fbxMesh);
+
+	void ParseMaterial(Model* model, FbxNode* fbxNode);
+
+	void LoadTexture(Model* model, const std::string& fullpath);
 
 	static const string baseDirectory;
 

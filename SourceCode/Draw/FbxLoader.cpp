@@ -103,9 +103,96 @@ void FbxLoader::ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent 
         node.globalTransform *= parent->globalTransform;
     }
 
+    FbxNodeAttribute* fbxNodeAttribute = fbxNode->GetNodeAttribute();
 
-    for (inti = 0; i < fbxNode->GetChildCount(); i++)
+    if (fbxNodeAttribute)
+    {
+        if (fbxNodeAttribute->GetAttributeType() == FbxNodeAttribute::eMesh)
+        {
+            model->meshNode = &node;
+            ParseMesh(model, fbxNode);
+        }
+    }
+
+
+
+    for (int i = 0; i < fbxNode->GetChildCount(); i++)
     {
         ParseNodeRecursive(model, fbxNode->GetChild(i), &node);
     }
+}
+
+void FbxLoader::ParseMesh(Model* model, FbxNode* fbxNode)
+{
+    FbxMesh* fbxMesh = fbxNode->GetMesh();
+
+    ParseMeshVertices(model, fbxMesh);
+
+    ParseMeshFaces(model, fbxMesh);
+
+    ParseMaterial(model, fbxNode);
+
+}
+
+void FbxLoader::ParseMeshVertices(Model* model, FbxMesh* fbxMesh)
+{
+    auto& vertices = model->vertices;
+
+    const int contorolPointCount = fbxMesh->GetControlPointsCount();
+
+    Model::VertexPosNormalUv vert{};
+    model->vertices.resize(contorolPointCount, vert);
+
+    FbxVector4* pCoord = fbxMesh->GetControlPoints();
+
+    for (int i = 0; i < contorolPointCount; i++)
+    {
+        Model::VertexPosNormalUv& vertex = vertices[i];
+
+        vertex.pos.x = (float)pCoord[i][0];
+        vertex.pos.y = (float)pCoord[i][1];
+        vertex.pos.z = (float)pCoord[i][2];
+    }
+
+}
+
+void FbxLoader::ParseMeshFaces(Model* model, FbxMesh* fbxMesh)
+{
+    auto& vertices = model->vertices;
+    auto& indices = model->indices;
+
+    assert(indices.size() == 0);
+
+    const int polygonCount = fbxMesh->GetPolygonCount();
+
+    const int textureUVCount = fbxMesh->GetTextureUVCount();
+
+    FbxStringList uvNames;
+    fbxMesh->GetUVSetNames(uvNames);
+
+    for (int i = 0; i < polygonCount; i++)
+    {
+        const int polygonSize = fbxMesh->GetPolygonSize(i);
+        assert(polygonSize <= 4);
+        for (int j = 0; j < polygonSize; j++)
+        {
+            int index = fbxMesh->GetPolygonVertex(i, j);
+            assert(index >= 0);
+
+            Model::VertexPosNormalUv& vertex = vertices[index];
+            FbxVector4 normal;
+            if (fbxMesh->GetPolygonVertexNormal(i, j, normal))
+            {
+                vertex.normal.x = (float)normal[0];
+                vertex.normal.y = (float)normal[1];
+                vertex.normal.z = (float)normal[2];
+            }
+
+        }
+
+    }
+}
+
+void FbxLoader::ParseMaterial(Model* model, FbxNode* fbxNode)
+{
 }
