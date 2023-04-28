@@ -7,6 +7,9 @@
 #include <wrl.h>
 #include"TextureManager.h"
 #include"WorldTronsform.h"
+#include"IndexBuffer.h"
+#include"VertexBuffer.h"
+
 
 using namespace DirectX;
 
@@ -34,6 +37,12 @@ struct Node
 
 class Model
 {
+
+
+private:
+
+	
+
 public:
 	//頂点データ構造体
 	struct VertexPosNormalUv
@@ -68,11 +77,23 @@ public:
 	//頂点インデックス配列
 	vector<unsigned short> indices;
 
+	ComPtr<ID3D12Resource> texBuff;
+
+	unique_ptr<VertexBuffer> vertexBuffer = {};
+
+	unique_ptr<IndexBuffer> indexBuffer = {};
+
 
 	friend class FbxLoader;
 
 	
 	TextureData* tex;
+
+	void CreateBuffers(ID3D12Device* device);
+
+
+	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 private:
 

@@ -5,6 +5,19 @@
 #include <DirectXTex.h>
 
 
+void Model::CreateBuffers(ID3D12Device* device)
+{
+	vertexBuffer = make_unique<VertexBuffer>();
+	vertexBuffer->Create(device, vertices.size(), sizeof(vertices[0]));
+
+	indexBuffer = make_unique<IndexBuffer>();
+	indexBuffer->Create(device, indices.size());
+
+}
+
+void Model::Draw(ID3D12GraphicsCommandList* cmdList)
+{
+}
 
 
 
@@ -342,3 +355,4 @@ void Model::CaliculateSmoothedVertexNormals()
 	}
 }
 */
+
