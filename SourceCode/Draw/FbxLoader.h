@@ -8,6 +8,8 @@
 #include"Model.h"
 #include"TextureManager.h"
 
+using namespace std;
+
 class FbxLoader
 {
 private:
@@ -29,28 +31,34 @@ public:
 	void LoadModelFlomFile(const string& modelname);
 
 	void ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent = nullptr);
-
+	/// <summary>
+	/// メッシュ読み取り
+	/// </summary>
+	/// <param name="model">読み込み先モデルオブジェクト</param>
+	/// <param name="fbxNode">解析対象のノード対象</param>
 	void ParseMesh(Model* model, FbxNode* fbxNode);
-
+	//頂点座標読み込み
 	void ParseMeshVertices(Model* model, FbxMesh* fbxMesh);
-
+	//面情報読み込み
 	void ParseMeshFaces(Model* model, FbxMesh* fbxMesh);
-
+	//マテリアル読み込み
 	void ParseMaterial(Model* model, FbxNode* fbxNode);
-
+	//テクスチャ読み込み
 	void LoadTexture(Model* model, const std::string& fullpath);
 
 	static const string baseDirectory;
+	//ディレクリを含んだファイルパスからファイル名を抽出する
+	string ExtractFileName(const string& path);
 
 private:
+
+	static const string defaultTextureFileName;
 
 	ID3D12Device* device = nullptr;
 
 	FbxManager* fbxManager = nullptr;
 
 	FbxImporter* fbxImpoter = nullptr;
-
-	
 
 	// privateなコンストラクタ（シングルトンパターン）
 	FbxLoader() = default;

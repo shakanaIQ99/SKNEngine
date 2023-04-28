@@ -35,29 +35,51 @@ struct Node
 class Model
 {
 public:
+	//頂点データ構造体
 	struct VertexPosNormalUv
 	{
-		XMFLOAT3 pos;
-		XMFLOAT3 normal;
-		XMFLOAT2 uv;
+		XMFLOAT3 pos;	//xyz座標
+		XMFLOAT3 normal;//法線ベクトル
+		XMFLOAT2 uv;	//uv座標
 	};
+	struct Material
+	{
+		XMFLOAT3 ambient;
+		XMFLOAT3 diffuse;
+		XMFLOAT3 specular;
 
+		float alpha;
+		Material()
+		{
+			ambient = { 0.3f,0.3f,0.3f };
+			diffuse = { 0.0f,0.0f,0.0f };
+			specular = { 0.0f,0.0f,0.0f };
+			alpha = 1.0f;
+
+		}
+
+	};
+	//メッシュを持つノード
 	Node* meshNode = nullptr;
-
+	//頂点データ
 	vector<VertexPosNormalUv>vertices;
 
+	Material material;
+	//頂点インデックス配列
 	vector<unsigned short> indices;
 
 
 	friend class FbxLoader;
 
-
+	
+	TextureData* tex;
 
 private:
 
 	std::string name;
 
 	std::vector<Node> nodes;
+
 
 };
 
