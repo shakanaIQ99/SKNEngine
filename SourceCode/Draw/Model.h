@@ -40,9 +40,9 @@ public:
 
 		Material()
 		{
-			ambient = { 0.3f,0.3f,0.3f };
-			diffuse = { 0.0f,0.0f,0.0f };
-			specular = { 0.0f,0.0f,0.0f };
+			ambient = { 0.06f,0.06f,0.06f };
+			diffuse = { 0.8f,0.8f,0.8f };
+			specular = { 0.1f,0.1f,0.1f };
 			alpha = 1.0f;
 
 		}

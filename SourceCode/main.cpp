@@ -70,25 +70,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 	uint32_t tex1 = texturemanager->LoadTexture("Resources/visual.png");
 	uint32_t tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
-	uint32_t tex3 = texturemanager->LoadTexture("Resources/effect1.png");
-	uint32_t tex4 = texturemanager->LoadTexture("Resources/effect3.png");
-
+	
 	Model* skydome = Model::LoadFromOBJ("skydome");
-	Model* model2 = Model::LoadFromOBJ("maru", true);
-	Model* model = Model::LoadFromOBJ("chr_sword");
+	Model* model2 = Model::LoadFromOBJ("UVBall",true);
+	Model* model = Model::LoadFromOBJ("chr_sword",true);
 	Model* gra = Model::LoadFromOBJ("ground");
-	Model* tri = Model::LoadFromOBJ("sankaku");
-	Model* box = Model::LoadFromOBJ("boxobj");
+
 	WorldTransform ground;
 	WorldTransform skywt;
 	WorldTransform human;
 	WorldTransform ball;
 	WorldTransform wt3;
 	WorldTransform wt4;
-	WorldTransform raybox;
-	WorldTransform p1;
-	WorldTransform p2;
-
+	
 	Sprite2D* sprite = nullptr;
 	sprite = new Sprite2D();
 	sprite->Initialize(spritecommon, &wt3, tex1);
@@ -105,16 +99,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3D* obj2 = nullptr;
 	Object3D* objskydome = nullptr;
 	Object3D* objground = nullptr;
-	Object3D* Objray = nullptr;
-
-	ParticleManager* particleMan = nullptr;
-	ParticleManager* particleMan2 = nullptr;
-
-	particleMan = ParticleManager::Create(tex3,&p1);
-	particleMan2 = ParticleManager::Create(tex4,&p2);
-
-	Objray = Object3D::Create(&raybox);
-	Objray->SetModel(box);
 
 	skywt.scale_ = { 0.5f,0.5f,0.5f };
 
@@ -127,118 +111,64 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	obj1 = Object3D::Create(&human);
 	obj1->SetModel(model);
 	obj2 = Object3D::Create(&ball);
-	obj2->SetModel(model);
+	obj2->SetModel(model2);
 
 	//
 	sprite2->Wt->translation_.y = 5.0f;
 	ViewProjection camera;
 	camera.Initialize();
 
-	raybox.translation_ = { 0,-14.0f,0 };
-	raybox.scale_ = { 0.5f,10.0f,0.5f };
-
-
+	
 	XMFLOAT3 eye = { 0,0,-50 };
+	XMFLOAT3 target = { 0,0,0 };
 
 	ground.translation_.y = -10.0f;
 
 	human.translation_.x = -10.0f;
 	human.translation_.y = -5.0f;
 	ball.translation_.x = 10.0f;
+	ball.color = { 1.0f,0,0,1.0f };
 
-	int scenenum = 0;
+
 
 	float ambientColor[3] = { 1,1,1 };
 
-	float lightDir0[3] = { 0,0,-1 };
-	float lightColor0[3] = { 1,0,0 };
+	float lightDir0[3] = { 1,-1,1 };
+	float lightColor0[3] = { 1,1,1 };
 
-	float lightDir1[3] = { 0,1,0 };
+	/*float lightDir1[3] = { 0,1,0 };
 	float lightColor1[3] = { 0,1,0 };
 
 	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
+	float lightColor2[3] = { 0,0,1 };*/
 
-	float pointLightPos[3] = { 0.5f,1.0f,0 };
+	float litX = 0.0f;
+	float litY = 0.0f;
+	float litZ = 0.0f;
+
+	float pointLightPos[3] = { litX,litY,litZ };
 	float pointLightColor[3] = { 1,1,1 };
 
 	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
 
-	light->SetDirLightActive(0, false);
-	light->SetDirLightActive(1, false);
-	light->SetDirLightActive(2, false);
-	light->SetPointLightActive(0, true);
+	light->SetDirLightActive(0, true);
+	light->SetPointLightActive(0, false);
 
 	wt3.translation_ = { 100.0f,100.0f,0.0f };
 
-	Sphere sp;
-	Plane pl;
-	Triangle triangle;
-	Ray ray;
-
-	ray.dir = XMVectorSet(0, -1, 0, 0);
-
-	triangle.p0 = XMVectorSet(-10.0f, ground.translation_.y, -10.0f, 1);
-	triangle.p1 = XMVectorSet(-10.0f, ground.translation_.y, 10.0f, 1);
-	triangle.p2 = XMVectorSet(10.0f, ground.translation_.y, -10.0f, 1);
-	triangle.normal = XMVectorSet(0.0f, 1.0f, 0.0f, 0);
-	pl.normal = XMVectorSet(0, 1, 0, 0);
-
-	bool Hit;
-	bool rayHit;
-
+	
 	light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
 	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
 	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
+
+	obj2->color = { 1.0f,0,0,1.0f };
 
 	float a = 0.2f;
 
 	wt3.scale_ = { 0.5f,0.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
 
-	for (int i = 0; i < 100; i++)
-	{
-		const float rnd_pos = 20.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-
-		const float rnd_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		particleMan->Add(150, pos, vel, acc, 1.0f, 0.0f);
-
-	}
-	for (int j = 0; j < 100; j++)
-	{
-		const float rnd_pos = 10.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-
-		const float rnd_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		particleMan2->Add(300, pos, vel, acc, 1.0f, 0.0f);
-
-	}
-
+	
 
 	while (true)
 	{
@@ -251,185 +181,107 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->Begin();
 		static XMVECTOR lightDir = { 0,1,5,0 };
 
-		if (input->GetKey(DIK_0))
-		{
-			scenenum = 0;
-			ball.translation_.x = 10.0f;
-
-		}
-		if (input->GetKey(DIK_1))
-		{
-
-			scenenum = 1;
-			ball.translation_ = { 10.0f,-5.0f,-3.0f };
-			raybox.translation_ = { 0,-14.0f,2.0f };
-		}
-		if (input->GetKey(DIK_2))
-		{
-
-			scenenum = 2;
-			ball.translation_ = { 0,-2.0f,0 };
-
-			raybox.translation_ = { 0,0,0 };
-		}
+		light->SetAmbientColor(XMFLOAT3(ambientColor));
+		light->SetDirLightDir(0, XMVECTOR{ lightDir0[0],lightDir0[1] ,lightDir0[2],0 });
+		light->SetDirLightColor(0, XMFLOAT3(lightColor0));
+		
+		light->SetPointLightPos(0, XMFLOAT3({ litX,litY,litZ }));
 
 		if (input->GetKey(DIK_RIGHT))
 		{
-			eye.x += 0.2f;
+			if (input->GetKey(DIK_E))
+			{
+				eye.x += 1.0f;
+			}
+			target.x += 1.0f;
 		}
 		if (input->GetKey(DIK_LEFT))
 		{
-			eye.x -= 0.2f;
+			if (input->GetKey(DIK_E))
+			{
+				eye.x -= 1.0f;
+			}
+			target.x -= 1.0f;
 		}
 		if (input->GetKey(DIK_UP))
 		{
-			eye.y += 0.2f;
+			if (input->GetKey(DIK_E))
+			{
+				eye.z += 1.0f;
+			}
+			target.z += 1.0f;
 		}
 		if (input->GetKey(DIK_DOWN))
 		{
-			eye.y -= 0.2f;
+			if (input->GetKey(DIK_E))
+			{
+				eye.z -= 1.0f;
+			}
+			target.z -= 1.0f;
 		}
-		sp.center = XMVectorSet(ball.translation_.x, ball.translation_.y, ball.translation_.z, 1);
-		sp.radius = ball.scale_.y;
-		ray.start = XMVectorSet(raybox.translation_.x, raybox.translation_.y + raybox.scale_.y, raybox.translation_.z, 1.0f);
-		pl.distance = ground.translation_.y;
-
-		switch (scenenum)
+		if (input->GetKey(DIK_W))
 		{
-		case 1:
-			objground->SetModel(tri);
-			if (ball.translation_.y < -20.0f || ball.translation_.y > 10.0f)
+			if (input->GetKey(DIK_SPACE))
 			{
-				a *= -1.0f;
-			}
-			ball.translation_.y += a;
-			raybox.translation_.z -= a;
-
-
-			if (Hit = Collision::CheckSphere2Triangle(sp, triangle))
-			{
-				obj2->color = { 1,0,0,1 };
-
+				litY += 2.0f;
 			}
 			else
 			{
-				obj2->color = { 1,1,1,1 };
-
+				litZ += 2.0f;
 			}
-			if (rayHit = Collision::CheckRay2Triangle(ray, triangle))
-			{
-				Objray->color = { 1,0,0,1 };
-			}
-			else
-			{
-				Objray->color = { 1,1,1,1 };
-			}
-			break;
-
-
-			break;
-		case 0:
-			objground->SetModel(gra);
-
-			if (ball.translation_.y < -10.0f || ball.translation_.y > 10.0f)
-			{
-				a *= -1.0f;
-			}
-			ball.translation_.y += a;
-			raybox.translation_.y += a;
-
-
-			if (Hit = Collision::CheckSphere2Plane(sp, pl))
-			{
-				obj2->color = { 1,0,0,1 };
-
-			}
-			else
-			{
-				obj2->color = { 1,1,1,1 };
-
-			}
-			if (rayHit = Collision::CheckRay2Plane(ray, pl))
-			{
-				Objray->color = { 1,0,0,1 };
-			}
-			else
-			{
-				Objray->color = { 1,1,1,1 };
-			}
-			break;
-
-		case 2:
-			if (raybox.translation_.x < -20.0f || raybox.translation_.x > 20.0f)
-			{
-				a *= -1.0f;
-			}
-			raybox.translation_.x += a;
-			if (rayHit = Collision::CheckRay2Sphere(ray, sp))
-			{
-				Objray->color = { 1,0,0,1 };
-			}
-			else
-			{
-				Objray->color = { 1,1,1,1 };
-			}
-			break;
 		}
-
-		particleMan->Update(&camera);
-		particleMan2->Update(&camera);
-
+		if (input->GetKey(DIK_S))
+		{
+			if (input->GetKey(DIK_SPACE))
+			{
+				litY -= 2.0f;
+			}
+			else
+			{
+				litZ -= 2.0f;
+			}
+		}
+		if (input->GetKey(DIK_A))
+		{
+			litX -= 2.0f;
+		}
+		if (input->GetKey(DIK_D))
+		{
+			litX += 2.0f;
+		}
 		light->Update();
 
 		obj1->Update(&camera);
 		obj2->Update(&camera);
 		objskydome->Update(&camera);
 		objground->Update(&camera);
-		Objray->Update(&camera);
 		sprite->Update();
 		sprite2->Update();
 		camera.SetEye(eye);
+		camera.SetTarget(target);
 		camera.Update();
 
 
-		ImGui::Text("PosY %4.1f", sp.center.m128_f32[1] - sp.radius);
-		ImGui::Text("Plane %4.1f", pl.distance);
-		ImGui::Text("Hit %d", Hit);
-		ImGui::Text("RayHit %d", rayHit);
+		
+		
 
 		imGuiManager->End();
 		dxCommon->PreDraw();
 
 		Object3D::PreDraw(dxCommon->GetCommandList());
 		objskydome->Draw();
-		switch (scenenum)
-		{
-		case 1:
-			//obj1->Draw();
-			obj2->Draw();
-			objground->Draw();
-			Objray->Draw();
-			break;
-		case 0:
-			obj2->Draw();
-			Objray->Draw();
-			objground->Draw();
-			break;
-		case 2:
-			obj2->Draw();
-			Objray->Draw();
-			break;
-		}
-
+		
+		obj1->Draw();
+		obj2->Draw();
+		objground->Draw();
+		
 
 
 
 		Object3D::PostDraw();
 		ParticleManager::PreDraw(dxCommon->GetCommandList());
 
-		// 3Dオブクジェクトの描画
-		particleMan->Draw();
-		particleMan2->Draw();
+		
 
 
 		/// <summary>
@@ -441,9 +293,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		spritecommon->PreDraw();
 
-		sprite->Draw({0,0});
-		sprite2->DrawClip({ 80.0f,180.0f },{200.0f,100.0f},{});
-
+		
 		spritecommon->PostDraw();
 
 		imGuiManager->Draw();
@@ -462,11 +312,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete objground;
 	delete gra;
 	delete skydome;
-	delete particleMan;
-	delete particleMan2;
-	delete box;
-	delete tri;
-	delete Objray;
 	delete sprite;
 	delete sprite2;
 	delete light;

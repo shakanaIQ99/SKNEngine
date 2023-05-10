@@ -17,8 +17,8 @@ private:
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: 
-	static const int DirLightNum = 3;
-	static const int PointLightNum = 3;
+	static const int DirLightNum = 1;
+	static const int PointLightNum = 1;
 
 public: 
 

@@ -20,7 +20,7 @@ float4 main(VSOutput input) : SV_TARGET
     {
         if(dirLights[i].active)
         {
-            float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
+            float3 dotlightnormal = saturate(dot(dirLights[0].lightv, input.normal));
             
             float3 reflect = normalize(-dirLights[i].lightv + 2 * dotlightnormal * input.normal);
             
@@ -46,7 +46,7 @@ float4 main(VSOutput input) : SV_TARGET
             
             
             
-            float3 dotlightnormal = dot(lightv, input.normal);
+            float3 dotlightnormal = saturate(dot(lightv, input.normal));
             
             float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
             
@@ -54,11 +54,11 @@ float4 main(VSOutput input) : SV_TARGET
             
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
             
-            shadecolor.rgb +=atten* (diffuse + specular) * pointLights[i].lightcolor;
+            shadecolor.rgb +=atten* (diffuse + specular + ambient) * pointLights[i].lightcolor;
             
         }
     }
-    shadecolor.a = m_alpha;
+
     
     return shadecolor * texcolor;
     
