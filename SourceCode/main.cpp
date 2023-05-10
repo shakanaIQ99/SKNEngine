@@ -73,7 +73,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("UVBall",true);
-	Model* model = Model::LoadFromOBJ("chr_sword",true);
+	Model* model = Model::LoadFromOBJ("Dragon",true);
 	Model* gra = Model::LoadFromOBJ("ground");
 
 	WorldTransform ground;
@@ -113,6 +113,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	obj2 = Object3D::Create(&ball);
 	obj2->SetModel(model2);
 
+	obj1->color = { 0.3f,1.0f,0.0f,1.0f };
 	//
 	sprite2->Wt->translation_.y = 5.0f;
 	ViewProjection camera;

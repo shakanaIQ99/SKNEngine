@@ -8,7 +8,7 @@ float4 main(VSOutput input) : SV_TARGET
     float4 texcolor = tex.Sample(smp, input.uv)*color;
     
     
-    const float shininess = 4.0f;
+    const float shininess = 50.0f;
     
     float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
     
