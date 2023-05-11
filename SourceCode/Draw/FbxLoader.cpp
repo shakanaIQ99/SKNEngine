@@ -36,7 +36,7 @@ void FbxLoader::Finalize()
 
 }
 
-void FbxLoader::LoadModelFlomFile(const string& modelname)
+Model* FbxLoader::LoadModelFlomFile(const string& modelname)
 {
     const string directoryPath = baseDirectory + modelname + "/";
 
@@ -64,10 +64,11 @@ void FbxLoader::LoadModelFlomFile(const string& modelname)
 
     fbxScene->Destroy();
 
+    return model;
 
 }
 
-void FbxLoader::ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent = nullptr)
+void FbxLoader::ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent)
 {
     model->nodes.emplace_back();
     Node& node = model->nodes.back();
@@ -296,6 +297,8 @@ void FbxLoader::LoadTexture(Model* model, const std::string& fullpath)
     uint32_t handl = TextureManager::Load(fullpath);
 
     model->tex = TextureManager::GetTextureData(handl);
+
+
 }
 
 string FbxLoader::ExtractFileName(const string& path)

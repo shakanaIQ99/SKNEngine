@@ -13,10 +13,21 @@ void Model::CreateBuffers(ID3D12Device* device)
 	indexBuffer = make_unique<IndexBuffer>();
 	indexBuffer->Create(device, indices.size());
 
+	vbView = vertexBuffer->GetView();
+	ibView = indexBuffer->GetView();
+
 }
 
 void Model::Draw(ID3D12GraphicsCommandList* cmdList)
 {
+	cmdList->IASetVertexBuffers(0, 1,&vbView);
+	cmdList->IASetIndexBuffer(&ibView);
+
+	cmdList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
+
+	cmdList->SetGraphicsRootDescriptorTable(1, tex->gpuHandle);
+
+	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
 

@@ -28,7 +28,7 @@ public:
 
 	void Finalize();
 
-	void LoadModelFlomFile(const string& modelname);
+	Model* LoadModelFlomFile(const string& modelname);
 
 	void ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent = nullptr);
 	/// <summary>

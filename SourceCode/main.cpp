@@ -43,8 +43,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(window);
+	ViewProjection camera;
+	camera.Initialize();
 
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	Object3D::SetDevice(dxCommon->GetDevice());
+	Object3D::SetCamera(&camera);
+	Object3D::CreateGraphicsPipeline();
 
 	ImGuiManager* imGuiManager = nullptr;
 	imGuiManager = new ImGuiManager();
@@ -70,7 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	spritecommon = new SpriteCommon();
 	spritecommon->Initialize(dxCommon);
 
-	Object3D::StaticInitialize(dxCommon->GetDevice(), DxWindow::window_width, DxWindow::window_height);
+	
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 	uint32_t tex1 = texturemanager->LoadTexture("Resources/visual.png");
@@ -79,8 +84,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	uint32_t tex4 = texturemanager->LoadTexture("Resources/effect3.png");
 
 	
-	FbxLoader::GetInstance()->LoadModelFlomFile("cube");
+	
+	Model* model1 = nullptr;
+	Object3D* objec1 = nullptr;
 
+	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("cube");
+	WorldTransform atm;
+
+	objec1 = new Object3D();
+	objec1->Initilaize(&atm);
+	objec1->SetModel(model1);
 	
 	WorldTransform wt3;
 	WorldTransform wt4;
@@ -97,8 +110,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	LightGroup* light = nullptr;
 	light = LightGroup::Create();
 
-	Object3D::SetLight(light);
-
+	
+	
 	
 
 	ParticleManager* particleMan = nullptr;
@@ -111,11 +124,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//
 	sprite2->Wt->translation_.y = 5.0f;
-	ViewProjection camera;
-	camera.Initialize();
+	
 
 	
-	XMFLOAT3 eye = { 0,0,-50 };
+	XMFLOAT3 eye = { 0,0,-100 };
 
 
 
@@ -143,14 +155,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	light->SetPointLightActive(0, true);
 
 	wt3.translation_ = { 100.0f,100.0f,0.0f };
-
-	
-
-	
-
-	
-	bool Hit;
-	bool rayHit;
 
 	light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
 	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
@@ -245,7 +249,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		sprite->Update();
 		sprite2->Update();
 		camera.SetEye(eye);
+		camera.SetTarget({ 0,20,0 });
 		camera.Update();
+		objec1->Update();
 
 
 	
@@ -253,9 +259,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->End();
 		dxCommon->PreDraw();
 
-		Object3D::PreDraw(dxCommon->GetCommandList());
+		objec1->Draw(dxCommon->GetCommandList());
+		/*Object3D::PreDraw(dxCommon->GetCommandList());
 		
-		Object3D::PostDraw();
+		Object3D::PostDraw();*/
 		ParticleManager::PreDraw(dxCommon->GetCommandList());
 
 		// 3Dオブクジェクトの描画
@@ -288,7 +295,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	delete particleMan;
 	delete particleMan2;
-	
+	delete objec1;
+	delete model1;
 	delete sprite;
 	delete sprite2;
 	delete light;

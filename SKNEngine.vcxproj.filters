@@ -265,6 +265,9 @@
     <None Include="Resources\Shader\Particle.hlsli">
       <Filter>ソース ファイル\リソース ファイル</Filter>
     </None>
+    <None Include="Resources\Shader\FBX.hlsli">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\BasicPS.hlsl">
@@ -286,6 +289,12 @@
       <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ParticleVS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\FBXVS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\FBXPS.hlsl">
       <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
