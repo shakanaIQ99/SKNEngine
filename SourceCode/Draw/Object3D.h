@@ -33,7 +33,7 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
-	void SetModel(Model* model) { this->model = model; }
+	void SetModel(Model* model);
 
 private:
 

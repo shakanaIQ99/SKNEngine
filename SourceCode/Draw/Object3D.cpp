@@ -127,6 +127,12 @@ void Object3D::Update()
 	wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(), camera->Geteye());
 }
 
+void Object3D::SetModel(Model* model)
+{
+	this->model = model;
+	this->model->CreateBuffers(device);
+}
+
 void Object3D::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	if (model == nullptr)

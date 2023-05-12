@@ -32,7 +32,7 @@ void VertexBuffer::Create(ID3D12Device* device, size_t length, size_t singleSize
 
 	// 頂点バッファビューの設定
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = static_cast<UINT>(length * singleSize);
+	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = static_cast<UINT>(singleSize);
 
 	result = vertBuff->Map(0, nullptr, &bufferMappedPtr);
