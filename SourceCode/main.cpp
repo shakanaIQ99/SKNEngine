@@ -18,7 +18,15 @@
 #include"FPS.h"
 #include"ParticleManager.h"
 
+template <class T>
+inline void complete_type_safe_delete(T * &p) {
+	//  不完全な型のポインタをdeleteしようとした時にコンパイルエラーにする
+	typedef char type_must_be_complete[sizeof(T) ? 1 : -1];
+	(void)sizeof(type_must_be_complete);
 
+	delete p;
+	p = nullptr;
+}
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -74,6 +82,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("UVBall",true);
 	Model* model = Model::LoadFromOBJ("Dragon",true);
+	Model* hito = Model::LoadFromOBJ("chr_sword", true);
 	Model* gra = Model::LoadFromOBJ("ground");
 
 	WorldTransform ground;
@@ -113,7 +122,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	obj2 = Object3D::Create(&ball);
 	obj2->SetModel(model2);
 
-	obj1->color = { 0.3f,1.0f,0.0f,1.0f };
+	obj1->color = { 1.0f,1.0f,1.0f,1.0f };
 	//
 	sprite2->Wt->translation_.y = 5.0f;
 	ViewProjection camera;
@@ -128,7 +137,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	human.translation_.x = -10.0f;
 	human.translation_.y = -5.0f;
 	ball.translation_.x = 10.0f;
-	ball.color = { 1.0f,0,0,1.0f };
+	//ball.color = { 1.0f,0,0,1.0f };
 
 
 
@@ -162,7 +171,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
 	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
 
-	obj2->color = { 1.0f,0,0,1.0f };
+	//obj2->color = { 1.0f,0,0,1.0f };
 
 	float a = 0.2f;
 
@@ -250,6 +259,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			litX += 2.0f;
 		}
+		ball.rotation_.y += 0.2f;
+		human.rotation_.y += 0.05f;
+
 		light->Update();
 
 		obj1->Update(&camera);
@@ -304,22 +316,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	}
 
-	delete input;
-	delete obj1;
-	delete obj2;
-	delete model;
-	delete model2;
-	delete objskydome;
-	delete objground;
-	delete gra;
-	delete skydome;
-	delete sprite;
-	delete sprite2;
-	delete light;
-	delete spritecommon;
+	complete_type_safe_delete(input);
+	complete_type_safe_delete(obj1);
+	complete_type_safe_delete(obj2);
+	complete_type_safe_delete(model);
+	complete_type_safe_delete(model2);
+	complete_type_safe_delete(objskydome);
+	complete_type_safe_delete(objground);
+	complete_type_safe_delete(gra);
+	complete_type_safe_delete(hito);
+	complete_type_safe_delete(skydome);
+	complete_type_safe_delete(sprite);
+	complete_type_safe_delete(sprite2);
+	complete_type_safe_delete(light);
+	complete_type_safe_delete(spritecommon);
 	imGuiManager->Finalize();
-	delete dxCommon;
-	delete imGuiManager;
+	complete_type_safe_delete(dxCommon);
+	complete_type_safe_delete(imGuiManager);
 	texturemanager->DeleteInstance();
 	//delete texturemanager;
 	window->TerminateGameWindow();

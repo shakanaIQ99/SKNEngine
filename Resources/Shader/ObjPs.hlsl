@@ -8,7 +8,7 @@ float4 main(VSOutput input) : SV_TARGET
     float4 texcolor = tex.Sample(smp, input.uv)*color;
     
     
-    const float shininess = 50.0f;
+    const float shininess = 4.0f;
     
     float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
     
@@ -28,21 +28,21 @@ float4 main(VSOutput input) : SV_TARGET
             
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
             
-            shadecolor.rgb += (diffuse + specular) * dirLights[i].lightcolor;
+            shadecolor.rgb += (diffuse + specular*5) * dirLights[i].lightcolor;
             
         }
         
     }
-    for (int i = 0; i < POINT_LIGHT_NUM; i++)
+    for (int j = 0; j < POINT_LIGHT_NUM; j++)
     {
-        if (pointLights[i].active)
+        if (pointLights[j].active)
         {
             
-            float3 lightv = pointLights[i].lightpos - input.worldpos.xyz;
+            float3 lightv = pointLights[j].lightpos - input.worldpos.xyz;
             
             float d = length(lightv);
             
-            float atten = 1.0f / (pointLights[i].lightatten.x + pointLights[i].lightatten.y * d + pointLights[i].lightatten.z * d * d);
+            float atten = 1.0f / (pointLights[j].lightatten.x + pointLights[j].lightatten.y * d + pointLights[j].lightatten.z * d * d);
             
             
             
@@ -54,7 +54,7 @@ float4 main(VSOutput input) : SV_TARGET
             
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
             
-            shadecolor.rgb +=atten* (diffuse + specular + ambient) * pointLights[i].lightcolor;
+            shadecolor.rgb +=atten* (diffuse + specular + ambient) * pointLights[j].lightcolor;
             
         }
     }
