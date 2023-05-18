@@ -11,7 +11,7 @@ public:
     IndexBuffer() = default;
     ~IndexBuffer() = default;
 
-    void Create(ID3D12Device* device, size_t length, const uint32_t* data = nullptr);
+    void Create(ID3D12Device* device, size_t length, const void* data = nullptr);
 
     D3D12_INDEX_BUFFER_VIEW GetView() const;
 

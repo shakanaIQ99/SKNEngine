@@ -1,9 +1,9 @@
 cbuffer ConstBufferDataMaterial:register(b0)
 {
-	float4 color;
 	matrix viewproj;
     matrix world;
     float3 cameraPos;
+	float4 color;
 };
 
 cbuffer ConstBufferDataMaterial1:register(b1)

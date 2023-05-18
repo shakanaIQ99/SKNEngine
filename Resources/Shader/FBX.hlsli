@@ -1,9 +1,9 @@
 cbuffer cbuff0 : register(b0)
 {
-	float4 color;
 	matrix viewproj;
 	matrix world;
 	float3 cameraPos;
+	float4 color;
 };
 
 struct VSInput

@@ -12,10 +12,10 @@ using namespace Microsoft::WRL;
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransformB0
 {
-	XMFLOAT4 color;
 	XMMATRIX viewproj;
 	XMMATRIX world;
 	XMFLOAT3 cameraPos;
+	XMFLOAT4 color;
 };
 
 

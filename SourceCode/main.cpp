@@ -90,6 +90,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("cube");
 	WorldTransform atm;
+	atm.CreateConstBuffer(dxCommon->GetDevice());
 
 	objec1 = new Object3D();
 	objec1->Initilaize(&atm);
@@ -127,7 +128,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 
 	
-	XMFLOAT3 eye = { 0,0,-100 };
+	XMFLOAT3 eye = { 0,20,-200 };
 
 
 
@@ -266,8 +267,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		ParticleManager::PreDraw(dxCommon->GetCommandList());
 
 		// 3Dオブクジェクトの描画
-		particleMan->Draw();
-		particleMan2->Draw();
+		//particleMan->Draw();
+		//particleMan2->Draw();
 
 
 		/// <summary>
@@ -279,8 +280,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		spritecommon->PreDraw();
 
-		sprite->Draw({0,0});
-		sprite2->DrawClip({ 80.0f,180.0f },{200.0f,100.0f},{});
+		//sprite->Draw({0,0});
+		//sprite2->DrawClip({ 80.0f,180.0f },{200.0f,100.0f},{});
 
 		spritecommon->PostDraw();
 

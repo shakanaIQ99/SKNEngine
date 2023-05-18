@@ -75,7 +75,7 @@ public:
 
 	Material material;
 	//頂点インデックス配列
-	vector<unsigned short> indices;
+	vector<uint32_t> indices;
 
 	ComPtr<ID3D12Resource> texBuff;
 
