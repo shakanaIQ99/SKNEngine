@@ -280,8 +280,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		spritecommon->PreDraw();
 
-		//sprite->Draw({0,0});
-		//sprite2->DrawClip({ 80.0f,180.0f },{200.0f,100.0f},{});
+		sprite->Draw({0,0});
+		sprite2->DrawClip({ 80.0f,180.0f },{200.0f,100.0f},{});
 
 		spritecommon->PostDraw();
 

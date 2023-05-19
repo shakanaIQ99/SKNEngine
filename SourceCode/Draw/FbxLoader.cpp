@@ -2,7 +2,7 @@
 #include<cassert>
 
 const string FbxLoader::baseDirectory = "Resources/";
-const string FbxLoader::defaultTextureFileName = "white1x1.png";
+const string FbxLoader::defaultTextureFileName = "visual.png";
 
 using namespace DirectX;
 

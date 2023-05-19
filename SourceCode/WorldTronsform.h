@@ -15,6 +15,7 @@ struct ConstBufferDataWorldTransformB0
 	XMMATRIX viewproj;
 	XMMATRIX world;
 	XMFLOAT3 cameraPos;
+	float pad1;
 	XMFLOAT4 color;
 };
 
