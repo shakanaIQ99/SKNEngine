@@ -150,6 +150,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LevelLoder.cpp" />
     <ClCompile Include="SourceCode\Collision.cpp" />
     <ClCompile Include="SourceCode\EngineCore\ConstBuffer.cpp" />
     <ClCompile Include="SourceCode\EngineCore\DescriptorHeap.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="SourceCode\WorldTronsform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LevelLoder.h" />
     <ClInclude Include="SourceCode\Collision.h" />
     <ClInclude Include="SourceCode\CollisionPrimitive.h" />
     <ClInclude Include="SourceCode\EngineCore\ConstBuffer.h" />
@@ -203,6 +205,7 @@
     <ClInclude Include="SourceCode\Imgui\imstb_truetype.h" />
     <ClInclude Include="SourceCode\EngineCore\IndexBuffer.h" />
     <ClInclude Include="SourceCode\Input.h" />
+    <ClInclude Include="SourceCode\json.hpp" />
     <ClInclude Include="SourceCode\Light\DirectionLight.h" />
     <ClInclude Include="SourceCode\Light\LightGroup.h" />
     <ClInclude Include="SourceCode\Draw\Model.h" />
