@@ -150,6 +150,9 @@
     <ClCompile Include="SourceCode\main.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\GameScene.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Draw\Model.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Input.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\GameScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
