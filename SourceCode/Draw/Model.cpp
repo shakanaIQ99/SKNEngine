@@ -35,6 +35,7 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+
 }
 
 
