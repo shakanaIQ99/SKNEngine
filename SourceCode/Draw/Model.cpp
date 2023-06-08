@@ -30,7 +30,9 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	cmdList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
 
-	cmdList->SetGraphicsRootDescriptorTable(1, tex->srvHeap->GetGPUDescriptorHandleForHeapStart());
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = tex->gpuHandle;
+
+	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }

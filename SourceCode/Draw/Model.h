@@ -77,7 +77,7 @@ public:
 	//頂点インデックス配列
 	vector<uint32_t> indices;
 
-	ComPtr<ID3D12Resource> texBuff;
+	//ComPtr<ID3D12Resource> texBuff;
 
 	unique_ptr<VertexBuffer> vertexBuffer = {};
 
