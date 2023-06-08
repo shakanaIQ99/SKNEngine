@@ -43,12 +43,16 @@ public:
 	void ParseMeshFaces(Model* model, FbxMesh* fbxMesh);
 	//マテリアル読み込み
 	void ParseMaterial(Model* model, FbxNode* fbxNode);
+	//スキニング情報の読み取り
+	void ParseSkin(Model* model, FbxMesh* fbxMesh);
 	//テクスチャ読み込み
 	void LoadTexture(Model* model, const std::string& fullpath);
 
 	static const string baseDirectory;
 	//ディレクリを含んだファイルパスからファイル名を抽出する
 	string ExtractFileName(const string& path);
+
+	static void ConvertMatrixFromFbx(XMMATRIX* dst, const FbxAMatrix& src);
 
 private:
 

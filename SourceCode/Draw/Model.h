@@ -9,6 +9,7 @@
 #include"WorldTronsform.h"
 #include"IndexBuffer.h"
 #include"VertexBuffer.h"
+#include <fbxsdk.h>
 
 
 using namespace DirectX;
@@ -35,6 +36,7 @@ struct Node
 };
 
 
+
 class Model
 {
 
@@ -44,12 +46,18 @@ private:
 	
 
 public:
+
+	~Model();
+
+	static const int MAX_BONE_INDICES = 4;
 	//頂点データ構造体
-	struct VertexPosNormalUv
+	struct VertexPosNormalUvSkin
 	{
 		XMFLOAT3 pos;	//xyz座標
 		XMFLOAT3 normal;//法線ベクトル
 		XMFLOAT2 uv;	//uv座標
+		UINT boneIndex[MAX_BONE_INDICES];
+		float boneWeight[MAX_BONE_INDICES];
 	};
 	struct Material
 	{
@@ -68,10 +76,52 @@ public:
 		}
 
 	};
+	struct Bone
+	{
+		std::string name;
+
+		DirectX::XMMATRIX invInitialPose;
+
+		FbxCluster* fbxCluster;
+
+		Bone(const std::string& name)
+		{
+			this->name = name;
+		}
+	};
+
+	
+	
+
+	friend class FbxLoader;
+	FbxScene* fbxScene = nullptr;
+	
+	
+
+	void CreateBuffers(ID3D12Device* device);
+
+
+	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+	vector<Bone>& GetBones() { return bones; }
+	FbxScene* GetFbxScene() { return fbxScene; }
+private:
+
+	string name;
+
+	vector<Node> nodes;
+
+	vector<Bone> bones;
+
+
+
+	D3D12_VERTEX_BUFFER_VIEW vbView;
+	D3D12_INDEX_BUFFER_VIEW ibView;
+
 	//メッシュを持つノード
 	Node* meshNode = nullptr;
 	//頂点データ
-	vector<VertexPosNormalUv>vertices;
+	vector<VertexPosNormalUvSkin>vertices;
 
 	Material material;
 	//頂点インデックス配列
@@ -83,27 +133,9 @@ public:
 
 	unique_ptr<IndexBuffer> indexBuffer = {};
 
-
-	friend class FbxLoader;
-
-	
 	TextureData* tex;
 
-	void CreateBuffers(ID3D12Device* device);
-
-
-	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
-	void Draw(ID3D12GraphicsCommandList* cmdList);
-
-private:
-
-	std::string name;
-
-	std::vector<Node> nodes;
-
-	D3D12_VERTEX_BUFFER_VIEW vbView;
-	D3D12_INDEX_BUFFER_VIEW ibView;
-
+	
 
 };
 
