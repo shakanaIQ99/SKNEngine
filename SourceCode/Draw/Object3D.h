@@ -23,6 +23,15 @@ class Object3D
 {
 public:
 
+	static const int MAX_BONES = 32;
+
+	ComPtr<ID3D12Resource> constBuffSkin;
+
+	struct ConstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
+
 	static void SetDevice(ID3D12Device* device) { Object3D::device = device; }
 	static void SetCamera(ViewProjection* camera) { Object3D::camera = camera; }
 	static void CreateGraphicsPipeline();

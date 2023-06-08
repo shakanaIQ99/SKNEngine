@@ -118,6 +118,33 @@ void Object3D::Initilaize(WorldTransform* Wt)
 {
 	wt = Wt;
 	wt->CreateConstBuffer(device);
+
+	HRESULT result;
+
+	D3D12_HEAP_PROPERTIES cbHeapPropB1{};
+
+	cbHeapPropB1.Type = D3D12_HEAP_TYPE_UPLOAD;
+	D3D12_RESOURCE_DESC cbResourceDescB1{};
+	//リソース設定
+	cbResourceDescB1.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	cbResourceDescB1.Width = (sizeof(ConstBufferDataSkin) + 0xff) & ~0Xff;	//256バイトアライメント
+	cbResourceDescB1.Height = 1;
+	cbResourceDescB1.DepthOrArraySize = 1;
+	cbResourceDescB1.MipLevels = 1;
+	cbResourceDescB1.SampleDesc.Count = 1;
+	cbResourceDescB1.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+	//定数バッファの生成
+	result = device->CreateCommittedResource(
+		&cbHeapPropB1,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&cbResourceDescB1,	//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffSkin)
+	);
+
+	
 }
 
 void Object3D::Update()
@@ -125,6 +152,8 @@ void Object3D::Update()
 	wt->Map();
 
 	wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(), camera->Geteye());
+
+
 }
 
 void Object3D::SetModel(Model* model)
