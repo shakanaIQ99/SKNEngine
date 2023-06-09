@@ -29,7 +29,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	camera.Initialize();
 	Object3D::SetCamera(&camera);
 
-	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
+	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("cube");
 	atm.CreateConstBuffer(dxcommon->GetDevice());
 
 	objec1 = new Object3D();
@@ -49,7 +49,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	
 
-	eye = { 0,0,-20 };
+	eye = { 0,20,-200 };
 	int scenenum = 0;
 
 	float ambientColor[3] = { 1,1,1 };
@@ -80,6 +80,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
 
 	float a = 0.2f;
+
+	atm.rotation_.y = 0.5f;
 
 	wt3.scale_ = { 0.5f,0.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
@@ -127,7 +129,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	}
 
-
+	//objec1->PlayAnimation();
 
 }
 
@@ -157,6 +159,7 @@ void GameScene::Update()
 		atm.translation_.y -= 0.5f;
 	}
 
+	
 
 	particleMan->Update(&camera);
 	particleMan2->Update(&camera);
@@ -167,7 +170,7 @@ void GameScene::Update()
 	sprite->Update();
 	sprite2->Update();
 	camera.SetEye(eye);
-	camera.SetTarget({ 0,0,0 });
+	camera.SetTarget({ 0,20,0 });
 	camera.Update();
 	objec1->Update();
 

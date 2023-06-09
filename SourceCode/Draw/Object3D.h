@@ -44,6 +44,8 @@ public:
 
 	void SetModel(Model* model);
 
+	void PlayAnimation();
+
 private:
 
 	static ID3D12Device* device;
@@ -51,6 +53,16 @@ private:
 	static ViewProjection* camera;
 
 	static PipelineSet fbxPipeline;
+
+	FbxTime frameTime;
+
+	FbxTime startTime;
+
+	FbxTime endTime;
+
+	FbxTime currentTime;
+
+	bool isPlay = false;
 protected:
 	WorldTransform* wt = nullptr;
 
