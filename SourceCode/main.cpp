@@ -71,8 +71,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	
-	FbxLoader::GetInstance()->Finalize();
 	gameScene->Finalize();
+	FbxLoader::GetInstance()->Finalize();
 	delete gameScene;
 	delete dxCommon;
 	window->TerminateGameWindow();

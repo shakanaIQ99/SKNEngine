@@ -29,7 +29,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	camera.Initialize();
 	Object3D::SetCamera(&camera);
 
-	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("cube");
+	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
 	atm.CreateConstBuffer(dxcommon->GetDevice());
 
 	objec1 = new Object3D();
@@ -47,8 +47,9 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	sprite2->Wt->translation_.y = 5.0f;
 
+	
 
-	eye = { 0,20,-200 };
+	eye = { 0,0,-20 };
 	int scenenum = 0;
 
 	float ambientColor[3] = { 1,1,1 };
@@ -141,19 +142,19 @@ void GameScene::Update()
 
 	if (input->GetKey(DIK_RIGHT))
 	{
-		eye.x += 0.2f;
+		atm.translation_.x += 0.5f;
 	}
 	if (input->GetKey(DIK_LEFT))
 	{
-		eye.x -= 0.2f;
+		atm.translation_.x -= 0.5f;
 	}
 	if (input->GetKey(DIK_UP))
 	{
-		eye.y += 0.2f;
+		atm.translation_.y += 0.5f;
 	}
 	if (input->GetKey(DIK_DOWN))
 	{
-		eye.y -= 0.2f;
+		atm.translation_.y -= 0.5f;
 	}
 
 
@@ -166,7 +167,7 @@ void GameScene::Update()
 	sprite->Update();
 	sprite2->Update();
 	camera.SetEye(eye);
-	camera.SetTarget({ 0,20,0 });
+	camera.SetTarget({ 0,0,0 });
 	camera.Update();
 	objec1->Update();
 
@@ -215,6 +216,7 @@ void GameScene::Finalize()
 	delete particleMan;
 	delete particleMan2;
 	delete objec1;
+	//model1->Finalize();
 	delete model1;
 	delete sprite;
 	delete sprite2;

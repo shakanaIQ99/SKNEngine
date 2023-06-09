@@ -7,6 +7,8 @@
 #include<sstream>
 #include<vector>
 
+#include <FbxLoader.h>
+
 
 using namespace std;
 
@@ -149,10 +151,28 @@ void Object3D::Initilaize(WorldTransform* Wt)
 
 void Object3D::Update()
 {
+
+	HRESULT result;
 	wt->Map();
 
 	wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(), camera->Geteye());
 
+	vector<Model::Bone>& bones = model->GetBones();
+
+	ConstBufferDataSkin* constMapSkin = nullptr;
+	
+	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < bones.size(); i++)
+	{
+		XMMATRIX matCurrentPose;
+
+		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(0);
+
+		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
+
+		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
+	}
+	constBuffSkin->Unmap(0, nullptr);
 
 }
 
@@ -176,5 +196,6 @@ void Object3D::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	cmdList->SetGraphicsRootConstantBufferView(0, wt->constBuffB0->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 	model->Draw(cmdList);
 }

@@ -10,6 +10,11 @@ Model::~Model()
 	fbxScene->Destroy();
 }
 
+//void Model::Finalize()
+//{
+//	fbxScene->Destroy();
+//}
+
 void Model::CreateBuffers(ID3D12Device* device)
 {
 	vertexBuffer = make_unique<VertexBuffer>();
