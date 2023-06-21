@@ -154,6 +154,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="SourceCode\GameScene.cpp" />
     <ClCompile Include="SourceCode\Collision.cpp" />
     <ClCompile Include="SourceCode\Draw\FbxLoader.cpp" />
@@ -190,6 +191,7 @@
     <ClCompile Include="SourceCode\WorldTronsform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Draw\PostEffect.h" />
     <ClInclude Include="SourceCode\GameScene.h" />
     <ClInclude Include="SourceCode\Collision.h" />
     <ClInclude Include="SourceCode\CollisionPrimitive.h" />

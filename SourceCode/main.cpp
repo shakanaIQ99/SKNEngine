@@ -63,7 +63,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		
 		dxCommon->PreDraw();
 
-		gameScene->Draw(dxCommon);
+		//gameScene->Draw(dxCommon);
 		dxCommon->PostDraw();
 
 		fps->Update();

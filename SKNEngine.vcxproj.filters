@@ -153,6 +153,9 @@
     <ClCompile Include="SourceCode\GameScene.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
+    <ClCompile Include="PostEffect.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Draw\Model.h">
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\GameScene.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\PostEffect.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
