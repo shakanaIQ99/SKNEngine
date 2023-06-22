@@ -29,7 +29,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	camera.Initialize();
 	Object3D::SetCamera(&camera);
 
-	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("cube");
+	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
 	atm.CreateConstBuffer(dxcommon->GetDevice());
 
 	objec1 = new Object3D();
@@ -81,7 +81,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	float a = 0.2f;
 
-	atm.rotation_.y = 0.5f;
+	atm.rotation_.y = XMConvertToRadians(90.0f);
 
 	wt3.scale_ = { 0.5f,0.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
@@ -129,7 +129,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	}
 
-	//objec1->PlayAnimation();
+	objec1->PlayAnimation();
 
 }
 
