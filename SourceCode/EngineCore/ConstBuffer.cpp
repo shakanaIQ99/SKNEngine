@@ -47,9 +47,9 @@ D3D12_CONSTANT_BUFFER_VIEW_DESC ConstBuffer::GetViewDesc()
 	return D3D12_CONSTANT_BUFFER_VIEW_DESC();
 }
 
-void ConstBuffer::Update(void* data)
-{
-}
+//void ConstBuffer::Update(void* data)
+//{
+//}
 
 ID3D12Resource* ConstBuffer::GetResource()
 {

@@ -16,7 +16,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	texturemanager = TextureManager::GetInstance();
 	texturemanager->StaticInitialize(dxcommon);
-	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
+	//uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
 
 	tex1 = texturemanager->LoadTexture("Resources/visual.png");
 	tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
@@ -79,7 +79,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
 	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
 
-	float a = 0.2f;
+	//float a = 0.2f;
 
 	atm.rotation_.y = XMConvertToRadians(90.0f);
 

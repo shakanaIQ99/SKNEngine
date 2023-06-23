@@ -29,7 +29,7 @@ public:
 	inline const XMFLOAT3& GetLightColor() { return lightcolor; }
 	inline void SetLightAtten(const XMFLOAT3& lightatten) { this->lightatten = lightatten; }
 	inline const XMFLOAT3& GetLightAtten() { return lightatten; }
-	inline void SetActive(bool active) { this->active = active; }
+	inline void SetActive(bool Active) { this->active = Active; }
 	inline bool IsActive() { return active; }
 
 private:

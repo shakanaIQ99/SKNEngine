@@ -14,13 +14,13 @@ DirectXCommon::DirectXCommon()
 	fenceVal = 0;
 }
 
-void DirectXCommon::Initialize(DxWindow* win, int32_t backBufferWidth, int32_t backBufferHeight)
+void DirectXCommon::Initialize(DxWindow* win, int32_t BackBufferWidth, int32_t BackBufferHeight)
 {
 	assert(win);
 
 	dxWin = win;
-	this->backBufferWidth = backBufferWidth;
-	this->backBufferHeight = backBufferHeight;
+	this->backBufferWidth = BackBufferWidth;
+	this->backBufferHeight = BackBufferHeight;
 
 	InitializeDXGIdevice();
 

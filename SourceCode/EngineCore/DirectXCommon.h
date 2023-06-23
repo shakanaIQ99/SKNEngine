@@ -17,7 +17,7 @@ public:
 
 	DirectXCommon();
 
-	void Initialize(DxWindow* win, int32_t backBufferWidth = DxWindow::window_width, int32_t backBufferHeight = DxWindow::window_height);
+	void Initialize(DxWindow* win, int32_t BackBufferWidth = DxWindow::window_width, int32_t BackBufferHeight = DxWindow::window_height);
 
 	void PreDraw();
 
