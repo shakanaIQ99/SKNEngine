@@ -47,7 +47,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	sprite2->Wt->translation_.y = 5.0f;
 
-	
+	 
 
 	eye = { 0,20,-200 };
 	int scenenum = 0;
