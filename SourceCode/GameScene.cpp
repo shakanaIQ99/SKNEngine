@@ -16,7 +16,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	texturemanager = TextureManager::GetInstance();
 	texturemanager->StaticInitialize(dxcommon);
-	//uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
+	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
 
 	tex1 = texturemanager->LoadTexture("Resources/visual.png");
 	tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
