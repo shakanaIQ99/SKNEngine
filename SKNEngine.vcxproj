@@ -158,6 +158,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Draw\OBJ3D.cpp" />
+    <ClCompile Include="SourceCode\Draw\ObjModel.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="SourceCode\GameScene.cpp" />
     <ClCompile Include="SourceCode\Collision.cpp" />
@@ -195,6 +197,8 @@
     <ClCompile Include="SourceCode\WorldTronsform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Draw\OBJ3D.h" />
+    <ClInclude Include="SourceCode\Draw\ObjModel.h" />
     <ClInclude Include="SourceCode\Draw\PostEffect.h" />
     <ClInclude Include="SourceCode\GameScene.h" />
     <ClInclude Include="SourceCode\Collision.h" />

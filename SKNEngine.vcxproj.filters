@@ -49,15 +49,15 @@
     <Filter Include="ソース ファイル\cppファイル\Colider">
       <UniqueIdentifier>{cdfa035b-e9c4-4da6-b634-24fe28a6a928}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Draw\3D">
+      <UniqueIdentifier>{4c00c98f-ab18-4d99-99c0-1d85d03f195e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Draw\3D">
+      <UniqueIdentifier>{e63c46e8-3fa7-4757-b910-a9073ff588ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Draw\Sprite2D.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Draw\Object3D.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Draw\Model.cpp">
       <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Draw\SpriteCommon.cpp">
@@ -126,9 +126,6 @@
     <ClCompile Include="SourceCode\EngineCore\Pipeline.cpp">
       <Filter>ソース ファイル\cppファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\Draw\FbxLoader.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\FPS.cpp">
       <Filter>ソース ファイル\cppファイル\Core</Filter>
     </ClCompile>
@@ -156,14 +153,23 @@
     <ClCompile Include="PostEffect.cpp">
       <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Draw\OBJ3D.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\ObjModel.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\Object3D.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\Model.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\FbxLoader.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceCode\Draw\Model.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Draw\Object3D.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Draw\Sprite2D.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
@@ -239,9 +245,6 @@
     <ClInclude Include="SourceCode\EngineCore\Pipeline.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\Draw\FbxLoader.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\FPS.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
@@ -265,6 +268,21 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Draw\PostEffect.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\OBJ3D.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\ObjModel.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\FbxLoader.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\Object3D.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\Model.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
