@@ -17,6 +17,12 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	texturemanager = TextureManager::GetInstance();
 	texturemanager->StaticInitialize(dxcommon);
 	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
+	light = LightGroup::Create();
+	OBJ3D::SetLight(light);
+	camera.Initialize();
+	Object3D::SetCamera(&camera);
+
+	//テクスチャ読み込み
 
 	tex1 = texturemanager->LoadTexture("Resources/visual.png");
 	tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
@@ -24,10 +30,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	tex4 = texturemanager->LoadTexture("Resources/effect3.png");
 	
 	
-	light = LightGroup::Create();
 
-	camera.Initialize();
-	Object3D::SetCamera(&camera);
+	//3Dモデル周り
 
 	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
 	atm.CreateConstBuffer(dxcommon->GetDevice());
@@ -36,55 +40,24 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	objec1->Initilaize(&atm);
 	objec1->SetModel(model1);
 
+	skydome_model = ObjModel::LoadFromOBJ("skydome");
+	skydome = OBJ3D::Create(&skydome_wt);
+	skydome->SetModel(skydome_model);
+
+	field_model = ObjModel::LoadFromOBJ("ground");
+	field = OBJ3D::Create(&field_wt);
+	field->SetModel(field_model);
+
+	//スプライト周り
+
 	sprite = new Sprite2D();
 	sprite->Initialize(spritecommon, &wt3, tex1);
 	sprite2 = new Sprite2D();
 	sprite2->Initialize(spritecommon, &wt4, tex2);
 
+	//パーティクル周り
+
 	particleMan = ParticleManager::Create(tex3, &p1);
-	particleMan2 = ParticleManager::Create(tex4, &p2);
-
-
-	sprite2->Wt->translation_.y = 5.0f;
-
-	 
-
-	eye = { 0,20,-200 };
-	int scenenum = 0;
-
-	float ambientColor[3] = { 1,1,1 };
-
-	float lightDir0[3] = { 0,0,-1 };
-	float lightColor0[3] = { 1,0,0 };
-
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
-
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
-
-	float pointLightPos[3] = { 0.5f,1.0f,0 };
-	float pointLightColor[3] = { 1,1,1 };
-
-	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
-
-	light->SetDirLightActive(0, false);
-	light->SetDirLightActive(1, false);
-	light->SetDirLightActive(2, false);
-	light->SetPointLightActive(0, true);
-
-	wt3.translation_ = { 100.0f,100.0f,0.0f };
-
-	light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
-	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
-	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
-
-	//float a = 0.2f;
-
-	atm.rotation_.y = XMConvertToRadians(90.0f);
-
-	wt3.scale_ = { 0.5f,0.5f,0 };
-	wt4.scale_ = { 0.5f,0.5f,0 };
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -107,27 +80,49 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 		particleMan->Add(150, pos, vel, acc, 1.0f, 0.0f);
 
 	}
-	for (int j = 0; j < 100; j++)
-	{
-		const float rnd_pos = 10.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
 
-		const float rnd_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
 
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+	 
 
-		particleMan2->Add(300, pos, vel, acc, 1.0f, 0.0f);
+	eye = { 0,20,-200 };
+	int scenenum = 0;
 
-	}
+	float ambientColor[3] = { 1,1,1 };
+
+	float lightDir0[3] = { 0,0,-1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
+
+	float pointLightPos[3] = { 0.5f,1.0f,0 };
+	float pointLightColor[3] = { 1,1,1 };
+
+	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
+
+	light->SetDirLightActive(0, true);
+	light->SetDirLightActive(1, true);
+	light->SetDirLightActive(2, true);
+	light->SetPointLightActive(0, false);
+
+
+	light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
+	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
+	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
+
+	//float a = 0.2f;
+
+	atm.rotation_.y = XMConvertToRadians(90.0f);
+
+	sprite2->Wt->translation_.y = 5.0f;
+	wt3.translation_ = { 100.0f,100.0f,0.0f };
+	wt3.scale_ = { 0.5f,0.5f,0 };
+	wt4.scale_ = { 0.5f,0.5f,0 };
+
+	
 
 	objec1->PlayAnimation();
 
@@ -162,7 +157,6 @@ void GameScene::Update()
 	
 
 	particleMan->Update(&camera);
-	particleMan2->Update(&camera);
 
 	light->Update();
 
@@ -173,7 +167,8 @@ void GameScene::Update()
 	camera.SetTarget({ 0,20,0 });
 	camera.Update();
 	objec1->Update();
-
+	skydome->Update(&camera);
+	field->Update(&camera);
 
 
 
@@ -183,14 +178,16 @@ void GameScene::Update()
 void GameScene::Draw(DirectXCommon* dxcommon)
 {
 	objec1->Draw(dxcommon->GetCommandList());
-	/*Object3D::PreDraw(dxCommon->GetCommandList());
+	OBJ3D::PreDraw(dxcommon->GetCommandList());
 
-	Object3D::PostDraw();*/
+	skydome->Draw();
+	field->Draw();
+
+	OBJ3D::PostDraw();
 	ParticleManager::PreDraw(dxcommon->GetCommandList());
 
 	// 3Dオブクジェクトの描画
 	//particleMan->Draw();
-	//particleMan2->Draw();
 
 
 	/// <summary>
@@ -210,20 +207,4 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	imGuiManager->Draw();
 }
 
-void GameScene::Finalize()
-{
 
-	delete input;
-	imGuiManager->Finalize();
-	delete imGuiManager;
-	delete particleMan;
-	delete particleMan2;
-	delete objec1;
-	//model1->Finalize();
-	delete model1;
-	delete sprite;
-	delete sprite2;
-	delete light;
-	delete spritecommon;
-	texturemanager->DeleteInstance();
-}

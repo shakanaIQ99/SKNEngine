@@ -28,6 +28,9 @@
     <Filter Include="ソース ファイル\ヘッダー ファイル\Colider">
       <UniqueIdentifier>{0faab10e-0a6e-4c5c-b944-862c0429f28c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Draw\3D">
+      <UniqueIdentifier>{4c00c98f-ab18-4d99-99c0-1d85d03f195e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\cppファイル">
       <UniqueIdentifier>{3e092d86-7bfc-4ec8-aa29-75a0a3d66a32}</UniqueIdentifier>
     </Filter>
@@ -40,6 +43,9 @@
     <Filter Include="ソース ファイル\cppファイル\Draw">
       <UniqueIdentifier>{e924abe7-7692-4182-9bf0-763fca0b731f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Draw\3D">
+      <UniqueIdentifier>{e63c46e8-3fa7-4757-b910-a9073ff588ee}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ソース ファイル\cppファイル\Core">
       <UniqueIdentifier>{759e8d6f-6fbd-41d2-8b39-7be0b51d0c00}</UniqueIdentifier>
     </Filter>
@@ -48,12 +54,6 @@
     </Filter>
     <Filter Include="ソース ファイル\cppファイル\Colider">
       <UniqueIdentifier>{cdfa035b-e9c4-4da6-b634-24fe28a6a928}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\ヘッダー ファイル\Draw\3D">
-      <UniqueIdentifier>{4c00c98f-ab18-4d99-99c0-1d85d03f195e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\cppファイル\Draw\3D">
-      <UniqueIdentifier>{e63c46e8-3fa7-4757-b910-a9073ff588ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +167,12 @@
     </ClCompile>
     <ClCompile Include="SourceCode\Draw\FbxLoader.cpp">
       <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\BossEnemy.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Player.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Draw\Model.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Player.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\BossEnemy.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

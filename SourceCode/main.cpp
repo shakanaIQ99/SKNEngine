@@ -1,6 +1,7 @@
 #include"DxWindow.h"
 #include"DirectXCommon.h"
 #include"Object3D.h"
+#include "OBJ3D.h"
 #include"Input.h"
 #include<wrl.h>
 #include"LightGroup.h"
@@ -38,6 +39,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon->Initialize(window);
 
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	OBJ3D::StaticInitialize(dxCommon->GetDevice(), window->window_width, window->window_height);
 	Object3D::SetDevice(dxCommon->GetDevice());
 	Object3D::CreateGraphicsPipeline();
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());

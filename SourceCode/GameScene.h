@@ -14,6 +14,8 @@
 #include <ParticleManager.h>
 #include"CollisionPrimitive.h"
 #include"Collision.h"
+#include <OBJ3D.h>
+#include <ObjModel.h>
 
 
 
@@ -35,7 +37,29 @@ public:
 
 	void Draw(DirectXCommon* dxcommon);
 
-	void Finalize();
+	void Finalize()
+	{
+
+		delete input;
+		imGuiManager->Finalize();
+		delete imGuiManager;
+		delete spritecommon;
+		texturemanager->DeleteInstance();
+		delete light;
+
+		delete model1;
+		delete objec1;
+
+		delete skydome_model;
+		delete skydome;
+		delete field_model;
+		delete field;
+
+		delete particleMan;
+
+		delete sprite;
+		delete sprite2;
+	}
 
 
 private:
@@ -51,17 +75,25 @@ private:
 	Model* model1 = nullptr;
 	Object3D* objec1 = nullptr;
 
+	ObjModel* skydome_model = nullptr;
+	OBJ3D* skydome = nullptr;
+
+	ObjModel* field_model = nullptr;
+	OBJ3D* field = nullptr;
+
 	Sprite2D* sprite = nullptr;
 	Sprite2D* sprite2 = nullptr;
 
 	ParticleManager* particleMan = nullptr;
-	ParticleManager* particleMan2 = nullptr;
 
 	WorldTransform atm;
 	WorldTransform wt3;
 	WorldTransform wt4;
 	WorldTransform p1;
-	WorldTransform p2;
+
+	WorldTransform skydome_wt;
+	WorldTransform field_wt;
+
 
 	XMFLOAT3 eye;
 

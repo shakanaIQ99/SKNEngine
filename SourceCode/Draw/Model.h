@@ -49,8 +49,6 @@ public:
 
 	~Model();
 
-	//void Finalize();
-
 	static const int MAX_BONE_INDICES = 4;
 	//頂点データ構造体
 	struct VertexPosNormalUvSkin

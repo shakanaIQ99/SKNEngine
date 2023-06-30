@@ -11,7 +11,7 @@ using namespace std;
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-
+ID3D12Device* OBJ3D::device = nullptr;
 ID3D12GraphicsCommandList* OBJ3D::commandList;
 PipelineSet OBJ3D::ObjPipeline;
 LightGroup* OBJ3D::lightGroup = nullptr;
