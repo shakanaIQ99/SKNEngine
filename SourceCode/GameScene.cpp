@@ -29,24 +29,29 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	tex3 = texturemanager->LoadTexture("Resources/effect1.png");
 	tex4 = texturemanager->LoadTexture("Resources/effect3.png");
 	
+	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
+	skydome_model = ObjModel::LoadFromOBJ("skydome");
+	field_model = ObjModel::LoadFromOBJ("ground");
+	p_model = ObjModel::LoadFromOBJ("player");
 	
 
 	//3Dモデル周り
 
-	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
 	atm.CreateConstBuffer(dxcommon->GetDevice());
 
 	objec1 = new Object3D();
 	objec1->Initilaize(&atm);
 	objec1->SetModel(model1);
 
-	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	skydome = OBJ3D::Create(&skydome_wt);
 	skydome->SetModel(skydome_model);
 
-	field_model = ObjModel::LoadFromOBJ("ground");
 	field = OBJ3D::Create(&field_wt);
 	field->SetModel(field_model);
+
+	player.SetStruct(p_model, OBJ3D::Create(&player_wt), &camera,input);
+	player.Init();
+
 
 	//スプライト周り
 
@@ -126,6 +131,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	objec1->PlayAnimation();
 
+	field->Wt->translation_.y = -10.0f;
+
 }
 
 void GameScene::Update()
@@ -137,7 +144,7 @@ void GameScene::Update()
 
 
 
-	if (input->GetKey(DIK_RIGHT))
+	/*if (input->GetKey(DIK_RIGHT))
 	{
 		atm.translation_.x += 0.5f;
 	}
@@ -152,7 +159,7 @@ void GameScene::Update()
 	if (input->GetKey(DIK_DOWN))
 	{
 		atm.translation_.y -= 0.5f;
-	}
+	}*/
 
 	
 
@@ -163,12 +170,20 @@ void GameScene::Update()
 
 	sprite->Update();
 	sprite2->Update();
-	camera.SetEye(eye);
-	camera.SetTarget({ 0,20,0 });
+
+	XMFLOAT3 cameraPos = XMFLOAT3(player.GetPos().x - (flontVec.x * cameraDistance),
+		player.GetPos().y - (flontVec.y * cameraDistance)+5.0f,
+		player.GetPos().z - (flontVec.z * cameraDistance));
+
+	XMFLOAT3 cameraVec = XMFLOAT3((cameraPos.x + (flontVec.x * cameraDistance)), (cameraPos.y + (flontVec.y * cameraDistance)), (cameraPos.z + (flontVec.z * cameraDistance)));
+
+	camera.SetEye(cameraPos);
+	camera.SetTarget(cameraVec);
 	camera.Update();
 	objec1->Update();
 	skydome->Update(&camera);
 	field->Update(&camera);
+	player.Update();
 
 
 
@@ -183,6 +198,7 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	skydome->Draw();
 	field->Draw();
 
+	player.Draw();
 	OBJ3D::PostDraw();
 	ParticleManager::PreDraw(dxcommon->GetCommandList());
 
@@ -199,8 +215,8 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 
 	spritecommon->PreDraw();
 
-	sprite->Draw({ 0,0 });
-	sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
+	//sprite->Draw({ 0,0 });
+	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
 
 	spritecommon->PostDraw();
 

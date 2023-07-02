@@ -58,7 +58,6 @@ void OBJ3D::PostDraw()
 
 OBJ3D* OBJ3D::Create(WorldTransform* wt)
 {
-	// Spriteのインスタンスを生成
 	OBJ3D* obj = new OBJ3D(wt);
 	if (obj == nullptr) {
 		return nullptr;

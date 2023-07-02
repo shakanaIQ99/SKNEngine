@@ -16,6 +16,7 @@
 #include"Collision.h"
 #include <OBJ3D.h>
 #include <ObjModel.h>
+#include <Player.h>
 
 
 
@@ -55,11 +56,18 @@ public:
 		delete field_model;
 		delete field;
 
+		delete p_model;
+
+
 		delete particleMan;
 
 		delete sprite;
 		delete sprite2;
 	}
+
+private:
+
+	Player player;
 
 
 private:
@@ -81,6 +89,8 @@ private:
 	ObjModel* field_model = nullptr;
 	OBJ3D* field = nullptr;
 
+	ObjModel* p_model = nullptr;
+
 	Sprite2D* sprite = nullptr;
 	Sprite2D* sprite2 = nullptr;
 
@@ -91,11 +101,15 @@ private:
 	WorldTransform wt4;
 	WorldTransform p1;
 
+	WorldTransform player_wt;
+
 	WorldTransform skydome_wt;
 	WorldTransform field_wt;
 
 
 	XMFLOAT3 eye;
+	XMFLOAT3 flontVec = { 0,0,1.0f };
+	float cameraDistance = 20.0f;
 
 };
 
