@@ -129,9 +129,9 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	
 
-	objec1->PlayAnimation();
+	//objec1->PlayAnimation();
 
-	field->Wt->translation_.y = -10.0f;
+	//field->Wt->translation_.y = -5.0f;
 
 }
 

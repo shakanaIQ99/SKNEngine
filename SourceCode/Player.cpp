@@ -14,6 +14,7 @@ void Player::SetStruct(ObjModel* _model, OBJ3D* _obj, ViewProjection* _camera, I
 void Player::Init()
 {
 	player->Wt->scale_ = { 1.0f,1.0f,1.0f };
+	player->Wt->translation_.y = 2.0f;
 }
 
 void Player::Update()
@@ -35,7 +36,6 @@ void Player::Update()
 	{
 		player->Wt->translation_.z -= 0.5f;
 	}
-
 	
 	
 
