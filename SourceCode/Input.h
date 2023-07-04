@@ -2,11 +2,13 @@
 
 #define DIRECTINPUT_VERSION	0x0800
 #include<dinput.h>
+#include<Xinput.h>
 
 #include<wrl.h>
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
+#pragma comment (lib, "xinput.lib")
 
 class Input
 {
@@ -33,6 +35,9 @@ private:
 
 	ComPtr<IDirectInput8>directInput;
 	ComPtr<IDirectInputDevice8>keyboard;
+
+	XINPUT_STATE xInputState;
+	XINPUT_STATE OldxInputState;
 
 	BYTE key[256] = {};
 	BYTE oldkey[256] = {};

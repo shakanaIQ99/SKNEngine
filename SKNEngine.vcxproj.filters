@@ -55,6 +55,12 @@
     <Filter Include="ソース ファイル\cppファイル\Colider">
       <UniqueIdentifier>{cdfa035b-e9c4-4da6-b634-24fe28a6a928}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Math">
+      <UniqueIdentifier>{ca1ecb39-068f-4c32-8c97-47820f0fccb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Math">
+      <UniqueIdentifier>{0c82af98-0703-4561-9afc-10cd7cd4cdbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Draw\Sprite2D.cpp">
@@ -173,6 +179,12 @@
     </ClCompile>
     <ClCompile Include="SourceCode\Player.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Math\Vector2.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Math\Vector3.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="SourceCode\BossEnemy.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\Vector2.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\Vector3.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -197,6 +197,8 @@
     <ClCompile Include="SourceCode\EngineCore\VertexBuffer.cpp" />
     <ClCompile Include="SourceCode\ViewProjection.cpp" />
     <ClCompile Include="SourceCode\WorldTronsform.cpp" />
+    <ClCompile Include="SourceCode\Math\Vector2.cpp" />
+    <ClCompile Include="SourceCode\Math\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\BossEnemy.h" />
@@ -239,6 +241,8 @@
     <ClInclude Include="SourceCode\EngineCore\VertexBuffer.h" />
     <ClInclude Include="SourceCode\ViewProjection.h" />
     <ClInclude Include="SourceCode\WorldTronsform.h" />
+    <ClInclude Include="SourceCode\Math\Vector2.h" />
+    <ClInclude Include="SourceCode\Math\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\FBX.hlsli" />
