@@ -1,4 +1,5 @@
 #include "Vector3.h"
+#include "Vector2.h"
 #include<cmath>	//sqrt
 
 Vector3::Vector3() : x(0), y(0), z(0)
@@ -118,12 +119,17 @@ Vector3 Vector3::operator-(const Vector3& v) const
 
 Vector3 Vector3::operator*(const float s) const
 {
-	return Vector3();
+	return Vector3(this->x * s, this->y * s, this->z * s);
 }
 
 Vector3 Vector3::operator/(const float s) const
 {
-	return Vector3();
+	return Vector3(this->x / s, this->y / s, this->z / s);
+}
+
+Vector3::operator Vector2() const
+{
+	return Vector2(x, y);
 }
 
 Vector3 operator*(const float s, const Vector3& v)
