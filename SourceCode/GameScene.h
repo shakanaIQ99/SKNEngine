@@ -14,6 +14,7 @@
 #include <ParticleManager.h>
 #include"CollisionPrimitive.h"
 #include"Collision.h"
+#include "PostEffect.h"
 
 
 
@@ -51,18 +52,12 @@ private:
 	Model* model1 = nullptr;
 	Object3D* objec1 = nullptr;
 
-	Sprite2D* sprite = nullptr;
-	Sprite2D* sprite2 = nullptr;
-
-	ParticleManager* particleMan = nullptr;
-	ParticleManager* particleMan2 = nullptr;
+	PostEffect* postEffect = nullptr;
 
 	WorldTransform atm;
 	WorldTransform wt3;
 	WorldTransform wt4;
-	WorldTransform p1;
-	WorldTransform p2;
-
+	
 	XMFLOAT3 eye;
 
 };

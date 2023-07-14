@@ -22,6 +22,9 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
 	tex3 = texturemanager->LoadTexture("Resources/effect1.png");
 	tex4 = texturemanager->LoadTexture("Resources/effect3.png");
+
+	postEffect = new PostEffect();
+	postEffect->Initialize(spritecommon, &wt3, tex2);
 	
 	
 	light = LightGroup::Create();
@@ -36,17 +39,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	objec1->Initilaize(&atm);
 	objec1->SetModel(model1);
 
-	sprite = new Sprite2D();
-	sprite->Initialize(spritecommon, &wt3, tex1);
-	sprite2 = new Sprite2D();
-	sprite2->Initialize(spritecommon, &wt4, tex2);
-
-	particleMan = ParticleManager::Create(tex3, &p1);
-	particleMan2 = ParticleManager::Create(tex4, &p2);
-
-
-	sprite2->Wt->translation_.y = 5.0f;
-
+	
 	 
 
 	eye = { 0,20,-200 };
@@ -86,49 +79,6 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	wt3.scale_ = { 0.5f,0.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
 
-	for (int i = 0; i < 100; i++)
-	{
-		const float rnd_pos = 20.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-
-		const float rnd_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		particleMan->Add(150, pos, vel, acc, 1.0f, 0.0f);
-
-	}
-	for (int j = 0; j < 100; j++)
-	{
-		const float rnd_pos = 10.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 1.0f;
-
-		const float rnd_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 4.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		particleMan2->Add(300, pos, vel, acc, 1.0f, 0.0f);
-
-	}
-
 	objec1->PlayAnimation();
 
 }
@@ -161,14 +111,12 @@ void GameScene::Update()
 
 	
 
-	particleMan->Update(&camera);
-	particleMan2->Update(&camera);
+	
 
 	light->Update();
 
 
-	sprite->Update();
-	sprite2->Update();
+	
 	camera.SetEye(eye);
 	camera.SetTarget({ 0,20,0 });
 	camera.Update();
@@ -182,32 +130,35 @@ void GameScene::Update()
 
 void GameScene::Draw(DirectXCommon* dxcommon)
 {
-	objec1->Draw(dxcommon->GetCommandList());
-	/*Object3D::PreDraw(dxCommon->GetCommandList());
 
-	Object3D::PostDraw();*/
-	ParticleManager::PreDraw(dxcommon->GetCommandList());
+	
 
-	// 3Dオブクジェクトの描画
-	//particleMan->Draw();
-	//particleMan2->Draw();
+	//objec1->Draw(dxcommon->GetCommandList());
+	///*Object3D::PreDraw(dxCommon->GetCommandList());
+
+	//Object3D::PostDraw();*/
+	//ParticleManager::PreDraw(dxcommon->GetCommandList());
+
+	//// 3Dオブクジェクトの描画
+	////particleMan->Draw();
+	////particleMan2->Draw();
 
 
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
+	///// <summary>
+	///// ここに3Dオブジェクトの描画処理を追加できる
+	///// </summary>
 
-	// 3Dオブジェクト描画後処理
-	ParticleManager::PostDraw();
+	//// 3Dオブジェクト描画後処理
+	//ParticleManager::PostDraw();
 
 	spritecommon->PreDraw();
 
-	sprite->Draw({ 0,0 });
-	sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
-
+	//sprite->Draw({ 0,0 });
+	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
+	postEffect->Draw(dxcommon->GetCommandList());
 	spritecommon->PostDraw();
 
-	imGuiManager->Draw();
+	//imGuiManager->Draw();
 }
 
 void GameScene::Finalize()
@@ -216,14 +167,11 @@ void GameScene::Finalize()
 	delete input;
 	imGuiManager->Finalize();
 	delete imGuiManager;
-	delete particleMan;
-	delete particleMan2;
 	delete objec1;
 	//model1->Finalize();
 	delete model1;
-	delete sprite;
-	delete sprite2;
 	delete light;
+	delete postEffect;
 	delete spritecommon;
 	texturemanager->DeleteInstance();
 }
