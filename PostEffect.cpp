@@ -1,12 +1,43 @@
 #include "PostEffect.h"
 #include <d3dx12.h>
+#include "DxWindow.h"
 
 using namespace DirectX;
 
-void PostEffect::Initialize(SpriteCommon* spritecommon, WorldTransform* wt, uint32_t handle)
+void PostEffect::Initialize(ID3D12Device* device,SpriteCommon* spritecommon, WorldTransform* wt, uint32_t handle)
 {
+	HRESULT result;
+
 	Sprite2D::Initialize(spritecommon, wt, handle);
 	Update();
+
+	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	texHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	D3D12_RESOURCE_DESC rsDesc{};
+	rsDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	rsDesc.Format =DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	rsDesc.Width = DxWindow::window_width;
+	rsDesc.Height = DxWindow::window_height;
+	rsDesc.DepthOrArraySize =1;
+	rsDesc.MipLevels = 0;
+	rsDesc.SampleDesc.Count = 1;
+	rsDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+
+	result = device->CreateCommittedResource(
+		&texHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&rsDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+		nullptr,
+		IID_PPV_ARGS(TexBuff.ReleaseAndGetAddressOf())
+	);
+
+	const UINT pixelCount = DxWindow::window_width * DxWindow::window_height;
+
+	const UINT rowPitch = sizeof(UINT) * DxWindow::window_width;
+
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist, XMFLOAT2 anchor, bool flipX, bool flipY)
