@@ -144,7 +144,7 @@
     <ClCompile Include="SourceCode\EngineCore\Pipeline.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="LevelLoder.cpp">
+    <ClCompile Include="SourceCode\LevelLoder.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,7 +248,7 @@
     <ClInclude Include="SourceCode\EngineCore\Pipeline.h">
       <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
-    <ClInclude Include="LevelLoder.h">
+    <ClInclude Include="SourceCode\LevelLoder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\json.hpp">

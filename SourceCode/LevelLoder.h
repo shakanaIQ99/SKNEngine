@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <DirectXMath.h>
+#include <json.hpp>
 
 struct LevelData
 {
@@ -40,5 +41,7 @@ public:// メンバ関数
 	/// </summary>
 	/// <param name="fileName">ファイル名</param>
 	static LevelData* LoadFile(const std::string& fileName);
+
+	static void RecursiveAnalysis(LevelData* levelData, nlohmann::json objJson);
 };
 

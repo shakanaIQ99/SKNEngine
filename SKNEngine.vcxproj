@@ -150,7 +150,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LevelLoder.cpp" />
+    <ClCompile Include="SourceCode\LevelLoder.cpp" />
     <ClCompile Include="SourceCode\Collision.cpp" />
     <ClCompile Include="SourceCode\EngineCore\ConstBuffer.cpp" />
     <ClCompile Include="SourceCode\EngineCore\DescriptorHeap.cpp" />
@@ -185,7 +185,7 @@
     <ClCompile Include="SourceCode\WorldTronsform.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LevelLoder.h" />
+    <ClInclude Include="SourceCode\LevelLoder.h" />
     <ClInclude Include="SourceCode\Collision.h" />
     <ClInclude Include="SourceCode\CollisionPrimitive.h" />
     <ClInclude Include="SourceCode\EngineCore\ConstBuffer.h" />
