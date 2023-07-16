@@ -20,23 +20,8 @@ void Player::Init()
 void Player::Update()
 {
 
-	if (input->GetKey(DIK_RIGHT))
-	{
-		player->Wt->translation_.x += 0.5f;
-	}
-	if (input->GetKey(DIK_LEFT))
-	{
-		player->Wt->translation_.x -= 0.5f;
-	}
-	if (input->GetKey(DIK_UP))
-	{
-		player->Wt->translation_.z += 0.5f;
-	}
-	if (input->GetKey(DIK_DOWN))
-	{
-		player->Wt->translation_.z -= 0.5f;
-	}
-	
+	player->Wt->translation_.x += input->GetLStick(true, true).x * 0.5f;
+	player->Wt->translation_.z += input->GetLStick(true, true).y * 0.5f;
 	
 
 	player->Update(camera);
