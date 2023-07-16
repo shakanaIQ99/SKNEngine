@@ -79,6 +79,8 @@ private:
 	float cameraRotateX = 0;
 	float cameraRotateY = 9.45f;
 
+	float cameraDPI = 0.05f;
+
 
 private:
 	Camera camera;

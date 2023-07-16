@@ -39,7 +39,7 @@ private:
 
 	float aspect = 0.0f;
 	float_t nearClip = 0.1f;
-	float_t farClip = 1000.0f;
+	float_t farClip = 2000.0f;
 	float angle = 0.0f;
 	float distance = 50.0f;
 

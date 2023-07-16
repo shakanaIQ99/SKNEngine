@@ -145,13 +145,15 @@ void GameScene::Update()
 	cameraX = camera.GetWorldPosition().x;
 	cameraZ = camera.GetWorldPosition().z;
 
+
+
 	XMFLOAT2 inputnum = input->GetRStick(true, true);
-	cameraRotateY += (float)inputnum.x / SHRT_MAX * 0.02f;
-	rotateY += (float)inputnum.x / SHRT_MAX * 0.02f;
+	cameraRotateY += (float)inputnum.x * cameraDPI;
+	rotateY += (float)inputnum.x * cameraDPI;
 	if ((cameraRotateX < 0.27f && (float)inputnum.y / SHRT_MAX>0) || (cameraRotateX > -0.6f && (float)inputnum.y / SHRT_MAX < 0))
 	{
-		cameraRotateX += (float)inputnum.y / SHRT_MAX * 0.02f;
-		rotateX -= (float)inputnum.y / SHRT_MAX * 0.02f;
+		cameraRotateX += (float)inputnum.y *cameraDPI ;
+		rotateX -= (float)inputnum.y * cameraDPI;
 	}
 
 	particleMan->Update(camera.getView());
