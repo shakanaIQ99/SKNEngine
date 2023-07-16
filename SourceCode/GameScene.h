@@ -17,6 +17,7 @@
 #include <OBJ3D.h>
 #include <ObjModel.h>
 #include <Player.h>
+#include <Camera.h>
 
 
 
@@ -69,9 +70,18 @@ private:
 
 	Player player;
 
+	float rotateX = 0;
+
+	float cameraX = 0;
+	float cameraZ = 0;
+	float rotateY = 0;
+
+	float cameraRotateX = 0;
+	float cameraRotateY = 9.45f;
+
 
 private:
-	ViewProjection camera;
+	Camera camera;
 	LightGroup* light = nullptr;
 	
 

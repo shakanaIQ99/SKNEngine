@@ -1,6 +1,6 @@
 #include "Player.h"
 
-void Player::SetStruct(ObjModel* _model, OBJ3D* _obj, ViewProjection* _camera, Input* _input)
+void Player::SetStruct(ObjModel* _model, OBJ3D* _obj, Camera* _camera, Input* _input)
 {
 	player = _obj;
 	camera = _camera;
@@ -24,7 +24,7 @@ void Player::Update()
 	player->Wt->translation_.z += input->GetLStick(true, true).y * 0.5f;
 	
 
-	player->Update(camera);
+	player->Update(camera->getView());
 }
 
 void Player::Draw()

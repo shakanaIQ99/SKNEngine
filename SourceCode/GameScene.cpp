@@ -19,8 +19,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
-	camera.Initialize();
-	Object3D::SetCamera(&camera);
+	camera.Initialize({}, {},dxcommon->GetDevice());
+	Object3D::SetCamera(camera.getView());
 
 	//テクスチャ読み込み
 
@@ -142,28 +142,19 @@ void GameScene::Update()
 	imGuiManager->Begin();
 	static XMVECTOR lightDir = { 0,1,5,0 };
 
+	cameraX = camera.GetWorldPosition().x;
+	cameraZ = camera.GetWorldPosition().z;
 
-
-	/*if (input->GetKey(DIK_RIGHT))
+	XMFLOAT2 inputnum = input->GetRStick(true, true);
+	cameraRotateY += (float)inputnum.x / SHRT_MAX * 0.02f;
+	rotateY += (float)inputnum.x / SHRT_MAX * 0.02f;
+	if ((cameraRotateX < 0.27f && (float)inputnum.y / SHRT_MAX>0) || (cameraRotateX > -0.6f && (float)inputnum.y / SHRT_MAX < 0))
 	{
-		atm.translation_.x += 0.5f;
+		cameraRotateX += (float)inputnum.y / SHRT_MAX * 0.02f;
+		rotateX -= (float)inputnum.y / SHRT_MAX * 0.02f;
 	}
-	if (input->GetKey(DIK_LEFT))
-	{
-		atm.translation_.x -= 0.5f;
-	}
-	if (input->GetKey(DIK_UP))
-	{
-		atm.translation_.y += 0.5f;
-	}
-	if (input->GetKey(DIK_DOWN))
-	{
-		atm.translation_.y -= 0.5f;
-	}*/
 
-	
-
-	particleMan->Update(&camera);
+	particleMan->Update(camera.getView());
 
 	light->Update();
 
@@ -177,12 +168,12 @@ void GameScene::Update()
 
 	XMFLOAT3 cameraVec = XMFLOAT3((cameraPos.x + (flontVec.x * cameraDistance)), (cameraPos.y + (flontVec.y * cameraDistance)), (cameraPos.z + (flontVec.z * cameraDistance)));
 
-	camera.SetEye(cameraPos);
-	camera.SetTarget(cameraVec);
+	camera.setPos(XMFLOAT3((sinf(cameraRotateY) * 20 + player.GetPos().x), (sinf(-cameraRotateX) * 20 + player.GetPos().y + 5), (cosf(cameraRotateY) * 20 + player.GetPos().z)));
+	camera.setRotate({ rotateX,rotateY,0 });
 	camera.Update();
 	objec1->Update();
-	skydome->Update(&camera);
-	field->Update(&camera);
+	skydome->Update(camera.getView());
+	field->Update(camera.getView());
 	player.Update();
 
 

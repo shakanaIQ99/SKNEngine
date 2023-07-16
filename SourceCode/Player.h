@@ -2,7 +2,7 @@
 #include<ObjModel.h>
 #include<OBJ3D.h>
 #include<WorldTronsform.h>
-#include<ViewProjection.h>
+#include<Camera.h>
 #include<Input.h>
 
 
@@ -10,7 +10,7 @@
 class Player
 {
 public:
-	void SetStruct(ObjModel* _model,OBJ3D* _obj,ViewProjection* _camera,Input* _input);
+	void SetStruct(ObjModel* _model,OBJ3D* _obj,Camera* _camera,Input* _input);
 
 	void Init();
 
@@ -30,7 +30,7 @@ private:
 
 	
 
-	ViewProjection* camera;
+	Camera* camera;
 
 	OBJ3D* player = nullptr;
 	ObjModel* player_model = nullptr;

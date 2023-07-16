@@ -10,6 +10,7 @@
 #include"ViewProjection.h"
 #include<forward_list>
 #include"TextureManager.h"
+#include<Camera.h>
 
 using namespace DirectX;
 

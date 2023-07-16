@@ -158,8 +158,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Camera.cpp" />
     <ClCompile Include="SourceCode\Float4.cpp" />
-    <ClCompile Include="SourceCode\Math\Float4.cpp" />
     <ClCompile Include="SourceCode\Math\Matrix4.cpp" />
     <ClCompile Include="SourceCode\BossEnemy.cpp" />
     <ClCompile Include="SourceCode\Player.cpp" />
@@ -204,6 +204,7 @@
     <ClCompile Include="SourceCode\Math\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Camera.h" />
     <ClInclude Include="SourceCode\Float4.h" />
     <ClInclude Include="SourceCode\Math\Float4.h" />
     <ClInclude Include="SourceCode\Math\Matrix4.h" />

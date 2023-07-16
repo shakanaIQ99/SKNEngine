@@ -6,16 +6,7 @@ ComPtr<ID3D12Resource> ParticleManager::vertBuff;
 D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
 ParticleManager::VertexPos ParticleManager::vertices[vertexCount];
 
-const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::XMFLOAT3& rhs)
-{
-	XMFLOAT3 result;
-	result.x = lhs.x + rhs.x;
-	result.y = lhs.y + rhs.y;
-	result.z = lhs.z + rhs.z;
 
-	return result;
-
-}
 
 ParticleManager::ParticleManager(uint32_t handle)
 {
