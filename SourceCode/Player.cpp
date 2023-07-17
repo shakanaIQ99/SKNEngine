@@ -27,6 +27,11 @@ void Player::Update()
 
 	XMFLOAT2 inputnum = input->GetLStick(true, true);
 
+	if (input->GetPadButtonDown(XINPUT_GAMEPAD_A))
+	{
+		player->Wt->translation_.y = 10.0f;
+	}
+
 	moveVec.x += (float)inputnum.x / SHRT_MAX;
 	moveVec.z += (float)inputnum.y / SHRT_MAX;
 
