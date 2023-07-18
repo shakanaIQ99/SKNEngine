@@ -24,7 +24,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	tex4 = texturemanager->LoadTexture("Resources/effect3.png");
 
 	postEffect = new PostEffect();
-	postEffect->Initialize(spritecommon, &wt3, tex2);
+	postEffect->Initialize(dxcommon,spritecommon, &wt3, tex2);
 	
 	
 	light = LightGroup::Create();
