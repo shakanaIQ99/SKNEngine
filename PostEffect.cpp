@@ -4,65 +4,66 @@
 
 using namespace DirectX;
 
-void PostEffect::Initialize(DirectXCommon* dxcommon,SpriteCommon* spritecommon, WorldTransform* wt, uint32_t handle)
-{
-	HRESULT result;
+const float PostEffect::clearcolor[4] = { 0.25f,0.5f,0.1f,0.0f };
 
-	Sprite2D::Initialize(spritecommon, wt, handle);
+void PostEffect::Initialize(DirectXCommon* dxcommon,SpriteCommon* spritecommon, WorldTransform* wt)
+{
+	uint32_t a = 0;
+	Sprite2D::Initialize(spritecommon, wt, a);
+	dxCommon = dxcommon;
 	Update();
 
-	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	texHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	CreateTexBuff();
 
-	D3D12_RESOURCE_DESC rsDesc{};
-	rsDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	rsDesc.Format =DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	rsDesc.Width = DxWindow::window_width;
-	rsDesc.Height = DxWindow::window_height;
-	rsDesc.DepthOrArraySize =1;
-	rsDesc.MipLevels = 0;
-	rsDesc.SampleDesc.Count = 1;
-	rsDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+	CreateSRV();
 
-	result = dxcommon->GetDevice()->CreateCommittedResource(
-		&texHeapProp,		//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&rsDesc,	//リソース設定
+	CreateRTV();
+	
+	CreateDepth();
+	
+	CreateDSV();
+
+	
+
+
+}
+
+void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdlist)
+{
+	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff.Get(),
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		nullptr,
-		IID_PPV_ARGS(TexBuff.ReleaseAndGetAddressOf())
-	);
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	const UINT pixelCount = DxWindow::window_width * DxWindow::window_height;
+	cmdlist->ResourceBarrier(1, &barrier);
 
-	const UINT rowPitch = sizeof(UINT) * DxWindow::window_width;
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 
-	const UINT depthPitch = rowPitch + DxWindow::window_height;
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = dsvHeap->GetCPUDescriptorHandleForHeapStart();
 
-	UINT* img = new UINT[pixelCount];
-	for (size_t i = 0; i < pixelCount; i++)
-	{
-		img[i] = 0xff0000ff;
-	}
+	cmdlist->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
-	result = TexBuff->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
-	assert(SUCCEEDED(result));
-	delete[] img;
+	auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, DxWindow::window_width, DxWindow::window_height);
 
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels =1;
+	cmdlist->RSSetViewports(1, &viewport);
 
-	srvHeap = dxcommon->GetDescriptorHeap()->GetHeap();
+	auto scissorRects = CD3DX12_RECT(0, 0, DxWindow::window_width, DxWindow::window_height);
 
-	handle_ = dxcommon->GetDescriptorHeap()->AddSRV();
+	cmdlist->RSSetScissorRects(1, &scissorRects);
 
-	dxcommon->GetDevice()->CreateShaderResourceView(TexBuff.Get(), &srvDesc, handle_.cpuHandle);
+	cmdlist->ClearRenderTargetView(rtvH, clearcolor, 0, nullptr);
+
+	cmdlist->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 
+}
+
+void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdlist)
+{
+	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff.Get(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+	cmdlist->ResourceBarrier(1, &barrier);
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist, XMFLOAT2 anchor, bool flipX, bool flipY)
@@ -120,4 +121,136 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist, XMFLOAT2 anchor, bool 
 	// 描画コマンド
 	//commandList->DrawInstanced(3, 1, 0, 0); // 全ての頂点を使って描画
 	cmdlist->DrawIndexedInstanced(6, 1, 0, 0, 0); // 全ての頂点を使って描画
+}
+
+void PostEffect::CreateRTV()
+{
+
+	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc{};
+
+	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	rtvDescHeapDesc.NumDescriptors = 1;
+
+	HRESULT result;
+	result = dxCommon->GetDevice()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap));
+	assert(result);
+
+	D3D12_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+
+	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+	dxCommon->GetDevice()->CreateRenderTargetView(TexBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
+
+}
+
+void PostEffect::CreateDSV()
+{
+	D3D12_DESCRIPTOR_HEAP_DESC DescHeapDesc{};
+	DescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	DescHeapDesc.NumDescriptors = 1;
+
+	HRESULT result;
+
+	result = dxCommon->GetDevice()->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&dsvHeap));
+
+	assert(SUCCEEDED(result));
+
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dxCommon->GetDevice()->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, dsvHeap->GetCPUDescriptorHandleForHeapStart());
+
+
+}
+
+void PostEffect::CreateTexBuff()
+{
+	HRESULT result;
+	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	texHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	D3D12_RESOURCE_DESC rsDesc{};
+	rsDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	rsDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	rsDesc.Width = DxWindow::window_width;
+	rsDesc.Height = DxWindow::window_height;
+	rsDesc.DepthOrArraySize = 1;
+	rsDesc.MipLevels = 0;
+	rsDesc.SampleDesc.Count = 1;
+	rsDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+
+	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearcolor);
+
+	result = dxCommon->GetDevice()->CreateCommittedResource(
+		&texHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&rsDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+		&clearValue,
+		IID_PPV_ARGS(TexBuff.ReleaseAndGetAddressOf())
+	);
+
+	const UINT pixelCount = DxWindow::window_width * DxWindow::window_height;
+
+	const UINT rowPitch = sizeof(UINT) * DxWindow::window_width;
+
+	const UINT depthPitch = rowPitch + DxWindow::window_height;
+
+	UINT* img = new UINT[pixelCount];
+	for (size_t i = 0; i < pixelCount; i++)
+	{
+		img[i] = 0xff0000ff;
+	}
+
+	result = TexBuff->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
+	assert(SUCCEEDED(result));
+	delete[] img;
+}
+
+void PostEffect::CreateSRV()
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+
+	srvHeap = dxCommon->GetDescriptorHeap()->GetHeap();
+
+	handle_ = dxCommon->GetDescriptorHeap()->AddSRV();
+
+	dxCommon->GetDevice()->CreateShaderResourceView(TexBuff.Get(), &srvDesc, handle_.cpuHandle);
+}
+
+void PostEffect::CreateDepth()
+{
+	D3D12_RESOURCE_DESC depthDesc{};
+	depthDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	depthDesc.Width = DxWindow::window_width;
+	depthDesc.Height = DxWindow::window_height;
+	depthDesc.DepthOrArraySize = 1;
+	depthDesc.MipLevels = 0;
+	depthDesc.SampleDesc.Count = 1;
+	depthDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	HRESULT result;
+
+	auto heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+
+	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0);
+
+	result = dxCommon->GetDevice()->CreateCommittedResource(
+		&heapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&depthDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_DEPTH_WRITE,
+		&clearValue,
+		IID_PPV_ARGS(depthBuff.ReleaseAndGetAddressOf())
+	);
+
+	assert(SUCCEEDED(result));
+
 }

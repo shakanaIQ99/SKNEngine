@@ -11,7 +11,8 @@
 #include"FPS.h"
 #include"FbxLoader.h"
 #include <ParticleManager.h>
-
+#include<PostEffect.h>
+#include<SpriteCommon.h>
 
 #include "GameScene.h"
 
@@ -43,7 +44,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 
-	
+	SpriteCommon* spritecommon = nullptr;
+	spritecommon = new SpriteCommon();
+	spritecommon->Initialize(dxCommon);
+
+	WorldTransform wt3;
+
+	PostEffect* postEffect = nullptr;
+	postEffect = new PostEffect();
+	postEffect->Initialize(dxCommon, spritecommon, &wt3);
 
 	unique_ptr<FPS>fps;
 	fps = std::make_unique<FPS>();
@@ -60,10 +69,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			break;
 		}
 		gameScene->Update();
+
+		postEffect->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw(dxCommon);
+		postEffect->PostDrawScene(dxCommon->GetCommandList());
+
 		
 		dxCommon->PreDraw();
-
-		gameScene->Draw(dxCommon);
+		postEffect->Draw(dxCommon->GetCommandList());
+		//gameScene->Draw(dxCommon);
 		dxCommon->PostDraw();
 
 		fps->Update();
@@ -74,6 +88,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	gameScene->Finalize();
 	FbxLoader::GetInstance()->Finalize();
 	delete gameScene;
+	delete spritecommon;
+	delete postEffect;
 	delete dxCommon;
 	window->TerminateGameWindow();
 }

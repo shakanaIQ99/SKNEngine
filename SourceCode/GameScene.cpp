@@ -23,8 +23,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	tex3 = texturemanager->LoadTexture("Resources/effect1.png");
 	tex4 = texturemanager->LoadTexture("Resources/effect3.png");
 
-	postEffect = new PostEffect();
-	postEffect->Initialize(dxcommon,spritecommon, &wt3, tex2);
+	
 	
 	
 	light = LightGroup::Create();
@@ -155,7 +154,7 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 
 	//sprite->Draw({ 0,0 });
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
-	postEffect->Draw(dxcommon->GetCommandList());
+	
 	spritecommon->PostDraw();
 
 	//imGuiManager->Draw();
@@ -171,7 +170,6 @@ void GameScene::Finalize()
 	//model1->Finalize();
 	delete model1;
 	delete light;
-	delete postEffect;
 	delete spritecommon;
 	texturemanager->DeleteInstance();
 }
