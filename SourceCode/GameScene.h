@@ -51,6 +51,7 @@ private:
 	Model* model1 = nullptr;
 	Object3D* objec1 = nullptr;
 
+	Sprite2D* sprite;
 	
 
 	WorldTransform atm;

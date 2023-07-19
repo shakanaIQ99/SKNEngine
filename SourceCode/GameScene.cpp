@@ -38,7 +38,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	objec1->Initilaize(&atm);
 	objec1->SetModel(model1);
 
-	
+	sprite = new Sprite2D();
+	sprite->Initialize(spritecommon, &wt3, tex1);
 	 
 
 	eye = { 0,20,-200 };
@@ -75,7 +76,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	atm.rotation_.y = XMConvertToRadians(90.0f);
 
-	wt3.scale_ = { 0.5f,0.5f,0 };
+	wt3.scale_ = { 1.5f,1.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
 
 	objec1->PlayAnimation();
@@ -114,7 +115,7 @@ void GameScene::Update()
 
 	light->Update();
 
-
+	sprite->Update();
 	
 	camera.SetEye(eye);
 	camera.SetTarget({ 0,20,0 });
@@ -132,32 +133,32 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 
 	
 
-	//objec1->Draw(dxcommon->GetCommandList());
-	///*Object3D::PreDraw(dxCommon->GetCommandList());
+	objec1->Draw(dxcommon->GetCommandList());
+	/*Object3D::PreDraw(dxCommon->GetCommandList());
 
-	//Object3D::PostDraw();*/
+	Object3D::PostDraw();*/
 	//ParticleManager::PreDraw(dxcommon->GetCommandList());
 
-	//// 3Dオブクジェクトの描画
-	////particleMan->Draw();
-	////particleMan2->Draw();
+	// 3Dオブクジェクトの描画
+	//particleMan->Draw();
+	//particleMan2->Draw();
 
 
-	///// <summary>
-	///// ここに3Dオブジェクトの描画処理を追加できる
-	///// </summary>
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
 
-	//// 3Dオブジェクト描画後処理
+	// 3Dオブジェクト描画後処理
 	//ParticleManager::PostDraw();
 
-	spritecommon->PreDraw();
+	//spritecommon->PreDraw();
 
 	//sprite->Draw({ 0,0 });
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
 	
-	spritecommon->PostDraw();
+	//spritecommon->PostDraw();
 
-	//imGuiManager->Draw();
+	imGuiManager->Draw();
 }
 
 void GameScene::Finalize()
@@ -168,6 +169,7 @@ void GameScene::Finalize()
 	delete imGuiManager;
 	delete objec1;
 	//model1->Finalize();
+	delete sprite;
 	delete model1;
 	delete light;
 	delete spritecommon;

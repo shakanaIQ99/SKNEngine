@@ -1,17 +1,22 @@
 #include "PostEffect.h"
 #include <d3dx12.h>
 #include "DxWindow.h"
+#include<cassert>
+
 
 using namespace DirectX;
 
 const float PostEffect::clearcolor[4] = { 0.25f,0.5f,0.1f,0.0f };
 
-void PostEffect::Initialize(DirectXCommon* dxcommon,SpriteCommon* spritecommon, WorldTransform* wt)
+void PostEffect::Initialize(DirectXCommon* dxcommon)
 {
-	uint32_t a = 0;
-	Sprite2D::Initialize(spritecommon, wt, a);
+	//Sprite2D::Initialize(spritecommon, wt, a);
+
 	dxCommon = dxcommon;
-	Update();
+
+	CreateBuffer();
+
+	//Wt->CreateConstBuffer(dxCommon->GetDevice());
 
 	CreateTexBuff();
 
@@ -66,26 +71,17 @@ void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdlist)
 	cmdlist->ResourceBarrier(1, &barrier);
 }
 
-void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist, XMFLOAT2 anchor, bool flipX, bool flipY)
+void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 {
-	int isFlipX, isFlipY;
-	if (flipX == false)isFlipX = 1;
-	else isFlipX = -1;
-	if (flipY == false)isFlipY = 1;
-	else isFlipY = -1;
-
-	float left = ((0.0f - anchor.x) * tex->width) * isFlipX;
-	float right = ((1.0f - anchor.x) * tex->width) * isFlipX;
-	float top = ((0.0f - anchor.y) * tex->height) * isFlipY;
-	float bottom = ((1.0f - anchor.y) * tex->height) * isFlipY;
-
+	
 	VertexPos vertices[] =
 	{
-		{{left,top,0.0f},{0.0f,0.0f}	},
-		{{left,bottom,0.0f},{0.0f,1.0f}	},
-		{{right,top,0.0f},{1.0f,0.0f}	},
-		{{right,bottom,0.0f},{1.0f,1.0f}}
+		{{-0.5f,-0.5f,0.0f},{0.0f,1.0f}	},
+		{{-0.5f,+0.5f,0.0f},{0.0f,0.0f}	},
+		{{+0.5f,-0.5f,0.0f},{1.0f,1.0f}	},
+		{{+0.5f,+0.5f,0.0f},{1.0f,0.0f}}
 	};
+	
 	uint32_t indices[] =
 	{
 		1,0,3,
@@ -95,8 +91,6 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist, XMFLOAT2 anchor, bool 
 	vertexBuffer->Update(vertices);
 
 	indexBuffer->Update(indices);
-
-	Update();
 
 	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
 
@@ -116,7 +110,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist, XMFLOAT2 anchor, bool 
 
 	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
-	cmdlist->SetGraphicsRootConstantBufferView(0, Wt->constBuffB0->GetGPUVirtualAddress());
+	cmdlist->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
 	// 描画コマンド
 	//commandList->DrawInstanced(3, 1, 0, 0); // 全ての頂点を使って描画
@@ -133,7 +127,7 @@ void PostEffect::CreateRTV()
 
 	HRESULT result;
 	result = dxCommon->GetDevice()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap));
-	assert(result);
+	assert(SUCCEEDED(result));
 
 	D3D12_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
 
@@ -253,4 +247,42 @@ void PostEffect::CreateDepth()
 
 	assert(SUCCEEDED(result));
 
+}
+
+void PostEffect::CreateBuffer()
+{
+	vertexBuffer = make_unique<VertexBuffer>();
+	vertexBuffer->Create(dxCommon->GetDevice(), 4, sizeof(VertexPos));
+
+	indexBuffer = make_unique<IndexBuffer>();
+	indexBuffer->Create(dxCommon->GetDevice(), 6);
+	HRESULT result;
+
+	D3D12_HEAP_PROPERTIES cbHeapProp{};
+
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPUへの転送用
+
+	auto rsDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff);
+
+	//定数バッファの生成
+	result = dxCommon->GetDevice()->CreateCommittedResource(
+		&cbHeapProp,		//ヒープ設定
+		D3D12_HEAP_FLAG_NONE,
+		&rsDesc,	//リソース設定
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuff)
+	);
+	assert(SUCCEEDED(result));
+
+	ConstBufferDataMaterial* constMap = nullptr;
+
+	result = constBuff->Map(0, nullptr, (void**)&constMap);
+	if (SUCCEEDED(result))
+	{
+		constMap->color = this->color;
+		constMap->mat = XMMatrixIdentity();
+		constBuff->Unmap(0, nullptr);
+	}
+	
 }
