@@ -49,6 +49,12 @@
     <Filter Include="ソース ファイル\cppファイル\Colider">
       <UniqueIdentifier>{cdfa035b-e9c4-4da6-b634-24fe28a6a928}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Draw\PostEffect">
+      <UniqueIdentifier>{b5f930be-03a3-4074-b829-4a08f646bf08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Draw\PostEffect">
+      <UniqueIdentifier>{d00ab17b-0e24-4abe-8835-cf6e8d6ad05a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Draw\Sprite2D.cpp">
@@ -154,7 +160,10 @@
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
     <ClCompile Include="PostEffect.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+      <Filter>ソース ファイル\cppファイル\Draw\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\MultiRenderTargetPostEffect.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +273,10 @@
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Draw\PostEffect.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\MultiRenderTargetPostEffect.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
