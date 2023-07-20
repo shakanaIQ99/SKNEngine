@@ -39,7 +39,7 @@ public:
 
     void CreateBuffer();
 
-    void SetPipeline();
+    //void SetPipeline();
 
 
 private:
@@ -68,6 +68,8 @@ private:
 
     DescriptorHeap::DescriptorHeapViewHandle handle_;
 
+    D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
+
     ComPtr<ID3D12Resource> depthBuff;
     
     ComPtr<ID3D12DescriptorHeap> rtvHeap;
@@ -82,8 +84,6 @@ private:
     ComPtr<ID3D12Resource> constBuff;
 
     XMFLOAT4 color = { 1,1,1,1 };
-
-    TextureData* texdata;
 
 };
 

@@ -68,10 +68,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 		gameScene->Update();
 
+
 		postEffect->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw(dxCommon);
 		postEffect->PostDrawScene(dxCommon->GetCommandList());
-
 		
 		dxCommon->PreDraw();
 		postEffect->Draw(dxCommon->GetCommandList());

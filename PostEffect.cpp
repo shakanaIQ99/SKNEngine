@@ -113,8 +113,8 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 	//プリミティブ形状の設定コマンド
 	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	cmdlist->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = handle_.gpuHandle;
+	//cmdlist->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = gpuHandle;
 
 	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
@@ -218,11 +218,7 @@ void PostEffect::CreateSRV()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	srvHeap = dxCommon->GetDescriptorHeap()->GetHeap();
-
-	handle_ = dxCommon->GetDescriptorHeap()->AddSRV();
-
-	dxCommon->GetDevice()->CreateShaderResourceView(TexBuff.Get(), &srvDesc, handle_.cpuHandle);
+	gpuHandle.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, TexBuff.Get());
 }
 
 void PostEffect::CreateDepth()
@@ -249,7 +245,7 @@ void PostEffect::CreateDepth()
 		&depthDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
 		&clearValue,
-		IID_PPV_ARGS(depthBuff.ReleaseAndGetAddressOf())
+		IID_PPV_ARGS(&depthBuff)
 	);
 
 	assert(SUCCEEDED(result));
@@ -294,6 +290,4 @@ void PostEffect::CreateBuffer()
 	
 }
 
-void PostEffect::SetPipeline()
-{
-}
+
