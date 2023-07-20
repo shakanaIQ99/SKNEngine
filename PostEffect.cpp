@@ -113,7 +113,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 	//プリミティブ形状の設定コマンド
 	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	//cmdlist->SetDescriptorHeaps(1, srvHeap.GetAddressOf());
+	cmdlist->SetDescriptorHeaps(1, dxCommon->GetDescriptorHeap()->GetHeap().GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = gpuHandle;
 
 	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle);

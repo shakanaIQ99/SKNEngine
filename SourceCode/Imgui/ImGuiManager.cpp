@@ -15,11 +15,13 @@ void ImGuiManager::Initialize(HWND hwnd, DirectXCommon* dxcommon)
 
 	ImGui::StyleColorsDark();
 
+	handle_ = dxCommon->GetDescriptorHeap()->AddSRV();
+
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX12_Init(dxCommon->GetDevice(), static_cast<int>(dxCommon->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, srvheap.Get(),
-		srvheap->GetCPUDescriptorHandleForHeapStart(),
-		srvheap->GetGPUDescriptorHandleForHeapStart());
+		handle_.cpuHandle,
+		handle_.gpuHandle);
 	ImGuiIO& io = ImGui::GetIO();
 
 	io.Fonts->AddFontDefault();

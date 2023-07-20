@@ -24,6 +24,8 @@ private:
 
 	ComPtr<ID3D12DescriptorHeap>srvheap;
 
+	DescriptorHeap::DescriptorHeapViewHandle handle_;
+
 
 };
 
