@@ -7,12 +7,17 @@
 using namespace DirectX;
 
 const float PostEffect::clearcolor[4] = { 0.25f,0.5f,0.1f,0.0f };
+PipelineSet PostEffect::pipeline;
+DirectXCommon* PostEffect::dxCommon = nullptr;
 
-void PostEffect::Initialize(DirectXCommon* dxcommon)
+void PostEffect::CreateGraphicsPipeline()
+{
+	pipeline = Pipeline::CreatePostEffectPipeline(dxCommon->GetDevice());
+}
+
+void PostEffect::Initialize()
 {
 	//Sprite2D::Initialize(spritecommon, wt, a);
-
-	dxCommon = dxcommon;
 
 	CreateBuffer();
 
@@ -96,6 +101,9 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 
 	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
 
+	cmdlist->SetPipelineState(pipeline.pipelineState.Get());
+	cmdlist->SetGraphicsRootSignature(pipeline.rootSignature.Get());
+
 	//spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
 
 	// 頂点バッファビューの設定コマンド
@@ -113,7 +121,6 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 	cmdlist->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
 	// 描画コマンド
-	//commandList->DrawInstanced(3, 1, 0, 0); // 全ての頂点を使って描画
 	cmdlist->DrawIndexedInstanced(6, 1, 0, 0, 0); // 全ての頂点を使って描画
 }
 
@@ -285,4 +292,8 @@ void PostEffect::CreateBuffer()
 		constBuff->Unmap(0, nullptr);
 	}
 	
+}
+
+void PostEffect::SetPipeline()
+{
 }

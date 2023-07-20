@@ -42,7 +42,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	sprite->Initialize(spritecommon, &wt3, tex1);
 	 
 
-	eye = { 0,20,-200 };
+	eye = { 0,0,-20 };
 	int scenenum = 0;
 
 	float ambientColor[3] = { 1,1,1 };
@@ -75,6 +75,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	//float a = 0.2f;
 
 	atm.rotation_.y = XMConvertToRadians(90.0f);
+	
 
 	wt3.scale_ = { 1.5f,1.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
@@ -118,7 +119,7 @@ void GameScene::Update()
 	sprite->Update();
 	
 	camera.SetEye(eye);
-	camera.SetTarget({ 0,20,0 });
+	//camera.SetTarget({ 0,20,0 });
 	camera.Update();
 	objec1->Update();
 

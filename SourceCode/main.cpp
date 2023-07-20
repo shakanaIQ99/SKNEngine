@@ -43,12 +43,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3D::CreateGraphicsPipeline();
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
+	PostEffect::SetDXCommon(dxCommon);
+	PostEffect::CreateGraphicsPipeline();
 
 	
 
 	PostEffect* postEffect = nullptr;
 	postEffect = new PostEffect();
-	postEffect->Initialize(dxCommon);
+	postEffect->Initialize();
 
 	unique_ptr<FPS>fps;
 	fps = std::make_unique<FPS>();

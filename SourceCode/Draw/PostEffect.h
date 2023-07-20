@@ -6,6 +6,7 @@
 #include <VertexBuffer.h>
 #include <IndexBuffer.h>
 #include"TextureManager.h"
+#include <Pipeline.h>
 
 using namespace Microsoft::WRL;
 
@@ -15,7 +16,10 @@ public:
 
     //void SetDevice();
 
-    void Initialize(DirectXCommon* dxcommon);
+    static void CreateGraphicsPipeline();
+    static void SetDXCommon(DirectXCommon* dxcommon) { PostEffect::dxCommon = dxcommon; }
+
+    void Initialize();
 
     void PreDrawScene(ID3D12GraphicsCommandList* cmdlist);
 
@@ -35,6 +39,8 @@ public:
 
     void CreateBuffer();
 
+    void SetPipeline();
+
 
 private:
 
@@ -52,7 +58,8 @@ private:
         XMFLOAT4 color;
     };
 
-    DirectXCommon* dxCommon;
+    static PipelineSet pipeline;
+    static DirectXCommon* dxCommon;
    
 
     ComPtr<ID3D12Resource> TexBuff;
@@ -77,5 +84,6 @@ private:
     XMFLOAT4 color = { 1,1,1,1 };
 
     TextureData* texdata;
+
 };
 
