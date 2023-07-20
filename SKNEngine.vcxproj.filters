@@ -159,10 +159,10 @@
     <ClCompile Include="SourceCode\GameScene.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
-    <ClCompile Include="PostEffect.cpp">
+    <ClCompile Include="SourceCode\Draw\MultiRenderTargetPostEffect.cpp">
       <Filter>ソース ファイル\cppファイル\Draw\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\Draw\MultiRenderTargetPostEffect.cpp">
+    <ClCompile Include="SourceCode\Draw\PostEffect.cpp">
       <Filter>ソース ファイル\cppファイル\Draw\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>

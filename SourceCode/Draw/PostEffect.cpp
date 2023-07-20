@@ -19,6 +19,8 @@ void PostEffect::Initialize()
 {
 	//Sprite2D::Initialize(spritecommon, wt, a);
 
+	
+
 	CreateBuffer();
 
 	//Wt->CreateConstBuffer(dxCommon->GetDevice());
@@ -101,6 +103,8 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 
 	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
 
+
+	
 	cmdlist->SetPipelineState(pipeline.pipelineState.Get());
 	cmdlist->SetGraphicsRootSignature(pipeline.rootSignature.Get());
 

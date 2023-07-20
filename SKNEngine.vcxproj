@@ -159,7 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Draw\MultiRenderTargetPostEffect.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="SourceCode\Draw\PostEffect.cpp" />
     <ClCompile Include="SourceCode\GameScene.cpp" />
     <ClCompile Include="SourceCode\Collision.cpp" />
     <ClCompile Include="SourceCode\Draw\FbxLoader.cpp" />

@@ -13,6 +13,7 @@
 #include <ParticleManager.h>
 #include<PostEffect.h>
 #include<SpriteCommon.h>
+#include<MultiRenderTargetPostEffect.h>
 
 #include "GameScene.h"
 
@@ -43,14 +44,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Object3D::CreateGraphicsPipeline();
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
-	PostEffect::SetDXCommon(dxCommon);
-	PostEffect::CreateGraphicsPipeline();
+	MultiRenderTargetPostEffect::SetDXCommon(dxCommon);
+	MultiRenderTargetPostEffect::CreateGraphicsPipeline();
 
+	Input* input = nullptr;
+	input = new Input();
+	input->Initialize(window->GetHInstance(), window->GetHwnd());
+	
 	
 
-	PostEffect* postEffect = nullptr;
-	postEffect = new PostEffect();
-	postEffect->Initialize();
+	MultiRenderTargetPostEffect* postEffect = nullptr;
+	postEffect = new MultiRenderTargetPostEffect();
+	postEffect->Initialize(input);
 
 	unique_ptr<FPS>fps;
 	fps = std::make_unique<FPS>();
@@ -66,6 +71,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			break;
 		}
+		input->InputUpdate();
 		gameScene->Update();
 
 
@@ -87,6 +93,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	FbxLoader::GetInstance()->Finalize();
 	delete gameScene;
 	delete postEffect;
+	delete input;
 	delete dxCommon;
 	window->TerminateGameWindow();
 }

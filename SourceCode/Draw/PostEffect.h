@@ -7,6 +7,7 @@
 #include <IndexBuffer.h>
 #include"TextureManager.h"
 #include <Pipeline.h>
+#include <Input.h>
 
 using namespace Microsoft::WRL;
 
@@ -60,6 +61,7 @@ private:
 
     static PipelineSet pipeline;
     static DirectXCommon* dxCommon;
+
    
 
     ComPtr<ID3D12Resource> TexBuff;
