@@ -129,11 +129,13 @@ void MultiRenderTargetPostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	//cmdlist->SetDescriptorHeaps(1, dxCommon->GetDescriptorHeap()->GetHeap().GetAddressOf());
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle0 = gpuHandle[0];
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle1 = gpuHandle[1];
 
-	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle0);
-	cmdlist->SetGraphicsRootDescriptorTable(2, srvGpuHandle1);
+	cmdlist->SetGraphicsRootDescriptorTable(1,
+		CD3DX12_GPU_DESCRIPTOR_HANDLE(handle_[0].gpuHandle, 0,
+			dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
+	cmdlist->SetGraphicsRootDescriptorTable(2,
+		CD3DX12_GPU_DESCRIPTOR_HANDLE(handle_[1].gpuHandle, 1,
+			dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 
 	cmdlist->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
@@ -240,10 +242,15 @@ void MultiRenderTargetPostEffect::CreateSRV()
 	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MipLevels = 2;
+	handle_[0] = dxCommon->GetDescriptorHeap()->AddSRV();
+	handle_[1] = dxCommon->GetDescriptorHeap()->AddSRV();
+
 	for (int i = 0; i < 2; i++)
 	{
-		gpuHandle[i].ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, TexBuff[i].Get());
+		dxCommon->GetDevice()->CreateShaderResourceView(TexBuff[i].Get(), &srvDesc,
+			CD3DX12_CPU_DESCRIPTOR_HANDLE(handle_[i].cpuHandle, i,
+				dxCommon->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)));
 	}
 }
 

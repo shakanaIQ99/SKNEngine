@@ -1006,6 +1006,7 @@ PipelineSet Pipeline::CreateMultiTexturePipeline(ID3D12Device* device)
 
 	// ブレンドステート
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
+	gpipeline.BlendState.RenderTarget[1] = blenddesc;
 
 	//深度バッファのフォーマット
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
@@ -1017,8 +1018,9 @@ PipelineSet Pipeline::CreateMultiTexturePipeline(ID3D12Device* device)
 	//図形の形状設定(三角形)
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	gpipeline.NumRenderTargets = 1;
+	gpipeline.NumRenderTargets = 2;
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	gpipeline.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	gpipeline.SampleDesc.Count = 1;
 
 	//デスクリプタレンジ
