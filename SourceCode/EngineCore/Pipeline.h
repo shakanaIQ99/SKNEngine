@@ -25,6 +25,7 @@ public:
 	static PipelineSet CreateParticlePipline(ID3D12Device* device);
 	static PipelineSet CreateFBXPipeline(ID3D12Device* device);
 	static PipelineSet CreatePostEffectPipeline(ID3D12Device* device);
+	static PipelineSet CreateMultiTexturePipeline(ID3D12Device* device);
 
 };
 

@@ -12,7 +12,7 @@ DirectXCommon* MultiRenderTargetPostEffect::dxCommon = nullptr;
 
 void MultiRenderTargetPostEffect::CreateGraphicsPipeline()
 {
-	pipeline = Pipeline::CreatePostEffectPipeline(dxCommon->GetDevice());
+	pipeline = Pipeline::CreateMultiTexturePipeline(dxCommon->GetDevice());
 }
 
 void MultiRenderTargetPostEffect::Initialize(Input* input_)
@@ -115,23 +115,7 @@ void MultiRenderTargetPostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
 
 	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
-	if (input->GetPressKey(DIK_0))
-	{
-		static int tex = 0;
-
-		tex = (tex + 1) % 2;
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvdesc{};
-
-		srvdesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-		srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvdesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvdesc.Texture2D.MipLevels = 1;
-		gpuHandle.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvdesc, TexBuff[tex].Get());
-	}
-
-
-
+	
 	cmdlist->SetPipelineState(pipeline.pipelineState.Get());
 	cmdlist->SetGraphicsRootSignature(pipeline.rootSignature.Get());
 
@@ -145,9 +129,11 @@ void MultiRenderTargetPostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	//cmdlist->SetDescriptorHeaps(1, dxCommon->GetDescriptorHeap()->GetHeap().GetAddressOf());
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = gpuHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle0 = gpuHandle[0];
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle1 = gpuHandle[1];
 
-	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle0);
+	cmdlist->SetGraphicsRootDescriptorTable(2, srvGpuHandle1);
 
 	cmdlist->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
@@ -255,8 +241,10 @@ void MultiRenderTargetPostEffect::CreateSRV()
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
-
-	gpuHandle.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, TexBuff[0].Get());
+	for (int i = 0; i < 2; i++)
+	{
+		gpuHandle[i].ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, TexBuff[i].Get());
+	}
 }
 
 void MultiRenderTargetPostEffect::CreateDepth()

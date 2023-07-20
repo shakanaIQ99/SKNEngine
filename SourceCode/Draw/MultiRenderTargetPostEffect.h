@@ -71,7 +71,7 @@ private:
 
     DescriptorHeap::DescriptorHeapViewHandle handle_;
 
-    D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
+    D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle[2];
 
     ComPtr<ID3D12Resource> depthBuff;
 
