@@ -19,6 +19,7 @@
 #include"ParticleManager.h"
 #include"LevelLoder.h"
 
+#include<DirectXMath.h>
 
 
 
@@ -74,7 +75,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("UVBall",true);
-	Model* model = Model::LoadFromOBJ("Dragon",true);
 	Model* gra = Model::LoadFromOBJ("ground");
 
 	WorldTransform ground;
@@ -96,7 +96,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	Object3D::SetLight(light);
 
-	Object3D* obj1 = nullptr;
 	Object3D* obj2 = nullptr;
 	Object3D* objskydome = nullptr;
 	Object3D* objground = nullptr;
@@ -109,16 +108,59 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	objground = Object3D::Create(&ground);
 	objground->SetModel(gra);
 
-	obj1 = Object3D::Create(&human);
-	obj1->SetModel(model);
+	
 	obj2 = Object3D::Create(&ball);
 	obj2->SetModel(model2);
 
-	obj1->color = { 0.3f,1.0f,0.0f,1.0f };
 	//
 	sprite2->Wt->translation_.y = 5.0f;
 	ViewProjection camera;
 	camera.Initialize();
+
+	LevelData* levelData;
+	std::map<std::string, Model*> models;
+	std::vector<Object3D*> objects;
+
+	//jsonにあるモデル登録しろ
+	models.insert(std::make_pair("skydome", skydome));
+	models.insert(std::make_pair("ground", gra));
+
+
+	levelData = LevelLoder::LoadFile("");
+
+	// レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : levelData->objects) {
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.fileName);
+		if (it != models.end()) {
+			model = it->second;
+		}
+
+		WorldTransform objtransform;
+
+		// モデルを指定して3Dオブジェクトを生成
+		Object3D* newObject = Object3D::Create(&objtransform);
+		newObject->SetModel(model);
+
+		// 座標
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMStoreFloat3(&pos, objectData.translation);
+		newObject->Wt->translation_ = pos;
+
+		// 回転角
+		DirectX::XMFLOAT3 rot;
+		DirectX::XMStoreFloat3(&rot, objectData.rotation);
+		newObject->Wt->rotation_=rot;
+
+		// 座標
+		DirectX::XMFLOAT3 scale;
+		DirectX::XMStoreFloat3(&scale, objectData.scaling);
+		newObject->Wt->scale_=scale;
+
+		// 配列に登録
+		objects.push_back(newObject);
+	}
 
 	
 	XMFLOAT3 eye = { 0,0,-50 };
@@ -253,7 +295,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 		light->Update();
 
-		obj1->Update(&camera);
 		obj2->Update(&camera);
 		objskydome->Update(&camera);
 		objground->Update(&camera);
@@ -262,6 +303,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		camera.SetEye(eye);
 		camera.SetTarget(target);
 		camera.Update();
+		for (auto& object : objects) {
+			object->Update(&camera);
+		}
 
 
 		
@@ -273,8 +317,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Object3D::PreDraw(dxCommon->GetCommandList());
 		objskydome->Draw();
 		
-		obj1->Draw();
-		obj2->Draw();
+		for (auto& object : objects) {
+			object->Draw();
+		}
+		//obj2->Draw();
 		objground->Draw();
 		
 
@@ -306,10 +352,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 
 	delete input;
-	delete obj1;
 	delete obj2;
-	delete model;
 	delete model2;
+	for (Object3D*& object : objects) {
+		delete(object);
+	}
+	delete levelData;
 	delete objskydome;
 	delete objground;
 	delete gra;

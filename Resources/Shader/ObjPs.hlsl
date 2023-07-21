@@ -16,7 +16,7 @@ float4 main(VSOutput input) : SV_TARGET
     
     float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
-    for (int i = 0; i < DIR_LIGHT_NUM;i++)
+    for (unsigned int i = 0; i < DIR_LIGHT_NUM;i++)
     {
         if(dirLights[i].active)
         {
@@ -33,16 +33,16 @@ float4 main(VSOutput input) : SV_TARGET
         }
         
     }
-    for (int i = 0; i < POINT_LIGHT_NUM; i++)
+    for (unsigned int j = 0; j < POINT_LIGHT_NUM; j++)
     {
-        if (pointLights[i].active)
+        if (pointLights[j].active)
         {
             
-            float3 lightv = pointLights[i].lightpos - input.worldpos.xyz;
+            float3 lightv = pointLights[j].lightpos - input.worldpos.xyz;
             
             float d = length(lightv);
             
-            float atten = 1.0f / (pointLights[i].lightatten.x + pointLights[i].lightatten.y * d + pointLights[i].lightatten.z * d * d);
+            float atten = 1.0f / (pointLights[j].lightatten.x + pointLights[j].lightatten.y * d + pointLights[j].lightatten.z * d * d);
             
             
             
@@ -54,7 +54,7 @@ float4 main(VSOutput input) : SV_TARGET
             
             float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
             
-            shadecolor.rgb +=atten* (diffuse + specular + ambient) * pointLights[i].lightcolor;
+            shadecolor.rgb +=atten* (diffuse + specular + ambient) * pointLights[j].lightcolor;
             
         }
     }

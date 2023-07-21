@@ -5,6 +5,9 @@
 #include <fstream>
 #include <cassert>
 
+const std::string LevelLoder::kDefaultBaseDirectory = "Resources/";
+const std::string LevelLoder::kExtension = ".json";
+
 LevelData* LevelLoder::LoadFile(const std::string& fileName)
 {
 	// 連結してフルパスを得る
