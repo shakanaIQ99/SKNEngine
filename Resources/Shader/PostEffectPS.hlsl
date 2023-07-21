@@ -35,11 +35,11 @@ float4 main(VSOutput input) : SV_Target
     float4 colortex1 = tex1.Sample(smp, input.uv);
     
     float4 color = colortex0;
-    if(fmod(input.uv.y,0.1f)<0.05f)
+    if (fmod(input.uv.y, 0.1f) < 0.05f)
     {
         color = colortex1;
     }
     
-    return float4(color.rgb,1);
+    return float4(color.rgb, 1);
     
 }

@@ -69,9 +69,9 @@ private:
     ComPtr <ID3D12DescriptorHeap> srvHeap;
     D3D12_HEAP_PROPERTIES texHeapProp{};
 
-    std::array<DescriptorHeap::DescriptorHeapViewHandle,2> handle_;
+    DescriptorHeap::DescriptorHeapViewHandle handle_;
 
-    //D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle[2];
+    D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle[2];
 
     ComPtr<ID3D12Resource> depthBuff;
 
