@@ -24,7 +24,7 @@ PSOutput main(VSOutput input)
     float4 shadercolor = float4(brightness, brightness, brightness, 1.0f);
     
     output.target0 = shadercolor * texcolor;
-    output.target1 = float4(1 - (shadercolor * texcolor).rgb, 1);
+    output.target1 = shadercolor * texcolor;
     
     return output;
 

@@ -80,7 +80,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	wt3.scale_ = { 1.5f,1.5f,0 };
 	wt4.scale_ = { 0.5f,0.5f,0 };
 
-	objec1->PlayAnimation();
+	//objec1->PlayAnimation();
 
 }
 
