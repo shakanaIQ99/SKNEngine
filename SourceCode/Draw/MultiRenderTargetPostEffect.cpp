@@ -86,7 +86,7 @@ void MultiRenderTargetPostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdli
 {
 	for (int i = 0; i < 2; i++)
 	{
-		auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff[i].Get(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+		auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff[i].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 		cmdlist->ResourceBarrier(1, &barrier);
 	}
 }
