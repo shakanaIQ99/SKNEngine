@@ -17,10 +17,8 @@ ID3D12GraphicsCommandList* Object3D::commandList;
 PipelineSet Object3D::ObjPipeline;
 LightGroup* Object3D::lightGroup = nullptr;
 
-Object3D::Object3D(WorldTransform* wt)
+Object3D::Object3D()
 {
-	Wt = wt;
-
 	color = { 1,1,1,1 };
 
 	scale = { 1,1,1 };
@@ -57,10 +55,10 @@ void Object3D::PostDraw()
 	Object3D::commandList = nullptr;
 }
 
-Object3D* Object3D::Create(WorldTransform* wt)
+Object3D* Object3D::Create()
 {
 	// Spriteのインスタンスを生成
-	Object3D* obj = new Object3D(wt);
+	Object3D* obj = new Object3D();
 	if (obj == nullptr) {
 		return nullptr;
 	}
@@ -73,14 +71,14 @@ Object3D* Object3D::Create(WorldTransform* wt)
 	}
 
 	float scale_val = 10;
-	obj->Wt->scale_ = { scale_val ,scale_val ,scale_val };
+	obj->Wt.scale_ = { scale_val ,scale_val ,scale_val };
 
 	return obj;
 }
 
 bool Object3D::Initialize()
 {
-	Wt->CreateConstBuffer(device);
+	Wt.CreateConstBuffer(device);
 	
 	return true;
 }
@@ -88,11 +86,11 @@ bool Object3D::Initialize()
 void Object3D::Update(ViewProjection* camera)
 {
 	
-	Wt->Map();
+	Wt.Map();
 
-	Wt->color = color;
+	Wt.color = color;
 	
-	Wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(),camera->Geteye());
+	Wt.UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(),camera->Geteye());
 	
 }
 
@@ -101,7 +99,7 @@ void Object3D::Draw()
 	
 	if (model == nullptr) return;
 
-	commandList->SetGraphicsRootConstantBufferView(0, this->Wt->constBuffB0->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
 	lightGroup->Draw(commandList, 3);
 	model->Draw(commandList, 1);
 }

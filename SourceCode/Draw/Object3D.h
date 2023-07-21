@@ -24,7 +24,7 @@ class Object3D
 
 public:
 
-	Object3D(WorldTransform* wt);
+	Object3D();
 
 	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
 
@@ -36,7 +36,7 @@ public:
 	/// </summary>
 	static void PostDraw();
 
-	static Object3D* Create(WorldTransform* wt);
+	static Object3D* Create();
 
 	static void SetLight(LightGroup* light) { Object3D::lightGroup = light; }
 
@@ -70,7 +70,7 @@ public:
 
 	XMMATRIX matWorld;
 
-	WorldTransform* Wt;
+	WorldTransform Wt;
 private:
 	ComPtr<ID3D12Resource> constBuffB1;
 

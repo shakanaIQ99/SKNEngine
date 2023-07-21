@@ -74,7 +74,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	uint32_t tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
 	
 	Model* skydome = Model::LoadFromOBJ("skydome");
-	Model* model2 = Model::LoadFromOBJ("UVBall",true);
+	Model* model2 = Model::LoadFromOBJ("chr_sword");
 	Model* gra = Model::LoadFromOBJ("ground");
 
 	WorldTransform ground;
@@ -102,14 +102,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	skywt.scale_ = { 0.5f,0.5f,0.5f };
 
-	objskydome = Object3D::Create(&skywt);
+	objskydome = Object3D::Create();
 	objskydome->SetModel(skydome);
 
-	objground = Object3D::Create(&ground);
+	objground = Object3D::Create();
 	objground->SetModel(gra);
 
 	
-	obj2 = Object3D::Create(&ball);
+	obj2 = Object3D::Create();
 	obj2->SetModel(model2);
 
 	//
@@ -124,9 +124,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//jsonにあるモデル登録しろ
 	models.insert(std::make_pair("skydome", skydome));
 	models.insert(std::make_pair("ground", gra));
+	models.insert(std::make_pair("chr_sword", model2));
 
 
-	levelData = LevelLoder::LoadFile("");
+	levelData = LevelLoder::LoadFile("a");
 
 	// レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects) {
@@ -137,26 +138,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			model = it->second;
 		}
 
-		WorldTransform objtransform;
 
 		// モデルを指定して3Dオブジェクトを生成
-		Object3D* newObject = Object3D::Create(&objtransform);
+		Object3D* newObject = nullptr;
+		newObject = Object3D::Create();
 		newObject->SetModel(model);
 
 		// 座標
 		DirectX::XMFLOAT3 pos;
 		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->Wt->translation_ = pos;
+		newObject->Wt.translation_ = pos;
 
 		// 回転角
 		DirectX::XMFLOAT3 rot;
 		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->Wt->rotation_=rot;
+		newObject->Wt.rotation_=rot;
 
 		// 座標
 		DirectX::XMFLOAT3 scale;
 		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->Wt->scale_=scale;
+		newObject->Wt.scale_=scale;
 
 		// 配列に登録
 		objects.push_back(newObject);
@@ -295,9 +296,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		}
 		light->Update();
 
-		obj2->Update(&camera);
-		objskydome->Update(&camera);
-		objground->Update(&camera);
+		//obj2->Update(&camera);
+		//objskydome->Update(&camera);
+		//objground->Update(&camera);
 		sprite->Update();
 		sprite2->Update();
 		camera.SetEye(eye);
@@ -315,13 +316,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		dxCommon->PreDraw();
 
 		Object3D::PreDraw(dxCommon->GetCommandList());
-		objskydome->Draw();
+	//	objskydome->Draw();
 		
 		for (auto& object : objects) {
 			object->Draw();
 		}
 		//obj2->Draw();
-		objground->Draw();
+		//objground->Draw();
 		
 
 
