@@ -40,6 +40,6 @@ float4 main(VSOutput input) : SV_Target
         color = colortex1;
     }
     
-    return float4(color.rgb, 1);
+    return float4(color.rgb,1);
     
 }
