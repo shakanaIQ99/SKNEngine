@@ -27,6 +27,7 @@ class OBJ3D
 
 public:
 
+	OBJ3D();
 	OBJ3D(WorldTransform* wt);
 
 	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);

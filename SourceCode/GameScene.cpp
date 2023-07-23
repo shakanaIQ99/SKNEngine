@@ -49,7 +49,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	field = OBJ3D::Create(&field_wt);
 	field->SetModel(field_model);
 
-	player.SetStruct(p_model, OBJ3D::Create(&player_wt), &camera,input);
+	player.SetStruct(p_model, OBJ3D::Create(&player_wt), &camera,input,spritecommon,texturemanager);
 	player.Init();
 
 
@@ -208,7 +208,9 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	// 3Dオブジェクト描画後処理
 	//ParticleManager::PostDraw();
 
-	//spritecommon->PreDraw();
+	spritecommon->PreDraw();
+
+	player.DrawUI();
 
 	//sprite->Draw({ 0,0 });
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});

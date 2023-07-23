@@ -16,6 +16,10 @@ ID3D12GraphicsCommandList* OBJ3D::commandList;
 PipelineSet OBJ3D::ObjPipeline;
 LightGroup* OBJ3D::lightGroup = nullptr;
 
+OBJ3D::OBJ3D()
+{
+}
+
 OBJ3D::OBJ3D(WorldTransform* wt)
 {
 	Wt = wt;

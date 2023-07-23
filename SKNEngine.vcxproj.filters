@@ -195,6 +195,9 @@
     <ClCompile Include="SourceCode\Camera.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\PlayerBullet.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Draw\Sprite2D.h">
@@ -333,6 +336,9 @@
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Camera.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\PlayerBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

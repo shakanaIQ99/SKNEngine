@@ -81,10 +81,10 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 	
 	VertexPos vertices[] =
 	{
-		{{-0.5f,-0.5f,0.0f},{0.0f,1.0f}	},
-		{{-0.5f,+0.5f,0.0f},{0.0f,0.0f}	},
-		{{+0.5f,-0.5f,0.0f},{1.0f,1.0f}	},
-		{{+0.5f,+0.5f,0.0f},{1.0f,0.0f}}
+		{{-1.0f,-1.0f,0.0f},{0.0f,1.0f}	},
+		{{-1.0f,+1.0f,0.0f},{0.0f,0.0f}	},
+		{{+1.0f,-1.0f,0.0f},{1.0f,1.0f}	},
+		{{+1.0f,+1.0f,0.0f},{1.0f,0.0f}}
 	};
 	
 	uint32_t indices[] =
