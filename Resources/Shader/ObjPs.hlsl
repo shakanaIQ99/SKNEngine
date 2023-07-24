@@ -5,7 +5,7 @@ SamplerState smp : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET
 {
-    float4 texcolor = tex.Sample(smp, input.uv)*color;
+    float4 texcolor = tex.Sample(smp, input.uv) * color;
     
     
     const float shininess = 4.0f;
@@ -16,9 +16,9 @@ float4 main(VSOutput input) : SV_TARGET
     
     float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
-    for (int i = 0; i < DIR_LIGHT_NUM;i++)
+    for (unsigned int i = 0; i < DIR_LIGHT_NUM; i++)
     {
-        if(dirLights[i].active)
+        if (dirLights[i].active)
         {
             float3 dotlightnormal = saturate(dot(dirLights[0].lightv, input.normal));
             
@@ -33,7 +33,7 @@ float4 main(VSOutput input) : SV_TARGET
         }
         
     }
-    for (int j = 0; j < POINT_LIGHT_NUM; j++)
+    for (unsigned int j = 0; j < POINT_LIGHT_NUM; j++)
     {
         if (pointLights[j].active)
         {

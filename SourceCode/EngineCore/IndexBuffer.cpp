@@ -1,6 +1,6 @@
 #include "IndexBuffer.h"
 
-void IndexBuffer::Create(ID3D12Device* device, size_t length, const uint32_t* data)
+void IndexBuffer::Create(ID3D12Device* device, size_t length, const void* data)
 {
 	bufferLength = length;
 

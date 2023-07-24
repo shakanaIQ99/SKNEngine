@@ -11,78 +11,133 @@
 #include"ViewProjection.h"
 #include"LightGroup.h"
 
+
 using namespace DirectX;
 
 using namespace Microsoft::WRL;
 
 using namespace std;
 
+
 class Object3D
 {
-
-
-
 public:
 
-	Object3D(WorldTransform* wt);
+	static const int MAX_BONES = 32;
 
-	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	ComPtr<ID3D12Resource> constBuffSkin;
 
-	/// <param name="cmdList">描画コマンドリスト</param>
-	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
+	struct ConstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
 
-	/// <summary>
-	/// 描画後処理
-	/// </summary>
-	static void PostDraw();
+	static void SetDevice(ID3D12Device* Device) { Object3D::device = Device; }
+	static void SetCamera(ViewProjection* Camera) { Object3D::camera = Camera; }
+	static void CreateGraphicsPipeline();
 
-	static Object3D* Create(WorldTransform* wt);
+	void Initilaize(WorldTransform* Wt);
 
-	static void SetLight(LightGroup* light) { Object3D::lightGroup = light; }
+	void Update();
+
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	void SetModel(Model* model);
+
+	void PlayAnimation();
 
 private:
 
 	static ID3D12Device* device;
 
-	// コマンドリスト
-	static ID3D12GraphicsCommandList* commandList;
+	static ViewProjection* camera;
 
-	static LightGroup* lightGroup;
+	static PipelineSet fbxPipeline;
 
+	FbxTime frameTime;
 
-public:
+	FbxTime startTime;
 
-	void SetModel(Model* model) { this->model = model; }
+	FbxTime endTime;
 
-	bool Initialize();
+	FbxTime currentTime;
 
-	void Update(ViewProjection* camera);
-
-	void Draw();
-
-	XMFLOAT4 color;
-					  
-	XMFLOAT3 scale;
-					  
-	XMFLOAT3 rotation;
-					  
-	XMFLOAT3 position;
-
-	XMMATRIX matWorld;
-
-	WorldTransform* Wt;
-private:
-	ComPtr<ID3D12Resource> constBuffB1;
-
-private:
+	bool isPlay = false;
+protected:
+	WorldTransform* wt = nullptr;
 
 	Model* model = nullptr;
 
-
-
-	static PipelineSet ObjPipeline;
-	 
-
-
 };
 
+
+
+//class Object3D
+//{
+//
+//
+//
+//public:
+//
+//	Object3D(WorldTransform* wt);
+//
+//	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+//
+//	/// <param name="cmdList">描画コマンドリスト</param>
+//	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
+//
+//	/// <summary>
+//	/// 描画後処理
+//	/// </summary>
+//	static void PostDraw();
+//
+//	static Object3D* Create(WorldTransform* wt);
+//
+//	static void SetLight(LightGroup* light) { Object3D::lightGroup = light; }
+//
+//private:
+//
+//	static ID3D12Device* device;
+//
+//	// コマンドリスト
+//	static ID3D12GraphicsCommandList* commandList;
+//
+//	static LightGroup* lightGroup;
+//
+//
+//public:
+//
+//	void SetModel(Model* model) { this->model = model; }
+//
+//	bool Initialize();
+//
+//	void Update(ViewProjection* camera);
+//
+//	void Draw();
+//
+//	XMFLOAT4 color;
+//					  
+//	XMFLOAT3 scale;
+//					  
+//	XMFLOAT3 rotation;
+//					  
+//	XMFLOAT3 position;
+//
+//	XMMATRIX matWorld;
+//
+//	WorldTransform* Wt;
+//private:
+//	ComPtr<ID3D12Resource> constBuffB1;
+//
+//private:
+//
+//	Model* model = nullptr;
+//
+//
+//
+//	static PipelineSet ObjPipeline;
+//	 
+//
+//
+//};
+//

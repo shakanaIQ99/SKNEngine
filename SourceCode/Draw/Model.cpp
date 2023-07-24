@@ -5,6 +5,56 @@
 #include <DirectXTex.h>
 
 
+Model::~Model()
+{
+	fbxScene->Destroy();
+}
+
+//void Model::Finalize()
+//{
+//	fbxScene->Destroy();
+//}
+
+void Model::CreateBuffers(ID3D12Device* device)
+{
+	vertexBuffer = make_unique<VertexBuffer>();
+	vertexBuffer->Create(device, vertices.size(), sizeof(VertexPosNormalUvSkin), vertices.data());
+
+	indexBuffer = make_unique<IndexBuffer>();
+	indexBuffer->Create(device, indices.size(),indices.data());
+
+	
+
+}
+
+void Model::Draw(ID3D12GraphicsCommandList* cmdList)
+{
+	vertexBuffer->Update(vertices.data());
+	indexBuffer->Update(indices.data());
+
+	vbView = vertexBuffer->GetView();
+	ibView = indexBuffer->GetView();
+
+	cmdList->IASetVertexBuffers(0, 1,&vbView);
+	cmdList->IASetIndexBuffer(&ibView);
+
+	cmdList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
+
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = tex->gpuHandle;
+
+	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+
+	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+
+}
+
+
+
+
+
+
+
+/*-----------------------------------------ˆÈ‰ºOBJ----------------------------------------------------
 ID3D12Device* Model::device = nullptr;
 
 Model* Model::LoadFromOBJ(const string& modelname, bool smoothing)
@@ -170,7 +220,7 @@ void Model::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	/*UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));*/
+	//UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
 	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -298,8 +348,8 @@ void Model::CreateBuffers()
 	result = constBuffB1->Map(0, nullptr, (void**)&constMap1);
 	assert(SUCCEEDED(result));
 	//constMap->color = color;
-	/*constMap->mat =matWorld* matView * matProjection;
-	constBuff->Unmap(0, nullptr);*/
+	//constMap->mat =matWorld* matView * matProjection;
+	//constBuff->Unmap(0, nullptr);
 	constMap1->ambient = material.ambient;
 	constMap1->diffuse = material.diffuse;
 	constMap1->specular = material.specular;
@@ -333,3 +383,5 @@ void Model::CaliculateSmoothedVertexNormals()
 
 	}
 }
+*/
+

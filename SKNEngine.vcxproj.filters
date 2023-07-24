@@ -5,279 +5,393 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
+    <Filter Include="ソース ファイル\リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\Draw">
-      <UniqueIdentifier>{e924abe7-7692-4182-9bf0-763fca0b731f}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Draw">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Draw">
       <UniqueIdentifier>{9d54e55c-0f9d-4e18-9ed5-642d55cbc355}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Core">
-      <UniqueIdentifier>{759e8d6f-6fbd-41d2-8b39-7be0b51d0c00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Core">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Core">
       <UniqueIdentifier>{77ce8447-efd4-48d7-9689-d9d2d0ad54be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Core\Buff">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Core\Buff">
       <UniqueIdentifier>{c6fe266e-70c3-4365-b996-8e51e8613fbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Core\Buff">
-      <UniqueIdentifier>{5e91cd97-467c-4942-8d92-e1909a496c18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Light">
-      <UniqueIdentifier>{e6da4514-016e-424a-b910-6cf5888f8007}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Light">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Light">
       <UniqueIdentifier>{3401d413-dcd1-4be9-befc-780e286d1c72}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\ImGui">
-      <UniqueIdentifier>{ae288445-b3fd-4b77-8d7e-a813db61163c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Colider">
-      <UniqueIdentifier>{cdfa035b-e9c4-4da6-b634-24fe28a6a928}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Colider">
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Colider">
       <UniqueIdentifier>{0faab10e-0a6e-4c5c-b944-862c0429f28c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Draw\3D">
+      <UniqueIdentifier>{4c00c98f-ab18-4d99-99c0-1d85d03f195e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル">
+      <UniqueIdentifier>{3e092d86-7bfc-4ec8-aa29-75a0a3d66a32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Light">
+      <UniqueIdentifier>{e6da4514-016e-424a-b910-6cf5888f8007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\ImGui">
+      <UniqueIdentifier>{ae288445-b3fd-4b77-8d7e-a813db61163c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Draw">
+      <UniqueIdentifier>{e924abe7-7692-4182-9bf0-763fca0b731f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Draw\3D">
+      <UniqueIdentifier>{e63c46e8-3fa7-4757-b910-a9073ff588ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Core">
+      <UniqueIdentifier>{759e8d6f-6fbd-41d2-8b39-7be0b51d0c00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Core\Buff">
+      <UniqueIdentifier>{5e91cd97-467c-4942-8d92-e1909a496c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Colider">
+      <UniqueIdentifier>{cdfa035b-e9c4-4da6-b634-24fe28a6a928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Math">
+      <UniqueIdentifier>{ca1ecb39-068f-4c32-8c97-47820f0fccb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Math">
+      <UniqueIdentifier>{0c82af98-0703-4561-9afc-10cd7cd4cdbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceCode\Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\ViewProjection.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\WorldTronsform.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\Draw\Sprite2D.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Draw\Object3D.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Draw\Model.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Draw\SpriteCommon.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\DirectXCommon.cpp">
-      <Filter>ソース ファイル\Core</Filter>
+      <Filter>ソース ファイル\cppファイル\Core</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\DxWindow.cpp">
-      <Filter>ソース ファイル\Core</Filter>
+      <Filter>ソース ファイル\cppファイル\Core</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\DescriptorHeap.cpp">
-      <Filter>ソース ファイル\Core</Filter>
+      <Filter>ソース ファイル\cppファイル\Core</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Draw\TextureManager.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\ConstBuffer.cpp">
-      <Filter>ソース ファイル\Core\Buff</Filter>
+      <Filter>ソース ファイル\cppファイル\Core\Buff</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\IndexBuffer.cpp">
-      <Filter>ソース ファイル\Core\Buff</Filter>
+      <Filter>ソース ファイル\cppファイル\Core\Buff</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\VertexBuffer.cpp">
-      <Filter>ソース ファイル\Core\Buff</Filter>
+      <Filter>ソース ファイル\cppファイル\Core\Buff</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Light\DirectionLight.cpp">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\cppファイル\Light</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Draw\DrawCommon.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Draw\Sprite.cpp">
-      <Filter>ソース ファイル\Draw</Filter>
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Light\LightGroup.cpp">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\cppファイル\Light</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Light\PointLight.cpp">
-      <Filter>ソース ファイル\Light</Filter>
+      <Filter>ソース ファイル\cppファイル\Light</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Imgui\imgui.cpp">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Imgui\imgui_demo.cpp">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Imgui\imgui_draw.cpp">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Imgui\imgui_tables.cpp">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Imgui\imgui_widgets.cpp">
-      <Filter>ソース ファイル\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Imgui\ImGuiManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Imgui\imgui_impl_dx12.cpp">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Imgui\imgui_impl_win32.cpp">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Collision.cpp">
-      <Filter>ソース ファイル\Colider</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\EngineCore\FPS.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Draw\ParticleManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\cppファイル\Colider</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\EngineCore\Pipeline.cpp">
-      <Filter>ソース ファイル\Core</Filter>
+      <Filter>ソース ファイル\cppファイル\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\EngineCore\FPS.cpp">
+      <Filter>ソース ファイル\cppファイル\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\ParticleManager.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\ViewProjection.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\WorldTronsform.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\ImGuiManager.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Input.cpp">
+      <Filter>ソース ファイル\cppファイル\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\main.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\GameScene.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\OBJ3D.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\ObjModel.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\Object3D.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\Model.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\FbxLoader.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\BossEnemy.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Player.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Math\Vector2.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Math\Vector3.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Math\Matrix4.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Float4.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Camera.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\PlayerBullet.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceCode\Input.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\ViewProjection.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\WorldTronsform.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Draw\Model.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Draw\Object3D.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Draw\Sprite2D.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Draw\SpriteCommon.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\DirectXCommon.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\DxWindow.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\DescriptorHeap.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Draw\TextureManager.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\ConstBuffer.h">
-      <Filter>ヘッダー ファイル\Core\Buff</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Core\Buff</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\IndexBuffer.h">
-      <Filter>ヘッダー ファイル\Core\Buff</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Core\Buff</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\VertexBuffer.h">
-      <Filter>ヘッダー ファイル\Core\Buff</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Core\Buff</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Light\DirectionLight.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Light</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Draw\DrawCommon.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Draw\Sprite.h">
-      <Filter>ヘッダー ファイル\Draw</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Light\LightGroup.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Light</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Light\PointLight.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Light</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imconfig.h">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imgui.h">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imgui_internal.h">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imstb_rectpack.h">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imstb_textedit.h">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imstb_truetype.h">
-      <Filter>ソース ファイル\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Imgui\ImGuiManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imgui_impl_dx12.h">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\imgui_impl_win32.h">
-      <Filter>ソース ファイル\ImGui</Filter>
+      <Filter>ソース ファイル\cppファイル\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル\Colider</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Colider</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Collision.h">
-      <Filter>ヘッダー ファイル\Colider</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\EngineCore\FPS.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Draw\ParticleManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Colider</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\EngineCore\Pipeline.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\EngineCore\FPS.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Imgui\ImGuiManager.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\ParticleManager.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\ViewProjection.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\WorldTronsform.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Input.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\GameScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\PostEffect.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\OBJ3D.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\ObjModel.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\FbxLoader.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\Object3D.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Draw\Model.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Player.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\BossEnemy.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\Vector2.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\Vector3.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\Matrix4.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Float4.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\Float4.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Camera.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\PlayerBullet.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\Basic.hlsli">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </None>
     <None Include="Resources\Shader\Obj.hlsli">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </None>
     <None Include="Resources\Shader\Particle.hlsli">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shader\FBX.hlsli">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shader\PostEffect.hlsli">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\BasicPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\BasicVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ObjPs.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ObjVs.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ParticleGS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ParticlePS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\ParticleVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\FBXVS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\FBXPS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\PostEffectVS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\PostEffectPS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

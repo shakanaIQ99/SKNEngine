@@ -7,8 +7,7 @@ void ViewProjection::Initialize()
 	target = { 0,0,0 };
 	up = { 0,1,0 };
 	aspect = (float)DxWindow::window_width / DxWindow::window_height;
-	nearClip = 0.1f;
-	farClip = 2000.0f;
+	
 
 	UpdateMatview();
 	UpdateMatProjection();
@@ -28,7 +27,7 @@ void ViewProjection::UpdateMatview()
 
 void ViewProjection::UpdateMatProjection()
 {
-	matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), aspect, nearClip, farClip);
+	matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)DxWindow::window_width / DxWindow::window_height, nearClip, farClip);
 }
 
 const XMMATRIX& ViewProjection::GetMAtView()

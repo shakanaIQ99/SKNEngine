@@ -38,4 +38,7 @@ void FPS::Update(float Fps, bool flag)
 		}
 	}
 	count = std::chrono::steady_clock::now();
+
+
+
 }

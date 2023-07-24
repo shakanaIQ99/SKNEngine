@@ -17,7 +17,7 @@ public:
 
 	D3D12_CONSTANT_BUFFER_VIEW_DESC GetViewDesc();
 
-	void Update(void* data);
+	//void Update(void* data);
 
 	ID3D12Resource* GetResource();
 

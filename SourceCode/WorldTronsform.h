@@ -12,10 +12,11 @@ using namespace Microsoft::WRL;
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransformB0
 {
-	XMFLOAT4 color;
 	XMMATRIX viewproj;
 	XMMATRIX world;
 	XMFLOAT3 cameraPos;
+	float pad1;
+	XMFLOAT4 color;
 };
 
 
@@ -33,9 +34,9 @@ struct WorldTransform {
 	// ローカルスケール
 	XMFLOAT3 scale_ = { 1, 1, 1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation_ = { 0, 0, 0 };
+	XMFLOAT3 rotation_ = { 0.0f, 0.0f, 0.0f };
 	// ローカル座標
-	XMFLOAT3 translation_ = { 0, 0, 0 };
+	XMFLOAT3 translation_ = { 0.0f, 0.0f, 0.0f };
 
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカル → ワールド変換行列

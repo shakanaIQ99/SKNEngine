@@ -8,7 +8,7 @@ class ImGuiManager
 
 public:
 
-	void Initialize(HWND hwnd,DirectXCommon* dxcommon);
+	void Initialize(HWND hwnd, DirectXCommon* dxcommon);
 
 	void Finalize();
 
@@ -24,6 +24,7 @@ private:
 
 	ComPtr<ID3D12DescriptorHeap>srvheap;
 
+	DescriptorHeap::DescriptorHeapViewHandle handle_;
+
 
 };
-

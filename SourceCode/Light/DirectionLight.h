@@ -45,7 +45,7 @@ public:
 
 	XMFLOAT3 GetLightColor() { return lightcolor; }
 
-	inline void SetActive(bool active) { this->active = active; }
+	inline void SetActive(bool Active) { this->active = Active; }
 	inline bool IsActive() { return active; }
 
 private:
