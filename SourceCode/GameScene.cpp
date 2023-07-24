@@ -97,20 +97,16 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	float lightDir0[3] = { 0,0,-1 };
 	float lightColor0[3] = { 1,0,0 };
 
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
+	float litX = 0.0f;
+	float litY = 0.0f;
+	float litZ = 0.0f;
 
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
-
-	float pointLightPos[3] = { 0.5f,1.0f,0 };
+	float pointLightPos[3] = { litX,litY,litZ };
 	float pointLightColor[3] = { 1,1,1 };
 
 	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
 
 	light->SetDirLightActive(0, true);
-	light->SetDirLightActive(1, true);
-	light->SetDirLightActive(2, true);
 	light->SetPointLightActive(0, false);
 
 
