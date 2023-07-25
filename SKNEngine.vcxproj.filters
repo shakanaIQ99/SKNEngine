@@ -61,6 +61,12 @@
     <Filter Include="ソース ファイル\ヘッダー ファイル\Math">
       <UniqueIdentifier>{0c82af98-0703-4561-9afc-10cd7cd4cdbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Application">
+      <UniqueIdentifier>{ba3e3440-3f02-4d71-acd3-b09d0eb71bc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Application">
+      <UniqueIdentifier>{a1b050de-f4dc-4a8c-8be2-c9b5e64d48e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Draw\Sprite2D.cpp">
@@ -153,9 +159,6 @@
     <ClCompile Include="SourceCode\main.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\GameScene.cpp">
-      <Filter>ソース ファイル\cppファイル</Filter>
-    </ClCompile>
     <ClCompile Include="PostEffect.cpp">
       <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
@@ -174,12 +177,6 @@
     <ClCompile Include="SourceCode\Draw\FbxLoader.cpp">
       <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\BossEnemy.cpp">
-      <Filter>ソース ファイル\cppファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Player.cpp">
-      <Filter>ソース ファイル\cppファイル</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\Math\Vector2.cpp">
       <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
@@ -192,11 +189,23 @@
     <ClCompile Include="SourceCode\Float4.cpp">
       <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\Camera.cpp">
-      <Filter>ソース ファイル\cppファイル</Filter>
+    <ClCompile Include="SourceCode\BossEnemy.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Player.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\PlayerBullet.cpp">
-      <Filter>ソース ファイル\cppファイル</Filter>
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\GameScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Camera.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\StuructTransform.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +302,6 @@
     <ClInclude Include="SourceCode\Input.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\GameScene.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Draw\PostEffect.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
@@ -314,12 +320,6 @@
     <ClInclude Include="SourceCode\Draw\Model.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\Player.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\BossEnemy.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Math\Vector2.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
@@ -332,14 +332,23 @@
     <ClInclude Include="SourceCode\Float4.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\Math\Float4.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    <ClInclude Include="SourceCode\BossEnemy.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Camera.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\GameScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Player.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\PlayerBullet.h">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\StuructTransform.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

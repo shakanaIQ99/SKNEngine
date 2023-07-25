@@ -1,18 +1,13 @@
 #pragma once
-#include<ObjModel.h>
-#include<OBJ3D.h>
-#include<WorldTronsform.h>
-#include<Camera.h>
 #include<Input.h>
-#include<Sprite2D.h>
-#include<SpriteCommon.h>
 #include<PlayerBullet.h>
+#include "StuructTransform.h"
 
 
-class Player
+class Player : public StuructTransform
 {
 public:
-	void SetStruct(ObjModel* _model,OBJ3D* _obj,Camera* _camera,Input* _input,SpriteCommon* spcommon, TextureManager* texmana);
+	void SetInput(Input* _input);
 
 	void Init();
 
@@ -29,7 +24,7 @@ public:
 
 	XMFLOAT3 GetPos()
 	{
-		return player->Wt->translation_;
+		return player.transform.translation_;
 	}
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
@@ -41,13 +36,8 @@ private:
 	float move_speed;
 	XMFLOAT3 moveVec;
 	
-	SpriteCommon* spCommon;
-	TextureManager* texMana;
-	Camera* camera;
-
-	OBJ3D* player = nullptr;
-	ObjModel* player_model = nullptr;
-
+	StuructTransform player;
+	
 	std::unique_ptr<Sprite2D> sprite_Reticle;
 
 	WorldTransform reticle;

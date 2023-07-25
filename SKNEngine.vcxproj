@@ -203,12 +203,12 @@
     <ClCompile Include="SourceCode\WorldTronsform.cpp" />
     <ClCompile Include="SourceCode\Math\Vector2.cpp" />
     <ClCompile Include="SourceCode\Math\Vector3.cpp" />
+    <ClCompile Include="SourceCode\StuructTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\PlayerBullet.h" />
     <ClInclude Include="SourceCode\Camera.h" />
     <ClInclude Include="SourceCode\Float4.h" />
-    <ClInclude Include="SourceCode\Math\Float4.h" />
     <ClInclude Include="SourceCode\Math\Matrix4.h" />
     <ClInclude Include="SourceCode\BossEnemy.h" />
     <ClInclude Include="SourceCode\Player.h" />
@@ -252,6 +252,7 @@
     <ClInclude Include="SourceCode\WorldTronsform.h" />
     <ClInclude Include="SourceCode\Math\Vector2.h" />
     <ClInclude Include="SourceCode\Math\Vector3.h" />
+    <ClInclude Include="SourceCode\StuructTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\FBX.hlsli" />

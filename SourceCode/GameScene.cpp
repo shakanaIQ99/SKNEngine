@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include"FbxLoader.h"
+#include"StuructTransform.h"
 
 
 void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
@@ -22,6 +23,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	camera.Initialize({}, {},dxcommon->GetDevice());
 	Object3D::SetCamera(camera.getView());
 
+	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);
+
 	//テクスチャ読み込み
 
 	tex1 = texturemanager->LoadTexture("Resources/visual.png");
@@ -32,7 +35,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	field_model = ObjModel::LoadFromOBJ("ground");
-	p_model = ObjModel::LoadFromOBJ("player");
+	
 	
 
 	//3Dモデル周り
@@ -49,7 +52,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	field = OBJ3D::Create(&field_wt);
 	field->SetModel(field_model);
 
-	player.SetStruct(p_model, OBJ3D::Create(&player_wt), &camera,input,spritecommon,texturemanager);
+	player.SetInput(input);
 	player.Init();
 
 

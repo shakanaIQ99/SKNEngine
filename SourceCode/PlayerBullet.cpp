@@ -4,7 +4,6 @@ PlayerBullet::PlayerBullet()
 {
 	bullet_model.reset(ObjModel::LoadFromOBJ("maru"));
 
-	bullet = std::make_unique<OBJ3D>();
 	bullet.reset(OBJ3D::Create(&transform));
 	bullet->SetModel(bullet_model.get());
 	Velocity_ = { 0,0,0 };

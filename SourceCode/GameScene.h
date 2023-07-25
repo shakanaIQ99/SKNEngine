@@ -56,10 +56,6 @@ public:
 		delete skydome;
 		delete field_model;
 		delete field;
-
-		delete p_model;
-
-
 		delete particleMan;
 
 		delete sprite;
@@ -101,7 +97,6 @@ private:
 	ObjModel* field_model = nullptr;
 	OBJ3D* field = nullptr;
 
-	ObjModel* p_model = nullptr;
 
 	Sprite2D* sprite = nullptr;
 	Sprite2D* sprite2 = nullptr;
@@ -112,8 +107,6 @@ private:
 	WorldTransform wt3;
 	WorldTransform wt4;
 	WorldTransform p1;
-
-	WorldTransform player_wt;
 
 	WorldTransform skydome_wt;
 	WorldTransform field_wt;
