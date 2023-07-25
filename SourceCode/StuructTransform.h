@@ -12,6 +12,7 @@ public:
 	static void SetStruct(Camera* _camera, SpriteCommon* spcommon, TextureManager* texmana);
 
 	void ModelInit(const string& modelname,bool smooth=false);
+	void ModelInit(ObjModel* _model);
 
 	
 	std::unique_ptr<OBJ3D> St;

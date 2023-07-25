@@ -1,13 +1,13 @@
 #pragma once
-#include<ObjModel.h>
-#include<OBJ3D.h>
-#include<Camera.h>
+#include "StuructTransform.h"
 using namespace DirectX;
-class PlayerBullet
+class PlayerBullet:public StuructTransform
 {
 public:
 	PlayerBullet();
 	~PlayerBullet();
+
+	static void SetModel(ObjModel* _model);
 
 	/// <summary>
 	/// 初期化
@@ -15,7 +15,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void Initlize(Camera* camera, const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity);
+	void Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity);
 
 	/// <summary>
 	/// 更新
@@ -38,12 +38,10 @@ public:
 
 private:
 
-	Camera* camera;
+	static std::unique_ptr<ObjModel> Premodel;
 
 	//モデル
-	std::unique_ptr<OBJ3D> bullet;
-	std::unique_ptr<ObjModel> bullet_model;
-	WorldTransform transform;
+	StuructTransform bullet;
 	
 
 	//テクスチャハンドル

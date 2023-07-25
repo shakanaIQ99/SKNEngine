@@ -19,3 +19,9 @@ void StuructTransform::ModelInit(const string& modelname, bool smooth)
 	St->SetModel(model.get());
 
 }
+
+void StuructTransform::ModelInit(ObjModel* _model)
+{
+	St.reset(OBJ3D::Create(&transform));
+	St->SetModel(_model);
+}

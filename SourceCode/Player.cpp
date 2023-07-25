@@ -9,6 +9,8 @@ void Player::Init()
 {
 
 	player.ModelInit("player");
+	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
+	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
 
@@ -109,7 +111,7 @@ void Player::Attack(XMFLOAT3 flont)
 
 
 	std::unique_ptr <PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	newBullet->Initlize(camera, BulletStart, player.transform.rotation_, velocity);
+	newBullet->Initlize(BulletStart, player.transform.rotation_, velocity);
 
 	bullets_.push_back(std::move(newBullet));
 
