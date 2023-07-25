@@ -67,6 +67,18 @@
     <Filter Include="ソース ファイル\ヘッダー ファイル\Application">
       <UniqueIdentifier>{a1b050de-f4dc-4a8c-8be2-c9b5e64d48e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Application\Player">
+      <UniqueIdentifier>{13722455-c04a-47b5-b6f8-11260d74bd92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Application\Boss">
+      <UniqueIdentifier>{936fcca4-26d5-40b7-a783-1c45430c6d69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Application\Player">
+      <UniqueIdentifier>{faf43234-2e25-47bd-abd0-79fcf7a085fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Application\Boss">
+      <UniqueIdentifier>{287b7331-1827-49c2-9070-c65b6528bede}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Draw\Sprite2D.cpp">
@@ -189,15 +201,6 @@
     <ClCompile Include="SourceCode\Float4.cpp">
       <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\BossEnemy.cpp">
-      <Filter>ソース ファイル\cppファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Player.cpp">
-      <Filter>ソース ファイル\cppファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\PlayerBullet.cpp">
-      <Filter>ソース ファイル\cppファイル\Application</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\GameScene.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
@@ -206,6 +209,15 @@
     </ClCompile>
     <ClCompile Include="SourceCode\StuructTransform.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\BossEnemy.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Player.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\PlayerBullet.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,23 +344,23 @@
     <ClInclude Include="SourceCode\Float4.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\BossEnemy.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Camera.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\GameScene.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\Player.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\PlayerBullet.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\StuructTransform.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\BossEnemy.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Player.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\PlayerBullet.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

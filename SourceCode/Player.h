@@ -2,12 +2,17 @@
 #include"Input.h"
 #include"PlayerBullet.h"
 #include"StuructTransform.h"
+#include"BossEnemy.h"
 
 
 class Player : public StuructTransform
 {
 public:
 	void SetInput(Input* _input);
+	void SetEnemy(BossEnemy* enemy)
+	{
+		boss = enemy;
+	}
 
 	void Init();
 
@@ -31,7 +36,7 @@ public:
 
 private:
 	Input* input;
-
+	BossEnemy* boss;
 	
 	float move_speed;
 	XMFLOAT3 moveVec;

@@ -19,3 +19,7 @@ void BossEnemy::Draw()
 void BossEnemy::DrawUI()
 {
 }
+
+void BossEnemy::MoveTabele()
+{
+}

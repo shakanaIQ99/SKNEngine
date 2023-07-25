@@ -45,7 +45,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	player.SetInput(input);
 	player.Init();
 
-
+	boss.SetPlayer(&player);
+	player.SetEnemy(&boss);
 
 
 	//スプライト周り
