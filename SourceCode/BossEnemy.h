@@ -33,6 +33,7 @@ public:
 private:
 	Player* player;
 	
+	Pattern bossmove;
 
 };
 

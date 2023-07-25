@@ -8,6 +8,21 @@ void BossEnemy::Init()
 
 void BossEnemy::Update()
 {
+	switch (bossmove)
+	{
+	case BossEnemy::NONE:
+		break;
+	case BossEnemy::SIMPLESHOT:
+		break;
+	case BossEnemy::CHARGE:
+		break;
+	case BossEnemy::LASER:
+		break;
+	default:
+		break;
+	}
+
+
 	St->Update(camera->getView());
 }
 
