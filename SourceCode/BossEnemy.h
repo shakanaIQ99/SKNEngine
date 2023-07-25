@@ -1,37 +1,22 @@
 #pragma once
-#include<ObjModel.h>
-#include<OBJ3D.h>
-#include<WorldTronsform.h>
-#include<Camera.h>
-#include<Sprite2D.h>
-#include<SpriteCommon.h>
+#include"StuructTransform.h"
 
-class BossEnemy
+class BossEnemy : public StuructTransform
 {
 public:
 
-	//void SetStruct(ObjModel* _model, OBJ3D* _obj, Camera* _camera, SpriteCommon* spcommon, TextureManager* texmana);
+	void Init();
 
-	//void Init();
+	void Update();
 
-	//void Update();
+	void Draw();
 
-	///// <summary>
-	///// çUåÇ
-	///// </summary>
-
-	//void Draw();
-
-	//void DrawUI();
-
-	///*XMFLOAT3 GetPos()
-	//{
-	//	return;
-	//}*/
-
+	void DrawUI();
+	
 
 private:
 
+	
 
 };
 

@@ -1,7 +1,7 @@
 #pragma once
-#include<Input.h>
-#include<PlayerBullet.h>
-#include "StuructTransform.h"
+#include"Input.h"
+#include"PlayerBullet.h"
+#include"StuructTransform.h"
 
 
 class Player : public StuructTransform
@@ -24,7 +24,7 @@ public:
 
 	XMFLOAT3 GetPos()
 	{
-		return player.transform.translation_;
+		return transform.translation_;
 	}
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
@@ -36,7 +36,7 @@ private:
 	float move_speed;
 	XMFLOAT3 moveVec;
 	
-	StuructTransform player;
+	//StuructTransform player;
 	
 	std::unique_ptr<Sprite2D> sprite_Reticle;
 

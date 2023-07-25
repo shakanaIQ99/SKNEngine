@@ -1,10 +1,10 @@
 #pragma once
-#include<ObjModel.h>
-#include<OBJ3D.h>
-#include<WorldTronsform.h>
-#include<Camera.h>
-#include<Sprite2D.h>
-#include<SpriteCommon.h>
+#include"OBJ3D.h"
+#include"ObjModel.h"
+#include"Camera.h"
+#include"WorldTronsform.h"
+#include"Sprite2D.h"
+#include"SpriteCommon.h"
 class StuructTransform
 {
 public:

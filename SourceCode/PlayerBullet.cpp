@@ -4,7 +4,7 @@ std::unique_ptr<ObjModel> PlayerBullet::Premodel;
 
 PlayerBullet::PlayerBullet()
 {
-	bullet.ModelInit(Premodel.get());
+	ModelInit(Premodel.get());
 	Velocity_ = { 0,0,0 };
 }
 
@@ -19,18 +19,18 @@ void PlayerBullet::SetModel(ObjModel* model)
 
 void PlayerBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)
 {
-	bullet.transform.translation_ = position;
-	bullet.transform.rotation_ = rota;
-	bullet.transform.scale_ = { 0.5f,0.5f,0.5f };
+	transform.translation_ = position;
+	transform.rotation_ = rota;
+	transform.scale_ = { 0.5f,0.5f,0.5f };
 	
 	Velocity_ = velocity;
 }
 
 void PlayerBullet::Update()
 {
-	bullet.transform.translation_ = bullet.transform.translation_ + Velocity_;
+	transform.translation_ = transform.translation_ + Velocity_;
 
-	bullet.St->Update(camera->getView());
+	St->Update(camera->getView());
 
 	//デスタイマーをひいて0以下になったらフラグを立てる
 	if (--deathTimer_ <= 0)
@@ -42,7 +42,7 @@ void PlayerBullet::Update()
 void PlayerBullet::Draw()
 {
 	//bullet.Draw();
-	bullet.St->Draw();
+	St->Draw();
 }
 
 void PlayerBullet::OnCollision()

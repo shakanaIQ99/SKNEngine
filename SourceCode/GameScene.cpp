@@ -26,13 +26,6 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);
 
 	//テクスチャ読み込み
-
-	tex1 = texturemanager->LoadTexture("Resources/visual.png");
-	tex2 = texturemanager->LoadTexture("Resources/puragomi.jpg");
-	tex3 = texturemanager->LoadTexture("Resources/effect1.png");
-	tex4 = texturemanager->LoadTexture("Resources/effect3.png");
-	
-	model1 = FbxLoader::GetInstance()->LoadModelFlomFile("boneTest");
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	field_model = ObjModel::LoadFromOBJ("ground");
 	
@@ -40,59 +33,26 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	//3Dモデル周り
 
-	atm.CreateConstBuffer(dxcommon->GetDevice());
-
-	objec1 = new Object3D();
-	objec1->Initilaize(&atm);
-	objec1->SetModel(model1);
-
+	
 	skydome = OBJ3D::Create(&skydome_wt);
 	skydome->SetModel(skydome_model);
 
 	field = OBJ3D::Create(&field_wt);
 	field->SetModel(field_model);
 
+	boss.Init();
+
 	player.SetInput(input);
 	player.Init();
 
 
+
+
 	//スプライト周り
 
-	sprite = new Sprite2D();
-	sprite->Initialize(spritecommon, &wt3, tex1);
-	sprite2 = new Sprite2D();
-	sprite2->Initialize(spritecommon, &wt4, tex2);
 
 	//パーティクル周り
 
-	particleMan = ParticleManager::Create(tex3, &p1);
-
-	for (int i = 0; i < 100; i++)
-	{
-		const float rnd_pos = 20.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-
-		const float rnd_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		particleMan->Add(150, pos, vel, acc, 1.0f, 0.0f);
-
-	}
-
-
-	 
-
-	eye = { 0,20,-200 };
 	int scenenum = 0;
 
 	float ambientColor[3] = { 1,1,1 };
@@ -119,17 +79,6 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	//float a = 0.2f;
 
-	atm.rotation_.y = XMConvertToRadians(90.0f);
-
-	sprite2->Wt->translation_.y = 5.0f;
-	wt3.translation_ = { 100.0f,100.0f,0.0f };
-	wt3.scale_ = { 0.5f,0.5f,0 };
-	wt4.scale_ = { 0.5f,0.5f,0 };
-
-	
-
-	//objec1->PlayAnimation();
-
 	//field->Wt->translation_.y = -5.0f;
 
 }
@@ -155,12 +104,7 @@ void GameScene::Update()
 		rotateX -= (float)inputnum.y * cameraDPI;
 	}
 
-	particleMan->Update(camera.getView());
-
 	light->Update();
-
-	sprite->Update();
-	sprite2->Update();
 
 	XMFLOAT3 cameraPos = XMFLOAT3(player.GetPos().x - (flontVec.x * cameraDistance),
 		player.GetPos().y - (flontVec.y * cameraDistance)+5.0f,
@@ -171,10 +115,10 @@ void GameScene::Update()
 	camera.setPos(XMFLOAT3((sinf(cameraRotateY) * 20 + player.GetPos().x), (sinf(-cameraRotateX) * 20 + player.GetPos().y + 5), (cosf(cameraRotateY) * 20 + player.GetPos().z)));
 	camera.setRotate({ rotateX,rotateY,0 });
 	camera.Update();
-	objec1->Update();
 	skydome->Update(camera.getView());
 	field->Update(camera.getView());
 	player.Update();
+	boss.Update();
 
 
 
@@ -184,15 +128,13 @@ void GameScene::Update()
 void GameScene::Draw(DirectXCommon* dxcommon)
 {
 
-	
-
-	objec1->Draw(dxcommon->GetCommandList());
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
 
 	skydome->Draw();
 	field->Draw();
 
 	player.Draw();
+	boss.Draw();
 	OBJ3D::PostDraw();
 	ParticleManager::PreDraw(dxcommon->GetCommandList());
 

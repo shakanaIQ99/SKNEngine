@@ -41,7 +41,7 @@ private:
 	static std::unique_ptr<ObjModel> Premodel;
 
 	//モデル
-	StuructTransform bullet;
+	//StuructTransform bullet;
 	
 
 	//テクスチャハンドル

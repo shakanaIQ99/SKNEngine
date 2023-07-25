@@ -8,14 +8,14 @@ void Player::SetInput(Input* _input)
 void Player::Init()
 {
 
-	player.ModelInit("player");
+	ModelInit("player");
 	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
 
-	player.transform.scale_ = { 1.0f,1.0f,1.0f };
-	player.transform.translation_.y = 10.0f;
+	transform.scale_ = { 1.0f,1.0f,1.0f };
+	transform.translation_.y = 10.0f;
 
 
 
@@ -39,13 +39,7 @@ void Player::Update()
 			return bullet->IsDead();
 		});
 
-
 	XMFLOAT2 inputnum = input->GetLStick(true, true);
-
-	if (input->GetPadButtonDown(XINPUT_GAMEPAD_A))
-	{
-		player.transform.translation_.y = 10.0f;
-	}
 
 	moveVec.x += (float)inputnum.x / SHRT_MAX;
 	moveVec.z += (float)inputnum.y / SHRT_MAX;
@@ -53,24 +47,24 @@ void Player::Update()
 	float p_pos = atan2(moveVec.x, moveVec.z);
 	float c_vec = atan2(Flont.x, Flont.z);
 
-	player.transform.rotation_.y = (p_pos + c_vec);
+	transform.rotation_.y = (p_pos + c_vec);
 
 	XMFLOAT3 mae = { 0,0,1.0f };
 
-	mae = VectorMat(mae, player.transform.matWorld_);
+	mae = VectorMat(mae,transform.matWorld_);
 
 	normalize(mae);
 
 	if (moveVec.x != 0 || moveVec.z != 0)
 	{
-		player.transform.translation_ += mae * move_speed;
+		transform.translation_ += mae * move_speed;
 	}
 
-	player.transform.translation_.y -= 0.5f;
+	transform.translation_.y -= 0.5f;
 	
-	if (player.transform.translation_.y < 2.0f)
+	if (transform.translation_.y < 2.0f)
 	{
-		player.transform.translation_.y = 2.0f;
+		transform.translation_.y = 2.0f;
 	}
 
 	if (input->GetRTriggerDown())
@@ -90,7 +84,7 @@ void Player::Update()
 		bullet->Update();
 	}
 
-	player.St->Update(camera->getView());
+	St->Update(camera->getView());
 	sprite_Reticle->Update();
 }
 
@@ -106,12 +100,12 @@ void Player::Attack(XMFLOAT3 flont)
 	/*velocity = VectorMat(velocity,player->Wt->matWorld_);
 	normalize(velocity);*/
 
-	XMFLOAT3 BulletStart = player.transform.translation_ ;
+	XMFLOAT3 BulletStart =transform.translation_ ;
 	velocity *= kBulletSpeed;
 
 
 	std::unique_ptr <PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	newBullet->Initlize(BulletStart, player.transform.rotation_, velocity);
+	newBullet->Initlize(BulletStart, transform.rotation_, velocity);
 
 	bullets_.push_back(std::move(newBullet));
 
@@ -125,7 +119,7 @@ void Player::Draw()
 		bullet->Draw();
 	}
 
-	player.St->Draw();
+	St->Draw();
 }
 
 void Player::DrawUI()
