@@ -76,6 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Model* skydome = Model::LoadFromOBJ("skydome");
 	Model* model2 = Model::LoadFromOBJ("chr_sword");
 	Model* gra = Model::LoadFromOBJ("ground");
+	Model* Dra = Model::LoadFromOBJ("Dragon");
 
 	WorldTransform ground;
 	WorldTransform skywt;
@@ -125,6 +126,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	models.insert(std::make_pair("skydome", skydome));
 	models.insert(std::make_pair("ground", gra));
 	models.insert(std::make_pair("chr_sword", model2));
+	models.insert(std::make_pair("Dragon", Dra));
 
 
 	levelData = LevelLoder::LoadFile("a");
@@ -152,6 +154,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// âÒì]äp
 		DirectX::XMFLOAT3 rot;
 		DirectX::XMStoreFloat3(&rot, objectData.rotation);
+		rot.y += XMConvertToRadians(90.0f);
 		newObject->Wt.rotation_=rot;
 
 		// ç¿ïW
@@ -362,6 +365,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete objskydome;
 	delete objground;
 	delete gra;
+	delete Dra;
 	delete skydome;
 	delete sprite;
 	delete sprite2;

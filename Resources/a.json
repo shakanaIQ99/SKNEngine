@@ -47,11 +47,55 @@
         },
         {
             "type": "MESH",
+            "name": "Dragon",
+            "transform": {
+                "translation": [
+                    -2.5568525791168213,
+                    13.196030616760254,
+                    -0.7095982432365417
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Dragon"
+        },
+        {
+            "type": "MESH",
+            "name": "Untitled",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -8.866388320922852,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "chr_sword"
+        },
+        {
+            "type": "MESH",
             "name": "chr_sword",
             "transform": {
                 "translation": [
                     2.4739575386047363,
-                    -4.272038459777832,
+                    -16.723350524902344,
                     0.2221044898033142
                 ],
                 "rotation": [

@@ -75,6 +75,7 @@ void Model::LoadFromOBJInternal(const string& modelname, bool smoothing)
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
+
 			positions.emplace_back(position);
 		}
 		if (key == "vt")
