@@ -1,6 +1,6 @@
 #pragma once
 #include"StuructTransform.h"
-#include"Player.h"
+//#include"Player.h"
 
 class BossEnemy : public StuructTransform
 {
@@ -14,7 +14,7 @@ public:
 		LASER
 	};
 
-	void SetPlayer(Player* pl)
+	void SetPlayer(WorldTransform* pl)
 	{
 		player = pl;
 	}
@@ -31,7 +31,7 @@ public:
 	
 
 private:
-	Player* player;
+	WorldTransform* player;
 	
 	Pattern bossmove;
 

@@ -158,6 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Draw3DLine.cpp" />
     <ClCompile Include="SourceCode\PlayerBullet.cpp" />
     <ClCompile Include="SourceCode\Camera.cpp" />
     <ClCompile Include="SourceCode\Float4.cpp" />
@@ -206,6 +207,7 @@
     <ClCompile Include="SourceCode\StuructTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Draw3DLine.h" />
     <ClInclude Include="SourceCode\PlayerBullet.h" />
     <ClInclude Include="SourceCode\Camera.h" />
     <ClInclude Include="SourceCode\Float4.h" />
@@ -255,6 +257,7 @@
     <ClInclude Include="SourceCode\StuructTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Shader\3DLine.hlsli" />
     <None Include="Resources\Shader\FBX.hlsli" />
     <None Include="Resources\Shader\Basic.hlsli" />
     <None Include="Resources\Shader\Obj.hlsli" />
@@ -262,6 +265,22 @@
     <None Include="Resources\Shader\PostEffect.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shader\3DLinePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\3DLineVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\Shader\FBXPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

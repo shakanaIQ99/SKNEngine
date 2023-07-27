@@ -18,8 +18,6 @@ void BossEnemy::Update()
 		break;
 	case BossEnemy::LASER:
 		break;
-	default:
-		break;
 	}
 
 

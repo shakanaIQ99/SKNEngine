@@ -19,6 +19,17 @@ struct ConstBufferDataWorldTransformB0
 	XMFLOAT4 color;
 };
 
+struct ConstBufferDataLine
+{
+	XMFLOAT4 color;
+};
+
+enum CBtype
+{
+	WORLDTRANSFORM,
+	LINE3D,
+};
+
 
 
 /// <summary>
@@ -46,10 +57,12 @@ struct WorldTransform {
 	// 親となるワールド変換へのポインタ
 	//WorldTransform* parent_ = nullptr;
 
+	CBtype cbtype;
+
 	/// <summary>
 	/// 定数バッファ生成
 	/// </summary>
-	void CreateConstBuffer(ID3D12Device* device);
+	void CreateConstBuffer(ID3D12Device* device,CBtype type=WORLDTRANSFORM);
 	/// <summary>
 	/// マッピングする
 	/// </summary>

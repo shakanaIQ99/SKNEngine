@@ -2,7 +2,7 @@
 
 
 
-void WorldTransform::CreateConstBuffer(ID3D12Device* device)
+void WorldTransform::CreateConstBuffer(ID3D12Device* device, CBtype type)
 {
 	HRESULT result;
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -12,7 +12,18 @@ void WorldTransform::CreateConstBuffer(ID3D12Device* device)
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	//リソース設定
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDesc.Width = (sizeof(ConstBufferDataWorldTransformB0) + 0xff) & ~0Xff;	//256バイトアライメント
+	switch (type)
+	{
+	case WORLDTRANSFORM:
+		cbResourceDesc.Width = (sizeof(ConstBufferDataWorldTransformB0) + 0xff) & ~0Xff;	//256バイトアライメント
+		cbtype = type;
+		break;
+	case LINE3D:
+		cbResourceDesc.Width = (sizeof(ConstBufferDataLine) + 0xff) & ~0Xff;	//256バイトアライメント
+		cbtype = type;
+		break;
+	}
+	
 	cbResourceDesc.Height = 1;
 	cbResourceDesc.DepthOrArraySize = 1;
 	cbResourceDesc.MipLevels = 1;
@@ -35,8 +46,7 @@ void WorldTransform::CreateConstBuffer(ID3D12Device* device)
 
 void WorldTransform::Map()
 {
-	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
-	assert(SUCCEEDED(result));
+	
 	
 }
 
@@ -63,12 +73,15 @@ void WorldTransform::UpdateMatrix(XMMATRIX view, XMMATRIX projection,XMFLOAT3 ca
 	//	matWorld_ *= parent_->matWorld_;
 	//}
 
+	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	assert(SUCCEEDED(result));
 	// 定数バッファに書き込み
 	constMap->color = color;
 	//constMap->matWorld = matWorld_ * view * projection;
 	constMap->viewproj = view * projection;
 	constMap->world = matWorld_;
 	constMap->cameraPos = camerapos;
+
 	
 }
 
@@ -139,6 +152,9 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 	//	matWorld_ *= parent_->matWorld_;
 	//}
 
+	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	assert(SUCCEEDED(result));
+
 	// 定数バッファに書き込み
 	constMap->viewproj = matView * camera->GetMatProjection();
 	constMap->world = matBillboard;
@@ -169,6 +185,9 @@ void WorldTransform::UpdateSpriteMatrix(XMMATRIX projection)
 	//if (parent_) {
 	//    matWorld_ *= parent_->matWorld_;
 	//}
+
+	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	assert(SUCCEEDED(result));
 
 	// 定数バッファに書き込み
 	constMap->color = color;

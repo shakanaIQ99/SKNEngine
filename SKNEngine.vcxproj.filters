@@ -219,6 +219,9 @@
     <ClCompile Include="SourceCode\PlayerBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Draw3DLine.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Draw\Sprite2D.h">
@@ -362,6 +365,9 @@
     <ClInclude Include="SourceCode\PlayerBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
+    <ClInclude Include="SourceCode\Draw3DLine.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\Basic.hlsli">
@@ -377,6 +383,9 @@
       <Filter>ソース ファイル\リソース ファイル</Filter>
     </None>
     <None Include="Resources\Shader\PostEffect.hlsli">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </None>
+    <None Include="Resources\Shader\3DLine.hlsli">
       <Filter>ソース ファイル\リソース ファイル</Filter>
     </None>
   </ItemGroup>
@@ -412,6 +421,12 @@
       <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shader\PostEffectPS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\3DLinePS.hlsl">
+      <Filter>ソース ファイル\リソース ファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shader\3DLineVS.hlsl">
       <Filter>ソース ファイル\リソース ファイル</Filter>
     </FxCompile>
   </ItemGroup>

@@ -2,14 +2,13 @@
 #include"Input.h"
 #include"PlayerBullet.h"
 #include"StuructTransform.h"
-#include"BossEnemy.h"
 
 
 class Player : public StuructTransform
 {
 public:
 	void SetInput(Input* _input);
-	void SetEnemy(BossEnemy* enemy)
+	void SetEnemy(WorldTransform* enemy)
 	{
 		boss = enemy;
 	}
@@ -36,12 +35,10 @@ public:
 
 private:
 	Input* input;
-	BossEnemy* boss;
+	WorldTransform* boss;
 	
 	float move_speed;
 	XMFLOAT3 moveVec;
-	
-	//StuructTransform player;
 	
 	std::unique_ptr<Sprite2D> sprite_Reticle;
 
