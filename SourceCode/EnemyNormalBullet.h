@@ -1,13 +1,14 @@
 #pragma once
 #include "StuructTransform.h"
 using namespace DirectX;
-class PlayerBullet:public StuructTransform
+
+class EnemyNormalBullet:public StuructTransform
 {
 public:
-	PlayerBullet();
-	~PlayerBullet();
+	EnemyNormalBullet();
+	~EnemyNormalBullet();
 
-	static void SetModel(ObjModel* model);
+	static void SetModel(ObjModel* _model);
 
 	/// <summary>
 	/// 初期化
@@ -33,8 +34,9 @@ public:
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
-	XMFLOAT3 GetWorldPosition();
-	XMFLOAT3 GetScale();
+	XMFLOAT3 GetWorldPosition() { return transform.translation_; }
+	XMFLOAT3 GetScale() { return transform.scale_; }
+
 
 private:
 
@@ -42,7 +44,7 @@ private:
 
 	//モデル
 	//StuructTransform bullet;
-	
+
 
 	//テクスチャハンドル
 
@@ -59,4 +61,6 @@ private:
 	//デスフラグ
 	bool isDead_ = false;
 
+
 };
+

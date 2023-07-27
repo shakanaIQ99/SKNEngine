@@ -1,6 +1,5 @@
 #pragma once
 #include"StuructTransform.h"
-//#include"Player.h"
 
 class BossEnemy : public StuructTransform
 {
@@ -28,6 +27,8 @@ public:
 	void DrawUI();
 
 	void MoveTabele();
+
+	void SimpleShot();
 	
 
 private:

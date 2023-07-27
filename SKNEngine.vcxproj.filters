@@ -222,6 +222,9 @@
     <ClCompile Include="SourceCode\Draw3DLine.cpp">
       <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\EnemyNormalBullet.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Draw\Sprite2D.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Draw3DLine.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\EnemyNormalBullet.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

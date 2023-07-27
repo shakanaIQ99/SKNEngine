@@ -158,6 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\EnemyNormalBullet.cpp" />
     <ClCompile Include="SourceCode\Draw3DLine.cpp" />
     <ClCompile Include="SourceCode\PlayerBullet.cpp" />
     <ClCompile Include="SourceCode\Camera.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="SourceCode\StuructTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\EnemyNormalBullet.h" />
     <ClInclude Include="SourceCode\Draw3DLine.h" />
     <ClInclude Include="SourceCode\PlayerBullet.h" />
     <ClInclude Include="SourceCode\Camera.h" />

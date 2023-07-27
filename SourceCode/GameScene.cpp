@@ -137,7 +137,7 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	skydome->Draw();
 	field->Draw();
 	a2d.SetColor({ 1.0f,0,1.0f,1.0f });
-	a3d.Draw(player.GetPos(), XMFLOAT3(boss.transform.translation_.x, boss.transform.translation_.y + boss.transform.scale_.y * 2.0f, boss.transform.translation_.z));
+	a3d.Draw(player.GetPos(), XMFLOAT3(boss.transform.translation_.x, boss.transform.translation_.y + boss.transform.scale_.y, boss.transform.translation_.z));
 	a2d.Draw(player.GetPos(), boss.transform.translation_);
 
 	player.Draw();

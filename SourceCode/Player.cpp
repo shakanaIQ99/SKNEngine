@@ -8,7 +8,7 @@ void Player::SetInput(Input* _input)
 void Player::Init()
 {
 
-	ModelInit("player");
+	ModelInit("chr_sword");
 	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	
@@ -62,9 +62,9 @@ void Player::Update()
 
 	transform.translation_.y -= 0.5f;
 	
-	if (transform.translation_.y < 2.0f)
+	if (transform.translation_.y < 0.0f)
 	{
-		transform.translation_.y = 2.0f;
+		transform.translation_.y = 0.0f;
 	}
 
 	if (input->GetRTriggerDown())

@@ -3,20 +3,21 @@
 void BossEnemy::Init()
 {
 	ModelInit("chr_sword");
-	transform.scale_ = { 1.0f,1.0f,1.0f };
+	transform.scale_ = { 4.0f,4.0f,4.0f };
+	St->color = { 1.0f,0,0,1.0f };
 }
 
 void BossEnemy::Update()
 {
 	switch (bossmove)
 	{
-	case BossEnemy::NONE:
+	case NONE:
 		break;
-	case BossEnemy::SIMPLESHOT:
+	case SIMPLESHOT:
 		break;
-	case BossEnemy::CHARGE:
+	case CHARGE:
 		break;
-	case BossEnemy::LASER:
+	case LASER:
 		break;
 	}
 
@@ -34,5 +35,9 @@ void BossEnemy::DrawUI()
 }
 
 void BossEnemy::MoveTabele()
+{
+}
+
+void BossEnemy::SimpleShot()
 {
 }
