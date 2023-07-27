@@ -11,8 +11,8 @@ void Camera::Initialize(XMFLOAT3 worldPos, XMFLOAT3 Rot, ID3D12Device* Device)
 
 void Camera::Update()
 {
-	wt.Map();
-	wt.UpdateMatrix(viewProjection_.GetMAtView(),viewProjection_.GetMatProjection(),viewProjection_.Geteye());
+
+	wt.UpdateMatrix(&viewProjection_);
 
 	viewProjection_.SetEye(wt.translation_);
 
@@ -90,8 +90,7 @@ XMFLOAT3 Camera::GetWorldPosition()
 void Camera::setPos(XMFLOAT3 pos)
 {
 	wt.translation_ = pos;
-	wt.Map();
-	wt.UpdateMatrix(viewProjection_.GetMAtView(), viewProjection_.GetMatProjection(), viewProjection_.Geteye());
+	wt.UpdateMatrix(&viewProjection_);
 }
 
 void Camera::setTarget(XMFLOAT3 Target)
@@ -102,8 +101,7 @@ void Camera::setTarget(XMFLOAT3 Target)
 void Camera::setRotate(XMFLOAT3 rotate)
 {
 	wt.rotation_ = rotate;
-	wt.Map();
-	wt.UpdateMatrix(viewProjection_.GetMAtView(), viewProjection_.GetMatProjection(), viewProjection_.Geteye());
+	wt.UpdateMatrix(&viewProjection_);
 }
 
 void Camera::setWorldMat(XMMATRIX woeldMat)

@@ -22,6 +22,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	OBJ3D::SetLight(light);
 	camera.Initialize({}, {},dxcommon->GetDevice());
 	Object3D::SetCamera(camera.getView());
+	Draw3DLine::SetCamera(&camera);
 
 	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);
 
@@ -29,7 +30,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	field_model = ObjModel::LoadFromOBJ("ground");
 	
-	
+	a3d.Init();
+	a2d.Init();
 
 	//3Dモデル周り
 
@@ -129,15 +131,18 @@ void GameScene::Update()
 void GameScene::Draw(DirectXCommon* dxcommon)
 {
 
+
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
 
 	skydome->Draw();
 	field->Draw();
+	a2d.SetColor({ 1.0f,0,1.0f,1.0f });
+	a3d.Draw(player.GetPos(), XMFLOAT3(boss.transform.translation_.x, boss.transform.translation_.y + boss.transform.scale_.y * 2.0f, boss.transform.translation_.z));
+	a2d.Draw(player.GetPos(), boss.transform.translation_);
 
 	player.Draw();
 	boss.Draw();
-	OBJ3D::PostDraw();
-	ParticleManager::PreDraw(dxcommon->GetCommandList());
+	//ParticleManager::PreDraw(dxcommon->GetCommandList());
 
 	// 3Dオブクジェクトの描画
 	//particleMan->Draw();
@@ -158,6 +163,8 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
 
 	spritecommon->PostDraw();
+
+	
 
 	imGuiManager->Draw();
 }

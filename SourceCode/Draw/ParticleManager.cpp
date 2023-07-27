@@ -156,7 +156,7 @@ void ParticleManager::Update(ViewProjection* camera)
 		vertBuff->Unmap(0, nullptr);
 	}
 
-	wt->Map();
+
 
 	wt->UpdateMatrixBill(camera);
 }

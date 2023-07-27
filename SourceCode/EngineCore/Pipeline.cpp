@@ -973,10 +973,10 @@ PipelineSet Pipeline::Create3DLinePipeline(ID3D12Device* device)
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
 		{
-			"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,
+			"NORMAL",0,DXGI_FORMAT_R32G32B32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		}
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
 
 	};
 
@@ -994,6 +994,9 @@ PipelineSet Pipeline::Create3DLinePipeline(ID3D12Device* device)
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
+	// 頂点レイアウトの設定
+	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
+	pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
 
 	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC& blenddesc = pipelineDesc.BlendState.RenderTarget[0];
@@ -1062,6 +1065,4 @@ PipelineSet Pipeline::Create3DLinePipeline(ID3D12Device* device)
 	assert(SUCCEEDED(result));
 
 	return pipelineset;
-
-	return PipelineSet();
 }

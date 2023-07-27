@@ -19,6 +19,7 @@
 #include"Camera.h"
 #include"Player.h"
 #include"BossEnemy.h"
+#include"Draw3DLine.h"
 
 
 
@@ -85,6 +86,9 @@ private:
 
 	WorldTransform skydome_wt;
 	WorldTransform field_wt;
+
+	Draw3DLine a3d;
+	Draw3DLine a2d;
 
 	XMFLOAT3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;

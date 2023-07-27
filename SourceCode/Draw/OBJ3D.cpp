@@ -49,16 +49,9 @@ void OBJ3D::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	commandList = cmdList;
 
-	commandList->SetPipelineState(ObjPipeline.pipelineState.Get());
-	commandList->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
-	// プリミティブ形状の設定コマンド
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	
 }
 
-void OBJ3D::PostDraw()
-{
-	OBJ3D::commandList = nullptr;
-}
 
 OBJ3D* OBJ3D::Create(WorldTransform* wt)
 {
@@ -90,16 +83,19 @@ bool OBJ3D::Initialize()
 void OBJ3D::Update(ViewProjection* camera)
 {
 	
-	Wt->Map();
 
 	Wt->color = color;
 	
-	Wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(),camera->Geteye());
+	Wt->UpdateMatrix(camera);
 	
 }
 
 void OBJ3D::Draw()
 {
+	commandList->SetPipelineState(ObjPipeline.pipelineState.Get());
+	commandList->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
+	// プリミティブ形状の設定コマンド
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 	
 	if (model == nullptr) return;
 

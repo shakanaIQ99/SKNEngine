@@ -160,9 +160,9 @@ void Object3D::Update()
 {
 
 	HRESULT result;
-	wt->Map();
 
-	wt->UpdateMatrix(camera->GetMAtView(), camera->GetMatProjection(), camera->Geteye());
+
+	wt->UpdateMatrix(camera);
 
 	vector<Model::Bone>& bones = model->GetBones();
 

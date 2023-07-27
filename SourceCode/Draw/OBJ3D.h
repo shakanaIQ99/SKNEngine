@@ -35,11 +35,6 @@ public:
 	/// <param name="cmdList">描画コマンドリスト</param>
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
-	/// <summary>
-	/// 描画後処理
-	/// </summary>
-	static void PostDraw();
-
 	static OBJ3D* Create(WorldTransform* wt);
 
 	static void SetLight(LightGroup* light) { OBJ3D::lightGroup = light; }

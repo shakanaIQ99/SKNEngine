@@ -11,9 +11,10 @@
 #include"imgui.h"
 #include"FPS.h"
 #include"FbxLoader.h"
-#include <ParticleManager.h>
-#include<PostEffect.h>
-#include<SpriteCommon.h>
+#include"ParticleManager.h"
+#include"PostEffect.h"
+#include"SpriteCommon.h"
+#include"Draw3DLine.h"
 
 #include "GameScene.h"
 template <class T>
@@ -48,9 +49,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon->Initialize(window);
 
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+
 	OBJ3D::StaticInitialize(dxCommon->GetDevice(), window->window_width, window->window_height);
 	Object3D::SetDevice(dxCommon->GetDevice());
 	Object3D::CreateGraphicsPipeline();
+	Draw3DLine::SetDevice(dxCommon->GetDevice(),dxCommon->GetCommandList());
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 	PostEffect::SetDXCommon(dxCommon);
