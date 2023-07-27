@@ -13,32 +13,28 @@ public:
 
 	void Draw(XMFLOAT3 startpos, XMFLOAT3 endpos);
 
-	void SetColor(XMFLOAT4 _color)
-	{
-		wt.color = _color;
-	}
+	void SetColor(XMFLOAT4 _color){color = _color;}
 
-	static void SetDevice(ID3D12Device* _device, ID3D12GraphicsCommandList* _cmdList)
-	{
-		device = _device;
-		cmdList = _cmdList;
-		CreateGraphicsPipeline();
-	}
-	static void CreateGraphicsPipeline()
-	{
-		pipeline = Pipeline::Create3DLinePipeline(device);
-	}
+	static void SetDevice(ID3D12Device* _device, ID3D12GraphicsCommandList* _cmdList);
 
-	static void SetCamera(Camera* _camera)
-	{
-		camera = _camera;
-	}
+	static void CreateGraphicsPipeline(){pipeline = Pipeline::Create3DLinePipeline(device);}
+
+	static void SetCamera(Camera* _camera){camera = _camera;}
+
+	void CreateColorBuff();
+
+	void TransferColor();
 
 private:
 
 	struct VertexPos
 	{
 		XMFLOAT3 pos; // xyzç¿ïW
+	};
+
+	struct Color
+	{
+		XMFLOAT4 color;
 	};
 
 	static ID3D12Device* device;
@@ -51,7 +47,10 @@ private:
 	std::unique_ptr<VertexBuffer> vertexBuffer = {};
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 
-	XMFLOAT4 color = { 1.0f,0.0f, 1.0f, 1.0f };
+	ComPtr<ID3D12Resource> constBuffB1;
+	Color* constMap = nullptr;
+
+	XMFLOAT4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 };
 

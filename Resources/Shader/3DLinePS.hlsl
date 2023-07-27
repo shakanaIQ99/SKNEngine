@@ -2,7 +2,7 @@
 
 float4 main() : SV_TARGET
 {
-    return color;
+    return Linecolor;
 	
     //return color;
 }

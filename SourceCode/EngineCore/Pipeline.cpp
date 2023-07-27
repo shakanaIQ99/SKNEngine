@@ -994,6 +994,11 @@ PipelineSet Pipeline::Create3DLinePipeline(ID3D12Device* device)
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
+	pipelineDesc.DepthStencilState.DepthEnable = true;
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+
 	// 頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
 	pipelineDesc.InputLayout.NumElements = _countof(inputLayout);
@@ -1019,13 +1024,17 @@ PipelineSet Pipeline::Create3DLinePipeline(ID3D12Device* device)
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 
-	D3D12_ROOT_PARAMETER rootParams = {};
+	D3D12_ROOT_PARAMETER rootParams[2] = {};
 
-	rootParams.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParams.Descriptor.ShaderRegister = 0;
-	rootParams.Descriptor.RegisterSpace = 0;
-	rootParams.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParams[0].Descriptor.ShaderRegister = 0;
+	rootParams[0].Descriptor.RegisterSpace = 0;
+	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
+	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParams[1].Descriptor.ShaderRegister = 1;
+	rootParams[1].Descriptor.RegisterSpace = 0;
+	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	
 
 
@@ -1044,8 +1053,8 @@ PipelineSet Pipeline::Create3DLinePipeline(ID3D12Device* device)
 
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	rootSignatureDesc.pParameters = &rootParams;
-	rootSignatureDesc.NumParameters =1;
+	rootSignatureDesc.pParameters = rootParams;
+	rootSignatureDesc.NumParameters =_countof(rootParams);
 	/*rootSignatureDesc.pStaticSamplers = &samplerDesc;
 	rootSignatureDesc.NumStaticSamplers = 1;*/
 

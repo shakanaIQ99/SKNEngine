@@ -98,8 +98,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	
 	gameScene->Finalize();
 	FbxLoader::GetInstance()->Finalize();
-	delete gameScene;
-	delete postEffect;
-	delete dxCommon;
+	complete_type_safe_delete(gameScene);
+	complete_type_safe_delete(postEffect);
+	complete_type_safe_delete(dxCommon);
 	window->TerminateGameWindow();
 }

@@ -6,6 +6,11 @@ cbuffer ConstBufferDataMaterial : register(b0)
     float4 color;
 };
 
+cbuffer Color : register(b1)
+{
+    float4 Linecolor;
+};
+
 struct VSOutput
 {
     float4 svpos : SV_POSITION;
