@@ -1,5 +1,7 @@
 #include "EnemyNormalBullet.h"
 
+std::unique_ptr<ObjModel> EnemyNormalBullet::Premodel;
+
 EnemyNormalBullet::EnemyNormalBullet()
 {
 	ModelInit(Premodel.get());

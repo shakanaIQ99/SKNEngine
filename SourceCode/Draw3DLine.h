@@ -21,11 +21,11 @@ public:
 
 	static void SetCamera(Camera* _camera){camera = _camera;}
 
+
+private:
 	void CreateColorBuff();
 
 	void TransferColor();
-
-private:
 
 	struct VertexPos
 	{

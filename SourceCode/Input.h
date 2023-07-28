@@ -55,8 +55,16 @@ public:
 	//左トリガーを押し込んだ瞬間か
 	bool GetLTriggerDown();
 
+	//左トリガーを押されているか
+	bool GetLTrigger();
+
+
 	//右トリガーを押し込んだ瞬間か
 	bool GetRTriggerDown();
+
+
+	//右トリガーを押されているか
+	bool GetRTrigger();
 
 	/// <summary>
 	/// 左スティック入力を得る

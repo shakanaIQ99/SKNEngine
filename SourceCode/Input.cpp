@@ -158,9 +158,27 @@ bool Input::GetLTriggerDown()
 	return false;
 }
 
+bool Input::GetLTrigger()
+{
+	if (OldxInputState.Gamepad.bLeftTrigger > 128)
+	{
+		return true;
+	}
+	return false;
+}
+
 bool Input::GetRTriggerDown()
 {
 	if (OldxInputState.Gamepad.bRightTrigger < 128 && xInputState.Gamepad.bRightTrigger >= 128)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Input::GetRTrigger()
+{
+	if (OldxInputState.Gamepad.bRightTrigger > 128)
 	{
 		return true;
 	}
