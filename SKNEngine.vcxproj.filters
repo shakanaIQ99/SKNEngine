@@ -171,9 +171,6 @@
     <ClCompile Include="SourceCode\main.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
-    <ClCompile Include="PostEffect.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\Draw\OBJ3D.cpp">
       <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
     </ClCompile>
@@ -224,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="SourceCode\EnemyNormalBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Draw\PostEffect.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -158,6 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Draw\PostEffect.cpp" />
     <ClCompile Include="SourceCode\EnemyNormalBullet.cpp" />
     <ClCompile Include="SourceCode\Draw3DLine.cpp" />
     <ClCompile Include="SourceCode\PlayerBullet.cpp" />
@@ -168,7 +169,6 @@
     <ClCompile Include="SourceCode\Player.cpp" />
     <ClCompile Include="SourceCode\Draw\OBJ3D.cpp" />
     <ClCompile Include="SourceCode\Draw\ObjModel.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="SourceCode\GameScene.cpp" />
     <ClCompile Include="SourceCode\Collision.cpp" />
     <ClCompile Include="SourceCode\Draw\FbxLoader.cpp" />
