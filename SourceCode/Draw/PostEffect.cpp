@@ -6,7 +6,7 @@
 
 using namespace DirectX;
 
-const float PostEffect::clearcolor[4] = { 0.25f,0.5f,0.1f,0.0f };
+const float PostEffect::clearcolor[4] = { 0.25f,0.25f,0.25f,0.0f };
 PipelineSet PostEffect::pipeline;
 DirectXCommon* PostEffect::dxCommon = nullptr;
 

@@ -49,6 +49,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	boss.SetPlayer(&player.transform);
 	player.SetEnemy(&boss.transform);
 
+	field_wt.scale_ = {0.7f,5.0f,0.7f};
+
 
 	//スプライト周り
 
