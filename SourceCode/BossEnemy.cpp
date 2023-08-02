@@ -1,5 +1,5 @@
 #include "BossEnemy.h"
-
+#include"Player.h"
 void BossEnemy::Init()
 {
 	ModelInit("chr_sword");
@@ -64,9 +64,11 @@ void BossEnemy::SimpleShot()
 	}
 	else
 	{
+
+
 		AimMode = false;
-
-
+		XMFLOAT3 BulletVec = TargetPos - transform.translation_;
+		normalize(BulletVec);
 
 		bossmove = NONE;
 	}
