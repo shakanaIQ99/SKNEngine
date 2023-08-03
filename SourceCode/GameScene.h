@@ -5,7 +5,6 @@
 #include"Object3D.h"
 #include"Input.h"
 #include"ImGuiManager.h"
-#include"imgui.h"
 #include"TextureManager.h"
 #include"SpriteCommon.h"
 #include"Model.h"
@@ -28,7 +27,6 @@ class GameScene
 
 private:
 	Input* input = nullptr;
-	ImGuiManager* imGuiManager = nullptr;
 	SpriteCommon* spritecommon = nullptr;
 	TextureManager* texturemanager;
 
@@ -45,8 +43,6 @@ public:
 	{
 
 		delete input;
-		imGuiManager->Finalize();
-		delete imGuiManager;
 		delete spritecommon;
 		texturemanager->DeleteInstance();
 		delete light;

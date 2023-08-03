@@ -1,7 +1,8 @@
 #include "ImGuiManager.h"
-#include"imgui.h"
-#include"imgui_impl_win32.h"
-#include"imgui_impl_dx12.h"
+
+DirectXCommon* ImGuiManager::dxCommon = nullptr;
+ComPtr<ID3D12DescriptorHeap> ImGuiManager::srvheap;
+DescriptorHeap::DescriptorHeapViewHandle ImGuiManager::handle_;
 
 void ImGuiManager::Initialize(HWND hwnd, DirectXCommon* dxcommon)
 {
@@ -32,8 +33,6 @@ void ImGuiManager::Finalize()
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
-
-
 }
 
 void ImGuiManager::Begin()
@@ -43,14 +42,15 @@ void ImGuiManager::Begin()
 	ImGui::NewFrame();
 }
 
-void ImGuiManager::End()
-{
-	ImGui::Render();
-}
+//void ImGuiManager::End()
+//{
+//	ImGui::Render();
+//}
 
 void ImGuiManager::Draw()
 {
 	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+	ImGui::Render();
 
 	cmdList->SetDescriptorHeaps(1, srvheap.GetAddressOf());
 

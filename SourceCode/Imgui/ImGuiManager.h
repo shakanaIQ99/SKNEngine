@@ -1,6 +1,9 @@
 #pragma once
 #include<Windows.h>
 #include"DirectXCommon.h"
+#include <imgui.h>
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx12.h>
 
 using namespace Microsoft::WRL;
 class ImGuiManager
@@ -8,23 +11,23 @@ class ImGuiManager
 
 public:
 
-	void Initialize(HWND hwnd, DirectXCommon* dxcommon);
+	static void Initialize(HWND hwnd, DirectXCommon* dxcommon);
 
-	void Finalize();
+	static void Finalize();
 
-	void Begin();
+	static void Begin();
 
-	void End();
+	//static void End();
 
-	void Draw();
+	static void Draw();
 
 private:
 
-	DirectXCommon* dxCommon;
+	static DirectXCommon* dxCommon;
 
-	ComPtr<ID3D12DescriptorHeap>srvheap;
+	static ComPtr<ID3D12DescriptorHeap>srvheap;
 
-	DescriptorHeap::DescriptorHeapViewHandle handle_;
+	static DescriptorHeap::DescriptorHeapViewHandle handle_;
 
 
 };

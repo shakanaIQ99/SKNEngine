@@ -8,7 +8,6 @@
 #include<sstream>
 #include<iomanip>
 #include"ImGuiManager.h"
-#include"imgui.h"
 #include"FPS.h"
 #include"FbxLoader.h"
 #include"ParticleManager.h"
@@ -47,6 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXCommon* dxCommon = nullptr;
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(window);
+	ImGuiManager::Initialize(window->GetHwnd(), dxCommon);
 
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 
@@ -79,6 +79,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		{
 			break;
 		}
+		ImGuiManager::Begin();
 		gameScene->Update();
 
 
@@ -89,6 +90,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		dxCommon->PreDraw();
 		postEffect->Draw(dxCommon->GetCommandList());
 		//gameScene->Draw(dxCommon);
+
+		ImGuiManager::Draw();
 		dxCommon->PostDraw();
 
 		fps->Update();
@@ -100,6 +103,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	FbxLoader::GetInstance()->Finalize();
 	complete_type_safe_delete(gameScene);
 	complete_type_safe_delete(postEffect);
+	ImGuiManager::Finalize();
 	complete_type_safe_delete(dxCommon);
 	window->TerminateGameWindow();
 }

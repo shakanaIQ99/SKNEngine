@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include "ImGuiManager.h"
 void Player::SetInput(Input* _input)
 {
 	input = _input;
@@ -83,6 +83,25 @@ void Player::Update()
 	{
 		bullet->Update();
 	}
+	//ImguI
+	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 800, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize({ 400, 500 });
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	ImGui::Begin("Player", NULL, window_flags);
+	ImGui::DragFloat("posX", &transform.translation_.x, 0.5f);
+	ImGui::DragFloat("posY", &transform.translation_.y, 0.5f);
+	ImGui::DragFloat("posZ", &transform.translation_.z, 0.5f);
+
+
+
+	ImGui::End();
+
+
+	//
+
+
 
 	St->Update(camera->getView());
 	sprite_Reticle->Update();

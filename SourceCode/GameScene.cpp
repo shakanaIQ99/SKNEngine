@@ -6,9 +6,6 @@
 void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 {
 	
-	imGuiManager = new ImGuiManager();
-	imGuiManager->Initialize(dxwindow->GetHwnd(), dxcommon);
-
 	input = new Input();
 	input->Initialize(dxwindow->GetHInstance(), dxwindow->GetHwnd());
 
@@ -49,7 +46,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	boss.SetPlayer(&player.transform);
 	player.SetEnemy(&boss.transform);
 
-	field_wt.scale_ = {0.7f,5.0f,0.7f};
+	field_wt.scale_ = {1.0f,5.0f,1.0f};
 
 
 	//スプライト周り
@@ -91,7 +88,6 @@ void GameScene::Update()
 {
 
 	input->InputUpdate();
-	imGuiManager->Begin();
 	static XMVECTOR lightDir = { 0,1,5,0 };
 
 	cameraX = camera.GetWorldPosition().x;
@@ -125,8 +121,6 @@ void GameScene::Update()
 	boss.Update();
 
 
-
-	imGuiManager->End();
 }
 
 void GameScene::Draw(DirectXCommon* dxcommon)
@@ -162,9 +156,6 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 
 	spritecommon->PostDraw();
 
-	
-
-	imGuiManager->Draw();
 }
 
 

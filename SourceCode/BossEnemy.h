@@ -33,7 +33,7 @@ public:
 	void SimpleShot();
 
 
-
+	void Bulletremove();
 
 	
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
@@ -50,11 +50,15 @@ private:
 
 	XMFLOAT3 TargetPos = { 0,0,0 };
 
-	const float TargetTime = 60.0f * 2.0f;
+	const int TargetTime = 60 * 2;
 
-	float TargetTimer = 0.0f;
+	int TargetTimer = 0;
 
 	bool AimMode = false;
+
+	const int BurstRate = 5;
+	const int BurstNum = 3;
+	int BurstTime = BurstNum * BurstRate;
 
 };
 
