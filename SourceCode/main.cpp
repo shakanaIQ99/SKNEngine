@@ -49,6 +49,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	ImGuiManager::Initialize(window->GetHwnd(), dxCommon);
 
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	Input::Init(window->GetHInstance(), window->GetHwnd());
 
 	OBJ3D::StaticInitialize(dxCommon->GetDevice(), window->window_width, window->window_height);
 	Object3D::SetDevice(dxCommon->GetDevice());
@@ -80,6 +81,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 			break;
 		}
 		ImGuiManager::Begin();
+		Input::InputUpdate();
+
 		gameScene->Update();
 
 

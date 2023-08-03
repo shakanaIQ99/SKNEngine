@@ -1,9 +1,6 @@
 #include "Player.h"
 #include "ImGuiManager.h"
-void Player::SetInput(Input* _input)
-{
-	input = _input;
-}
+
 
 void Player::Init()
 {
@@ -39,7 +36,7 @@ void Player::Update()
 			return bullet->IsDead();
 		});
 
-	XMFLOAT2 inputnum = input->GetLStick(true, true);
+	XMFLOAT2 inputnum = Input::GetLStick(true, true);
 
 	moveVec.x += (float)inputnum.x / SHRT_MAX;
 	moveVec.z += (float)inputnum.y / SHRT_MAX;
@@ -67,7 +64,7 @@ void Player::Update()
 		transform.translation_.y = (transform.scale_.y * 1.5f);
 	}
 
-	if (input->GetRTrigger())
+	if (Input::GetRTrigger())
 	{
 		if (latetime <= 0)
 		{
@@ -90,9 +87,11 @@ void Player::Update()
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	ImGui::Begin("Player", NULL, window_flags);
-	ImGui::DragFloat("posX", &transform.translation_.x, 0.5f);
-	ImGui::DragFloat("posY", &transform.translation_.y, 0.5f);
-	ImGui::DragFloat("posZ", &transform.translation_.z, 0.5f);
+
+	ImGui::Text("Position");
+	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
+	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
+	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
 
 
 

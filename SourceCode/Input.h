@@ -22,49 +22,49 @@ private:
 
 public:
 
-	void Initialize(HINSTANCE hinstance, HWND hwnd);
+	static Input* GetInstance();
 
-	//Input(WNDCLASSEX w, HWND hwnd);
+	static void Init(HINSTANCE hinstance, HWND hwnd);
 
-	void InputUpdate();
+	static void InputUpdate();
 
-	bool GetKey(BYTE _key) const;
+	static bool GetKey(BYTE _key);
 
-	bool GetPressKey(BYTE _key) const;
+	static bool GetPressKey(BYTE _key);
 
-	bool GetReleaseKey(BYTE _key) const;
+	static bool GetReleaseKey(BYTE _key);
 
 	//パッドに接続されてるか
-	bool GetPadConnect();
+	static bool GetPadConnect();
 
 	//パッドのボタンが押されているか
-	bool GetPadButton(UINT button);
+	static bool GetPadButton(UINT button);
 
 	//パッドのボタンが離れた瞬間か
-	bool GetPadButtonUp(UINT button);
+	static bool GetPadButtonUp(UINT button);
 
 	//パッドのボタンが押された瞬間か
-	bool GetPadButtonDown(UINT button);
+	static bool GetPadButtonDown(UINT button);
 
 	//パッドの左スティック
-	XMFLOAT2 GetPadLStick();
+	static XMFLOAT2 GetPadLStick();
 
 	//パッドの右スティック
-	XMFLOAT2 GetPadRStick();
+	static XMFLOAT2 GetPadRStick();
 
 	//左トリガーを押し込んだ瞬間か
-	bool GetLTriggerDown();
+	static bool GetLTriggerDown();
 
 	//左トリガーを押されているか
-	bool GetLTrigger();
+	static bool GetLTrigger();
 
 
 	//右トリガーを押し込んだ瞬間か
-	bool GetRTriggerDown();
+	static bool GetRTriggerDown();
 
 
 	//右トリガーを押されているか
-	bool GetRTrigger();
+	static bool GetRTrigger();
 
 	/// <summary>
 	/// 左スティック入力を得る
@@ -72,7 +72,7 @@ public:
 	/// <param name="useWASD">WASDキーもスティックに見立てて処理する</param>
 	/// <param name="useArrow">矢印キーもスティックに見立てて処理する</param>
 	/// <returns>入力量</returns>
-	XMFLOAT2 GetLStick(bool useWASD, bool useArrow);
+	static XMFLOAT2 GetLStick(bool useWASD, bool useArrow);
 
 	/// <summary>
 	/// 右スティック入力を得る
@@ -80,11 +80,13 @@ public:
 	/// <param name="useWASD">WASDキーもスティックに見立てて処理する</param>
 	/// <param name="useArrow">矢印キーもスティックに見立てて処理する</param>
 	/// <returns>入力量</returns>
-	XMFLOAT2 GetRStick(bool useWASD, bool useArrow);
+	static XMFLOAT2 GetRStick(bool useWASD, bool useArrow);
 
 
 
 private:
+
+	void Initialize(HINSTANCE hinstance, HWND hwnd);
 
 	ComPtr<IDirectInput8>directInput;
 	ComPtr<IDirectInputDevice8>keyboard;

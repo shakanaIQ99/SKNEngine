@@ -7,7 +7,6 @@
 class Player : public StuructTransform
 {
 public:
-	void SetInput(Input* _input);
 	void SetEnemy(WorldTransform* enemy)
 	{
 		boss = enemy;
@@ -34,7 +33,6 @@ public:
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
 
 private:
-	Input* input;
 	WorldTransform* boss;
 	
 	float move_speed;

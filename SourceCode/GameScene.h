@@ -3,7 +3,6 @@
 #include"DxWindow.h"
 #include"ViewProjection.h"
 #include"Object3D.h"
-#include"Input.h"
 #include"ImGuiManager.h"
 #include"TextureManager.h"
 #include"SpriteCommon.h"
@@ -26,7 +25,6 @@ class GameScene
 {
 
 private:
-	Input* input = nullptr;
 	SpriteCommon* spritecommon = nullptr;
 	TextureManager* texturemanager;
 
@@ -41,8 +39,6 @@ public:
 
 	void Finalize()
 	{
-
-		delete input;
 		delete spritecommon;
 		texturemanager->DeleteInstance();
 		delete light;

@@ -1,14 +1,10 @@
 #include "GameScene.h"
 #include"FbxLoader.h"
 #include"StuructTransform.h"
-
+#include"Input.h"
 
 void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 {
-	
-	input = new Input();
-	input->Initialize(dxwindow->GetHInstance(), dxwindow->GetHwnd());
-
 	spritecommon = new SpriteCommon();
 	spritecommon->Initialize(dxcommon);
 
@@ -39,8 +35,6 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	field->SetModel(field_model);
 
 	boss.Init();
-
-	player.SetInput(input);
 	player.Init();
 
 	boss.SetPlayer(&player.transform);
@@ -86,8 +80,6 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 void GameScene::Update()
 {
-
-	input->InputUpdate();
 	static XMVECTOR lightDir = { 0,1,5,0 };
 
 	cameraX = camera.GetWorldPosition().x;
@@ -95,7 +87,7 @@ void GameScene::Update()
 
 
 
-	XMFLOAT2 inputnum = input->GetRStick(true, true);
+	XMFLOAT2 inputnum = Input::GetRStick(true, true);
 	cameraRotateY += (float)inputnum.x * cameraDPI;
 	rotateY += (float)inputnum.x * cameraDPI;
 	if ((cameraRotateX < 0.27f && (float)inputnum.y / SHRT_MAX>0) || (cameraRotateX > -0.6f && (float)inputnum.y / SHRT_MAX < 0))

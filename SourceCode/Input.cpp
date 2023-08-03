@@ -5,6 +5,17 @@
 
 
 
+Input* Input::GetInstance()
+{
+	static Input instance;
+	return &instance;
+}
+
+void Input::Init(HINSTANCE hinstance, HWND hwnd)
+{
+	GetInstance()->Initialize(hinstance, hwnd);
+}
+
 void Input::Initialize(HINSTANCE hinstance, HWND hwnd)
 {
 #pragma region	キーボード周り
@@ -44,50 +55,52 @@ void Input::Initialize(HINSTANCE hinstance, HWND hwnd)
 
 void Input::InputUpdate()
 {
+	Input* instance = GetInstance();
+
 	//キーボード情報の取得開始
-	keyboard->Acquire();
+	instance->keyboard->Acquire();
 
-	memcpy(oldkey, key, sizeof(key));
+	memcpy(instance->oldkey, instance->key, sizeof(key));
 
-	keyboard->GetDeviceState(sizeof(key), key);
+	instance->keyboard->GetDeviceState(sizeof(key), instance->key);
 
-	OldxInputState = xInputState;
+	instance->OldxInputState = instance->xInputState;
 
-	DWORD dresult = XInputGetState(0, &xInputState);
+	DWORD dresult = XInputGetState(0, &instance->xInputState);
 
 	if (dresult == ERROR_SUCCESS) 
 	{
 
-		isConnectPad = true;
+		instance->isConnectPad = true;
 	}
 	else 
 	{
-		isConnectPad = false;
+		instance->isConnectPad = false;
 	}
 
-	if ((xInputState.Gamepad.sThumbLX <  XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
-		xInputState.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
-		(xInputState.Gamepad.sThumbLY <  XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
-			xInputState.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE))
+	if ((instance->xInputState.Gamepad.sThumbLX <  XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
+		instance->xInputState.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
+		(instance->xInputState.Gamepad.sThumbLY <  XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
+			instance->xInputState.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE))
 	{
-		xInputState.Gamepad.sThumbLX = 0;
-		xInputState.Gamepad.sThumbLY = 0;
+		instance->xInputState.Gamepad.sThumbLX = 0;
+		instance->xInputState.Gamepad.sThumbLY = 0;
 	}
 
-	if ((xInputState.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-		xInputState.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
-		(xInputState.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
-			xInputState.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
+	if ((instance->xInputState.Gamepad.sThumbRX <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+		instance->xInputState.Gamepad.sThumbRX > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) &&
+		(instance->xInputState.Gamepad.sThumbRY <  XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+			instance->xInputState.Gamepad.sThumbRY > -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE))
 	{
-		xInputState.Gamepad.sThumbRX = 0;
-		xInputState.Gamepad.sThumbRY = 0;
+		instance->xInputState.Gamepad.sThumbRX = 0;
+		instance->xInputState.Gamepad.sThumbRY = 0;
 	}
 
 }
 
-bool Input::GetKey(BYTE _key) const
+bool Input::GetKey(BYTE _key)
 {
-	if (key[_key])
+	if (GetInstance()->key[_key])
 	{
 		return true;
 	}
@@ -95,18 +108,18 @@ bool Input::GetKey(BYTE _key) const
 	return false;
 }
 
-bool Input::GetPressKey(BYTE _key) const
+bool Input::GetPressKey(BYTE _key)
 {
-	if (key[_key] && !oldkey[_key])
+	if (GetInstance()->key[_key] && !GetInstance()->oldkey[_key])
 	{
 		return true;
 	}
 	return false;
 }
 
-bool Input::GetReleaseKey(BYTE _key) const
+bool Input::GetReleaseKey(BYTE _key)
 {
-	if (key[_key] && !oldkey[_key])
+	if (GetInstance()->key[_key] && !GetInstance()->oldkey[_key])
 	{
 		return true;
 	}
@@ -115,43 +128,43 @@ bool Input::GetReleaseKey(BYTE _key) const
 
 bool Input::GetPadConnect()
 {
-	return isConnectPad;
+	return GetInstance()->isConnectPad;
 }
 
 bool Input::GetPadButton(UINT button)
 {
-	return xInputState.Gamepad.wButtons == button;
+	return GetInstance()->xInputState.Gamepad.wButtons == button;
 }
 
 bool Input::GetPadButtonUp(UINT button)
 {
-	return xInputState.Gamepad.wButtons != button && OldxInputState.Gamepad.wButtons == button;
+	return GetInstance()->xInputState.Gamepad.wButtons != button && GetInstance()->OldxInputState.Gamepad.wButtons == button;
 }
 
 bool Input::GetPadButtonDown(UINT button)
 {
-	return xInputState.Gamepad.wButtons == button && OldxInputState.Gamepad.wButtons != button;
+	return GetInstance()->xInputState.Gamepad.wButtons == button && GetInstance()->OldxInputState.Gamepad.wButtons != button;
 }
 
 XMFLOAT2 Input::GetPadLStick()
 {
-	SHORT x = xInputState.Gamepad.sThumbLX;
-	SHORT y = xInputState.Gamepad.sThumbLY;
+	SHORT x = GetInstance()->xInputState.Gamepad.sThumbLX;
+	SHORT y = GetInstance()->xInputState.Gamepad.sThumbLY;
 
 	return XMFLOAT2(static_cast<float>(x) / 32767.0f, static_cast<float>(y) / 32767.0f);
 }
 
 XMFLOAT2 Input::GetPadRStick()
 {
-	SHORT x = xInputState.Gamepad.sThumbRX;
-	SHORT y = xInputState.Gamepad.sThumbRY;
+	SHORT x = GetInstance()->xInputState.Gamepad.sThumbRX;
+	SHORT y = GetInstance()->xInputState.Gamepad.sThumbRY;
 
 	return XMFLOAT2(static_cast<float>(x) / 32767.0f, static_cast<float>(y) / 32767.0f);
 }
 
 bool Input::GetLTriggerDown()
 {
-	if (OldxInputState.Gamepad.bLeftTrigger < 128 && xInputState.Gamepad.bLeftTrigger >= 128)
+	if (GetInstance()->OldxInputState.Gamepad.bLeftTrigger < 128 && GetInstance()->xInputState.Gamepad.bLeftTrigger >= 128)
 	{
 		return true;
 	}
@@ -160,7 +173,7 @@ bool Input::GetLTriggerDown()
 
 bool Input::GetLTrigger()
 {
-	if (OldxInputState.Gamepad.bLeftTrigger > 128)
+	if (GetInstance()->OldxInputState.Gamepad.bLeftTrigger > 128)
 	{
 		return true;
 	}
@@ -169,7 +182,7 @@ bool Input::GetLTrigger()
 
 bool Input::GetRTriggerDown()
 {
-	if (OldxInputState.Gamepad.bRightTrigger < 128 && xInputState.Gamepad.bRightTrigger >= 128)
+	if (GetInstance()->OldxInputState.Gamepad.bRightTrigger < 128 && GetInstance()->xInputState.Gamepad.bRightTrigger >= 128)
 	{
 		return true;
 	}
@@ -178,7 +191,7 @@ bool Input::GetRTriggerDown()
 
 bool Input::GetRTrigger()
 {
-	if (OldxInputState.Gamepad.bRightTrigger > 128)
+	if (GetInstance()->OldxInputState.Gamepad.bRightTrigger > 128)
 	{
 		return true;
 	}
@@ -188,19 +201,19 @@ bool Input::GetRTrigger()
 XMFLOAT2 Input::GetLStick(bool useWASD, bool useArrow)
 {
 	XMFLOAT2 pad;
-	pad.x = static_cast<float>(xInputState.Gamepad.sThumbLX) / 32767.0f;
-	pad.y = static_cast<float>(xInputState.Gamepad.sThumbLY) / 32767.0f;
+	pad.x = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbLX) / 32767.0f;
+	pad.y = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbLY) / 32767.0f;
 
 	XMFLOAT2 wasd;
 	if (useWASD) {
-		wasd.x = static_cast<float>(key[DIK_D] - key[DIK_A]);
-		wasd.y = static_cast<float>(key[DIK_W] - key[DIK_S]);
+		wasd.x = static_cast<float>(GetInstance()->key[DIK_D] - GetInstance()->key[DIK_A]);
+		wasd.y = static_cast<float>(GetInstance()->key[DIK_W] - GetInstance()->key[DIK_S]);
 	}
 
 	XMFLOAT2 arrow;
 	if (useArrow) {
-		arrow.x = static_cast<float>(key[DIK_RIGHT] - key[DIK_LEFT]);
-		arrow.y = static_cast<float>(key[DIK_UP]	- key[DIK_DOWN]);
+		arrow.x = static_cast<float>(GetInstance()->key[DIK_RIGHT] - GetInstance()->key[DIK_LEFT]);
+		arrow.y = static_cast<float>(GetInstance()->key[DIK_UP]	- GetInstance()->key[DIK_DOWN]);
 	}
 
 	XMFLOAT2 result = pad + wasd + arrow;
@@ -211,19 +224,19 @@ XMFLOAT2 Input::GetLStick(bool useWASD, bool useArrow)
 XMFLOAT2 Input::GetRStick(bool useWASD, bool useArrow)
 {
 	XMFLOAT2 pad;
-	pad.x = static_cast<float>(xInputState.Gamepad.sThumbRX) / 32767.0f;
-	pad.y = static_cast<float>(xInputState.Gamepad.sThumbRY) / 32767.0f;
+	pad.x = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbRX) / 32767.0f;
+	pad.y = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbRY) / 32767.0f;
 
 	XMFLOAT2 wasd;
 	if (useWASD) {
-		wasd.x = static_cast<float>(key[DIK_D] - key[DIK_A]);
-		wasd.y = static_cast<float>(key[DIK_W] - key[DIK_S]);
+		wasd.x = static_cast<float>(GetInstance()->key[DIK_D] - GetInstance()->key[DIK_A]);
+		wasd.y = static_cast<float>(GetInstance()->key[DIK_W] - GetInstance()->key[DIK_S]);
 	}
 
 	XMFLOAT2 arrow;
 	if (useArrow) {
-		arrow.x = static_cast<float>(key[DIK_RIGHT] - key[DIK_LEFT]);
-		arrow.y = static_cast<float>(key[DIK_UP] - key[DIK_DOWN]);
+		arrow.x = static_cast<float>(GetInstance()->key[DIK_RIGHT] - GetInstance()->key[DIK_LEFT]);
+		arrow.y = static_cast<float>(GetInstance()->key[DIK_UP] - GetInstance()->key[DIK_DOWN]);
 	}
 
 	XMFLOAT2 result = pad + wasd + arrow;

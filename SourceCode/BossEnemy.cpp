@@ -1,5 +1,6 @@
 #include "BossEnemy.h"
 #include"Player.h"
+#include"ImGuiManager.h"
 void BossEnemy::Init()
 {
 	ModelInit("chr_sword");
@@ -32,6 +33,23 @@ void BossEnemy::Update()
 	{
 		bullet->Update();
 	}
+
+	//ImguI
+	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize({ 400, 500 });
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	ImGui::Begin("Boss", NULL, window_flags);
+
+	ImGui::Text("Position");
+	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
+	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
+	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
+
+
+
+	ImGui::End();
 
 	St->Update(camera->getView());
 }
