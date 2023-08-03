@@ -29,6 +29,12 @@ public:
 	{
 		return transform.translation_;
 	}
+	XMFLOAT3 GetUnderPos()
+	{
+		XMFLOAT3 UnderPos = GetPos();
+		UnderPos.y -= transform.scale_.y;
+		return UnderPos;
+	}
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
 

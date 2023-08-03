@@ -37,7 +37,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	boss.Init();
 	player.Init();
 
-	boss.SetPlayer(&player.transform);
+	boss.SetPlayer(&player);
 	player.SetEnemy(&boss.transform);
 
 	field_wt.scale_ = {1.0f,5.0f,1.0f};

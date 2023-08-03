@@ -30,4 +30,6 @@ private:
 	static DescriptorHeap::DescriptorHeapViewHandle handle_;
 
 
+	
+
 };

@@ -1,5 +1,4 @@
 #include "BossEnemy.h"
-#include"Player.h"
 #include"ImGuiManager.h"
 void BossEnemy::Init()
 {
@@ -12,10 +11,16 @@ void BossEnemy::Init()
 
 void BossEnemy::Update()
 {
-	switch (bossmove)
+	//•½–Êã‚Ì‹——£
+	XMFLOAT3 plUnderPos = player->GetUnderPos() - transform.translation_;
+	Lange = length(plUnderPos);
+
+	switch (BossAtk)
 	{
 	case NONE:
-		MoveTabele();
+
+		AimMode = false;
+		AtkTable();
 
 		break;
 	case SIMPLESHOT:
@@ -46,8 +51,35 @@ void BossEnemy::Update()
 	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
 	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
 	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
-
-
+	ImGui::NewLine();
+	ImGui::Text("Lange::%5.2f",Lange);
+	ImGui::DragFloat("Min", &LangeMin, 0.5f);
+	ImGui::DragFloat("Max", &LangeMax, 0.5f);
+	ImGui::NewLine();
+	static int AtkmodeNum = 0;
+	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","LASER"};
+	ImGui::Combo("AtkmodeNumCombo", &AtkmodeNum, AtkModes, IM_ARRAYSIZE(AtkModes));
+	ImGui::SameLine();
+	if (ImGui::Button("Change"))
+	{
+		switch (AtkmodeNum)
+		{
+			case 0:
+				BossAtk = NONE;
+				break;
+			case 1:
+				BossAtk = SIMPLESHOT;
+				break;
+			case 2:
+				BossAtk = CHARGE;
+				break;
+			case 3:
+				BossAtk = LASER;
+				break;
+		}
+		
+	}
+	ImGui::Text("BossMode::%s", AtkModes[BossAtk]);
 
 	ImGui::End();
 
@@ -75,11 +107,18 @@ void BossEnemy::DrawUI()
 {
 }
 
-void BossEnemy::MoveTabele()
+void BossEnemy::AtkTable()
 {
-	TargetTimer = TargetTime;
-	bossmove = SIMPLESHOT;
-	BurstTime= BurstNum * BurstRate;
+	
+
+	if (Lange < LangeMax)
+	{
+		TargetTimer = TargetTime;
+		BossAtk = SIMPLESHOT;
+		BurstTime= BurstNum * BurstRate;
+
+	}
+
 
 }
 
@@ -89,7 +128,7 @@ void BossEnemy::SimpleShot()
 	{
 		if (TargetTimer > 10)
 		{
-			TargetPos = player->translation_;
+			TargetPos = player->GetPos();
 
 		}
 		TargetTimer--;
@@ -117,15 +156,10 @@ void BossEnemy::SimpleShot()
 		BurstTime--;
 		if (BurstTime <= 0)
 		{
-			bossmove = NONE;
+			BossAtk = NONE;
 
 		}
 	}
-
-
-	
-
-
 
 }
 

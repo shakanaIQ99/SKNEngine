@@ -2,23 +2,33 @@
 #include"StuructTransform.h"
 #include"EnemyNormalBullet.h"
 #include"Draw3DLine.h"
+#include"Player.h"
 
 class BossEnemy : public StuructTransform
 {
 public:
 
-	enum Pattern
+	enum AtkPattern
 	{
 		NONE,
 		SIMPLESHOT,
 		CHARGE,
-		LASER
+		LASER,
+		MISSILE
+	};
+	enum MovePattern
+	{
+		BACK,
+		FANSHAPE,
+		FLY
 	};
 
-	void SetPlayer(WorldTransform* pl)
+	void SetPlayer(Player* pl)
 	{
 		player = pl;
 	}
+
+	
 
 	void Init();
 
@@ -28,20 +38,40 @@ public:
 
 	void DrawUI();
 
-	void MoveTabele();
+	void Bulletremove();
+private:
+
+	void AtkTable();
+
+	void MoveTable();
+
+	void BackMove();
+
+	void FanShapeMove();
+
+	void FlyMove();
 
 	void SimpleShot();
 
+	void ChargeAtk();
 
-	void Bulletremove();
+	void LaserShot();
+
+	void MissileShot();
+
+
 
 	
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
 
+
+
 private:
-	WorldTransform* player;
-	
-	Pattern bossmove;
+	Player* player;
+	//攻撃パターン
+	AtkPattern BossAtk;
+	//行動パターン
+	MovePattern BossMove;
 
 	Draw3DLine LeserPoint;
 
@@ -59,6 +89,11 @@ private:
 	const int BurstRate = 5;
 	const int BurstNum = 3;
 	int BurstTime = BurstNum * BurstRate;
+
+	//認知範囲
+	float Lange = 0;
+	float LangeMax = 50;
+	float LangeMin = 10;
 
 };
 
