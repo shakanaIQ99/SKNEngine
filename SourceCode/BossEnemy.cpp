@@ -20,8 +20,10 @@ void BossEnemy::Update()
 	XMFLOAT3 plUnderPos = player->GetUnderPos() - transform.translation_;
 	Lange = length(plUnderPos);
 
-	switch (BossMove)
+	if (BossAtk != AtkPattern::CHARGE)
 	{
+		switch (BossMove)
+		{
 		case MovePattern::NONE:
 			MoveTable();
 			break;
@@ -34,6 +36,7 @@ void BossEnemy::Update()
 		case MovePattern::FLY:
 			FlyMove();
 			break;
+		}
 	}
 
 
@@ -51,6 +54,7 @@ void BossEnemy::Update()
 
 			break;
 		case AtkPattern::CHARGE:
+
 			break;
 		case AtkPattern::LASER:
 			break;
@@ -151,7 +155,7 @@ void BossEnemy::BackMove()
 
 void BossEnemy::FanShapeMove()
 {
-
+	
 	MoveTimer--;
 	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
 }
@@ -244,7 +248,9 @@ void BossEnemy::ImGuiSet()
 			BossAtk = AtkPattern::NONE;
 			break;
 		case 1:
+			TargetTimer = TargetTime;
 			BossAtk = AtkPattern::SIMPLESHOT;
+			BurstTime = BurstNum * BurstRate;
 			break;
 		case 2:
 			BossAtk = AtkPattern::CHARGE;

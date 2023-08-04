@@ -85,6 +85,8 @@ private:
 
 	int MoveTimer = 0;
 
+	float Angle=0;
+
 	Draw3DLine LeserPoint;
 
 	//’eŠÖ˜A

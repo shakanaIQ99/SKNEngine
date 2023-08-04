@@ -97,13 +97,6 @@ void GameScene::Update()
 	}
 
 	light->Update();
-
-	XMFLOAT3 cameraPos = XMFLOAT3(player.GetPos().x - (flontVec.x * cameraDistance),
-		player.GetPos().y - (flontVec.y * cameraDistance)+5.0f,
-		player.GetPos().z - (flontVec.z * cameraDistance));
-
-	XMFLOAT3 cameraVec = XMFLOAT3((cameraPos.x + (flontVec.x * cameraDistance)), (cameraPos.y + (flontVec.y * cameraDistance)), (cameraPos.z + (flontVec.z * cameraDistance)));
-
 	camera.setPos(XMFLOAT3((sinf(cameraRotateY) * 20 + player.GetPos().x), (sinf(-cameraRotateX) * 20 + player.GetPos().y + 5), (cosf(cameraRotateY) * 20 + player.GetPos().z)));
 	camera.setRotate({ rotateX,rotateY,0 });
 	camera.Update();
