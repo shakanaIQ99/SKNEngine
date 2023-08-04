@@ -1,5 +1,10 @@
 #include "BossEnemy.h"
 #include"ImGuiManager.h"
+
+#include <iostream>     // cout
+#include <ctime>        // time
+#include <cstdlib>      // srand,rand
+
 void BossEnemy::Init()
 {
 	ModelInit("chr_sword");
@@ -15,23 +20,42 @@ void BossEnemy::Update()
 	XMFLOAT3 plUnderPos = player->GetUnderPos() - transform.translation_;
 	Lange = length(plUnderPos);
 
+	switch (BossMove)
+	{
+		case MovePattern::NONE:
+			MoveTable();
+			break;
+		case MovePattern::BACK:
+			BackMove();
+			break;
+		case MovePattern::FANSHAPE:
+			FanShapeMove();
+			break;
+		case MovePattern::FLY:
+			FlyMove();
+			break;
+	}
+
+
 	switch (BossAtk)
 	{
-	case NONE:
+		case AtkPattern::NONE:
 
-		AimMode = false;
-		AtkTable();
+			AimMode = false;
+			AtkTable();
 
-		break;
-	case SIMPLESHOT:
+			break;
+		case AtkPattern::SIMPLESHOT:
 
-		SimpleShot();
+			SimpleShot();
 
-		break;
-	case CHARGE:
-		break;
-	case LASER:
-		break;
+			break;
+		case AtkPattern::CHARGE:
+			break;
+		case AtkPattern::LASER:
+			break;
+		case AtkPattern::MISSILE:
+			break;
 	}
 
 	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
@@ -39,49 +63,7 @@ void BossEnemy::Update()
 		bullet->Update();
 	}
 
-	//ImguI
-	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
-	ImGui::SetNextWindowSize({ 400, 500 });
-
-	ImGuiWindowFlags window_flags = 0;
-	window_flags |= ImGuiWindowFlags_NoResize;
-	ImGui::Begin("Boss", NULL, window_flags);
-
-	ImGui::Text("Position");
-	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
-	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
-	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
-	ImGui::NewLine();
-	ImGui::Text("Lange::%5.2f",Lange);
-	ImGui::DragFloat("Min", &LangeMin, 0.5f);
-	ImGui::DragFloat("Max", &LangeMax, 0.5f);
-	ImGui::NewLine();
-	static int AtkmodeNum = 0;
-	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","LASER"};
-	ImGui::Combo("AtkmodeNumCombo", &AtkmodeNum, AtkModes, IM_ARRAYSIZE(AtkModes));
-	ImGui::SameLine();
-	if (ImGui::Button("Change"))
-	{
-		switch (AtkmodeNum)
-		{
-			case 0:
-				BossAtk = NONE;
-				break;
-			case 1:
-				BossAtk = SIMPLESHOT;
-				break;
-			case 2:
-				BossAtk = CHARGE;
-				break;
-			case 3:
-				BossAtk = LASER;
-				break;
-		}
-		
-	}
-	ImGui::Text("BossMode::%s", AtkModes[BossAtk]);
-
-	ImGui::End();
+	ImGuiSet();
 
 	St->Update(camera->getView());
 }
@@ -114,12 +96,68 @@ void BossEnemy::AtkTable()
 	if (Lange < LangeMax)
 	{
 		TargetTimer = TargetTime;
-		BossAtk = SIMPLESHOT;
+		BossAtk = AtkPattern::SIMPLESHOT;
 		BurstTime= BurstNum * BurstRate;
 
 	}
 
 
+}
+
+void BossEnemy::MoveTable()
+{
+	int MoveRand = rand() % 5;
+	bool TimeRand = rand() % 1;
+	if (Lange > LangeMax)
+	{
+		if (MoveRand<2)
+		{
+			BossMove = MovePattern::BACK;
+		}
+		else
+		{
+			BossMove = MovePattern::FANSHAPE;
+		}
+	}
+	else
+	{
+		BossMove = MovePattern::BACK;
+	}
+	if (TimeRand)
+	{
+		MoveTimer = LongMoveTime;
+	}
+	else
+	{
+		MoveTimer = MidMoveTime;
+	}
+
+}
+
+void BossEnemy::BackMove()
+{
+	XMFLOAT3 moveVec = transform.translation_ - player->GetPos();
+	moveVec.y = 0;
+
+	normalize(moveVec);
+
+	moveVec *= 0.2f;
+
+	transform.translation_ += moveVec;
+
+	MoveTimer--;
+	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
+}
+
+void BossEnemy::FanShapeMove()
+{
+
+	MoveTimer--;
+	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
+}
+
+void BossEnemy::FlyMove()
+{
 }
 
 void BossEnemy::SimpleShot()
@@ -156,11 +194,96 @@ void BossEnemy::SimpleShot()
 		BurstTime--;
 		if (BurstTime <= 0)
 		{
-			BossAtk = NONE;
+			BossAtk = AtkPattern::NONE;
 
 		}
 	}
 
+}
+
+void BossEnemy::ChargeAtk()
+{
+}
+
+void BossEnemy::LaserShot()
+{
+}
+
+void BossEnemy::MissileShot()
+{
+}
+
+void BossEnemy::ImGuiSet()
+{
+	//ImguI
+	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize({ 400, 500 });
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	ImGui::Begin("Boss", NULL, window_flags);
+
+	ImGui::Text("Position");
+	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
+	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
+	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
+	ImGui::NewLine();
+	ImGui::Text("Lange::%5.2f", Lange);
+	ImGui::DragFloat("Min", &LangeMin, 0.5f);
+	ImGui::DragFloat("Max", &LangeMax, 0.5f);
+	ImGui::NewLine();
+	static int AtkmodeNum = 0;
+	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","LASER","MISSILE" };
+	ImGui::Combo("##AtkmodeNumCombo", &AtkmodeNum, AtkModes, IM_ARRAYSIZE(AtkModes));
+	ImGui::SameLine();
+	if (ImGui::Button("Change"))
+	{
+		switch (AtkmodeNum)
+		{
+		case 0:
+			BossAtk = AtkPattern::NONE;
+			break;
+		case 1:
+			BossAtk = AtkPattern::SIMPLESHOT;
+			break;
+		case 2:
+			BossAtk = AtkPattern::CHARGE;
+			break;
+		case 3:
+			BossAtk = AtkPattern::LASER;
+			break;
+		case 4:
+			BossAtk = AtkPattern::MISSILE;
+			break;
+		}
+
+	}
+	ImGui::Text("BossMode::%s", AtkModes[static_cast<int>(BossAtk)]);
+
+	ImGui::NewLine();
+	static int MovemodeNum = 0;
+	const char* MoveModes[] = { "NONE", "BACK", "FANSHAPE" };
+	ImGui::Combo("##MovemodeNumCombo", &MovemodeNum, MoveModes, IM_ARRAYSIZE(MoveModes));
+	ImGui::SameLine();
+	if (ImGui::Button("Change"))
+	{
+		switch (MovemodeNum)
+		{
+		case 0:
+			BossMove = MovePattern::NONE;
+			break;
+		case 1:
+			BossMove = MovePattern::BACK;
+			break;
+		case 2:
+			BossMove = MovePattern::FANSHAPE;
+			break;
+		}
+
+	}
+	ImGui::Text("BossMode::%s", MoveModes[static_cast<int>(BossMove)]);
+
+	ImGui::End();
 }
 
 void BossEnemy::Bulletremove()
