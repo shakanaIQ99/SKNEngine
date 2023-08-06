@@ -54,10 +54,10 @@ private:
 	Player player;
 	BossEnemy boss;
 
-	float rotateX = 0;
 
 	float cameraX = 0;
 	float cameraZ = 0;
+	float rotateX = 0;
 	float rotateY = 0;
 
 	float cameraRotateX = 0;

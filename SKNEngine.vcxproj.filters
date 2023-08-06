@@ -225,6 +225,9 @@
     <ClCompile Include="SourceCode\Draw\PostEffect.cpp">
       <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Math\myMath.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Draw\Sprite2D.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\EnemyNormalBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\myMath.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

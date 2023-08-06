@@ -13,7 +13,7 @@ public:
 	/// </summary>
 	/// <param name="worldTransform">ワールド座標</param>
 	/// <param name="Rot">回転角(ラジアン)</param>
-	void Initialize(XMFLOAT3 worldPos,XMFLOAT3 Rot, ID3D12Device* Device);
+	void Initialize(ID3D12Device* Device);
 
 	/// <summary>
 	/// 更新
@@ -42,12 +42,18 @@ public:
 	void setPos(XMFLOAT3 pos);
 
 	void setTarget(XMFLOAT3 Target);
+	/// <summary>
+	/// カメラに追従先のトランスフォームを渡す
+	/// </summary>
+	void setTarget(WorldTransform* target) { targetWT = target; }
 
 	void setRotate(XMFLOAT3 rotate);
 
 	void setWorldMat(XMMATRIX woeldMat);
 
 private:
+
+	const WorldTransform* targetWT = nullptr;
 
 	ViewProjection viewProjection_;
 
@@ -57,6 +63,13 @@ private:
 	//ビュープロジェクション
 
 	XMFLOAT3 forward = { 0.0f, 0.0f, 1.0f };
+
+	float cameraRotateX = 0;
+	float cameraRotateY = 0;
+	float rotateX = 0;
+	float rotateY = 0;
+
+	const float cameraDPI = 0.05f;
 
 };
 

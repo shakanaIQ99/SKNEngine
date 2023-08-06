@@ -1,11 +1,12 @@
 #include "Camera.h"
 #include <cmath>
+#include"Input.h"
 
-void Camera::Initialize(XMFLOAT3 worldPos, XMFLOAT3 Rot, ID3D12Device* Device)
+void Camera::Initialize(ID3D12Device* Device)
 {
 	wt.CreateConstBuffer(Device);
-	wt.translation_ = worldPos;
-	wt.rotation_ = Rot;
+	wt.translation_ = { 0.0f,0.0f,0.0f };
+	wt.rotation_ = { 0.0f,0.0f,0.0f };
 	wt.scale_ = { 1.0f,1.0f,1.0f };
 }
 
@@ -30,6 +31,35 @@ void Camera::Update()
 
 	//レールカメラの回転を反映(レールカメラの上方ベクトル)
 	viewProjection_.SetUp(VectorMat(up, wt.matWorld_));
+
+	if (targetWT)
+	{
+		XMFLOAT3 offset = { -30.0f,2.0f, -30.0f };
+
+		XMFLOAT2 inputnum = Input::GetRStick(true, true);
+		cameraRotateY += (float)inputnum.x * cameraDPI;
+		rotateY += (float)inputnum.x * cameraDPI;
+		if ((cameraRotateX < 0.27f && (float)inputnum.y / SHRT_MAX>0) || (cameraRotateX > -0.6f && (float)inputnum.y / SHRT_MAX < 0))
+		{
+			cameraRotateX += (float)inputnum.y * cameraDPI;
+			rotateX -= (float)inputnum.y * cameraDPI;
+		}
+
+		
+		
+
+		offset.x = offset.x * sinf(cameraRotateY);
+		offset.z = offset.z * cosf(cameraRotateY);
+
+
+
+		setRotate({ rotateX,rotateY,0 });
+		viewProjection_.SetEye(targetWT->translation_ + offset);
+
+		viewProjection_.SetTarget(viewProjection_.Geteye() + forward);
+
+
+	}
 
 
 	viewProjection_.Update();

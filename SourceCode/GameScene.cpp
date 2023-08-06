@@ -13,7 +13,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
-	camera.Initialize({}, {},dxcommon->GetDevice());
+	camera.Initialize(dxcommon->GetDevice());
 	Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
@@ -36,6 +36,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	boss.Init();
 	player.Init();
+
+	camera.setTarget(&player.transform);
 
 	boss.SetPlayer(&player);
 	player.SetEnemy(&boss.transform);
@@ -82,7 +84,7 @@ void GameScene::Update()
 {
 	static XMVECTOR lightDir = { 0,1,5,0 };
 
-	cameraX = camera.GetWorldPosition().x;
+	/*cameraX = camera.GetWorldPosition().x;
 	cameraZ = camera.GetWorldPosition().z;
 
 
@@ -94,11 +96,11 @@ void GameScene::Update()
 	{
 		cameraRotateX += (float)inputnum.y *cameraDPI ;
 		rotateX -= (float)inputnum.y * cameraDPI;
-	}
+	}*/
 
 	light->Update();
-	camera.setPos(XMFLOAT3((sinf(cameraRotateY) * 20 + player.GetPos().x), (sinf(-cameraRotateX) * 20 + player.GetPos().y + 5), (cosf(cameraRotateY) * 20 + player.GetPos().z)));
-	camera.setRotate({ rotateX,rotateY,0 });
+	/*camera.setPos(XMFLOAT3((sinf(cameraRotateY) * 20 + player.GetPos().x), (sinf(-cameraRotateX) * 20 + player.GetPos().y + 5), (cosf(cameraRotateY) * 20 + player.GetPos().z)));
+	camera.setRotate({ rotateX,rotateY,0 });*/
 	camera.Update();
 	skydome->Update(camera.getView());
 	field->Update(camera.getView());
