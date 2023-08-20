@@ -12,6 +12,16 @@ void BossEnemy::Init()
 	transform.scale_ = { 4.0f,4.0f,4.0f };
 	St->color = { 1.0f,0,0,1.0f };
 	LeserPoint.Init();
+	HP = MaxHP;
+
+	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
+
+	sprite_HPbar = std::make_unique<Sprite2D>();
+	sprite_HPbar->Initialize(spCommon, &HpBar, HpBarHandle);
+	HpBar.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 22.5f ,0.0f };
+	HpBar.scale_.x = 30.0f;
+	HpBar.color = { 1.0f,0.0f,0.0f,1.0f };
+
 }
 
 void BossEnemy::Update()
@@ -19,6 +29,8 @@ void BossEnemy::Update()
 	//•½–Êã‚Ì‹——£
 	XMFLOAT3 plUnderPos = player->GetUnderPos() - transform.translation_;
 	Lange = length(plUnderPos);
+
+	HpBar.scale_.x = (30.0f * HP / MaxHP);
 
 	if (BossAtk != AtkPattern::CHARGE)
 	{
@@ -70,6 +82,12 @@ void BossEnemy::Update()
 	ImGuiSet();
 
 	St->Update(camera->getView());
+	sprite_HPbar->Update();
+}
+
+void BossEnemy::Damege(float dmg)
+{
+	HP -= dmg;
 }
 
 void BossEnemy::Draw()
@@ -91,6 +109,10 @@ void BossEnemy::Draw()
 
 void BossEnemy::DrawUI()
 {
+	if (HP > 0)
+	{
+		sprite_HPbar->Draw();
+	}
 }
 
 void BossEnemy::AtkTable()
@@ -288,6 +310,9 @@ void BossEnemy::ImGuiSet()
 
 	}
 	ImGui::Text("BossMode::%s", MoveModes[static_cast<int>(BossMove)]);
+	ImGui::NewLine();
+	ImGui::Text("HP::%5.2f", HP);
+	ImGui::DragFloat("HP", &HP, 0.2f);
 
 	ImGui::End();
 }

@@ -16,10 +16,7 @@ public:
 
 	void Update();
 
-	/// <summary>
-	/// çUåÇ
-	/// </summary>
-	void Attack(XMFLOAT3 flont);
+	void Damege(float dmg);
 
 	void Draw();
 
@@ -37,6 +34,16 @@ public:
 	}
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
+private:
+
+	/// <summary>
+	/// çUåÇ
+	/// </summary>
+	void Attack(XMFLOAT3 flont);
+
+
+	void ImGuiSet();
+
 
 private:
 	WorldTransform* boss;
@@ -45,14 +52,22 @@ private:
 	XMFLOAT3 moveVec;
 	
 	std::unique_ptr<Sprite2D> sprite_Reticle;
+	std::unique_ptr<Sprite2D> sprite_HPbar;
+	std::unique_ptr<Sprite2D> sprite_CoverHPbar;
 
 	WorldTransform reticle;
+	WorldTransform HpBar;
+	WorldTransform CoverHpBar;
 
 	uint32_t reticleHandle;
+	uint32_t HpBarHandle;
 
 
 	//íeä÷òA
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+
+	const float MaxHP = 20.0f;
+	float HP = 0.0f;
 
 
 	int bulletCT = 0;

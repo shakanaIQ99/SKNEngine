@@ -10,21 +10,40 @@ void Player::Init()
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
-
+	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	transform.scale_ = { 1.0f,1.0f,1.0f };
 	transform.translation_.y = 10.0f;
 
+	HP = MaxHP;
 
+	sprite_HPbar = std::make_unique<Sprite2D>();
+	sprite_HPbar->Initialize(spCommon, &HpBar, HpBarHandle);
+	HpBar.translation_ = { 200.0f,680.0f,0.0f };
+	HpBar.scale_.x = 10.0f;
+	HpBar.color = { 0.0f,1.0f,0.0f,1.0f };
+
+	sprite_CoverHPbar = std::make_unique<Sprite2D>();
+	sprite_CoverHPbar->Initialize(spCommon, &CoverHpBar, HpBarHandle);
+	CoverHpBar.translation_ = { 200.0f,680.0f,0.0f };
+	CoverHpBar.scale_.x = 10.0f;
+	CoverHpBar.color = { 0.15f,0.15f,0.15f,1.0f };
 
 	sprite_Reticle = std::make_unique<Sprite2D>();
 	sprite_Reticle->Initialize(spCommon, &reticle, reticleHandle);
 	reticle.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
+	reticle.scale_={ 0.5f,0.5f,0.5f };
 	move_speed = 0.4f;
 }
 
 void Player::Update()
 {
 
+	HpBar.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
+	HpBar.scale_.x = (10.0f * HP / MaxHP);
+	if (HP > MaxHP)
+	{
+		HP = MaxHP;
+	}
 
 	moveVec = { 0,0,0 };
 	XMFLOAT3 Flont = camera->getForwardVec();
@@ -80,30 +99,21 @@ void Player::Update()
 	{
 		bullet->Update();
 	}
-	//ImguI
-	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 800, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
-	ImGui::SetNextWindowSize({ 400, 500 });
+	
 
-	ImGuiWindowFlags window_flags = 0;
-	window_flags |= ImGuiWindowFlags_NoResize;
-	ImGui::Begin("Player", NULL, window_flags);
-
-	ImGui::Text("Position");
-	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
-	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
-	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
-
-
-
-	ImGui::End();
-
-
-	//
+	ImGuiSet();
 
 
 
 	St->Update(camera->getView());
 	sprite_Reticle->Update();
+	sprite_HPbar->Update();
+	sprite_CoverHPbar->Update();
+}
+
+void Player::Damege(float dmg)
+{
+	HP -= dmg;
 }
 
 void Player::Attack(XMFLOAT3 flont)
@@ -130,6 +140,34 @@ void Player::Attack(XMFLOAT3 flont)
 	
 }
 
+void Player::ImGuiSet()
+{
+	//ImguI
+	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 800, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize({ 400, 500 });
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	ImGui::Begin("Player", NULL, window_flags);
+
+	ImGui::Text("Position");
+	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
+	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
+	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
+	ImGui::NewLine();
+	ImGui::Text("HP::%5.2f", HP);
+	ImGui::DragFloat("HP", &HP, 0.2f);
+	ImGui::DragFloat("HPposX", &HpBar.translation_.x, 0.5f);
+	ImGui::DragFloat("HPposY", &HpBar.translation_.y, 0.5f);
+	ImGui::DragFloat("HPSizeX", &HpBar.scale_.x, 0.5f);
+	ImGui::DragFloat("HPSizeY", &HpBar.scale_.y, 0.5f);
+
+
+
+	ImGui::End();
+
+}
+
 void Player::Draw()
 {
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
@@ -143,6 +181,12 @@ void Player::Draw()
 void Player::DrawUI()
 {
 	sprite_Reticle->Draw();
+	sprite_CoverHPbar->Draw();
+	if (HP > 0)
+	{
+		sprite_HPbar->Draw();
+	}
+	
 }
 
 XMFLOAT3 Player::VectorMat(XMFLOAT3 vector, XMMATRIX mat)

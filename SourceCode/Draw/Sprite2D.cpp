@@ -15,8 +15,6 @@ void Sprite2D::Initialize(SpriteCommon* spritecommon, WorldTransform* wt, uint32
 
 void Sprite2D::Update()
 {
-
-
 	this->Wt->UpdateSpriteMatrix(spritecommon->Getmat());
 }
 

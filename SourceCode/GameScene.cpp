@@ -2,6 +2,7 @@
 #include"FbxLoader.h"
 #include"StuructTransform.h"
 #include"Input.h"
+#include"Collision.h"
 
 void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 {
@@ -98,6 +99,8 @@ void GameScene::Update()
 		rotateX -= (float)inputnum.y * cameraDPI;
 	}*/
 
+	ALLCol();
+
 	light->Update();
 	/*camera.setPos(XMFLOAT3((sinf(cameraRotateY) * 20 + player.GetPos().x), (sinf(-cameraRotateX) * 20 + player.GetPos().y + 5), (cosf(cameraRotateY) * 20 + player.GetPos().z)));
 	camera.setRotate({ rotateX,rotateY,0 });*/
@@ -137,11 +140,20 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	spritecommon->PreDraw();
 
 	player.DrawUI();
+	boss.DrawUI();
 
 	//sprite->Draw({ 0,0 });
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
 
 	spritecommon->PostDraw();
+
+}
+
+void GameScene::ALLCol()
+{
+	
+
+
 
 }
 

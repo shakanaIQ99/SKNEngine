@@ -37,6 +37,8 @@ public:
 
 	void Draw(DirectXCommon* dxcommon);
 
+	void ALLCol();
+
 	void Finalize()
 	{
 		delete spritecommon;

@@ -38,6 +38,8 @@ public:
 
 	void Update();
 
+	void Damege(float dmg);
+
 	void Draw();
 
 	void DrawUI();
@@ -75,10 +77,18 @@ private:
 	//攻撃パターン
 	AtkPattern BossAtk = AtkPattern::NONE;
 
+	//HP
+	std::unique_ptr<Sprite2D> sprite_HPbar;
 
+	WorldTransform HpBar;
+
+	uint32_t HpBarHandle;
+	const float MaxHP = 100.0f;
+	float HP = 0.0f;
 
 	//行動パターン
 	MovePattern BossMove = MovePattern::NONE;
+
 	const int LongMoveTime = 60 * 6;
 
 	const int MidMoveTime = 60 * 3;
