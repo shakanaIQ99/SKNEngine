@@ -151,9 +151,44 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 
 void GameScene::ALLCol()
 {
-	
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player.GetBullets();
 
+	const std::list<std::unique_ptr<EnemyNormalBullet>>& enemyBullets = boss.GetBullets();
 
+	Sphere playerSp;
+	Sphere bossSp;
+
+	playerSp.center = { player.GetPos().x, player.GetPos().y, player.GetPos().z ,1.0f };
+	playerSp.radius = player.transform.scale_.x;
+
+	bossSp.center = { boss.transform.translation_.x, boss.transform.translation_.y,  boss.transform.translation_.z ,1.0f };
+	bossSp.radius = boss.transform.scale_.x;
+
+	if (Collision::CheckSphereToSphere(playerSp, bossSp))
+	{
+
+	}
+	for (const std::unique_ptr<EnemyNormalBullet>& bullet : enemyBullets)
+	{
+		Sphere bossBulletSp;
+		bossBulletSp.center = { bullet->GetWorldPosition().x ,bullet->GetWorldPosition().y ,bullet->GetWorldPosition().z ,1.0f };
+		bossBulletSp.radius = bullet->GetScale().x;
+		if (Collision::CheckSphereToSphere(playerSp, bossBulletSp))
+		{
+			player.Damege(1.0f);
+		}
+		
+	}
+	for (const std::unique_ptr<PlayerBullet>& p_bullet : playerBullets)
+	{
+		Sphere playerBulletSp;
+		playerBulletSp.center = { p_bullet->GetWorldPosition().x ,p_bullet->GetWorldPosition().y ,p_bullet->GetWorldPosition().z ,1.0f };
+		playerBulletSp.radius = p_bullet->GetScale().x;
+		if (Collision::CheckSphereToSphere(playerBulletSp, bossSp))
+		{
+			boss.Damege(2.0f);
+		}
+	}
 
 }
 

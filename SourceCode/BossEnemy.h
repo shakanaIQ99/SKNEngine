@@ -45,6 +45,7 @@ public:
 	void DrawUI();
 
 	void Bulletremove();
+	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
 private:
 
 	void AtkTable();
@@ -68,7 +69,6 @@ private:
 	void ImGuiSet();
 
 	
-	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
 
 
 
