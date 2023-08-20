@@ -34,7 +34,9 @@ void Camera::Update()
 
 	if (targetWT)
 	{
-		XMFLOAT3 offset = { -30.0f,2.0f, -30.0f };
+		XMFLOAT3 offset = { -20.0f,20.0f,-20.0f };
+
+
 
 		XMFLOAT2 inputnum = Input::GetRStick(true, true);
 		cameraRotateY += (float)inputnum.x * cameraDPI;
@@ -45,18 +47,22 @@ void Camera::Update()
 			rotateX -= (float)inputnum.y * cameraDPI;
 		}
 
-		
+		XMFLOAT3 cameraPoint = targetWT->translation_;
+
+		cameraPoint.y += 5.0f;
 		
 
 		offset.x = offset.x * sinf(cameraRotateY);
 		offset.z = offset.z * cosf(cameraRotateY);
+		offset.y = offset.y * sinf(-cameraRotateX);
 
 
 
 		setRotate({ rotateX,rotateY,0 });
-		viewProjection_.SetEye(targetWT->translation_ + offset);
+		viewProjection_.SetEye(cameraPoint + offset);
+		
+		viewProjection_.SetTarget(cameraPoint + forward);
 
-		viewProjection_.SetTarget(viewProjection_.Geteye() + forward);
 
 
 	}
