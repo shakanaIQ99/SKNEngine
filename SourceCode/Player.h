@@ -22,6 +22,18 @@ public:
 
 	void DrawUI();
 
+	bool Death()
+	{
+		if (HP <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	XMFLOAT3 GetPos()
 	{
 		return transform.translation_;

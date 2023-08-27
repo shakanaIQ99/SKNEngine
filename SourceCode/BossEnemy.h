@@ -46,6 +46,18 @@ public:
 
 	void Bulletremove();
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
+
+	bool Death()
+	{
+		if (HP <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 private:
 
 	void AtkTable();

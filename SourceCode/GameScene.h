@@ -19,7 +19,11 @@
 #include"BossEnemy.h"
 #include"Draw3DLine.h"
 
-
+enum struct SceneType
+{
+	TITLE,
+	GAMESCENE
+};
 
 class GameScene
 {
@@ -51,7 +55,18 @@ public:
 		delete field;
 	}
 
+	
+
 private:
+
+	void TitleUpdate();
+	void GameUpdate();
+
+
+	void TitleDraw(DirectXCommon* dxcommon);
+	void GameDraw(DirectXCommon* dxcommon);
+
+	void ImGuiView();
 
 	Player player;
 	BossEnemy boss;
@@ -84,6 +99,8 @@ private:
 	
 	XMFLOAT3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;
+
+	SceneType scene = SceneType::GAMESCENE;
 
 };
 

@@ -83,70 +83,39 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 void GameScene::Update()
 {
-	static XMVECTOR lightDir = { 0,1,5,0 };
-
-	/*cameraX = camera.GetWorldPosition().x;
-	cameraZ = camera.GetWorldPosition().z;
-
-
-
-	XMFLOAT2 inputnum = Input::GetRStick(true, true);
-	cameraRotateY += (float)inputnum.x * cameraDPI;
-	rotateY += (float)inputnum.x * cameraDPI;
-	if ((cameraRotateX < 0.27f && (float)inputnum.y / SHRT_MAX>0) || (cameraRotateX > -0.6f && (float)inputnum.y / SHRT_MAX < 0))
+	
+	switch (scene)
 	{
-		cameraRotateX += (float)inputnum.y *cameraDPI ;
-		rotateX -= (float)inputnum.y * cameraDPI;
-	}*/
-
-	ALLCol();
-
-	light->Update();
-	/*camera.setPos(XMFLOAT3((sinf(cameraRotateY) * 20 + player.GetPos().x), (sinf(-cameraRotateX) * 20 + player.GetPos().y + 5), (cosf(cameraRotateY) * 20 + player.GetPos().z)));
-	camera.setRotate({ rotateX,rotateY,0 });*/
-	camera.Update();
-	skydome->Update(camera.getView());
-	field->Update(camera.getView());
-	player.Update();
-	boss.Update();
-
+	case SceneType::TITLE:
+		TitleUpdate();
+		/*if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A)||Input::GetPressKey(DIK_END))
+		{
+			scene = SceneType::GAMESCENE;
+		}*/
+		break;
+	case SceneType::GAMESCENE:
+		GameUpdate();
+		/*if (player.Death() || boss.Death())
+		{
+			scene = SceneType::TITLE;
+		}*/
+		break;
+	}
 
 }
 
 void GameScene::Draw(DirectXCommon* dxcommon)
 {
-
-
-	OBJ3D::PreDraw(dxcommon->GetCommandList());
-
-	skydome->Draw();
-	field->Draw();
-
-	player.Draw();
-	boss.Draw();
-	//ParticleManager::PreDraw(dxcommon->GetCommandList());
-
-	// 3Dオブクジェクトの描画
-	//particleMan->Draw();
-
-
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
-
-	// 3Dオブジェクト描画後処理
-	//ParticleManager::PostDraw();
-
-	spritecommon->PreDraw();
-
-	player.DrawUI();
-	boss.DrawUI();
-
-	//sprite->Draw({ 0,0 });
-	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
-
-	spritecommon->PostDraw();
-
+	switch (scene)
+	{
+	case SceneType::TITLE:
+		TitleDraw(dxcommon);
+		break;
+	case SceneType::GAMESCENE:
+		GameDraw(dxcommon);
+		break;
+	}
+	
 }
 
 void GameScene::ALLCol()
@@ -190,6 +159,76 @@ void GameScene::ALLCol()
 		}
 	}
 
+}
+
+void GameScene::TitleUpdate()
+{
+	camera.Update();
+}
+
+void GameScene::GameUpdate()
+{
+	static XMVECTOR lightDir = { 0,1,5,0 };
+
+
+	ALLCol();
+
+	light->Update();
+
+	camera.Update();
+	skydome->Update(camera.getView());
+	field->Update(camera.getView());
+	player.Update();
+	boss.Update();
+}
+
+void GameScene::TitleDraw(DirectXCommon* dxcommon)
+{
+	/*OBJ3D::PreDraw(dxcommon->GetCommandList());
+
+	spritecommon->PreDraw();
+
+	
+
+	spritecommon->PostDraw();*/
+}
+
+void GameScene::GameDraw(DirectXCommon* dxcommon)
+{
+	OBJ3D::PreDraw(dxcommon->GetCommandList());
+
+	skydome->Draw();
+	field->Draw();
+
+	player.Draw();
+	boss.Draw();
+	//ParticleManager::PreDraw(dxcommon->GetCommandList());
+
+	// 3Dオブクジェクトの描画
+	//particleMan->Draw();
+
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	//ParticleManager::PostDraw();
+
+	spritecommon->PreDraw();
+
+	player.DrawUI();
+	boss.DrawUI();
+
+	//sprite->Draw({ 0,0 });
+	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
+
+	spritecommon->PostDraw();
+
+}
+
+void GameScene::ImGuiView()
+{
 }
 
 
