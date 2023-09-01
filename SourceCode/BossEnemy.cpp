@@ -24,6 +24,13 @@ void BossEnemy::Init()
 
 }
 
+void BossEnemy::Reset()
+{
+	LeserPoint.Init();
+	transform.translation_ = { 0,0.0f,20.0f };
+	HP = MaxHP;
+}
+
 void BossEnemy::Update()
 {
 	//ïΩñ è„ÇÃãóó£

@@ -14,6 +14,8 @@ public:
 
 	void Init();
 
+	void Reset();
+
 	void Update();
 
 	void Damege(float dmg);

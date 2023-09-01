@@ -100,7 +100,7 @@ private:
 	XMFLOAT3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;
 
-	SceneType scene = SceneType::GAMESCENE;
+	SceneType scene = SceneType::TITLE;
 
 };
 

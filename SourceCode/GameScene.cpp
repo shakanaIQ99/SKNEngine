@@ -88,17 +88,19 @@ void GameScene::Update()
 	{
 	case SceneType::TITLE:
 		TitleUpdate();
-		/*if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A)||Input::GetPressKey(DIK_END))
+		if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A)||Input::GetPressKey(DIK_END))
 		{
 			scene = SceneType::GAMESCENE;
-		}*/
+			player.Reset();
+			boss.Reset();
+		}
 		break;
 	case SceneType::GAMESCENE:
 		GameUpdate();
-		/*if (player.Death() || boss.Death())
+		if (player.Death() || boss.Death())
 		{
 			scene = SceneType::TITLE;
-		}*/
+		}
 		break;
 	}
 
@@ -184,13 +186,14 @@ void GameScene::GameUpdate()
 
 void GameScene::TitleDraw(DirectXCommon* dxcommon)
 {
-	/*OBJ3D::PreDraw(dxcommon->GetCommandList());
-
+	OBJ3D::PreDraw(dxcommon->GetCommandList());
+	skydome->Draw();
+	field->Draw();
 	spritecommon->PreDraw();
 
 	
 
-	spritecommon->PostDraw();*/
+	spritecommon->PostDraw();
 }
 
 void GameScene::GameDraw(DirectXCommon* dxcommon)

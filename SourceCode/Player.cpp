@@ -35,6 +35,12 @@ void Player::Init()
 	move_speed = 0.4f;
 }
 
+void Player::Reset()
+{
+	HP = MaxHP;
+	transform.translation_ = { 0,10.0f,0 };
+}
+
 void Player::Update()
 {
 
