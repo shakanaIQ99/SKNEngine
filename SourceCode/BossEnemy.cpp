@@ -73,7 +73,9 @@ void BossEnemy::Update()
 
 			break;
 		case AtkPattern::CHARGE:
-
+			
+			
+			ChargeAtk();
 			break;
 		case AtkPattern::LASER:
 			break;
@@ -131,6 +133,17 @@ void BossEnemy::AtkTable()
 		TargetTimer = TargetTime;
 		BossAtk = AtkPattern::SIMPLESHOT;
 		BurstTime= BurstNum * BurstRate;
+
+	}
+	if (Lange > LangeMax)
+	{
+		BossAtk = AtkPattern::CHARGE;
+		prePos = transform.translation_;
+		prePos.y = 0;
+		TargetVec = player->GetPos() - transform.translation_;
+		TargetVec.y = 0;
+		chargeLenge = length(TargetVec);
+		normalize(TargetVec);
 
 	}
 
@@ -236,6 +249,19 @@ void BossEnemy::SimpleShot()
 
 void BossEnemy::ChargeAtk()
 {
+	
+
+	XMFLOAT3 chargeMoved = transform.translation_ - prePos;
+	chargeMoved.y = 0;
+
+	transform.translation_ += TargetVec * 1.0f;
+
+	if (chargeLenge + 5.0f < length(chargeMoved))
+	{
+		BossAtk = AtkPattern::NONE;
+	}
+
+
 }
 
 void BossEnemy::LaserShot()

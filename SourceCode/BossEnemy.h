@@ -87,6 +87,8 @@ private:
 
 
 private:
+	//汎用
+	XMFLOAT3 prePos = { 0,0,0 };
 	Player* player;
 	//攻撃パターン
 	AtkPattern BossAtk = AtkPattern::NONE;
@@ -131,12 +133,17 @@ private:
 	const int BurstNum = 3;
 	int BurstTime = BurstNum * BurstRate;
 
+	//突進攻撃
+	XMFLOAT3 TargetVec= { 0,0,0 };
+	float chargeLenge = 0;
+
+
 	//認知範囲
 	float Lange = 0;
 	float LangeMax = 50;
 	float LangeMin = 10;
 
-
+	
 
 };
 
