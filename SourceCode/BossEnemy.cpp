@@ -39,6 +39,8 @@ void BossEnemy::Update()
 
 	HpBar.scale_.x = (30.0f * HP / MaxHP);
 
+	chargeCool--;
+
 	if (BossAtk != AtkPattern::CHARGE)
 	{
 		switch (BossMove)
@@ -128,26 +130,31 @@ void BossEnemy::AtkTable()
 {
 	
 
-	if (Lange < LangeMax)
+	if (Lange > LangeMax)
 	{
 		TargetTimer = TargetTime;
 		BossAtk = AtkPattern::SIMPLESHOT;
 		BurstTime= BurstNum * BurstRate;
 
 	}
-	if (Lange > LangeMax)
+	if (Lange < LangeMax)
 	{
-		BossAtk = AtkPattern::CHARGE;
-		prePos = transform.translation_;
-		prePos.y = 0;
-		TargetVec = player->GetPos() - transform.translation_;
-		TargetVec.y = 0;
-		chargeLenge = length(TargetVec);
-		normalize(TargetVec);
+		if (chargeCool < 0)
+		{
+			BossAtk = AtkPattern::CHARGE;
+			prePos = transform.translation_;
+			prePos.y = 0;
+			TargetVec = player->GetPos() - transform.translation_;
+			TargetVec.y = 0;
+			chargeLenge = length(TargetVec);
+			normalize(TargetVec);
+			chargeCool = chargeCoolTime;
+		}
+		
 
 	}
 
-
+	
 }
 
 void BossEnemy::MoveTable()

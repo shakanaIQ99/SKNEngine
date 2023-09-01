@@ -46,6 +46,11 @@ public:
 
 	void DrawUI();
 
+	AtkPattern GetAtkPattern()
+	{
+		return BossAtk;
+	}
+
 	void Bulletremove();
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
 
@@ -136,6 +141,8 @@ private:
 	//“ËiUŒ‚
 	XMFLOAT3 TargetVec= { 0,0,0 };
 	float chargeLenge = 0;
+	int chargeCool = 0;
+	const int chargeCoolTime = 600;
 
 
 	//”F’m”ÍˆÍ

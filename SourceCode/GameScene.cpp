@@ -137,7 +137,10 @@ void GameScene::ALLCol()
 
 	if (Collision::CheckSphereToSphere(playerSp, bossSp))
 	{
-
+		if (boss.GetAtkPattern() == AtkPattern::CHARGE)
+		{
+			player.Damege(0.2f);
+		}
 	}
 	for (const std::unique_ptr<EnemyNormalBullet>& bullet : enemyBullets)
 	{
