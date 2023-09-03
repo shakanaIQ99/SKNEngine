@@ -10,6 +10,13 @@ void Camera::Initialize(ID3D12Device* Device)
 	wt.scale_ = { 1.0f,1.0f,1.0f };
 }
 
+void Camera::Reset()
+{
+	wt.translation_ = { 0.0f,0.0f,0.0f };
+	wt.rotation_ = { 0.0f,0.0f,0.0f };
+	wt.scale_ = { 1.0f,1.0f,1.0f };
+}
+
 void Camera::Update()
 {
 

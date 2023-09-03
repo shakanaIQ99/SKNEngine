@@ -57,6 +57,20 @@ void Player::Reset()
 {
 	HP = MaxHP;
 	transform.translation_ = { 0,10.0f,0 };
+	const std::list<std::unique_ptr<PlayerBullet>>& Bullets = GetBullets();
+	for (const std::unique_ptr<PlayerBullet>& p_bullet : Bullets)
+	{
+		
+		p_bullet->OnCollision();
+		
+	}
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
+		{
+			return bullet->IsDead();
+		});
+
+	
+
 }
 
 void Player::Update()

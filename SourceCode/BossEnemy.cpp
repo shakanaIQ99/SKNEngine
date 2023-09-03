@@ -29,10 +29,27 @@ void BossEnemy::Reset()
 	LeserPoint.Init();
 	transform.translation_ = { 0,0.0f,20.0f };
 	HP = MaxHP;
+	const std::list<std::unique_ptr<EnemyNormalBullet>>& Bullets = GetBullets();
+	for (const std::unique_ptr<EnemyNormalBullet>& bullet : Bullets)
+	{
+
+		bullet->OnCollision();
+
+	}
+	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
+		{
+			return bullet->IsDead();
+		});
+
 }
 
 void BossEnemy::Update()
 {
+	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
+		{
+			return bullet->IsDead();
+		});
+
 	//•½–Êã‚Ì‹——£
 	XMFLOAT3 plUnderPos = player->GetUnderPos() - transform.translation_;
 	Lange = length(plUnderPos);

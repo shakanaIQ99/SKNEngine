@@ -104,6 +104,7 @@ void GameScene::Update()
 		if (player.Death() || boss.Death())
 		{
 			scene = SceneType::TITLE;
+			camera.Reset();
 		}
 		break;
 	}
@@ -154,6 +155,7 @@ void GameScene::ALLCol()
 		if (Collision::CheckSphereToSphere(playerSp, bossBulletSp))
 		{
 			player.Damege(1.0f);
+			bullet->OnCollision();
 		}
 		
 	}
@@ -165,6 +167,7 @@ void GameScene::ALLCol()
 		if (Collision::CheckSphereToSphere(playerBulletSp, bossSp))
 		{
 			boss.Damege(2.0f);
+			p_bullet->OnCollision();
 		}
 	}
 

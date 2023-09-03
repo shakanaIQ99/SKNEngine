@@ -15,6 +15,8 @@ public:
 	/// <param name="Rot">回転角(ラジアン)</param>
 	void Initialize(ID3D12Device* Device);
 
+	void Reset();
+
 	/// <summary>
 	/// 更新
 	/// </summary>
