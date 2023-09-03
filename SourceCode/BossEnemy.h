@@ -65,6 +65,11 @@ public:
 			return false;
 		}
 	}
+
+	XMFLOAT3 GetPos()
+	{
+		return transform.translation_;
+	}
 private:
 
 	void AtkTable();

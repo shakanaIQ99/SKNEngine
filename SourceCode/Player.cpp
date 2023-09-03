@@ -1,6 +1,19 @@
 #include "Player.h"
 #include "ImGuiManager.h"
 
+XMFLOAT3 VectorMatDivW(XMMATRIX mat, XMFLOAT3 pos)
+{
+	float w = pos.x * mat.r[0].m128_f32[3] + pos.y * mat.r[1].m128_f32[3] + pos.z * mat.r[2].m128_f32[3] + mat.r[3].m128_f32[3];
+
+	XMFLOAT3 result =
+	{
+		(pos.x * mat.r[0].m128_f32[0] + pos.y * mat.r[1].m128_f32[0] + pos.z * mat.r[2].m128_f32[0] + mat.r[3].m128_f32[0]) / w,
+		(pos.x * mat.r[0].m128_f32[1] + pos.y * mat.r[1].m128_f32[1] + pos.z * mat.r[2].m128_f32[1] + mat.r[3].m128_f32[1]) / w,
+		(pos.x * mat.r[0].m128_f32[2] + pos.y * mat.r[1].m128_f32[2] + pos.z * mat.r[2].m128_f32[2] + mat.r[3].m128_f32[2]) / w
+	};
+
+	return result;
+}
 
 void Player::Init()
 {
@@ -10,6 +23,7 @@ void Player::Init()
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
+	LockHandle = texMana->LoadTexture("Resources/Lock.png");
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	transform.scale_ = { 1.0f,1.0f,1.0f };
 	transform.translation_.y = 10.0f;
@@ -31,7 +45,11 @@ void Player::Init()
 	sprite_Reticle = std::make_unique<Sprite2D>();
 	sprite_Reticle->Initialize(spCommon, &reticle, reticleHandle);
 	reticle.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
-	reticle.scale_={ 0.5f,0.5f,0.5f };
+	reticle.scale_={ 1.0f,1.0f,1.0f };
+
+	sprite_Lock= std::make_unique<Sprite2D>();
+	sprite_Lock->Initialize(spCommon, &Lock, LockHandle);
+
 	move_speed = 0.4f;
 }
 
@@ -106,6 +124,7 @@ void Player::Update()
 		bullet->Update();
 	}
 	
+	Lock.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
 
 	ImGuiSet();
 
@@ -115,6 +134,7 @@ void Player::Update()
 	sprite_Reticle->Update();
 	sprite_HPbar->Update();
 	sprite_CoverHPbar->Update();
+	sprite_Lock->Update();
 }
 
 void Player::Damege(float dmg)
@@ -126,8 +146,12 @@ void Player::Attack(XMFLOAT3 flont)
 {
 	const float kBulletSpeed = 5.0f;
 	
-	
 	XMFLOAT3 velocity = flont;
+
+	if (LockOn())
+	{
+		velocity = boss->translation_ - GetPos();
+	}
 
 	normalize(velocity);
 
@@ -144,6 +168,69 @@ void Player::Attack(XMFLOAT3 flont)
 	bullets_.push_back(std::move(newBullet));
 
 	
+}
+
+bool Player::LockOn()
+{
+	
+	if (ScLock(boss))
+	{
+
+		Lock2DPos = WorldToMonitor(boss->translation_);
+		return true;
+	}
+	else
+	{
+		return false;
+
+	}
+}
+
+bool Player::ScLock(WorldTransform* prewt)
+{
+	XMMATRIX Pos = prewt->matWorld_;
+	Pos *= camera->getView()->GetMAtView();
+	Pos *= camera->getView()->GetMatProjection();
+
+	float objZ = Pos.r[3].m128_f32[2];
+
+	XMFLOAT2 scr_pos = WorldToMonitor(prewt->translation_);
+
+	if ((DxWindow::window_width / 2) - 120.0f < scr_pos.x && 
+		(DxWindow::window_width / 2) + 120.0f > scr_pos.x && 
+		(DxWindow::window_height / 2) - 120.0f < scr_pos.y &&
+		(DxWindow::window_height / 2) + 120.0f > scr_pos.y && objZ > 0)
+	{
+		return true;
+	}
+
+	else
+	{
+		return false;
+	}
+}
+
+XMFLOAT2 Player::WorldToMonitor(XMFLOAT3 pos)
+{
+	XMFLOAT3 positionReticle = pos;
+
+	XMMATRIX matViewport = {
+		1280 / 2,0,0,0,
+		0,-720 / 2,0,0,
+		0,0,1,0,
+		1280 / 2 + 0,720 / 2 + 0,0,1
+	};
+
+	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	XMMATRIX matViewProjectionViewport = camera->getView()->GetMAtView();
+	matViewProjectionViewport *= camera->getView()->GetMatProjection();
+	matViewProjectionViewport *= matViewport;
+
+	//ワールド→スクリーン座標変換(ここで3Dから2Dになる)
+	positionReticle = VectorMatDivW(matViewProjectionViewport, positionReticle);
+
+	//スプライトのレティクルに座標設定
+	return XMFLOAT2(positionReticle.x, positionReticle.y);
 }
 
 void Player::ImGuiSet()
@@ -191,6 +278,10 @@ void Player::DrawUI()
 	if (HP > 0)
 	{
 		sprite_HPbar->Draw();
+	}
+	if (LockOn())
+	{
+		sprite_Lock->Draw();
 	}
 	
 }

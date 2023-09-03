@@ -55,6 +55,12 @@ private:
 	/// </summary>
 	void Attack(XMFLOAT3 flont);
 
+	bool LockOn();
+
+	bool ScLock(WorldTransform* prewt);
+
+	XMFLOAT2 WorldToMonitor(XMFLOAT3 pos);
+
 
 	void ImGuiSet();
 
@@ -66,16 +72,20 @@ private:
 	XMFLOAT3 moveVec;
 	
 	std::unique_ptr<Sprite2D> sprite_Reticle;
+	std::unique_ptr<Sprite2D> sprite_Lock;
 	std::unique_ptr<Sprite2D> sprite_HPbar;
 	std::unique_ptr<Sprite2D> sprite_CoverHPbar;
 
 	WorldTransform reticle;
+	WorldTransform Lock;
 	WorldTransform HpBar;
 	WorldTransform CoverHpBar;
 
 	uint32_t reticleHandle;
+	uint32_t LockHandle;
 	uint32_t HpBarHandle;
 
+	XMFLOAT2 Lock2DPos = { 0,0 };
 
 	//’eŠÖ˜A
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
