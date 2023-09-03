@@ -23,7 +23,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	field_model = ObjModel::LoadFromOBJ("ground");
-	
+	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
 	
 
 	//3Dモデル周り
@@ -47,6 +47,10 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 
 	//スプライト周り
+
+	preTitle = std::make_unique<Sprite2D>();
+	preTitle->Initialize(spritecommon, &preTitleWt, preTitleHandle);
+	preTitleWt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
 
 
 	//パーティクル周り
@@ -169,6 +173,7 @@ void GameScene::ALLCol()
 void GameScene::TitleUpdate()
 {
 	camera.Update();
+	preTitle->Update();
 }
 
 void GameScene::GameUpdate()
@@ -194,7 +199,7 @@ void GameScene::TitleDraw(DirectXCommon* dxcommon)
 	field->Draw();
 	spritecommon->PreDraw();
 
-	
+	preTitle->Draw();
 
 	spritecommon->PostDraw();
 }

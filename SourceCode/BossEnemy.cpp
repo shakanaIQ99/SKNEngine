@@ -7,7 +7,7 @@
 
 void BossEnemy::Init()
 {
-	ModelInit("chr_sword");
+	ModelInit("Player");
 	EnemyNormalBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	transform.scale_ = { 4.0f,4.0f,4.0f };
 	St->color = { 1.0f,0,0,1.0f };
@@ -38,6 +38,13 @@ void BossEnemy::Update()
 	Lange = length(plUnderPos);
 
 	HpBar.scale_.x = (30.0f * HP / MaxHP);
+
+	transform.translation_.y -= 0.5f;
+
+	if (transform.translation_.y - (transform.scale_.y * 1.5f) < 0.0f)
+	{
+		transform.translation_.y = (transform.scale_.y * 1.5f);
+	}
 
 	chargeCool--;
 

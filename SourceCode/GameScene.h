@@ -96,6 +96,9 @@ private:
 	WorldTransform skydome_wt;
 	WorldTransform field_wt;
 
+	std::unique_ptr<Sprite2D> preTitle;
+	WorldTransform preTitleWt;
+	uint32_t preTitleHandle;
 	
 	XMFLOAT3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;
