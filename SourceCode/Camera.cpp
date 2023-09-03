@@ -15,6 +15,8 @@ void Camera::Reset()
 	wt.translation_ = { 0.0f,0.0f,0.0f };
 	wt.rotation_ = { 0.0f,0.0f,0.0f };
 	wt.scale_ = { 1.0f,1.0f,1.0f };
+	setRotate({ 0,0,0 });
+	viewProjection_.Update();
 }
 
 void Camera::Update()

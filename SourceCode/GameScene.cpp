@@ -104,6 +104,7 @@ void GameScene::Update()
 		if (player.Death() || boss.Death())
 		{
 			scene = SceneType::TITLE;
+			player.Reset();
 			camera.Reset();
 		}
 		break;
