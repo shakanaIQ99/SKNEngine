@@ -83,44 +83,15 @@ void Player::Update()
 		HP = MaxHP;
 	}
 
-	moveVec = { 0,0,0 };
-	XMFLOAT3 Flont = camera->getForwardVec();
-	Flont.y = 0;
-	normalize(Flont);
+
 
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
 		{
 			return bullet->IsDead();
 		});
 
-	XMFLOAT2 inputnum = Input::GetLStick(true, true);
-
-	moveVec.x += (float)inputnum.x / SHRT_MAX;
-	moveVec.z += (float)inputnum.y / SHRT_MAX;
-
-	float p_pos = atan2(moveVec.x, moveVec.z);
-	float c_vec = atan2(Flont.x, Flont.z);
-
-	transform.rotation_.y = (p_pos + c_vec);
-
-	XMFLOAT3 mae = { 0,0,1.0f };
-
-	mae = VectorMat(mae,transform.matWorld_);
-
-	normalize(mae);
-
-	if (moveVec.x != 0 || moveVec.z != 0)
-	{
-		transform.translation_ += mae * move_speed;
-	}
-
-	transform.translation_.y -= 0.5f;
+	Move();
 	
-	if (transform.translation_.y - (transform.scale_.y*1.5f)< 0.0f)
-	{
-		transform.translation_.y = (transform.scale_.y * 1.5f);
-	}
-
 	if (Input::GetRTrigger())
 	{
 		if (latetime <= 0)
@@ -182,6 +153,43 @@ void Player::Attack(XMFLOAT3 flont)
 	bullets_.push_back(std::move(newBullet));
 
 	
+}
+
+void Player::Move()
+{
+
+	moveVec = { 0,0,0 };
+	XMFLOAT3 Flont = camera->getForwardVec();
+	Flont.y = 0;
+	normalize(Flont);
+	XMFLOAT2 inputnum = Input::GetLStick(true, true);
+
+	moveVec.x += (float)inputnum.x / SHRT_MAX;
+	moveVec.z += (float)inputnum.y / SHRT_MAX;
+
+	float p_pos = atan2(moveVec.x, moveVec.z);
+	float c_vec = atan2(Flont.x, Flont.z);
+
+	transform.rotation_.y = (p_pos + c_vec);
+
+	XMFLOAT3 mae = { 0,0,1.0f };
+
+	mae = VectorMat(mae, transform.matWorld_);
+
+	normalize(mae);
+
+	if (moveVec.x != 0 || moveVec.z != 0)
+	{
+		transform.translation_ += mae * move_speed;
+	}
+
+	transform.translation_.y -= 0.5f;
+
+	if (transform.translation_.y - (transform.scale_.y * 1.5f) < 0.0f)
+	{
+		transform.translation_.y = (transform.scale_.y * 1.5f);
+	}
+
 }
 
 bool Player::LockOn()

@@ -55,6 +55,8 @@ private:
 	/// </summary>
 	void Attack(XMFLOAT3 flont);
 
+	void Move();
+
 	bool LockOn();
 
 	bool ScLock(WorldTransform* prewt);
