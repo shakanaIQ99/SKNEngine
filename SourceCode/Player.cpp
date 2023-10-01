@@ -179,7 +179,7 @@ void Player::Move()
 
 	normalize(mae);
 
-	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A)&&!DashFlag)
+	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B)&&!DashFlag)
 	{
 		DashFlag = true;
 		DashVec = mae;
