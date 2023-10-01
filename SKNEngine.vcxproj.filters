@@ -228,6 +228,9 @@
     <ClCompile Include="SourceCode\Math\myMath.cpp">
       <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Math\Easing.cpp">
+      <Filter>ソース ファイル\cppファイル\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Draw\Sprite2D.h">
@@ -378,6 +381,9 @@
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Math\myMath.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Math\Easing.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
   </ItemGroup>

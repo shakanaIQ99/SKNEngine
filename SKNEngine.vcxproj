@@ -158,6 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Math\Easing.cpp" />
     <ClCompile Include="SourceCode\Math\myMath.cpp" />
     <ClCompile Include="SourceCode\Draw\PostEffect.cpp" />
     <ClCompile Include="SourceCode\EnemyNormalBullet.cpp" />
@@ -209,6 +210,7 @@
     <ClCompile Include="SourceCode\StuructTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Math\Easing.h" />
     <ClInclude Include="SourceCode\Math\myMath.h" />
     <ClInclude Include="SourceCode\EnemyNormalBullet.h" />
     <ClInclude Include="SourceCode\Draw3DLine.h" />
