@@ -1,28 +1,28 @@
 #include "Easing.h"
 
-double easeInSine(double start, double end, double movetime, double endtime) 
+float easeInSine(float start, float end, float movetime, float endtime)
 {
-	double time = movetime / endtime;
-	return start + (1 - cos((time * PI) / 2)) * (end - start);
+	float time = movetime / endtime;
+	return start + static_cast<float>((1 - cos((time * PI) / 2))) * (end - start);
 }
 
-double easeInQuint(double start, double end, double movetime, double endtime) 
+float easeInQuint(float start, float end, float movetime, float endtime)
 {
-	double time = movetime / endtime;
+	float time = movetime / endtime;
 	return start + (time * time * time * time * time) * (end - start);
 }
 
-double easeOutSine(double start, double end, double movetime, double endtime) 
+float easeOutSine(float start, float end, float movetime, float endtime)
 {
-	double time = movetime / endtime;
-	return start + sin((time * PI) / 2) * (end - start);
+	float time = movetime / endtime;
+	return start + static_cast<float>(sin((time * PI) / 2)) * (end - start);
 }
 
-double easeOutQuint(double start, double end, double movetime, double endtime)
+float easeOutQuint(float start, float end, float movetime, float endtime)
 {
-	double time = movetime / endtime;
+	float time = movetime / endtime;
 
-	return start + (1 - pow(1 - time, 5)) * (end - start);
+	return start + (1 - static_cast<float>(pow(1 - time, 5))) * (end - start);
 }
 
 double EaseInBack(float t, int start, int end, int num, double p1)

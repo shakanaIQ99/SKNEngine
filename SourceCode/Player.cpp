@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "ImGuiManager.h"
-#include 
+#include "Math/Easing.h"
 
 XMFLOAT3 VectorMatDivW(XMMATRIX mat, XMFLOAT3 pos)
 {
@@ -84,7 +84,7 @@ void Player::Update()
 		HP = MaxHP;
 	}
 
-
+	
 
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
 		{
@@ -179,7 +179,28 @@ void Player::Move()
 
 	normalize(mae);
 
-	if (moveVec.x != 0 || moveVec.z != 0)
+	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A)&&!DashFlag)
+	{
+		DashFlag = true;
+		DashVec = mae;
+		DashTimer = 0;
+	}
+
+	if (DashFlag)
+	{
+		DashTimer += 1.0f;
+
+		dashspeed = easeInQuint(DashSpeadNum, 0.0f, DashTimer, DashTime);
+
+		transform.translation_ += DashVec * dashspeed;
+
+		if (DashTimer >= DashTime)
+		{
+			DashFlag = false;
+		}
+	}
+
+	if ((moveVec.x != 0 || moveVec.z != 0)&&!DashFlag)
 	{
 		transform.translation_ += mae * move_speed;
 	}

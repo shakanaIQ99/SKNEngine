@@ -104,6 +104,19 @@ private:
 
 	int latetime;
 
+	//クイックダッシュ周り
+
+	float dashspeed = 0.0f;
+
+	const float DashSpeadNum = 5.0f;
+
+	XMFLOAT3 DashVec = { 0,0,0 };
+
+	bool DashFlag = false;
+
+	float DashTimer = 0;
+	const float DashTime = 20.0f;
+
 
 	/// <summary>
 	/// 行列とベクトルの計算(左側が行列計算の先)
