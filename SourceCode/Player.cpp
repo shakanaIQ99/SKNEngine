@@ -23,7 +23,7 @@ void Player::Init()
 	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	
-	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
+	reticleHandle = texMana->LoadTexture("Resources/Reticle.dds");
 	LockHandle = texMana->LoadTexture("Resources/Lock.png");
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	transform.scale_ = { 1.0f,1.0f,1.0f };

@@ -84,12 +84,35 @@ void TextureManager::FileLoad(const string& path, TexMetadata& metadata, Scratch
 	HRESULT result;
 
 	MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, Filepath, _countof(Filepath));
+
+	size_t pos1;
+	//‹æØ‚è•¶š'.'‚ªo‚Ä‚­‚éˆê”ÔÅŒã‚Ì•”•ª‚ğŒŸõ
+	pos1 = path.rfind('.');
+
+	//ŒŸõ‚ªƒqƒbƒg‚µ‚½‚ç
+	if (pos1 != std::wstring::npos)
+	{
+		fileExt_ = path.substr(pos1 + 1, path.size() - pos1 - 1);
+
+	}
+
+	if (fileExt_ == "dds")
+	{
+		result = LoadFromDDSFile(
+			Filepath,
+			DirectX::DDS_FLAGS_NONE,
+			&metadata, scratchImg);
+		assert(SUCCEEDED(result));
+	}
+	else
+	{
+		result = LoadFromWICFile(
+			Filepath,
+			DirectX::WIC_FLAGS_NONE,
+			&metadata, scratchImg);
+		assert(SUCCEEDED(result));
+	}
 	
-	result = LoadFromWICFile(
-		Filepath,
-		DirectX::WIC_FLAGS_NONE,
-		&metadata, scratchImg);
-	assert(SUCCEEDED(result));
 
 
 }

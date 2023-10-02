@@ -29,6 +29,8 @@ struct TextureData
 	string path;
 
 	uint32_t texHandle;
+
+	
 };
 
 class TextureManager
@@ -69,6 +71,8 @@ private:
 	static unordered_map<string, unique_ptr<TextureData>> texDatas;
 
 	uint32_t TextureSize;
+
+	string fileExt_;
 
 };
 
