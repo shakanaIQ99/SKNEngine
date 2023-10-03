@@ -2,7 +2,6 @@
 #include"OBJ3D.h"
 #include"ObjModel.h"
 #include"Camera.h"
-#include"WorldTronsform.h"
 #include"Sprite2D.h"
 #include"SpriteCommon.h"
 class StuructTransform
