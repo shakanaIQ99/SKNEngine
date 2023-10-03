@@ -90,6 +90,7 @@ void BossEnemy::Update()
 		case AtkPattern::NONE:
 
 			AimMode = false;
+			WaitTimer = WaitTimer;
 			AtkTable();
 
 			break;
@@ -152,33 +153,33 @@ void BossEnemy::DrawUI()
 
 void BossEnemy::AtkTable()
 {
-	
-
-	if (Lange > LangeMax)
+	if (WaitTimer < 0)
 	{
-		TargetTimer = TargetTime;
-		BossAtk = AtkPattern::SIMPLESHOT;
-		BurstTime= BurstNum * BurstRate;
-
-	}
-	if (Lange < LangeMax)
-	{
-		if (chargeCool < 0)
+		if (Lange > LangeMax)
 		{
-			BossAtk = AtkPattern::CHARGE;
-			prePos = St->Wt.translation_;
-			prePos.y = 0;
-			TargetVec = player->GetPos() - St->Wt.translation_;
-			TargetVec.y = 0;
-			chargeLenge = length(TargetVec);
-			normalize(TargetVec);
-			chargeCool = chargeCoolTime;
+			TargetTimer = TargetTime;
+			BossAtk = AtkPattern::SIMPLESHOT;
+			BurstTime = BurstNum * BurstRate;
+
 		}
-		
+		if (Lange < LangeMax)
+		{
+			if (chargeCool < 0)
+			{
+				BossAtk = AtkPattern::CHARGE;
+				prePos = St->Wt.translation_;
+				prePos.y = 0;
+				TargetVec = player->GetPos() - St->Wt.translation_;
+				TargetVec.y = 0;
+				chargeLenge = length(TargetVec);
+				normalize(TargetVec);
+				chargeCool = chargeCoolTime;
+			}
+
+
+		}
 
 	}
-
-	
 }
 
 void BossEnemy::MoveTable()

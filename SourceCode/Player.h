@@ -2,6 +2,7 @@
 #include"Input.h"
 #include"PlayerBullet.h"
 #include"StuructTransform.h"
+#include"ParticleManager.h"
 
 
 class Player : public StuructTransform
@@ -57,13 +58,13 @@ private:
 
 	void Move();
 
-	void Jump();
+	void Jump(XMFLOAT3 front);
 
 	void Dash(XMFLOAT3 front);
 
 	void EN();
 
-	bool LockOn();
+	void LockOn();
 
 	bool ScLock(WorldTransform* prewt);
 
@@ -77,6 +78,9 @@ private:
 	WorldTransform* boss;
 	
 	float move_speed;
+
+	bool BoostMode = false;
+
 	XMFLOAT3 moveVec;
 
 	//HUD周り----------
@@ -110,6 +114,8 @@ private:
 
 	int latetime;
 
+	bool Locked = false;
+
 	//クイックダッシュ周り
 
 	float dashspeed = 0.0f;
@@ -123,6 +129,23 @@ private:
 	int DashTimer = 0;
 	const int DashTime = 20;
 
+	//ジャンプand空中周り
+
+	bool OnGround = false;
+
+	float Upspeed = 0.0f;
+
+	XMFLOAT3 JumpVec = { 0,0,0 };
+
+	const float AirUpSpead = 0.5f;
+
+	const float UpSpeadNum = 2.0f;
+
+	bool JumpFlag = false;
+
+	int JumpTimer = 0;
+	const int JumpTime = 20;
+
 	//ブーストゲージ的な何か-------
 	const float ENGaugeSize = 15.0f;
 
@@ -134,6 +157,8 @@ private:
 
 	const int JumpUseGauge = 100;
 
+	const int AirUseGauge = 7;
+
 	bool UseEN = false;
 
 	int RegenENCoolTimer = 0;
@@ -142,13 +167,15 @@ private:
 
 	const int RegenEN = 3;
 
-	const int RecoveryENGauge = 2;
+	const int RecoveryENGauge = 1;
 
 	bool OverHeat = false;
 
 	int OverHeatENCoolTimer = 0;
 
-	const int OverHeatENCoolTime = 180;
+	const int OverHeatENCoolTime = 250;
+
+	bool InfEN = false;
 
 	//--------
 

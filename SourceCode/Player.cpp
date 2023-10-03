@@ -47,12 +47,14 @@ void Player::Init()
 	sprite_ENGauge->Initialize(spCommon, HpBarHandle);
 	sprite_ENGauge->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f)*20.0f ,0.0f };
 	sprite_ENGauge->Wt.scale_.x = ENGaugeSize * static_cast<float>(ENGauge) / static_cast<float>(ENMAXGauge);
+	sprite_ENGauge->Wt.scale_.y *= 0.5f;
 	sprite_ENGauge->Wt.color = { 0.0f,0.15f,0.75f,1.0f };
 
 	sprite_CoverENGaugebar = std::make_unique<Sprite2D>();
 	sprite_CoverENGaugebar->Initialize(spCommon, HpBarHandle);
 	sprite_CoverENGaugebar->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f) * 20.0f ,0.0f };
 	sprite_CoverENGaugebar->Wt.scale_.x = ENGaugeSize;
+	sprite_CoverENGaugebar->Wt.scale_.y *= 0.5f;
 	sprite_CoverENGaugebar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
 
 	sprite_Reticle = std::make_unique<Sprite2D>();
@@ -130,7 +132,7 @@ void Player::Update()
 
 	ImGuiSet();
 
-
+	LockOn();
 
 	St->Update(camera->getView());
 	sprite_Reticle->Update();
@@ -152,7 +154,7 @@ void Player::Attack(XMFLOAT3 flont)
 	
 	XMFLOAT3 velocity = flont;
 
-	if (LockOn())
+	if (Locked)
 	{
 		velocity = boss->translation_ - GetPos();
 	}
@@ -198,33 +200,105 @@ void Player::Move()
 	normalize(mae);
 
 	
+	Jump(mae);
 	Dash(mae);
-	
+
+	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B))
+	{
+		BoostMode = !BoostMode;
+	}
 
 
 	if ((moveVec.x != 0 || moveVec.z != 0)&&!DashFlag)
 	{
-		St->Wt.translation_ += mae * move_speed;
+		St->Wt.translation_ += mae * (move_speed+(move_speed*BoostMode));
+	}
+	
+	if ((moveVec.x == 0 && moveVec.z == 0))
+	{
+		BoostMode = false;
 	}
 
-	St->Wt.translation_.y -= 0.5f;
+	//St->Wt.translation_.y -= 0.5f;
 
 	if (St->Wt.translation_.y - (St->Wt.scale_.y * 1.5f) < 0.0f)
 	{
 		St->Wt.translation_.y = (St->Wt.scale_.y * 1.5f);
+		OnGround = true;
 	}
+	else
+	{
+		OnGround = false;
+	}
+
+}
+
+void Player::Jump(XMFLOAT3 front)
+{
+	if (!OverHeat)
+	{
+		if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A) && !DashFlag && OnGround)
+		{
+			JumpFlag = true;
+			JumpTimer = 0;
+			JumpVec = front;
+			UseEN = true;
+			ENGauge -= JumpUseGauge;
+		}
+		if (Input::GetPadButton(XINPUT_GAMEPAD_A) && !DashFlag && !JumpFlag)
+		{
+			JumpTimer = 0;
+			St->Wt.translation_.y += AirUpSpead;
+			ENGauge -= AirUseGauge;
+		}
+	}
+
+	
+
+	if (JumpFlag)
+	{
+		JumpTimer++;
+
+		Upspeed = easeInSine(UpSpeadNum, 0.0f, static_cast<float>(JumpTimer), static_cast<float>(JumpTime));
+
+		St->Wt.translation_ += JumpVec * Upspeed;
+
+		if (JumpTimer >= JumpTime)
+		{
+			JumpFlag = false;
+			JumpTimer = 0;
+		}
+	}
+	else
+	{
+		if (!DashFlag)
+		{
+			JumpTimer++;
+			Upspeed = easeOutSine(0.0f, -UpSpeadNum, static_cast<float>(JumpTimer), static_cast<float>(JumpTime));
+		}
+		if (JumpTimer >= JumpTime)
+		{
+			JumpTimer = JumpTime;
+		}
+	}
+
+	St->Wt.translation_.y += Upspeed;
 
 }
 
 void Player::Dash(XMFLOAT3 front)
 {
-	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B) && !DashFlag&&!OverHeat)
+	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_X) && !DashFlag&&!OverHeat)
 	{
 		DashFlag = true;
 		DashVec = front;
 		DashTimer = 0;
 		ENGauge -= DashUseGauge;
 		UseEN = true;
+		JumpTimer = 0;
+		JumpFlag = false;
+		Upspeed = 0;
+		BoostMode = true;
 	}
 
 	if (DashFlag)
@@ -238,12 +312,18 @@ void Player::Dash(XMFLOAT3 front)
 		if (DashTimer >= DashTime)
 		{
 			DashFlag = false;
+			BoostMode = true;
 		}
 	}
 }
 
 void Player::EN()
 {
+	if (InfEN)
+	{
+		ENGauge = ENMAXGauge;
+	}
+
 	if (UseEN)
 	{
 		RegenENCoolTimer = RegenENCoolTime;
@@ -274,7 +354,7 @@ void Player::EN()
 	}
 	else
 	{
-		ENGauge++;
+		ENGauge+=RegenEN;
 	}
 
 	if (ENGauge >= ENMAXGauge)
@@ -286,19 +366,21 @@ void Player::EN()
 
 }
 
-bool Player::LockOn()
+void Player::LockOn()
 {
 	
 	if (ScLock(boss))
 	{
 
 		Lock2DPos = WorldToMonitor(boss->translation_);
-		return true;
+		sprite_Reticle->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y ,0.0f };
+		Locked = true;
 	}
 	else
 	{
-		return false;
-
+		Lock2DPos = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f };
+		sprite_Reticle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
+		Locked = false;
 	}
 }
 
@@ -312,10 +394,8 @@ bool Player::ScLock(WorldTransform* prewt)
 
 	XMFLOAT2 scr_pos = WorldToMonitor(prewt->translation_);
 
-	if ((DxWindow::window_width / 2) - 120.0f < scr_pos.x && 
-		(DxWindow::window_width / 2) + 120.0f > scr_pos.x && 
-		(DxWindow::window_height / 2) - 120.0f < scr_pos.y &&
-		(DxWindow::window_height / 2) + 120.0f > scr_pos.y && objZ > 0)
+	if (0 < scr_pos.x && (DxWindow::window_width)  > scr_pos.x && 
+		0 < scr_pos.y &&(DxWindow::window_height)> scr_pos.y && objZ > 0)
 	{
 		return true;
 	}
@@ -373,7 +453,9 @@ void Player::ImGuiSet()
 	ImGui::NewLine();
 	ImGui::Text("ENGauge::%d", ENGauge);
 	ImGui::Text("OverHeat::%d", OverHeat);
-
+	ImGui::NewLine();
+	ImGui::Text("BoostMode::%d", BoostMode);
+	ImGui::Checkbox("InfEN", &InfEN);
 
 
 	ImGui::End();
@@ -402,6 +484,7 @@ void Player::DrawUI()
 	}
 
 	sprite_Reticle->Draw();
+	sprite_Lock->Draw();
 	sprite_CoverHPbar->Draw();
 	sprite_CoverENGaugebar->Draw();
 	if (ENGauge > 0)
@@ -412,10 +495,7 @@ void Player::DrawUI()
 	{
 		sprite_HPbar->Draw();
 	}
-	if (LockOn())
-	{
-		sprite_Lock->Draw();
-	}
+	
 
 	
 }

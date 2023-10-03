@@ -91,7 +91,7 @@ void ParticleManager::CreateModel()
 	vbView.StrideInBytes = sizeof(vertices[0]);
 }
 
-ParticleManager* ParticleManager::Create(uint32_t Handle, WorldTransform* Wt)
+ParticleManager* ParticleManager::Create(uint32_t Handle)
 {
 	// Spriteのインスタンスを生成
 	ParticleManager* pat = new ParticleManager(Handle);
@@ -101,7 +101,7 @@ ParticleManager* ParticleManager::Create(uint32_t Handle, WorldTransform* Wt)
 	}
 
 	// 初期化
-	if (!pat->Initialize(Wt)) {
+	if (!pat->Initialize()) {
 		delete pat;
 		assert(0);
 		return nullptr;
@@ -110,10 +110,9 @@ ParticleManager* ParticleManager::Create(uint32_t Handle, WorldTransform* Wt)
 	return pat;
 }
 
-bool ParticleManager::Initialize(WorldTransform* Wt)
+bool ParticleManager::Initialize()
 {
-	wt = Wt;
-	wt->CreateConstBuffer(device);
+	wt.CreateConstBuffer(device);
 	
 	return true;
 }
@@ -158,7 +157,7 @@ void ParticleManager::Update(ViewProjection* camera)
 
 
 
-	wt->UpdateMatrixBill(camera);
+	wt.UpdateMatrixBill(camera);
 }
 
 void ParticleManager::Draw()
@@ -170,7 +169,7 @@ void ParticleManager::Draw()
 
 	commandList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
-	commandList->SetGraphicsRootConstantBufferView(0, wt->constBuffB0->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
 
 	commandList->DrawInstanced((UINT)std::distance(particle.begin(), particle.end()), 1, 0, 0);
 

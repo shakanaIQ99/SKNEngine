@@ -65,9 +65,9 @@ public:
 
 	static void CreateModel();
 
-	static ParticleManager* Create(uint32_t Handle, WorldTransform* Wt);
+	static ParticleManager* Create(uint32_t Handle);
 
-	bool Initialize(WorldTransform* Wt);
+	bool Initialize();
 
 	void Update(ViewProjection* camera);
 
@@ -91,6 +91,6 @@ private:
 
 	TextureData* tex;
 
-	WorldTransform* wt;
+	WorldTransform wt;
 	
 };

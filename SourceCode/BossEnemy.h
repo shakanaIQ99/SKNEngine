@@ -123,6 +123,9 @@ private:
 
 	Draw3DLine LeserPoint;
 
+	int WaitTimer = 0;
+	const int WaitTime = 180;
+
 	//’eŠÖ˜A
 	std::list<std::unique_ptr<EnemyNormalBullet>> Normalbullets_;
 
