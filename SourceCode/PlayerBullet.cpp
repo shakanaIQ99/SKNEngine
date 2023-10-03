@@ -19,16 +19,16 @@ void PlayerBullet::SetModel(ObjModel* model)
 
 void PlayerBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)
 {
-	transform.translation_ = position;
-	transform.rotation_ = rota;
-	transform.scale_ = { 0.5f,0.5f,0.5f };
+	St->Wt.translation_ = position;
+	St->Wt.rotation_ = rota;
+	St->Wt.scale_ = { 0.5f,0.5f,0.5f };
 	
 	Velocity_ = velocity;
 }
 
 void PlayerBullet::Update()
 {
-	transform.translation_ = transform.translation_ + Velocity_;
+	St->Wt.translation_ = St->Wt.translation_ + Velocity_;
 
 	St->Update(camera->getView());
 
@@ -52,10 +52,10 @@ void PlayerBullet::OnCollision()
 
 XMFLOAT3 PlayerBullet::GetWorldPosition()
 {
-	return transform.translation_;
+	return St->Wt.translation_;
 }
 
 XMFLOAT3 PlayerBullet::GetScale()
 {
-	return transform.scale_;
+	return St->Wt.scale_;
 }

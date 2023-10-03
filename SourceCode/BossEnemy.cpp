@@ -9,7 +9,7 @@ void BossEnemy::Init()
 {
 	ModelInit("Player");
 	EnemyNormalBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
-	transform.scale_ = { 4.0f,4.0f,4.0f };
+	St->Wt.scale_ = { 4.0f,4.0f,4.0f };
 	St->color = { 1.0f,0,0,1.0f };
 	LeserPoint.Init();
 	HP = MaxHP;
@@ -17,17 +17,17 @@ void BossEnemy::Init()
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
-	sprite_HPbar->Initialize(spCommon, &HpBar, HpBarHandle);
-	HpBar.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 22.5f ,0.0f };
-	HpBar.scale_.x = 30.0f;
-	HpBar.color = { 1.0f,0.0f,0.0f,1.0f };
+	sprite_HPbar->Initialize(spCommon, HpBarHandle);
+	sprite_HPbar->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 22.5f ,0.0f };
+	sprite_HPbar->Wt.scale_.x = 30.0f;
+	sprite_HPbar->Wt.color = { 1.0f,0.0f,0.0f,1.0f };
 
 }
 
 void BossEnemy::Reset()
 {
 	LeserPoint.Init();
-	transform.translation_ = { 0,0.0f,20.0f };
+	St->Wt.translation_ = { 0,0.0f,20.0f };
 	HP = MaxHP;
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& Bullets = GetBullets();
 	for (const std::unique_ptr<EnemyNormalBullet>& bullet : Bullets)
@@ -51,16 +51,16 @@ void BossEnemy::Update()
 		});
 
 	//•½–Êã‚Ì‹——£
-	XMFLOAT3 plUnderPos = player->GetUnderPos() - transform.translation_;
+	XMFLOAT3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
 	Lange = length(plUnderPos);
 
-	HpBar.scale_.x = (30.0f * HP / MaxHP);
+	sprite_HPbar->Wt.scale_.x = (30.0f * HP / MaxHP);
 
-	transform.translation_.y -= 0.5f;
+	St->Wt.translation_.y -= 0.5f;
 
-	if (transform.translation_.y - (transform.scale_.y * 1.5f) < 0.0f)
+	if (St->Wt.translation_.y - (St->Wt.scale_.y * 1.5f) < 0.0f)
 	{
-		transform.translation_.y = (transform.scale_.y * 1.5f);
+		St->Wt.translation_.y = (St->Wt.scale_.y * 1.5f);
 	}
 
 	chargeCool--;
@@ -133,9 +133,9 @@ void BossEnemy::Draw()
 	}
 
 	St->Draw();
-	XMFLOAT3 Head = transform.translation_;
+	XMFLOAT3 Head = St->Wt.translation_;
 
-	Head.y += transform.scale_.y;
+	Head.y += St->Wt.scale_.y;
 	if (AimMode)
 	{
 		LeserPoint.Draw(Head,TargetPos);
@@ -166,9 +166,9 @@ void BossEnemy::AtkTable()
 		if (chargeCool < 0)
 		{
 			BossAtk = AtkPattern::CHARGE;
-			prePos = transform.translation_;
+			prePos = St->Wt.translation_;
 			prePos.y = 0;
-			TargetVec = player->GetPos() - transform.translation_;
+			TargetVec = player->GetPos() - St->Wt.translation_;
 			TargetVec.y = 0;
 			chargeLenge = length(TargetVec);
 			normalize(TargetVec);
@@ -213,14 +213,14 @@ void BossEnemy::MoveTable()
 
 void BossEnemy::BackMove()
 {
-	XMFLOAT3 moveVec = transform.translation_ - player->GetPos();
+	XMFLOAT3 moveVec = St->Wt.translation_ - player->GetPos();
 	moveVec.y = 0;
 
 	normalize(moveVec);
 
 	moveVec *= 0.2f;
 
-	transform.translation_ += moveVec;
+	St->Wt.translation_ += moveVec;
 
 	MoveTimer--;
 	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
@@ -251,9 +251,9 @@ void BossEnemy::SimpleShot()
 	}
 	else
 	{
-		XMFLOAT3 Head = transform.translation_;
+		XMFLOAT3 Head = St->Wt.translation_;
 
-		Head.y += transform.scale_.y;
+		Head.y += St->Wt.scale_.y;
 		AimMode = false;
 		XMFLOAT3 BulletVec = TargetPos - Head;
 		normalize(BulletVec);
@@ -263,7 +263,7 @@ void BossEnemy::SimpleShot()
 		if (BurstTime % BurstRate == 0)
 		{
 			std::unique_ptr <EnemyNormalBullet> newBullet = std::make_unique<EnemyNormalBullet>();
-			newBullet->Initlize(Head, transform.rotation_, BulletVec);
+			newBullet->Initlize(Head, St->Wt.rotation_, BulletVec);
 
 			Normalbullets_.push_back(std::move(newBullet));
 
@@ -282,10 +282,10 @@ void BossEnemy::ChargeAtk()
 {
 	
 
-	XMFLOAT3 chargeMoved = transform.translation_ - prePos;
+	XMFLOAT3 chargeMoved = St->Wt.translation_ - prePos;
 	chargeMoved.y = 0;
 
-	transform.translation_ += TargetVec * 1.0f;
+	St->Wt.translation_ += TargetVec * 1.0f;
 
 	if (chargeLenge + 5.0f < length(chargeMoved))
 	{
@@ -314,9 +314,9 @@ void BossEnemy::ImGuiSet()
 	ImGui::Begin("Boss", NULL, window_flags);
 
 	ImGui::Text("Position");
-	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
-	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
-	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
+	ImGui::DragFloat("X", &St->Wt.translation_.x, 0.5f);
+	ImGui::DragFloat("Y", &St->Wt.translation_.y, 0.5f);
+	ImGui::DragFloat("Z", &St->Wt.translation_.z, 0.5f);
 	ImGui::NewLine();
 	ImGui::Text("Lange::%5.2f", Lange);
 	ImGui::DragFloat("Min", &LangeMin, 0.5f);

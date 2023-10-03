@@ -23,7 +23,7 @@ public:
 
 
 
-    void Initialize(SpriteCommon* spritecommon, WorldTransform* wt, uint32_t handle);
+    void Initialize(SpriteCommon* spritecommon,uint32_t handle);
 
     void Update();
 
@@ -31,7 +31,7 @@ public:
 
     void DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX = false, bool flipY = false);
     
-    WorldTransform* Wt = nullptr;
+    WorldTransform Wt;
 protected:
 
     void CreateVertexIndexBuffer();

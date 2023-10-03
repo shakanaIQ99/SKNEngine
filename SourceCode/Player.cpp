@@ -26,30 +26,30 @@ void Player::Init()
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
 	LockHandle = texMana->LoadTexture("Resources/Lock.png");
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
-	transform.scale_ = { 1.0f,1.0f,1.0f };
-	transform.translation_.y = 10.0f;
+	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
+	St->Wt.translation_.y = 10.0f;
 
 	HP = MaxHP;
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
-	sprite_HPbar->Initialize(spCommon, &HpBar, HpBarHandle);
-	HpBar.translation_ = { 200.0f,680.0f,0.0f };
-	HpBar.scale_.x = 10.0f;
-	HpBar.color = { 0.0f,1.0f,0.0f,1.0f };
+	sprite_HPbar->Initialize(spCommon, HpBarHandle);
+	sprite_HPbar->Wt.translation_ = { 200.0f,680.0f,0.0f };
+	sprite_HPbar->Wt.scale_.x = 10.0f;
+	sprite_HPbar->Wt.color = { 0.0f,1.0f,0.0f,1.0f };
 
 	sprite_CoverHPbar = std::make_unique<Sprite2D>();
-	sprite_CoverHPbar->Initialize(spCommon, &CoverHpBar, HpBarHandle);
-	CoverHpBar.translation_ = { 200.0f,680.0f,0.0f };
-	CoverHpBar.scale_.x = 10.0f;
-	CoverHpBar.color = { 0.15f,0.15f,0.15f,1.0f };
+	sprite_CoverHPbar->Initialize(spCommon,  HpBarHandle);
+	sprite_CoverHPbar->Wt.translation_ = { 200.0f,680.0f,0.0f };
+	sprite_CoverHPbar->Wt.scale_.x = 10.0f;
+	sprite_CoverHPbar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
 
 	sprite_Reticle = std::make_unique<Sprite2D>();
-	sprite_Reticle->Initialize(spCommon, &reticle, reticleHandle);
-	reticle.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
-	reticle.scale_={ 1.0f,1.0f,1.0f };
+	sprite_Reticle->Initialize(spCommon, reticleHandle);
+	sprite_Reticle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
+	sprite_Reticle->Wt.scale_={ 1.0f,1.0f,1.0f };
 
 	sprite_Lock= std::make_unique<Sprite2D>();
-	sprite_Lock->Initialize(spCommon, &Lock, LockHandle);
+	sprite_Lock->Initialize(spCommon, LockHandle);
 
 	move_speed = 0.4f;
 }
@@ -57,7 +57,7 @@ void Player::Init()
 void Player::Reset()
 {
 	HP = MaxHP;
-	transform.translation_ = { 0,10.0f,0 };
+	St->Wt.translation_ = { 0,10.0f,0 };
 	const std::list<std::unique_ptr<PlayerBullet>>& Bullets = GetBullets();
 	for (const std::unique_ptr<PlayerBullet>& p_bullet : Bullets)
 	{
@@ -77,8 +77,8 @@ void Player::Reset()
 void Player::Update()
 {
 
-	HpBar.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
-	HpBar.scale_.x = (10.0f * HP / MaxHP);
+	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
+	sprite_HPbar->Wt.scale_.x = (10.0f * HP / MaxHP);
 	if (HP > MaxHP)
 	{
 		HP = MaxHP;
@@ -110,7 +110,7 @@ void Player::Update()
 		bullet->Update();
 	}
 	
-	Lock.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
+	sprite_Lock->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
 
 	ImGuiSet();
 
@@ -144,12 +144,12 @@ void Player::Attack(XMFLOAT3 flont)
 	/*velocity = VectorMat(velocity,player->Wt->matWorld_);
 	normalize(velocity);*/
 
-	XMFLOAT3 BulletStart =transform.translation_ ;
+	XMFLOAT3 BulletStart = St->Wt.translation_ ;
 	velocity *= kBulletSpeed;
 
 
 	std::unique_ptr <PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	newBullet->Initlize(BulletStart, transform.rotation_, velocity);
+	newBullet->Initlize(BulletStart, St->Wt.rotation_, velocity);
 
 	bullets_.push_back(std::move(newBullet));
 
@@ -171,47 +171,53 @@ void Player::Move()
 	float p_pos = atan2(moveVec.x, moveVec.z);
 	float c_vec = atan2(Flont.x, Flont.z);
 
-	transform.rotation_.y = (p_pos + c_vec);
+	St->Wt.rotation_.y = (p_pos + c_vec);
 
 	XMFLOAT3 mae = { 0,0,1.0f };
 
-	mae = VectorMat(mae, transform.matWorld_);
+	mae = VectorMat(mae, St->Wt.matWorld_);
 
 	normalize(mae);
 
-	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B)&&!DashFlag)
+	Dash(mae);
+
+
+	if ((moveVec.x != 0 || moveVec.z != 0)&&!DashFlag)
+	{
+		St->Wt.translation_ += mae * move_speed;
+	}
+
+	St->Wt.translation_.y -= 0.5f;
+
+	if (St->Wt.translation_.y - (St->Wt.scale_.y * 1.5f) < 0.0f)
+	{
+		St->Wt.translation_.y = (St->Wt.scale_.y * 1.5f);
+	}
+
+}
+
+void Player::Dash(XMFLOAT3 front)
+{
+	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B) && !DashFlag)
 	{
 		DashFlag = true;
-		DashVec = mae;
+		DashVec = front;
 		DashTimer = 0;
 	}
 
 	if (DashFlag)
 	{
-		DashTimer += 1.0f;
+		DashTimer++;
 
-		dashspeed = easeInQuint(DashSpeadNum, 0.0f, DashTimer, DashTime);
+		dashspeed = easeInQuint(DashSpeadNum, 0.0f, static_cast<float>(DashTimer), static_cast<float>(DashTime));
 
-		transform.translation_ += DashVec * dashspeed;
+		St->Wt.translation_ += DashVec * dashspeed;
 
 		if (DashTimer >= DashTime)
 		{
 			DashFlag = false;
 		}
 	}
-
-	if ((moveVec.x != 0 || moveVec.z != 0)&&!DashFlag)
-	{
-		transform.translation_ += mae * move_speed;
-	}
-
-	transform.translation_.y -= 0.5f;
-
-	if (transform.translation_.y - (transform.scale_.y * 1.5f) < 0.0f)
-	{
-		transform.translation_.y = (transform.scale_.y * 1.5f);
-	}
-
 }
 
 bool Player::LockOn()
@@ -288,16 +294,16 @@ void Player::ImGuiSet()
 	ImGui::Begin("Player", NULL, window_flags);
 
 	ImGui::Text("Position");
-	ImGui::DragFloat("X", &transform.translation_.x, 0.5f);
-	ImGui::DragFloat("Y", &transform.translation_.y, 0.5f);
-	ImGui::DragFloat("Z", &transform.translation_.z, 0.5f);
+	ImGui::DragFloat("X", &St->Wt.translation_.x, 0.5f);
+	ImGui::DragFloat("Y", &St->Wt.translation_.y, 0.5f);
+	ImGui::DragFloat("Z", &St->Wt.translation_.z, 0.5f);
 	ImGui::NewLine();
 	ImGui::Text("HP::%5.2f", HP);
 	ImGui::DragFloat("HP", &HP, 0.2f);
-	ImGui::DragFloat("HPposX", &HpBar.translation_.x, 0.5f);
-	ImGui::DragFloat("HPposY", &HpBar.translation_.y, 0.5f);
-	ImGui::DragFloat("HPSizeX", &HpBar.scale_.x, 0.5f);
-	ImGui::DragFloat("HPSizeY", &HpBar.scale_.y, 0.5f);
+	ImGui::DragFloat("HPposX", &sprite_HPbar->Wt.translation_.x, 0.5f);
+	ImGui::DragFloat("HPposY", &sprite_HPbar->Wt.translation_.y, 0.5f);
+	ImGui::DragFloat("HPSizeX", &sprite_HPbar->Wt.scale_.x, 0.5f);
+	ImGui::DragFloat("HPSizeY", &sprite_HPbar->Wt.scale_.y, 0.5f);
 
 
 

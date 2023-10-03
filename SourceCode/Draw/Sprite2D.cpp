@@ -1,21 +1,20 @@
 #include "Sprite2D.h"
 
-void Sprite2D::Initialize(SpriteCommon* spritecommon, WorldTransform* wt, uint32_t handle)
+void Sprite2D::Initialize(SpriteCommon* spritecommon,uint32_t handle)
 {
 	this->spritecommon = spritecommon;
-	this->Wt = wt;
 	tex = TextureManager::GetTextureData(handle);
 
 	device = spritecommon->GetDirextXCommon()->GetDevice();
 	CreateVertexIndexBuffer();
-	this->Wt->CreateConstBuffer(device);
+	Wt.CreateConstBuffer(device);
 
 	
 }
 
 void Sprite2D::Update()
 {
-	this->Wt->UpdateSpriteMatrix(spritecommon->Getmat());
+	Wt.UpdateSpriteMatrix(spritecommon->Getmat());
 }
 
 void Sprite2D::Draw(XMFLOAT2 anchor, bool flipX, bool flipY)
@@ -52,7 +51,7 @@ void Sprite2D::Draw(XMFLOAT2 anchor, bool flipX, bool flipY)
 
 	Update();
 
-	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
+	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 
@@ -90,7 +89,7 @@ void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX, bool fl
 
 	Update();
 
-	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
+	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 

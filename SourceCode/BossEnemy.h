@@ -68,7 +68,7 @@ public:
 
 	XMFLOAT3 GetPos()
 	{
-		return transform.translation_;
+		return St->Wt.translation_;
 	}
 private:
 
@@ -105,8 +105,6 @@ private:
 
 	//HP
 	std::unique_ptr<Sprite2D> sprite_HPbar;
-
-	WorldTransform HpBar;
 
 	uint32_t HpBarHandle;
 	const float MaxHP = 100.0f;

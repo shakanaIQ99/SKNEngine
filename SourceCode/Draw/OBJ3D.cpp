@@ -16,13 +16,10 @@ ID3D12GraphicsCommandList* OBJ3D::commandList;
 PipelineSet OBJ3D::ObjPipeline;
 LightGroup* OBJ3D::lightGroup = nullptr;
 
+
+
 OBJ3D::OBJ3D()
 {
-}
-
-OBJ3D::OBJ3D(WorldTransform* wt)
-{
-	Wt = wt;
 
 	color = { 1,1,1,1 };
 
@@ -53,9 +50,9 @@ void OBJ3D::PreDraw(ID3D12GraphicsCommandList* cmdList)
 }
 
 
-OBJ3D* OBJ3D::Create(WorldTransform* wt)
+OBJ3D* OBJ3D::Create()
 {
-	OBJ3D* obj = new OBJ3D(wt);
+	OBJ3D* obj = new OBJ3D();
 	if (obj == nullptr) {
 		return nullptr;
 	}
@@ -68,14 +65,14 @@ OBJ3D* OBJ3D::Create(WorldTransform* wt)
 	}
 
 	float scale_val = 10;
-	obj->Wt->scale_ = { scale_val ,scale_val ,scale_val };
+	obj->Wt.scale_ = { scale_val ,scale_val ,scale_val };
 
 	return obj;
 }
 
 bool OBJ3D::Initialize()
 {
-	Wt->CreateConstBuffer(device);
+	Wt.CreateConstBuffer(device);
 	
 	return true;
 }
@@ -84,9 +81,9 @@ void OBJ3D::Update(ViewProjection* camera)
 {
 	
 
-	Wt->color = color;
+	Wt.color = color;
 	
-	Wt->UpdateMatrix(camera);
+	Wt.UpdateMatrix(camera);
 	
 }
 
@@ -99,7 +96,7 @@ void OBJ3D::Draw()
 	
 	if (model == nullptr) return;
 
-	commandList->SetGraphicsRootConstantBufferView(0, this->Wt->constBuffB0->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
 	lightGroup->Draw(commandList, 3);
 	model->Draw(commandList, 1);
 }

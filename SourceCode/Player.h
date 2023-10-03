@@ -38,12 +38,12 @@ public:
 
 	XMFLOAT3 GetPos()
 	{
-		return transform.translation_;
+		return St->Wt.translation_;
 	}
 	XMFLOAT3 GetUnderPos()
 	{
 		XMFLOAT3 UnderPos = GetPos();
-		UnderPos.y -= transform.scale_.y;
+		UnderPos.y -= St->Wt.scale_.y;
 		return UnderPos;
 	}
 
@@ -56,6 +56,12 @@ private:
 	void Attack(XMFLOAT3 flont);
 
 	void Move();
+
+	void Jump();
+
+	void Dash(XMFLOAT3 front);
+
+	void EN();
 
 	bool LockOn();
 
@@ -72,20 +78,19 @@ private:
 	
 	float move_speed;
 	XMFLOAT3 moveVec;
-	
+
+	//HUD周り----------
 	std::unique_ptr<Sprite2D> sprite_Reticle;
 	std::unique_ptr<Sprite2D> sprite_Lock;
 	std::unique_ptr<Sprite2D> sprite_HPbar;
 	std::unique_ptr<Sprite2D> sprite_CoverHPbar;
-
-	WorldTransform reticle;
-	WorldTransform Lock;
-	WorldTransform HpBar;
-	WorldTransform CoverHpBar;
+	std::unique_ptr<Sprite2D> sprite_ENGauge;
 
 	uint32_t reticleHandle;
 	uint32_t LockHandle;
 	uint32_t HpBarHandle;
+
+	//----------------
 
 	XMFLOAT2 Lock2DPos = { 0,0 };
 
@@ -114,9 +119,24 @@ private:
 
 	bool DashFlag = false;
 
-	float DashTimer = 0;
-	const float DashTime = 20.0f;
+	size_t DashTimer = 0;
+	const size_t DashTime = 20;
 
+	//ブーストゲージ的な何か
+
+	size_t ENGauge = 0;
+
+	const size_t ENMAXGauge = 1000;
+
+	const size_t DashUseGauge = 150;
+
+	const size_t JumpUseGauge = 200;
+
+	bool UseEN = false;
+
+	size_t RegenENCoolTimer = 0;
+
+	const size_t RegenENCoolTime = 120;
 
 	/// <summary>
 	/// 行列とベクトルの計算(左側が行列計算の先)

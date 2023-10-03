@@ -29,19 +29,19 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	//3Dモデル周り
 
 	
-	skydome = OBJ3D::Create(&skydome_wt);
+	skydome = OBJ3D::Create();
 	skydome->SetModel(skydome_model);
 
-	field = OBJ3D::Create(&field_wt);
+	field = OBJ3D::Create();
 	field->SetModel(field_model);
 
 	boss.Init();
 	player.Init();
 
-	camera.setTarget(&player.transform);
+	camera.setTarget(&player.St->Wt);
 
 	boss.SetPlayer(&player);
-	player.SetEnemy(&boss.transform);
+	player.SetEnemy(&boss.St->Wt);
 
 	field_wt.scale_ = {10.0f,5.0f,10.0f};
 
@@ -49,8 +49,8 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	//スプライト周り
 
 	preTitle = std::make_unique<Sprite2D>();
-	preTitle->Initialize(spritecommon, &preTitleWt, preTitleHandle);
-	preTitleWt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
+	preTitle->Initialize(spritecommon,preTitleHandle);
+	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
 
 
 	//パーティクル周り
@@ -136,10 +136,10 @@ void GameScene::ALLCol()
 	Sphere bossSp;
 
 	playerSp.center = { player.GetPos().x, player.GetPos().y, player.GetPos().z ,1.0f };
-	playerSp.radius = player.transform.scale_.x;
+	playerSp.radius = player.St->Wt.scale_.x;
 
-	bossSp.center = { boss.transform.translation_.x, boss.transform.translation_.y,  boss.transform.translation_.z ,1.0f };
-	bossSp.radius = boss.transform.scale_.x;
+	bossSp.center = { boss.St->Wt.translation_.x, boss.St->Wt.translation_.y,  boss.St->Wt.translation_.z ,1.0f };
+	bossSp.radius = boss.St->Wt.scale_.x;
 
 	if (Collision::CheckSphereToSphere(playerSp, bossSp))
 	{

@@ -28,14 +28,14 @@ class OBJ3D
 public:
 
 	OBJ3D();
-	OBJ3D(WorldTransform* wt);
+
 
 	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
 
 	/// <param name="cmdList">描画コマンドリスト</param>
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
-	static OBJ3D* Create(WorldTransform* wt);
+	static OBJ3D* Create();
 
 	static void SetLight(LightGroup* light) { OBJ3D::lightGroup = light; }
 
@@ -69,7 +69,7 @@ public:
 
 	XMMATRIX matWorld;
 
-	WorldTransform* Wt;
+	WorldTransform Wt;
 private:
 	ComPtr<ID3D12Resource> constBuffB1;
 

@@ -19,16 +19,16 @@ void EnemyNormalBullet::SetModel(ObjModel* _model)
 
 void EnemyNormalBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)
 {
-	transform.translation_ = position;
-	transform.rotation_ = rota;
-	transform.scale_ = { 0.5f,0.5f,0.5f };
+	St->Wt.translation_ = position;
+	St->Wt.rotation_ = rota;
+	St->Wt.scale_ = { 0.5f,0.5f,0.5f };
 
 	Velocity_ = velocity;
 }
 
 void EnemyNormalBullet::Update()
 {
-	transform.translation_ = transform.translation_ + Velocity_;
+	St->Wt.translation_ = St->Wt.translation_ + Velocity_;
 
 	St->Update(camera->getView());
 

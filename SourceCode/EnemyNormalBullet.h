@@ -34,8 +34,8 @@ public:
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
-	XMFLOAT3 GetWorldPosition() { return transform.translation_; }
-	XMFLOAT3 GetScale() { return transform.scale_; }
+	XMFLOAT3 GetWorldPosition() { return St->Wt.translation_; }
+	XMFLOAT3 GetScale() { return St->Wt.scale_; }
 
 
 private:
