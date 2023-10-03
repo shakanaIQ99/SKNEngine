@@ -193,7 +193,12 @@ void Player::Move()
 
 	St->Wt.rotation_.y = (p_pos + c_vec);
 
-	XMFLOAT3 mae = { 0,0,1.0f };
+	XMFLOAT3 mae = { 0,0,0 };
+
+	if ((moveVec.x != 0 || moveVec.z != 0))
+	{
+		mae = { 0,0,1.0f };
+	}
 
 	mae = VectorMat(mae, St->Wt.matWorld_);
 
@@ -209,7 +214,7 @@ void Player::Move()
 	}
 
 
-	if ((moveVec.x != 0 || moveVec.z != 0)&&!DashFlag)
+	if (!DashFlag)
 	{
 		St->Wt.translation_ += mae * (move_speed+(move_speed*BoostMode));
 	}

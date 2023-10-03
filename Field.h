@@ -17,5 +17,7 @@ private:
 	std::unique_ptr<OBJ3D> St;
 	std::unique_ptr<ObjModel> model;
 
+	const float UpAreaLimit = 100.0f;
+
 };
 

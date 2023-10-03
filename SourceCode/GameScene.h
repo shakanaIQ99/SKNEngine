@@ -93,9 +93,6 @@ private:
 	ObjModel* field_model = nullptr;
 	OBJ3D* field = nullptr;
 
-	WorldTransform skydome_wt;
-	WorldTransform field_wt;
-
 	std::unique_ptr<Sprite2D> preTitle;
 	WorldTransform preTitleWt;
 	uint32_t preTitleHandle;
