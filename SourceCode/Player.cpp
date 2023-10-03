@@ -43,6 +43,18 @@ void Player::Init()
 	sprite_CoverHPbar->Wt.scale_.x = 10.0f;
 	sprite_CoverHPbar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
 
+	sprite_ENGauge = std::make_unique<Sprite2D>();
+	sprite_ENGauge->Initialize(spCommon, HpBarHandle);
+	sprite_ENGauge->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f)*20.0f ,0.0f };
+	sprite_ENGauge->Wt.scale_.x = ENGaugeSize * static_cast<float>(ENGauge) / static_cast<float>(ENMAXGauge);
+	sprite_ENGauge->Wt.color = { 0.0f,0.15f,0.75f,1.0f };
+
+	sprite_CoverENGaugebar = std::make_unique<Sprite2D>();
+	sprite_CoverENGaugebar->Initialize(spCommon, HpBarHandle);
+	sprite_CoverENGaugebar->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f) * 20.0f ,0.0f };
+	sprite_CoverENGaugebar->Wt.scale_.x = ENGaugeSize;
+	sprite_CoverENGaugebar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
+
 	sprite_Reticle = std::make_unique<Sprite2D>();
 	sprite_Reticle->Initialize(spCommon, reticleHandle);
 	sprite_Reticle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
@@ -52,6 +64,8 @@ void Player::Init()
 	sprite_Lock->Initialize(spCommon, LockHandle);
 
 	move_speed = 0.4f;
+
+	ENGauge = ENMAXGauge;
 }
 
 void Player::Reset()
@@ -79,6 +93,8 @@ void Player::Update()
 
 	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
 	sprite_HPbar->Wt.scale_.x = (10.0f * HP / MaxHP);
+
+	sprite_ENGauge->Wt.scale_.x = ENGaugeSize * static_cast<float>(ENGauge) / static_cast<float>(ENMAXGauge);
 	if (HP > MaxHP)
 	{
 		HP = MaxHP;
@@ -119,6 +135,8 @@ void Player::Update()
 	St->Update(camera->getView());
 	sprite_Reticle->Update();
 	sprite_HPbar->Update();
+	sprite_ENGauge->Update();
+	sprite_CoverENGaugebar->Update();
 	sprite_CoverHPbar->Update();
 	sprite_Lock->Update();
 }
@@ -158,7 +176,7 @@ void Player::Attack(XMFLOAT3 flont)
 
 void Player::Move()
 {
-
+	EN();
 	moveVec = { 0,0,0 };
 	XMFLOAT3 Flont = camera->getForwardVec();
 	Flont.y = 0;
@@ -179,7 +197,9 @@ void Player::Move()
 
 	normalize(mae);
 
+	
 	Dash(mae);
+	
 
 
 	if ((moveVec.x != 0 || moveVec.z != 0)&&!DashFlag)
@@ -198,11 +218,13 @@ void Player::Move()
 
 void Player::Dash(XMFLOAT3 front)
 {
-	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B) && !DashFlag)
+	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B) && !DashFlag&&!OverHeat)
 	{
 		DashFlag = true;
 		DashVec = front;
 		DashTimer = 0;
+		ENGauge -= DashUseGauge;
+		UseEN = true;
 	}
 
 	if (DashFlag)
@@ -218,6 +240,50 @@ void Player::Dash(XMFLOAT3 front)
 			DashFlag = false;
 		}
 	}
+}
+
+void Player::EN()
+{
+	if (UseEN)
+	{
+		RegenENCoolTimer = RegenENCoolTime;
+		UseEN = false;
+	}
+
+	if (ENGauge <= 0&&!OverHeat)
+	{
+		OverHeat = true;
+		OverHeatENCoolTimer = OverHeatENCoolTime;
+	}
+
+	if (OverHeat)
+	{
+		OverHeatENCoolTimer--;
+		RegenENCoolTimer = 0;
+		ENGauge += RecoveryENGauge;
+		if (OverHeatENCoolTimer <= 0)
+		{
+			OverHeat = false;
+		}
+	}
+	
+
+	if (RegenENCoolTimer > 0)
+	{
+		RegenENCoolTimer--;
+	}
+	else
+	{
+		ENGauge++;
+	}
+
+	if (ENGauge >= ENMAXGauge)
+	{
+		ENGauge = ENMAXGauge;
+	}
+
+	
+
 }
 
 bool Player::LockOn()
@@ -304,6 +370,9 @@ void Player::ImGuiSet()
 	ImGui::DragFloat("HPposY", &sprite_HPbar->Wt.translation_.y, 0.5f);
 	ImGui::DragFloat("HPSizeX", &sprite_HPbar->Wt.scale_.x, 0.5f);
 	ImGui::DragFloat("HPSizeY", &sprite_HPbar->Wt.scale_.y, 0.5f);
+	ImGui::NewLine();
+	ImGui::Text("ENGauge::%d", ENGauge);
+	ImGui::Text("OverHeat::%d", OverHeat);
 
 
 
@@ -323,8 +392,22 @@ void Player::Draw()
 
 void Player::DrawUI()
 {
+	if (OverHeat)
+	{
+		sprite_ENGauge->Wt.color = { 1.0f,0,0,1.0f };
+	}
+	else
+	{
+		sprite_ENGauge->Wt.color = { 0.0f, 0.15f, 0.75f, 1.0f };
+	}
+
 	sprite_Reticle->Draw();
 	sprite_CoverHPbar->Draw();
+	sprite_CoverENGaugebar->Draw();
+	if (ENGauge > 0)
+	{
+		sprite_ENGauge->Draw();
+	}
 	if (HP > 0)
 	{
 		sprite_HPbar->Draw();
@@ -333,6 +416,7 @@ void Player::DrawUI()
 	{
 		sprite_Lock->Draw();
 	}
+
 	
 }
 

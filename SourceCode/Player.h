@@ -85,6 +85,7 @@ private:
 	std::unique_ptr<Sprite2D> sprite_HPbar;
 	std::unique_ptr<Sprite2D> sprite_CoverHPbar;
 	std::unique_ptr<Sprite2D> sprite_ENGauge;
+	std::unique_ptr<Sprite2D> sprite_CoverENGaugebar;
 
 	uint32_t reticleHandle;
 	uint32_t LockHandle;
@@ -119,24 +120,37 @@ private:
 
 	bool DashFlag = false;
 
-	size_t DashTimer = 0;
-	const size_t DashTime = 20;
+	int DashTimer = 0;
+	const int DashTime = 20;
 
-	//ブーストゲージ的な何か
+	//ブーストゲージ的な何か-------
+	const float ENGaugeSize = 15.0f;
 
-	size_t ENGauge = 0;
+	int ENGauge = 0;
 
-	const size_t ENMAXGauge = 1000;
+	const int ENMAXGauge = 1000;
 
-	const size_t DashUseGauge = 150;
+	const int DashUseGauge = 200;
 
-	const size_t JumpUseGauge = 200;
+	const int JumpUseGauge = 100;
 
 	bool UseEN = false;
 
-	size_t RegenENCoolTimer = 0;
+	int RegenENCoolTimer = 0;
 
-	const size_t RegenENCoolTime = 120;
+	const int RegenENCoolTime = 60;
+
+	const int RegenEN = 3;
+
+	const int RecoveryENGauge = 2;
+
+	bool OverHeat = false;
+
+	int OverHeatENCoolTimer = 0;
+
+	const int OverHeatENCoolTime = 180;
+
+	//--------
 
 	/// <summary>
 	/// 行列とベクトルの計算(左側が行列計算の先)
