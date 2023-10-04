@@ -1,5 +1,7 @@
 #include "Field.h"
 
+const float Field::AreaLimit = 500.0f;
+
 void Field::Init(Camera* _camera)
 {
 	model.reset(ObjModel::LoadFromOBJ("555"));

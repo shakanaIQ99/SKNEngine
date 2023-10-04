@@ -13,7 +13,7 @@ public:
 
 	void Draw();
 
-	float GetArea();
+	static float GetArea();
 
 	float GetUpArea();
 
@@ -26,7 +26,7 @@ private:
 
 	const float UpAreaLimit = 100.0f;
 
-	const float AreaLimit = 500.0f;
+	static const float AreaLimit;
 
 };
 

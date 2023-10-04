@@ -1,5 +1,6 @@
 #include "BossEnemy.h"
 #include"ImGuiManager.h"
+#include"Field.h"
 
 #include <iostream>     // cout
 #include <ctime>        // time
@@ -120,6 +121,15 @@ void BossEnemy::Update()
 	}
 
 	ImGuiSet();
+
+	if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
+	{
+		St->Wt.translation_.x = Field::GetArea() - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
+	}
+	if (St->Wt.translation_.z + St->Wt.scale_.z >= Field::GetArea() || St->Wt.translation_.z - St->Wt.scale_.z <= -Field::GetArea())
+	{
+		St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
+	}
 
 	St->Update(camera->getView());
 	sprite_HPbar->Update();

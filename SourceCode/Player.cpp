@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "ImGuiManager.h"
 #include "Math/Easing.h"
+#include"Field.h"
 
 XMFLOAT3 VectorMatDivW(XMMATRIX mat, XMFLOAT3 pos)
 {
@@ -234,6 +235,15 @@ void Player::Move()
 	else
 	{
 		OnGround = false;
+	}
+
+	if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
+	{
+		St->Wt.translation_.x = Field::GetArea() - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
+	}
+	if (St->Wt.translation_.z + St->Wt.scale_.z >= Field::GetArea() || St->Wt.translation_.z - St->Wt.scale_.z <= -Field::GetArea())
+	{
+		St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
 	}
 
 }
