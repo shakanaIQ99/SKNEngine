@@ -141,8 +141,8 @@ private:
 
 	//’ÊíËŒ‚
 
-	const int BurstRate = 5;
-	const int BurstNum = 3;
+	const int BurstRate = 3;
+	const int BurstNum = 40;
 	int BurstTime = BurstNum * BurstRate;
 
 	//“ËiUŒ‚

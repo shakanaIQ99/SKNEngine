@@ -270,7 +270,7 @@ void BossEnemy::SimpleShot()
 
 		Head.y += St->Wt.scale_.y;
 		AimMode = false;
-		XMFLOAT3 BulletVec = TargetPos - Head;
+		XMFLOAT3 BulletVec = player->GetPos() - Head;
 		normalize(BulletVec);
 
 		BulletVec *= 2.0f;
