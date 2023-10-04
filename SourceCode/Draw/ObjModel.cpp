@@ -66,10 +66,10 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 
 		if (key == "mtllib")
 		{
-			string filename;
-			line_stream >> filename;
+			string _filename;
+			line_stream >> _filename;
 
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, _filename);
 		}
 		if (key == "v")
 		{

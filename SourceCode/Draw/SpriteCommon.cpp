@@ -6,9 +6,9 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-void SpriteCommon::Initialize(DirectXCommon* dxcommon)
+void SpriteCommon::Initialize(DirectXCommon* _dxcommon)
 {
-	this->dxcommon = dxcommon;
+	this->dxcommon = _dxcommon;
 
 	spritepipline = Pipeline::CreateSpritePipline(dxcommon->GetDevice());
 

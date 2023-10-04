@@ -13,10 +13,10 @@ ParticleManager::ParticleManager(uint32_t handle)
 	tex = TextureManager::GetTextureData(handle);
 }
 
-void ParticleManager::StaticInitialize(ID3D12Device* device)
+void ParticleManager::StaticInitialize(ID3D12Device* _device)
 {
-	assert(device);
-	ParticleManager::device = device;
+	assert(_device);
+	ParticleManager::device = _device;
 	ParPipeline = Pipeline::CreateParticlePipline(device);
 	CreateModel();
 
@@ -185,6 +185,8 @@ void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOA
 	p.velocity = velocity;
 	p.accel = accel;
 	p.num_frame = life;
+	p.s_scale = start_scale;
+	p.e_scale = end_scale;
 }
 
 

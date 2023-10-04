@@ -68,7 +68,7 @@ public:
 
 	static ObjModel* LoadFromOBJ(const string& modelname, bool smoothing = false);
 
-	static void SetDevice(ID3D12Device* device) { ObjModel::device = device; }
+	static void SetDevice(ID3D12Device* _device) { ObjModel::device = _device; }
 
 	void Draw(ID3D12GraphicsCommandList* commandList, UINT rootParamIndexMaterial);
 

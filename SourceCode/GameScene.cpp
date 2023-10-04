@@ -4,14 +4,13 @@
 #include"Input.h"
 #include"Collision.h"
 
-void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
+void GameScene::Init(DirectXCommon* dxcommon)
 {
 	spritecommon = new SpriteCommon();
 	spritecommon->Initialize(dxcommon);
 
 	texturemanager = TextureManager::GetInstance();
 	texturemanager->StaticInitialize(dxcommon);
-	uint32_t blank = texturemanager->LoadTexture("Resources/white1x1.png");
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
 	camera.Initialize(dxcommon->GetDevice());
@@ -22,7 +21,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
-	field_model = ObjModel::LoadFromOBJ("ground");
+	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
 	
 
@@ -32,8 +31,7 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 	skydome = OBJ3D::Create();
 	skydome->SetModel(skydome_model);
 
-	field = OBJ3D::Create();
-	field->SetModel(field_model);
+	field.Init(&camera);
 
 	boss.Init();
 	player.Init();
@@ -52,8 +50,6 @@ void GameScene::Init(DxWindow* dxwindow, DirectXCommon* dxcommon)
 
 
 	//パーティクル周り
-
-	int scenenum = 0;
 
 	float ambientColor[3] = { 1,1,1 };
 
@@ -189,7 +185,7 @@ void GameScene::GameUpdate()
 
 	camera.Update();
 	skydome->Update(camera.getView());
-	field->Update(camera.getView());
+	field.Update();
 	player.Update();
 	boss.Update();
 }
@@ -198,7 +194,7 @@ void GameScene::TitleDraw(DirectXCommon* dxcommon)
 {
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
 	skydome->Draw();
-	field->Draw();
+	field.Draw();
 	spritecommon->PreDraw();
 
 	preTitle->Draw();
@@ -211,7 +207,7 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
 
 	skydome->Draw();
-	field->Draw();
+	field.Draw();
 
 	player.Draw();
 	boss.Draw();

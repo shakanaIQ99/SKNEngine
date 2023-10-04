@@ -23,7 +23,7 @@ public:
 
 
 
-    void Initialize(SpriteCommon* spritecommon,uint32_t handle);
+    void Initialize(SpriteCommon* _spritecommon,uint32_t handle);
 
     void Update();
 

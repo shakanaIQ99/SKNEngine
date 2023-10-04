@@ -32,11 +32,11 @@ OBJ3D::OBJ3D()
 	matWorld = XMMatrixIdentity();
 }
 
-void OBJ3D::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
+void OBJ3D::StaticInitialize(ID3D12Device* _device)
 {
-	assert(device);
+	assert(_device);
 
-	OBJ3D::device = device;
+	OBJ3D::device = _device;
 	ObjModel::SetDevice(device);
 
 	ObjPipeline = Pipeline::CreateModelPipline(device);

@@ -25,6 +25,7 @@ class BossEnemy : public StuructTransform
 {
 public:
 
+	BossEnemy();
 	
 
 	void SetPlayer(Player* pl)

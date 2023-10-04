@@ -179,7 +179,7 @@ void Object3D::Update()
 		}
 	}
 
-	for (int i = 0; i < bones.size(); i++)
+	for (size_t i = 0; i < bones.size(); i++)
 	{
 		XMMATRIX matCurrentPose;
 
@@ -193,10 +193,10 @@ void Object3D::Update()
 
 }
 
-void Object3D::SetModel(Model* model)
+void Object3D::SetModel(Model* _model)
 {
-	this->model = model;
-	this->model->CreateBuffers(device);
+	model = _model;
+	model->CreateBuffers(device);
 }
 
 void Object3D::PlayAnimation()

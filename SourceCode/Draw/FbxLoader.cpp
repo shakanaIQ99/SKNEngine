@@ -12,12 +12,12 @@ FbxLoader* FbxLoader::GetInstance()
     return &instance;
 }
 
-void FbxLoader::Initialize(ID3D12Device* device)
+void FbxLoader::Initialize(ID3D12Device* _device)
 {
     assert(fbxManager == nullptr);
-    assert(device);
+    assert(_device);
 
-    this->device = device;
+    device = _device;
 
     fbxManager = FbxManager::Create();
 
@@ -302,7 +302,7 @@ void FbxLoader::ParseSkin(Model* model, FbxMesh* fbxMesh)
 
     if (fbxSkin == nullptr)
     {
-        for (int i = 0; i < model->vertices.size(); i++)
+        for (size_t i = 0; i < model->vertices.size(); i++)
         {
             model->vertices[i].boneIndex[0] = 0;
             model->vertices[i].boneWeight[0] = 1.0f;
@@ -366,7 +366,7 @@ void FbxLoader::ParseSkin(Model* model, FbxMesh* fbxMesh)
 
     auto& vertices = model->vertices;
 
-    for (int i = 0; i < vertices.size(); i++)
+    for (size_t i = 0; i < vertices.size(); i++)
     {
         auto& weightList = weightLists[i];
 

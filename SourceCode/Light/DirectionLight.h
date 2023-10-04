@@ -25,7 +25,7 @@ public:
 		unsigned int active;
 	};
 
-	static void StaticInitialize(ID3D12Device* device);
+	static void StaticInitialize(ID3D12Device* _device);
 
 	static DirectionLight* Create();
 
@@ -37,9 +37,9 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList*cmdlist,UINT rootParamIndex);
 
-	void SetLightDir(const XMVECTOR& lightdir);
+	void SetLightDir(const XMVECTOR& _lightdir);
 
-	void SetLightColor(const XMFLOAT3& lightcolor);
+	void SetLightColor(const XMFLOAT3& _lightcolor);
 
 	XMVECTOR GetLightDir() { return lightdir; }
 

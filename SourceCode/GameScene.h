@@ -18,6 +18,7 @@
 #include"Player.h"
 #include"BossEnemy.h"
 #include"Draw3DLine.h"
+#include"Field.h"
 
 enum struct SceneType
 {
@@ -35,7 +36,7 @@ private:
 
 public:
 
-	void Init(DxWindow* dxwindow,DirectXCommon* dxcommon);
+	void Init(DirectXCommon* dxcommon);
 
 	void Update();
 
@@ -51,8 +52,6 @@ public:
 
 		delete skydome_model;
 		delete skydome;
-		delete field_model;
-		delete field;
 	}
 
 	
@@ -70,6 +69,7 @@ private:
 
 	Player player;
 	BossEnemy boss;
+	Field field;
 
 
 	float cameraX = 0;
@@ -90,11 +90,10 @@ private:
 	ObjModel* skydome_model = nullptr;
 	OBJ3D* skydome = nullptr;
 
-	ObjModel* field_model = nullptr;
-	OBJ3D* field = nullptr;
+	//ObjModel* field_model = nullptr;
+	//OBJ3D* field = nullptr;
 
 	std::unique_ptr<Sprite2D> preTitle;
-	WorldTransform preTitleWt;
 	uint32_t preTitleHandle;
 	
 	XMFLOAT3 flontVec = { 0,0,1.0f };

@@ -5,6 +5,10 @@
 #include <ctime>        // time
 #include <cstdlib>      // srand,rand
 
+BossEnemy::BossEnemy()
+{
+}
+
 void BossEnemy::Init()
 {
 	ModelInit("Player");

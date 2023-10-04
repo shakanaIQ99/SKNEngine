@@ -16,7 +16,7 @@ class SpriteCommon
 {
 
 public:
-    void Initialize(DirectXCommon* dxcommon);
+    void Initialize(DirectXCommon* _dxcommon);
 
     //void InitializeGraphicsPipeline();
 

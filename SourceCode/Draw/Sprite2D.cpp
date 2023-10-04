@@ -1,8 +1,8 @@
 #include "Sprite2D.h"
 
-void Sprite2D::Initialize(SpriteCommon* spritecommon,uint32_t handle)
+void Sprite2D::Initialize(SpriteCommon* _spritecommon,uint32_t handle)
 {
-	this->spritecommon = spritecommon;
+	spritecommon = _spritecommon;
 	tex = TextureManager::GetTextureData(handle);
 
 	device = spritecommon->GetDirextXCommon()->GetDevice();

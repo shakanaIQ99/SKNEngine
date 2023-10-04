@@ -30,7 +30,7 @@ public:
 	OBJ3D();
 
 
-	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static void StaticInitialize(ID3D12Device* device);
 
 	/// <param name="cmdList">描画コマンドリスト</param>
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
@@ -51,7 +51,7 @@ private:
 
 public:
 
-	void SetModel(ObjModel* model) { this->model = model; }
+	void SetModel(ObjModel* _model) { model = _model; }
 
 	bool Initialize();
 

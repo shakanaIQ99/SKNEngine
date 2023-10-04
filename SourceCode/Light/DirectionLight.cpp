@@ -4,11 +4,11 @@ using namespace DirectX;
 
 ID3D12Device* DirectionLight::device = nullptr;
 
-void DirectionLight::StaticInitialize(ID3D12Device* device)
+void DirectionLight::StaticInitialize(ID3D12Device* _device)
 {
 	assert(!DirectionLight::device);
-	assert(device);
-	DirectionLight::device = device;
+	assert(_device);
+	DirectionLight::device = _device;
 
 
 }
@@ -86,14 +86,14 @@ void DirectionLight::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamInde
 	cmdlist->SetGraphicsRootConstantBufferView(rootParamIndex, constBuff->GetGPUVirtualAddress());
 }
 
-void DirectionLight::SetLightDir(const XMVECTOR& lightdir)
+void DirectionLight::SetLightDir(const XMVECTOR& _lightdir)
 {
-	this->lightdir = XMVector3Normalize(lightdir);
+	lightdir = XMVector3Normalize(_lightdir);
 	dirty = true;
 }
 
-void DirectionLight::SetLightColor(const XMFLOAT3& lightcolor)
+void DirectionLight::SetLightColor(const XMFLOAT3& _lightcolor)
 {
-	this->lightcolor = lightcolor;
+	lightcolor = _lightcolor;
 	dirty = true;
 }

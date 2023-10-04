@@ -231,7 +231,7 @@
     <ClCompile Include="SourceCode\Math\Easing.cpp">
       <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Field.cpp">
+    <ClCompile Include="SourceCode\Field.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
   </ItemGroup>
@@ -389,7 +389,7 @@
     <ClInclude Include="SourceCode\Math\Easing.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Field.h">
+    <ClInclude Include="SourceCode\Field.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
   </ItemGroup>

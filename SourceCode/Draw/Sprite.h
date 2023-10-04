@@ -31,7 +31,7 @@ public:
 	};
 
 
-	void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	void StaticInitialize(ID3D12Device* device);
 
 	/// <param name="cmdList">描画コマンドリスト</param>
 	void PreDraw(ID3D12GraphicsCommandList* cmdList);

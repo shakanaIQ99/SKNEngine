@@ -2,13 +2,13 @@
 ID3D12Device* LightGroup::device = nullptr;
 using namespace DirectX;
 
-void LightGroup::StaticInitialize(ID3D12Device* device)
+void LightGroup::StaticInitialize(ID3D12Device* _device)
 {
 	assert(!LightGroup::device);
 
-	assert(device);
+	assert(_device);
 
-	LightGroup::device = device;
+	LightGroup::device = _device;
 }
 
 LightGroup* LightGroup::Create()

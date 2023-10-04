@@ -6,11 +6,11 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
-void Sprite::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
+void Sprite::StaticInitialize(ID3D12Device* _device)
 {
-	assert(device);
+	assert(_device);
 
-	this->device = device;
+	device = _device;
 
 	InitializeGraphicsPipeline();
 

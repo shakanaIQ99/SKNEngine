@@ -23,11 +23,11 @@ public:
 		unsigned int active;
 	};
 
-	inline void SetLightPos(const XMFLOAT3& lightpos) { this->lightpos = lightpos; }
+	inline void SetLightPos(const XMFLOAT3& _lightpos) { lightpos = _lightpos; }
 	inline const XMFLOAT3& GetLightPos() { return lightpos; }
-	inline void SetLightColor(const XMFLOAT3& lightcolor) { this->lightcolor = lightcolor; }
+	inline void SetLightColor(const XMFLOAT3& _lightcolor) { lightcolor = _lightcolor; }
 	inline const XMFLOAT3& GetLightColor() { return lightcolor; }
-	inline void SetLightAtten(const XMFLOAT3& lightatten) { this->lightatten = lightatten; }
+	inline void SetLightAtten(const XMFLOAT3& _lightatten) { lightatten = _lightatten; }
 	inline const XMFLOAT3& GetLightAtten() { return lightatten; }
 	inline void SetActive(bool Active) { this->active = Active; }
 	inline bool IsActive() { return active; }

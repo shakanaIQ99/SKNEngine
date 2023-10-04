@@ -51,7 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Input::Init(window->GetHInstance(), window->GetHwnd());
 
-	OBJ3D::StaticInitialize(dxCommon->GetDevice(), window->window_width, window->window_height);
+	OBJ3D::StaticInitialize(dxCommon->GetDevice());
 	Object3D::SetDevice(dxCommon->GetDevice());
 	Object3D::CreateGraphicsPipeline();
 	Draw3DLine::SetDevice(dxCommon->GetDevice(),dxCommon->GetCommandList());
@@ -71,7 +71,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	fps->Initialize();
 
 	gameScene = new GameScene();
-	gameScene->Init(window, dxCommon);
+	gameScene->Init(dxCommon);
 
 	
 	while (true)

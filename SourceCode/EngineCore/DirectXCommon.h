@@ -61,8 +61,8 @@ private:
 
 	unique_ptr<DescriptorHeap> descHeap;
 
-	int32_t backBufferWidth = 0;
-	int32_t backBufferHeight = 0;
+	UINT backBufferWidth = 0;
+	UINT backBufferHeight = 0;
 
 	UINT64 fenceVal = 0;
 
