@@ -2,9 +2,10 @@
 
 void Field::Init(Camera* _camera)
 {
-	model.reset(ObjModel::LoadFromOBJ("ground"));
+	model.reset(ObjModel::LoadFromOBJ("555"));
 	St.reset(OBJ3D::Create());
 	St->SetModel(model.get());
+	St->Wt.scale_ = { AreaLimit,0.0f,AreaLimit };
 
 	camera = _camera;
 }
