@@ -11,7 +11,7 @@ public:
 
     struct VertexPos
     {
-        XMFLOAT3 pos; // xyzç¿ïW
+        XMFLOAT3 pos; // xyzÂ∫ßÊ®ô
         XMFLOAT2 uv;
     };
 

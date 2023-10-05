@@ -50,12 +50,12 @@ public:
 	~Model();
 
 	static const int MAX_BONE_INDICES = 4;
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct VertexPosNormalUvSkin
 	{
-		XMFLOAT3 pos;	//xyzÀ•W
-		XMFLOAT3 normal;//–@üƒxƒNƒgƒ‹
-		XMFLOAT2 uv;	//uvÀ•W
+		XMFLOAT3 pos;	//xyzåº§æ¨™
+		XMFLOAT3 normal;//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		XMFLOAT2 uv;	//uvåº§æ¨™
 		UINT boneIndex[MAX_BONE_INDICES];
 		float boneWeight[MAX_BONE_INDICES];
 	};
@@ -118,13 +118,13 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	D3D12_INDEX_BUFFER_VIEW ibView;
 
-	//ƒƒbƒVƒ…‚ğ‚Âƒm[ƒh
+	//ãƒ¡ãƒƒã‚·ãƒ¥ã‚’æŒã¤ãƒãƒ¼ãƒ‰
 	Node* meshNode = nullptr;
-	//’¸“_ƒf[ƒ^
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿
 	vector<VertexPosNormalUvSkin>vertices;
 
 	Material material;
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX”z—ñ
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é…åˆ—
 	vector<uint32_t> indices;
 
 	//ComPtr<ID3D12Resource> texBuff;
@@ -142,7 +142,7 @@ private:
 
 
 
-/*----------------------------ˆÈ‰ºOBJ------------------------------------------ -
+/*----------------------------ä»¥ä¸‹OBJ------------------------------------------ -
 class Model
 {
 
@@ -150,7 +150,7 @@ public:
 
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyzÀ•W
+		XMFLOAT3 pos; // xyzåº§æ¨™
 		XMFLOAT3 normal;
 		XMFLOAT2 uv;
 	};

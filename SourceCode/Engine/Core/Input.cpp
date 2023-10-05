@@ -18,26 +18,26 @@ void Input::Init(HINSTANCE hinstance, HWND hwnd)
 
 void Input::Initialize(HINSTANCE hinstance, HWND hwnd)
 {
-#pragma region	ƒL[ƒ{[ƒhŽü‚è
+#pragma region	ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‘¨ã‚Š
 	HRESULT result;
 
-	//DirectInput‚Ì‰Šú‰»
+	//DirectInputã®åˆæœŸåŒ–
 	result = DirectInput8Create(hinstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
 	assert(SUCCEEDED(result));
 
-	//ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
 	assert(SUCCEEDED(result));
 
-	//“ü—Íƒf[ƒ^Œ`Ž®‚ÌƒZƒbƒg
-	result = keyboard->SetDataFormat(&c_dfDIKeyboard);	//•W€Œ`Ž®
+	//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ã‚»ãƒƒãƒˆ
+	result = keyboard->SetDataFormat(&c_dfDIKeyboard);	//æ¨™æº–å½¢å¼
 	assert(SUCCEEDED(result));
 
-	//”r‘¼§ŒäƒŒƒxƒ‹‚ÌƒZƒbƒg
+	//æŽ’ä»–åˆ¶å¾¡ãƒ¬ãƒ™ãƒ«ã®ã‚»ãƒƒãƒˆ
 	result = keyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 
-#pragma endregion	ƒL[ƒ{[ƒhŽü‚è‰Šú‰»
+#pragma endregion	ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å‘¨ã‚ŠåˆæœŸåŒ–
 	ZeroMemory(&xInputState, sizeof(XINPUT_STATE));
 	DWORD dresult;
 	dresult = XInputGetState(0, &xInputState);
@@ -57,7 +57,7 @@ void Input::InputUpdate()
 {
 	Input* instance = GetInstance();
 
-	//ƒL[ƒ{[ƒhî•ñ‚ÌŽæ“¾ŠJŽn
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—é–‹å§‹
 	instance->keyboard->Acquire();
 
 	memcpy(instance->oldkey, instance->key, sizeof(key));

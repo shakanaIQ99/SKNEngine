@@ -158,7 +158,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	assert(SUCCEEDED(result));
 
 
-	// ’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
 	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result))
@@ -178,7 +178,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeIB;	//ƒCƒ“ƒfƒbƒNƒXî•ñ‚ª“ü‚éƒTƒCƒY
+	resDesc.Width = sizeIB;	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ãŒå…¥ã‚‹ã‚µã‚¤ã‚º
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
@@ -186,9 +186,9 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	result = device->CreateCommittedResource(
-		&heapProp,	//ƒq[ƒvİ’è
+		&heapProp,	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc,	//ƒŠƒ\[ƒXİ’è
+		&resDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff)
@@ -276,20 +276,20 @@ void ObjModel::CreateBuffers()
 
 	cbHeapPropB1.Type = D3D12_HEAP_TYPE_UPLOAD;
 	D3D12_RESOURCE_DESC cbResourceDescB1{};
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	cbResourceDescB1.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDescB1.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0Xff;	//256ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg
+	cbResourceDescB1.Width = (sizeof(ConstBufferDataMaterial) + 0xff) & ~0Xff;	//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
 	cbResourceDescB1.Height = 1;
 	cbResourceDescB1.DepthOrArraySize = 1;
 	cbResourceDescB1.MipLevels = 1;
 	cbResourceDescB1.SampleDesc.Count = 1;
 	cbResourceDescB1.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = device->CreateCommittedResource(
-		&cbHeapPropB1,		//ƒq[ƒvİ’è
+		&cbHeapPropB1,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDescB1,	//ƒŠƒ\[ƒXİ’è
+		&cbResourceDescB1,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffB1)

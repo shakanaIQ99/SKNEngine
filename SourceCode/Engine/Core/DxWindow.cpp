@@ -21,7 +21,7 @@ LRESULT DxWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	switch (msg)
 	{
 	case WM_DESTROY:
-		//OS‚É‘Î‚µ‚ÄAƒAƒvƒŠ‚ÌI—¹‚ğ“`‚¦‚é
+		//OSã«å¯¾ã—ã¦ã€ã‚¢ãƒ—ãƒªã®çµ‚äº†ã‚’ä¼ãˆã‚‹
 		PostQuitMessage(0);
 		return 0;
 	}
@@ -33,33 +33,33 @@ void DxWindow::CreateGameWindow(const char* title, UINT windowStyle, int32_t cli
 {
 	winStyle_ = windowStyle;
 	winClass.cbSize = sizeof(WNDCLASSEX);
-	winClass.lpfnWndProc = (WNDPROC)WindowProc;	//ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ğİ’è
-	winClass.lpszClassName = L"MyEngine";		//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX–¼
-	winClass.hInstance = GetModuleHandle(nullptr);	//ƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
-	winClass.hCursor = LoadCursor(NULL, IDC_ARROW);//ƒJ[ƒ\ƒ‹w’è
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ğOS‚É“o˜^‚·‚é
+	winClass.lpfnWndProc = (WNDPROC)WindowProc;	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ã‚’è¨­å®š
+	winClass.lpszClassName = L"MyEngine";		//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹å
+	winClass.hInstance = GetModuleHandle(nullptr);	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+	winClass.hCursor = LoadCursor(NULL, IDC_ARROW);//ã‚«ãƒ¼ã‚½ãƒ«æŒ‡å®š
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’OSã«ç™»éŒ²ã™ã‚‹
 	RegisterClassEx(&winClass);
 
-	// ƒEƒBƒ“ƒhƒEƒTƒCƒY{ XÀ•W YÀ•W ‰¡• c• }
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º{ Xåº§æ¨™ Yåº§æ¨™ æ¨ªå¹… ç¸¦å¹… }
 	RECT wrc = { 0, 0, clientWidth, clientHeight };
-	AdjustWindowRect(&wrc, winStyle_, false); // ©“®‚ÅƒTƒCƒY•â³
+	AdjustWindowRect(&wrc, winStyle_, false); // è‡ªå‹•ã§ã‚µã‚¤ã‚ºè£œæ­£
 
 	hwnd = CreateWindow
 	(
-		winClass.lpszClassName,		//ƒNƒ‰ƒX–¼
-		L"MyEngine",			//ƒ^ƒCƒgƒ‹ƒo[‚Ì•¶š
-		winStyle_,	//•W€“I‚ÈƒEƒBƒ“ƒhƒEƒXƒ^ƒCƒ‹
-		CW_USEDEFAULT,			//•\¦XÀ•W(OS‚É”C‚¹‚é)
-		CW_USEDEFAULT,			//•\¦YÀ•W(OS‚É”C‚¹‚é)
-		wrc.right - wrc.left,	//ƒEƒBƒ“ƒhƒE‰¡•
-		wrc.bottom - wrc.top,	//ƒEƒBƒ“ƒhƒEc•
-		nullptr,				//eƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹
-		nullptr,				//ƒƒjƒ…[ƒnƒ“ƒhƒ‹
-		winClass.hInstance,			//ŒÄ‚Ño‚µƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒnƒ“ƒhƒ‹
-		nullptr					//ƒIƒvƒVƒ‡ƒ“
+		winClass.lpszClassName,		//ã‚¯ãƒ©ã‚¹å
+		L"MyEngine",			//ã‚¿ã‚¤ãƒˆãƒ«ãƒãƒ¼ã®æ–‡å­—
+		winStyle_,	//æ¨™æº–çš„ãªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¹ã‚¿ã‚¤ãƒ«
+		CW_USEDEFAULT,			//è¡¨ç¤ºXåº§æ¨™(OSã«ä»»ã›ã‚‹)
+		CW_USEDEFAULT,			//è¡¨ç¤ºYåº§æ¨™(OSã«ä»»ã›ã‚‹)
+		wrc.right - wrc.left,	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦æ¨ªå¹…
+		wrc.bottom - wrc.top,	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç¸¦å¹…
+		nullptr,				//è¦ªã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«
+		nullptr,				//ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ³ãƒ‰ãƒ«
+		winClass.hInstance,			//å‘¼ã³å‡ºã—ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ«
+		nullptr					//ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 	);
 
-	//ƒEƒBƒ“ƒhƒE‚ğ•\¦ó‘Ô‚·‚é
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºçŠ¶æ…‹ã™ã‚‹
 	ShowWindow(hwnd, SW_SHOW);
 
 }
@@ -72,14 +72,14 @@ void DxWindow::TerminateGameWindow()
 bool DxWindow::ProcessMessage()
 {
 	MSG msg{};
-	//ƒƒbƒZ[ƒW‚ ‚éH
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚ã‚‹ï¼Ÿ
 	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
-		TranslateMessage(&msg);	//ƒL[“ü—ÍƒƒbƒZ[ƒW‚Ìˆ—
-		DispatchMessage(&msg);	//ƒvƒƒV[ƒWƒƒ‚ÉƒƒbƒZ[ƒW‚ğ‘—‚é
+		TranslateMessage(&msg);	//ã‚­ãƒ¼å…¥åŠ›ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†
+		DispatchMessage(&msg);	//ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹
 	}
 
-	//~ƒ{ƒ^ƒ“‚ÅI—¹ƒƒbƒZ[ƒW‚ª—ˆ‚½‚çƒQ[ƒ€ƒ‹[ƒv‚ğ”²‚¯‚é
+	//Ã—ãƒœã‚¿ãƒ³ã§çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒæ¥ãŸã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 	if (msg.message == WM_QUIT)
 	{
 		return true;

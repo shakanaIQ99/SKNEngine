@@ -98,10 +98,10 @@ private:
 
 
 private:
-	//”Ä—p
+	//æ±ç”¨
 	XMFLOAT3 prePos = { 0,0,0 };
 	Player* player;
-	//UŒ‚ƒpƒ^[ƒ“
+	//æ”»æ’ƒãƒ‘ã‚¿ãƒ¼ãƒ³
 	AtkPattern BossAtk = AtkPattern::NONE;
 
 	//HP
@@ -111,7 +111,7 @@ private:
 	const float MaxHP = 100.0f;
 	float HP = 0.0f;
 
-	//s“®ƒpƒ^[ƒ“
+	//è¡Œå‹•ãƒ‘ã‚¿ãƒ¼ãƒ³
 	MovePattern BossMove = MovePattern::NONE;
 
 	const int LongMoveTime = 60 * 6;
@@ -127,10 +127,10 @@ private:
 	int WaitTimer = 0;
 	const int WaitTime = 180;
 
-	//’eŠÖ˜A
+	//å¼¾é–¢é€£
 	std::list<std::unique_ptr<EnemyNormalBullet>> Normalbullets_;
 
-	//Æ€ü‚è
+	//ç…§æº–å‘¨ã‚Š
 	XMFLOAT3 TargetPos = { 0,0,0 };
 
 	const int TargetTime = 60 * 2;
@@ -139,20 +139,20 @@ private:
 
 	bool AimMode = false;
 
-	//’ÊíËŒ‚
+	//é€šå¸¸å°„æ’ƒ
 
 	const int BurstRate = 3;
 	const int BurstNum = 40;
 	int BurstTime = BurstNum * BurstRate;
 
-	//“ËiUŒ‚
+	//çªé€²æ”»æ’ƒ
 	XMFLOAT3 TargetVec= { 0,0,0 };
 	float chargeLenge = 0;
 	int chargeCool = 0;
 	const int chargeCoolTime = 600;
 
 
-	//”F’m”ÍˆÍ
+	//èªçŸ¥ç¯„å›²
 	float Lange = 0;
 	float LangeMax = 50;
 	float LangeMin = 10;

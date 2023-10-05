@@ -4,20 +4,20 @@ void ConstBuffer::Create(DirectXCommon* dxcommon, size_t size)
 {
 	bufferSize = size;
 
-	//’¸“_ƒoƒbƒtƒ@‚ÌÝ’è
-	D3D12_HEAP_PROPERTIES heapProp{};//ƒq[ƒvÝ’è
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPU‚Ö‚Ì“]‘——p
-	//ƒŠƒ\[ƒXÝ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
+	D3D12_HEAP_PROPERTIES heapProp{};//ãƒ’ãƒ¼ãƒ—è¨­å®š
+	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUã¸ã®è»¢é€ç”¨
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = (bufferSize + 0xff) & ~0xff;//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	resDesc.Width = (bufferSize + 0xff) & ~0xff;//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	// ƒŠƒ\[ƒX‚ð¶¬
+	// ãƒªã‚½ãƒ¼ã‚¹ã‚’ç”Ÿæˆ
 	HRESULT result = dxcommon->GetDevice()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,

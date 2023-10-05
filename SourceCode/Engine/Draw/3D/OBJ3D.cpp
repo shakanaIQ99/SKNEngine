@@ -57,7 +57,7 @@ OBJ3D* OBJ3D::Create()
 		return nullptr;
 	}
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	if (!obj->Initialize()) {
 		delete obj;
 		assert(0);
@@ -91,8 +91,8 @@ void OBJ3D::Draw()
 {
 	commandList->SetPipelineState(ObjPipeline.pipelineState.Get());
 	commandList->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
-	// ƒvƒŠƒ~ƒeƒBƒuŒ`ó‚ÌÝ’èƒRƒ}ƒ“ƒh
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // ŽOŠpŒ`ƒŠƒXƒg
+	// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶ã®è¨­å®šã‚³ãƒžãƒ³ãƒ‰
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // ä¸‰è§’å½¢ãƒªã‚¹ãƒˆ
 	
 	if (model == nullptr) return;
 

@@ -48,7 +48,7 @@ private:
 
     struct VertexPos
     {
-        XMFLOAT3 pos; // xyzÀ•W
+        XMFLOAT3 pos; // xyzåº§æ¨™
         XMFLOAT2 uv;
     };
 
@@ -80,7 +80,7 @@ private:
 
     std::unique_ptr<IndexBuffer> indexBuffer = {};
 
-    // ’è”ƒoƒbƒtƒ@
+    // å®šæ•°ãƒãƒƒãƒ•ã‚¡
     ComPtr<ID3D12Resource> constBuff;
 
     XMFLOAT4 color = { 1,1,1,1 };

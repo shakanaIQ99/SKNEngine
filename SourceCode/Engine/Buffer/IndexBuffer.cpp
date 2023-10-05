@@ -4,16 +4,16 @@ void IndexBuffer::Create(ID3D12Device* device, size_t length, const void* data)
 {
 	bufferLength = length;
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES heapProp{};
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC resDesc{};
 
-	//ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‚ÌƒTƒCƒY
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ã®ã‚µã‚¤ã‚º
 	UINT sizeIB = static_cast<UINT>(sizeof(uint32_t) * length);
-	//’¸“_ƒoƒbƒtƒ@‚Ìİ’è
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPU‚Ö‚Ì“]‘——p
-	//ƒŠƒ\[ƒXİ’è@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
+	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;//GPUã¸ã®è»¢é€ç”¨
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®šã€€
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	resDesc.Width = sizeIB;
 	resDesc.Height = 1;
@@ -22,7 +22,7 @@ void IndexBuffer::Create(ID3D12Device* device, size_t length, const void* data)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	// ƒŠƒ\[ƒX‚ğ¶¬
+	// ãƒªã‚½ãƒ¼ã‚¹ã‚’ç”Ÿæˆ
 	HRESULT result = device->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -31,7 +31,7 @@ void IndexBuffer::Create(ID3D12Device* device, size_t length, const void* data)
 		nullptr,
 		IID_PPV_ARGS(indexBuff.ReleaseAndGetAddressOf()));
 
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[‚Ìİ’è
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®è¨­å®š
 	ibView = {};
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R32_UINT;
@@ -39,13 +39,13 @@ void IndexBuffer::Create(ID3D12Device* device, size_t length, const void* data)
 
 	result =indexBuff->Map(0, nullptr, &bufferMappedPtr);
 
-	// ƒ}ƒbƒsƒ“ƒO‚·‚é
+	// ãƒãƒƒãƒ”ãƒ³ã‚°ã™ã‚‹
 	if (data != nullptr)
 	{
-		// ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‚ğƒ}ƒbƒsƒ“ƒOæ‚Éİ’è
+		// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ãƒãƒƒãƒ”ãƒ³ã‚°å…ˆã«è¨­å®š
 		memcpy(bufferMappedPtr, data, length * sizeof(uint32_t));
 
-		// ƒ}ƒbƒsƒ“ƒO‰ğœ
+		// ãƒãƒƒãƒ”ãƒ³ã‚°è§£é™¤
 		indexBuff->Unmap(0, nullptr);
 	}
 

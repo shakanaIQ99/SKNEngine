@@ -29,7 +29,7 @@ private:
 
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyzç¿ïW
+		XMFLOAT3 pos; // xyzÂ∫ßÊ®ô
 	};
 
 	struct Color
