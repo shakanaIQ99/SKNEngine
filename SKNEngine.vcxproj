@@ -216,7 +216,7 @@
     <ClInclude Include="SourceCode\Engine\Math\myMath.h" />
     <ClInclude Include="SourceCode\App\Enemy\EnemyNormalBullet.h" />
     <ClInclude Include="SourceCode\Engine\Draw\3D\Draw3DLine.h" />
-    <ClInclude Include="SourceCode\App\PlayerBullet.h" />
+    <ClInclude Include="SourceCode\App\Player\PlayerBullet.h" />
     <ClInclude Include="SourceCode\App\Camera.h" />
     <ClInclude Include="SourceCode\Engine\Math\Float4.h" />
     <ClInclude Include="SourceCode\Engine\Math\Matrix4.h" />

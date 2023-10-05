@@ -368,7 +368,7 @@
     <ClInclude Include="SourceCode\App\Player\Player.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\PlayerBullet.h">
+    <ClInclude Include="SourceCode\App\Player\PlayerBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\App\Enemy\EnemyNormalBullet.h">
