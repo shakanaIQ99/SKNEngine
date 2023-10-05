@@ -242,15 +242,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Core\DxWindow.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Core\DescriptorHeap.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Engine\Draw\TextureManager.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
@@ -302,12 +293,6 @@
     <ClInclude Include="SourceCode\App\Collision.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Colider</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Core\Pipeline.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Core\FPS.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Imgui\ImGuiManager.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
@@ -319,9 +304,6 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Core\WorldTronsform.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Core\Input.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Draw\PostEffect.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
@@ -397,6 +379,24 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Draw\2D\DrawCommon.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Core\DescriptorHeap.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Core\DxWindow.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Core\FPS.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Core\Input.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Core\Pipeline.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

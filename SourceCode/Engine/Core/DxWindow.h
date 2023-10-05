@@ -2,16 +2,16 @@
 #include<Windows.h>
 #include <cstdint>
 
-//const int window_width = 1280;	//‰¡•
-//const int window_height = 720;	//c•
+//const int window_width = 1280;	//æ¨ªå¹…
+//const int window_height = 720;	//ç¸¦å¹…
 
 
 class DxWindow
 {
 public:
 
-	static const int window_width = 1280;	//‰¡•
-	static const int window_height = 720;	//c•
+	static const int window_width = 1280;	//æ¨ªå¹…
+	static const int window_height = 720;	//ç¸¦å¹…
 
 	//static const wchar_t windowClassName[];
 
@@ -42,7 +42,7 @@ private:
 	RECT winRect;
 
 
-	//ƒEƒBƒ“ƒhƒEƒTƒCƒY{@XÀ•W@YÀ•W@‰¡•@c•@}
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º{ã€€Xåº§æ¨™ã€€Yåº§æ¨™ã€€æ¨ªå¹…ã€€ç¸¦å¹…ã€€}
 
 
 	//RECT wrc = { 0,0,window_width, window_height };

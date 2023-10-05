@@ -34,52 +34,52 @@ public:
 
 	static bool GetReleaseKey(BYTE _key);
 
-	//�p�b�h�ɐڑ�����Ă邩
+	//パッドに接続されてるか
 	static bool GetPadConnect();
 
-	//�p�b�h�̃{�^����������Ă��邩
+	//パッドのボタンが押されているか
 	static bool GetPadButton(UINT button);
 
-	//�p�b�h�̃{�^�������ꂽ�u�Ԃ�
+	//パッドのボタンが離れた瞬間か
 	static bool GetPadButtonUp(UINT button);
 
-	//�p�b�h�̃{�^���������ꂽ�u�Ԃ�
+	//パッドのボタンが押された瞬間か
 	static bool GetPadButtonDown(UINT button);
 
-	//�p�b�h�̍��X�e�B�b�N
+	//パッドの左スティック
 	static XMFLOAT2 GetPadLStick();
 
-	//�p�b�h�̉E�X�e�B�b�N
+	//パッドの右スティック
 	static XMFLOAT2 GetPadRStick();
 
-	//���g���K�[���������񂾏u�Ԃ�
+	//左トリガーを押し込んだ瞬間か
 	static bool GetLTriggerDown();
 
-	//���g���K�[��������Ă��邩
+	//左トリガーを押されているか
 	static bool GetLTrigger();
 
 
-	//�E�g���K�[���������񂾏u�Ԃ�
+	//右トリガーを押し込んだ瞬間か
 	static bool GetRTriggerDown();
 
 
-	//�E�g���K�[��������Ă��邩
+	//右トリガーを押されているか
 	static bool GetRTrigger();
 
 	/// <summary>
-	/// ���X�e�B�b�N���͂𓾂�
+	/// 左スティック入力を得る
 	/// </summary>
-	/// <param name="useWASD">WASD�L�[���X�e�B�b�N�Ɍ����Ăď�������</param>
-	/// <param name="useArrow">���L�[���X�e�B�b�N�Ɍ����Ăď�������</param>
-	/// <returns>���͗�</returns>
+	/// <param name="useWASD">WASDキーもスティックに見立てて処理する</param>
+	/// <param name="useArrow">矢印キーもスティックに見立てて処理する</param>
+	/// <returns>入力量</returns>
 	static XMFLOAT2 GetLStick(bool useWASD, bool useArrow);
 
 	/// <summary>
-	/// �E�X�e�B�b�N���͂𓾂�
+	/// 右スティック入力を得る
 	/// </summary>
-	/// <param name="useWASD">WASD�L�[���X�e�B�b�N�Ɍ����Ăď�������</param>
-	/// <param name="useArrow">���L�[���X�e�B�b�N�Ɍ����Ăď�������</param>
-	/// <returns>���͗�</returns>
+	/// <param name="useWASD">WASDキーもスティックに見立てて処理する</param>
+	/// <param name="useArrow">矢印キーもスティックに見立てて処理する</param>
+	/// <returns>入力量</returns>
 	static XMFLOAT2 GetRStick(bool useWASD, bool useArrow);
 
 
