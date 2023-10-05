@@ -79,14 +79,14 @@
     <Filter Include="ソース ファイル\cppファイル\Application\Boss">
       <UniqueIdentifier>{287b7331-1827-49c2-9070-c65b6528bede}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Draw\2D">
+      <UniqueIdentifier>{4cb83c5b-06e3-43d1-ab6d-7280b767827c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Draw\2D">
+      <UniqueIdentifier>{fe75b197-966d-4c6e-8e4d-6b0c49af6b6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceCode\Engine\Draw\2D\Sprite2D.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Engine\Draw\2D\SpriteCommon.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\Engine\Core\DirectXCommon.cpp">
       <Filter>ソース ファイル\cppファイル\Core</Filter>
     </ClCompile>
@@ -110,12 +110,6 @@
     </ClCompile>
     <ClCompile Include="SourceCode\Engine\Light\DirectionLight.cpp">
       <Filter>ソース ファイル\cppファイル\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Engine\Draw\2D\DrawCommon.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\Engine\Draw\2D\Sprite.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Engine\Light\LightGroup.cpp">
       <Filter>ソース ファイル\cppファイル\Light</Filter>
@@ -216,9 +210,6 @@
     <ClCompile Include="SourceCode\App\Player\PlayerBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\Engine\Draw\3D\Draw3DLine.cpp">
-      <Filter>ソース ファイル\cppファイル\Draw</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\App\Enemy\EnemyNormalBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
     </ClCompile>
@@ -234,14 +225,23 @@
     <ClCompile Include="SourceCode\App\Field.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Engine\Draw\3D\Draw3DLine.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\Draw\2D\SpriteCommon.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\Draw\2D\Sprite.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\Draw\2D\Sprite2D.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\Draw\2D\DrawCommon.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SourceCode\Engine\Draw\2D\Sprite2D.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Draw\2D\SpriteCommon.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
@@ -265,12 +265,6 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Light\DirectionLight.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Draw\2D\DrawCommon.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Draw\2D\Sprite.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Light\LightGroup.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Light</Filter>
@@ -377,9 +371,6 @@
     <ClInclude Include="SourceCode\App\PlayerBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Draw\3D\Draw3DLine.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\App\Enemy\EnemyNormalBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
@@ -391,6 +382,21 @@
     </ClInclude>
     <ClInclude Include="SourceCode\App\Field.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Draw\3D\Draw3DLine.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Draw\2D\Sprite2D.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Draw\2D\Sprite.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Draw\2D\SpriteCommon.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Draw\2D\DrawCommon.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
