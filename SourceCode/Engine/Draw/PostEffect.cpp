@@ -106,12 +106,12 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 
 	//spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
 
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìİ’èƒRƒ}ƒ“ƒh
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
 	cmdlist->IASetVertexBuffers(0, 1, &vbView);
 
 	cmdlist->IASetIndexBuffer(&ibView);
-	//ƒvƒŠƒ~ƒeƒBƒuŒ`ó‚Ìİ’èƒRƒ}ƒ“ƒh
-	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // OŠpŒ`ƒŠƒXƒg
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
+	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // ä¸‰è§’å½¢ãƒªã‚¹ãƒˆ
 
 	//cmdlist->SetDescriptorHeaps(1, dxCommon->GetDescriptorHeap()->GetHeap().GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = gpuHandle;
@@ -120,8 +120,8 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 
 	cmdlist->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
-	// •`‰æƒRƒ}ƒ“ƒh
-	cmdlist->DrawIndexedInstanced(6, 1, 0, 0, 0); // ‘S‚Ä‚Ì’¸“_‚ğg‚Á‚Ä•`‰æ
+	// æç”»ã‚³ãƒãƒ³ãƒ‰
+	cmdlist->DrawIndexedInstanced(6, 1, 0, 0, 0); // å…¨ã¦ã®é ‚ç‚¹ã‚’ä½¿ã£ã¦æç”»
 }
 
 void PostEffect::CreateRTV()
@@ -185,9 +185,9 @@ void PostEffect::CreateTexBuff()
 	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearcolor);
 
 	result = dxCommon->GetDevice()->CreateCommittedResource(
-		&texHeapProp,		//ƒq[ƒvİ’è
+		&texHeapProp,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&rsDesc,	//ƒŠƒ\[ƒXİ’è
+		&rsDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		&clearValue,
 		IID_PPV_ARGS(TexBuff.ReleaseAndGetAddressOf())
@@ -240,9 +240,9 @@ void PostEffect::CreateDepth()
 	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0);
 
 	result = dxCommon->GetDevice()->CreateCommittedResource(
-		&heapProp,		//ƒq[ƒvİ’è
+		&heapProp,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&depthDesc,	//ƒŠƒ\[ƒXİ’è
+		&depthDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
 		&clearValue,
 		IID_PPV_ARGS(&depthBuff)
@@ -263,15 +263,15 @@ void PostEffect::CreateBuffer()
 
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPU‚Ö‚Ì“]‘——p
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPUã¸ã®è»¢é€ç”¨
 
 	auto rsDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff);
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = dxCommon->GetDevice()->CreateCommittedResource(
-		&cbHeapProp,		//ƒq[ƒvİ’è
+		&cbHeapProp,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&rsDesc,	//ƒŠƒ\[ƒXİ’è
+		&rsDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuff)

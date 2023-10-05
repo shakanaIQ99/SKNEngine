@@ -23,13 +23,13 @@ public:
 
 	void PostDraw();
 
-	/// <returns>ƒfƒoƒCƒX</returns>
+	/// <returns>ãƒ‡ãƒã‚¤ã‚¹</returns>
 	ID3D12Device* GetDevice() const { return device.Get(); }
 
 	/// <summary>
-	/// •`‰æƒRƒ}ƒ“ƒhƒŠƒXƒg‚Ìæ“¾
+	/// æç”»ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆã®å–å¾—
 	/// </summary>
-	/// <returns>•`‰æƒRƒ}ƒ“ƒhƒŠƒXƒg</returns>
+	/// <returns>æç”»ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</returns>
 	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
 
 	DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }

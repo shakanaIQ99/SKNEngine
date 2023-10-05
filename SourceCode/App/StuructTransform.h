@@ -8,19 +8,19 @@ class StuructTransform
 {
 public:
 
-	//ŠeƒVƒ“ƒOƒ‹ƒg[ƒ“‰»‚µ‚½‚ç•s—v‚É‚È‚é‚©‚à
+	//å„ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ¼ãƒ³åŒ–ã—ãŸã‚‰ä¸è¦ã«ãªã‚‹ã‹ã‚‚
 	static void SetStruct(Camera* _camera, SpriteCommon* spcommon, TextureManager* texmana);
 
 
 	/// <summary>
-	/// V‚µ‚­ƒ‚ƒfƒ‹‚ğƒ[ƒh
+	/// æ–°ã—ããƒ¢ãƒ‡ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰
 	/// </summary>
 	/// <param name="modelname"></param>
 	/// <param name="smooth"></param>
 	void ModelInit(const string& modelname,bool smooth=false);
 
 	/// <summary>
-	/// ƒ‚ƒfƒ‹‚»‚Ì‚à‚Ì‚ğƒ[ƒh
+	/// ãƒ¢ãƒ‡ãƒ«ãã®ã‚‚ã®ã‚’ãƒ­ãƒ¼ãƒ‰
 	/// </summary>
 	/// <param name="_model"></param>
 	void ModelInit(ObjModel* _model);

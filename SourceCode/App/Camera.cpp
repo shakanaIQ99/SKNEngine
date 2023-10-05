@@ -26,19 +26,19 @@ void Camera::Update()
 
 	viewProjection_.SetEye(wt.translation_);
 
-	//ƒ[ƒ‹ƒh‘O•ûƒxƒNƒgƒ‹
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å‰æ–¹ãƒ™ã‚¯ãƒˆãƒ«
 	forward = { 0.0f, 0.0f, 1.0f };
 
-	//ƒŒ[ƒ‹ƒJƒƒ‰‚Ì‰ñ“]‚ð”½‰f
+	//ãƒ¬ãƒ¼ãƒ«ã‚«ãƒ¡ãƒ©ã®å›žè»¢ã‚’åæ˜ 
 	forward = VectorMat(forward, wt.matWorld_);
 
-	//Ž‹“_‚©‚ç‘O•û‚É“K“–‚È‹——£i‚ñ‚¾ˆÊ’u‚ª’Ž‹“_
+	//è¦–ç‚¹ã‹ã‚‰å‰æ–¹ã«é©å½“ãªè·é›¢é€²ã‚“ã ä½ç½®ãŒæ³¨è¦–ç‚¹
 	viewProjection_.SetTarget(viewProjection_.Geteye() + forward);
 
-	//ƒ[ƒ‹ƒhã•ûƒxƒNƒgƒ‹
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰ä¸Šæ–¹ãƒ™ã‚¯ãƒˆãƒ«
 	DirectX::XMFLOAT3 up(0, 1, 0);
 
-	//ƒŒ[ƒ‹ƒJƒƒ‰‚Ì‰ñ“]‚ð”½‰f(ƒŒ[ƒ‹ƒJƒƒ‰‚Ìã•ûƒxƒNƒgƒ‹)
+	//ãƒ¬ãƒ¼ãƒ«ã‚«ãƒ¡ãƒ©ã®å›žè»¢ã‚’åæ˜ (ãƒ¬ãƒ¼ãƒ«ã‚«ãƒ¡ãƒ©ã®ä¸Šæ–¹ãƒ™ã‚¯ãƒˆãƒ«)
 	viewProjection_.SetUp(VectorMat(up, wt.matWorld_));
 
 	if (targetWT)
@@ -124,7 +124,7 @@ XMFLOAT3 Camera::GetWorldPosition()
 {
 	XMFLOAT3 worldpos;
 
-	//ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ðŽæ“¾(ƒ[ƒ‹ƒhÀ•W)
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—(ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™)
 	worldpos.x = wt.matWorld_.r[3].m128_f32[0];
 	worldpos.y = wt.matWorld_.r[3].m128_f32[1];
 	worldpos.z = wt.matWorld_.r[3].m128_f32[2];

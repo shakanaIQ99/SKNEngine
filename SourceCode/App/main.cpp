@@ -18,7 +18,7 @@
 #include "GameScene.h"
 template <class T>
 inline void complete_type_safe_delete(T * &p) {
-	//  •sŠ®‘S‚ÈŒ^‚Ìƒ|ƒCƒ“ƒ^‚ðdelete‚µ‚æ‚¤‚Æ‚µ‚½Žž‚ÉƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚É‚·‚é
+	//  ä¸å®Œå…¨ãªåž‹ã®ãƒã‚¤ãƒ³ã‚¿ã‚’deleteã—ã‚ˆã†ã¨ã—ãŸæ™‚ã«ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã«ã™ã‚‹
 	typedef char type_must_be_complete[sizeof(T) ? 1 : -1];
 	(void)sizeof(type_must_be_complete);
 
@@ -35,7 +35,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	window = DxWindow::GetInstance();
 	window->CreateGameWindow();
 #ifdef _DEBUG
-	//ƒfƒoƒbƒOƒŒƒCƒ„[‚ðƒIƒ“‚É
+	//ãƒ‡ãƒãƒƒã‚°ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚ªãƒ³ã«
 	ComPtr<ID3D12Debug1> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
