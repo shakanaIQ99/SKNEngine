@@ -7,40 +7,25 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SKNEngine", "SKNEngine.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTex", "DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj", "{371B9FA9-4C90-4AC6-A123-ACED756D6C77}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{15601DA3-254F-4E47-B30F-C54C0EF6F873}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Debug|ARM64.ActiveCfg = Debug|x64
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Debug|ARM64.Build.0 = Debug|x64
 		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Debug|x64.ActiveCfg = Debug|x64
 		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Debug|x64.Build.0 = Debug|x64
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Debug|x86.ActiveCfg = Debug|Win32
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Debug|x86.Build.0 = Debug|Win32
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Release|ARM64.ActiveCfg = Release|x64
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Release|ARM64.Build.0 = Release|x64
 		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Release|x64.ActiveCfg = Release|x64
 		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Release|x64.Build.0 = Release|x64
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Release|x86.ActiveCfg = Release|Win32
-		{335B45CD-BC6D-4C7D-AE53-6D26B754D7A6}.Release|x86.Build.0 = Release|Win32
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|ARM64.Build.0 = Debug|ARM64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x64.ActiveCfg = Debug|x64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x64.Build.0 = Debug|x64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x86.ActiveCfg = Debug|Win32
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x86.Build.0 = Debug|Win32
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|ARM64.ActiveCfg = Release|ARM64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|ARM64.Build.0 = Release|ARM64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x64.ActiveCfg = Release|x64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x64.Build.0 = Release|x64
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x86.ActiveCfg = Release|Win32
-		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
