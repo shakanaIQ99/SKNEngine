@@ -52,7 +52,7 @@ public:
 private:
 
 	/// <summary>
-	/// UŒ‚
+	/// æ”»æ’ƒ
 	/// </summary>
 	void Attack(XMFLOAT3 flont);
 
@@ -83,7 +83,7 @@ private:
 
 	XMFLOAT3 moveVec;
 
-	//HUDü‚è----------
+	//HUDå‘¨ã‚Š----------
 	std::unique_ptr<Sprite2D> sprite_Reticle;
 	std::unique_ptr<Sprite2D> sprite_Lock;
 	std::unique_ptr<Sprite2D> sprite_HPbar;
@@ -99,7 +99,7 @@ private:
 
 	XMFLOAT2 Lock2DPos = { 0,0 };
 
-	//’eŠÖ˜A
+	//å¼¾é–¢é€£
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 	const float MaxHP = 20.0f;
@@ -116,7 +116,7 @@ private:
 
 	bool Locked = false;
 
-	//ƒNƒCƒbƒNƒ_ƒbƒVƒ…ü‚è
+	//ã‚¯ã‚¤ãƒƒã‚¯ãƒ€ãƒƒã‚·ãƒ¥å‘¨ã‚Š
 
 	float dashspeed = 0.0f;
 
@@ -129,7 +129,7 @@ private:
 	int DashTimer = 0;
 	const int DashTime = 20;
 
-	//ƒWƒƒƒ“ƒvand‹ó’†ü‚è
+	//ã‚¸ãƒ£ãƒ³ãƒ—andç©ºä¸­å‘¨ã‚Š
 
 	bool OnGround = false;
 
@@ -146,7 +146,7 @@ private:
 	int JumpTimer = 0;
 	const int JumpTime = 20;
 
-	//ƒu[ƒXƒgƒQ[ƒW“I‚È‰½‚©-------
+	//ãƒ–ãƒ¼ã‚¹ãƒˆã‚²ãƒ¼ã‚¸çš„ãªä½•ã‹-------
 	const float ENGaugeSize = 15.0f;
 
 	int ENGauge = 0;
@@ -180,12 +180,12 @@ private:
 	//--------
 
 	/// <summary>
-	/// s—ñ‚ÆƒxƒNƒgƒ‹‚ÌŒvZ(¶‘¤‚ªs—ñŒvZ‚Ìæ)
+	/// è¡Œåˆ—ã¨ãƒ™ã‚¯ãƒˆãƒ«ã®è¨ˆç®—(å·¦å´ãŒè¡Œåˆ—è¨ˆç®—ã®å…ˆ)
 	/// </summary>
 	XMFLOAT3 VectorMat(XMFLOAT3 vector, XMMATRIX mat);
 
 	/// <summary>
-	/// s—ñ‚ÆƒxƒNƒgƒ‹‚ÌŒvZ(¶‘¤‚ªs—ñŒvZ‚Ìæ)
+	/// è¡Œåˆ—ã¨ãƒ™ã‚¯ãƒˆãƒ«ã®è¨ˆç®—(å·¦å´ãŒè¡Œåˆ—è¨ˆç®—ã®å…ˆ)
 	/// </summary>
 	XMFLOAT3 VectorMat(XMMATRIX mat, XMFLOAT3 vector);
 

@@ -10,9 +10,9 @@ using namespace Microsoft::WRL;
 
 struct PipelineSet
 {
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	ComPtr<ID3D12RootSignature> rootSignature;
-	//ƒpƒCƒvƒ‰ƒ“ƒXƒe[ƒg‚Ì¶¬
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã®ç”Ÿæˆ
 	ComPtr<ID3D12PipelineState> pipelineState;
 };
 
