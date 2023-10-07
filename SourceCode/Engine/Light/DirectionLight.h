@@ -41,7 +41,7 @@ public:
 
 	void SetLightColor(const XMFLOAT3& _lightcolor);
 
-	XMVECTOR GetLightDir() { return lightdir; }
+	XMVECTOR GetLightDir() { return DirectX::XMLoadFloat4(&lightdir); }
 
 	XMFLOAT3 GetLightColor() { return lightcolor; }
 
@@ -56,13 +56,14 @@ private:
 
 	ComPtr<ID3D12Resource> constBuff;
 
-	XMVECTOR lightdir = { 1,0,0,0 };
 
 	XMFLOAT3 lightcolor = { 1,1,1 };
 
 	bool dirty = false;
 
 	bool active = false;
+
+	XMFLOAT4 lightdir = { 1,0,0,0 };
 
 };
 

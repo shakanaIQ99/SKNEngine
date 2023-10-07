@@ -22,11 +22,11 @@ struct Node
 {
 	string name;
 
-	XMVECTOR scaling = { 1,1,1,0 };
+	XMFLOAT4 scaling = { 1,1,1,0 };
 
-	XMVECTOR rotation = { 0,0,0,0 };
+	XMFLOAT4 rotation = { 0,0,0,0 };
 
-	XMVECTOR translation = { 0,0,0,1 };
+	XMFLOAT4 translation = { 0,0,0,1 };
 
 	XMMATRIX transform;
 

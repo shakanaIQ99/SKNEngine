@@ -63,7 +63,7 @@ void DirectionLight::TransferConstBuffer()
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result))
 	{
-		constMap->lightv = -lightdir;
+		constMap->lightv = -DirectX::XMLoadFloat4(&lightdir);
 		constMap->lightcolor = lightcolor;
 		constBuff->Unmap(0, nullptr);
 	}
@@ -88,7 +88,8 @@ void DirectionLight::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamInde
 
 void DirectionLight::SetLightDir(const XMVECTOR& _lightdir)
 {
-	lightdir = XMVector3Normalize(_lightdir);
+	XMStoreFloat4(&lightdir, XMVector3Normalize(_lightdir));
+	//lightdir = XMVector3Normalize(_lightdir);
 	dirty = true;
 }
 

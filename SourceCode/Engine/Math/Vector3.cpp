@@ -64,7 +64,7 @@ bool Vector3::operator==(const Vector3& a) const
 
 bool Vector3::operator!=(const Vector3& a) const
 {
-	return false;
+	return this->x != a.x || this->y != a.y || this->z != a.z;
 }
 
 
