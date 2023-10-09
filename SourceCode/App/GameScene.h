@@ -92,6 +92,13 @@ private:
 
 	std::unique_ptr<Sprite2D> preTitle;
 	uint32_t preTitleHandle;
+
+	std::unique_ptr<Sprite2D> preTitle2;
+	uint32_t preTitleHandle2;
+
+	float tenmetu = 255.0f;
+
+	float decri = 3.0f;
 	
 	XMFLOAT3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;

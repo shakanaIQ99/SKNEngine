@@ -28,7 +28,9 @@ void Player::Init()
 	LockHandle = texMana->LoadTexture("Resources/Lock.png");
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
-	St->Wt.translation_.y = 10.0f;
+	St->Wt.translation_.y = -3.5f;
+	St->Wt.translation_.z = 14.0f;
+
 
 	HP = MaxHP;
 
@@ -513,6 +515,14 @@ void Player::DrawUI()
 	
 
 	
+}
+
+void Player::TitleUpdate()
+{
+	St->Wt.rotation_.y += 0.05f;
+
+	ImGuiSet();
+	St->Update(camera->getView());
 }
 
 XMFLOAT3 Player::VectorMat(XMFLOAT3 vector, XMMATRIX mat)

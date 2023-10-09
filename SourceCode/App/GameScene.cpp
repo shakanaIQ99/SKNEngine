@@ -24,6 +24,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
+	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");
 	
 
 	//3Dモデル周り
@@ -47,7 +48,11 @@ void GameScene::Init(DirectXCommon* dxcommon)
 
 	preTitle = std::make_unique<Sprite2D>();
 	preTitle->Initialize(spritecommon.get(), preTitleHandle);
-	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
+	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 4.5f ,0.0f };
+
+	preTitle2 = std::make_unique<Sprite2D>();
+	preTitle2->Initialize(spritecommon.get(), preTitleHandle2);
+	preTitle2->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f)+60.0f ,0.0f};
 
 
 	//パーティクル周り
@@ -172,8 +177,20 @@ void GameScene::ALLCol()
 
 void GameScene::TitleUpdate()
 {
+	if (tenmetu > 254.0f || tenmetu < 0.0f)
+	{
+		decri *= -1.0f;
+	}
+
+	tenmetu += decri;
+
+
+
+	preTitle2->Wt.color = { tenmetu / 255.0f ,tenmetu / 255.0f ,tenmetu / 255.0f ,tenmetu / 255.0f };
 	camera.Update();
 	preTitle->Update();
+	preTitle2->Update();
+	player.TitleUpdate();
 }
 
 void GameScene::GameUpdate()
@@ -197,9 +214,11 @@ void GameScene::TitleDraw(DirectXCommon* dxcommon)
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
 	skydome->Draw();
 	field.Draw();
+	player.Draw();
 	spritecommon->PreDraw();
 
-	//preTitle->Draw();
+	preTitle->Draw();
+	preTitle2->Draw();
 
 	spritecommon->PostDraw();
 }

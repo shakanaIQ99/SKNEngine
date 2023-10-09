@@ -25,6 +25,8 @@ public:
 
 	void DrawUI();
 
+	void TitleUpdate();
+
 	bool Death()
 	{
 		if (HP <= 0)
