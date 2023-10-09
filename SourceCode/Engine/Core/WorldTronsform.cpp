@@ -58,8 +58,9 @@ void WorldTransform::UpdateMatrix(ViewProjection* camera)
 	//if (parent_) {
 	//	matWorld_ *= parent_->matWorld_;
 	//}
+	HRESULT result;
 
-	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	assert(SUCCEEDED(result));
 	// 定数バッファに書き込み
 	constMap->color = color;
@@ -137,8 +138,9 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 	//if (parent_) {
 	//	matWorld_ *= parent_->matWorld_;
 	//}
+	HRESULT result;
 
-	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	assert(SUCCEEDED(result));
 
 	// 定数バッファに書き込み
@@ -172,7 +174,9 @@ void WorldTransform::UpdateSpriteMatrix(XMMATRIX projection)
 	//    matWorld_ *= parent_->matWorld_;
 	//}
 
-	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	HRESULT result;
+
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	assert(SUCCEEDED(result));
 
 	// 定数バッファに書き込み

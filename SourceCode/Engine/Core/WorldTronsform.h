@@ -59,4 +59,6 @@ struct WorldTransform {
 	void UpdateMatrixBill(ViewProjection* camera);
 
 	void UpdateSpriteMatrix(XMMATRIX projection);
+
+
 };
