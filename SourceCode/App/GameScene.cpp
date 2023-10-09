@@ -6,18 +6,19 @@
 
 void GameScene::Init(DirectXCommon* dxcommon)
 {
-	spritecommon = new SpriteCommon();
+	spritecommon = std::make_unique<SpriteCommon>();
 	spritecommon->Initialize(dxcommon);
 
 	texturemanager = TextureManager::GetInstance();
 	texturemanager->StaticInitialize(dxcommon);
-	light = LightGroup::Create();
-	OBJ3D::SetLight(light);
+	light= std::make_unique<LightGroup>();
+	light.reset(LightGroup::Create());
+	OBJ3D::SetLight(light.get());
 	camera.Initialize(dxcommon->GetDevice());
 	Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
-	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);
+	StuructTransform::SetStruct(&camera, spritecommon.get(), texturemanager);
 
 	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
@@ -36,7 +37,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	boss.Init();
 	player.Init();
 
-	camera.setTarget(&player.St->Wt);
+	
 
 	boss.SetPlayer(&player);
 	player.SetEnemy(&boss.St->Wt);
@@ -45,7 +46,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//スプライト周り
 
 	preTitle = std::make_unique<Sprite2D>();
-	preTitle->Initialize(spritecommon,preTitleHandle);
+	preTitle->Initialize(spritecommon.get(), preTitleHandle);
 	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
 
 
@@ -90,6 +91,7 @@ void GameScene::Update()
 		{
 			scene = SceneType::GAMESCENE;
 			player.Reset();
+			camera.setTarget(&player.St->Wt);
 			boss.Reset();
 		}
 		break;
@@ -197,7 +199,7 @@ void GameScene::TitleDraw(DirectXCommon* dxcommon)
 	field.Draw();
 	spritecommon->PreDraw();
 
-	preTitle->Draw();
+	//preTitle->Draw();
 
 	spritecommon->PostDraw();
 }

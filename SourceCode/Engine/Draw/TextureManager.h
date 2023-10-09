@@ -46,7 +46,6 @@ public:
 
 	static TextureManager* GetInstance();
 
-	void DeleteInstance();
 
 private:
 
@@ -60,7 +59,7 @@ private:
 
 	DirectXCommon* dxCommon;
 
-	static TextureManager* texManager;
+	static std::shared_ptr<TextureManager> texManager;
 
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 

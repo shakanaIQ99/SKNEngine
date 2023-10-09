@@ -1,5 +1,5 @@
 #include "TextureManager.h"
-TextureManager* TextureManager::texManager = nullptr;
+std::shared_ptr<TextureManager> TextureManager::texManager;
 vector<string>TextureManager::FilePaths;
 unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 
@@ -67,15 +67,10 @@ TextureManager* TextureManager::GetInstance()
 {
 	if (!texManager)
 	{
-		texManager = new TextureManager();
+		texManager = std::make_shared<TextureManager>();
 	}
 
-	return texManager;
-}
-
-void TextureManager::DeleteInstance()
-{
-	delete texManager;
+	return texManager.get();
 }
 
 void TextureManager::FileLoad(const string& path, TexMetadata& metadata, ScratchImage& scratchImg)

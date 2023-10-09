@@ -1,6 +1,6 @@
 #include"DxWindow.h"
 #include"DirectXCommon.h"
-#include"Object3D.h"
+//#include"Object3D.h"
 #include "OBJ3D.h"
 #include"Input.h"
 #include<wrl.h>
@@ -9,7 +9,7 @@
 #include<iomanip>
 #include"ImGuiManager.h"
 #include"FPS.h"
-#include"FbxLoader.h"
+//#include"FbxLoader.h"
 #include"ParticleManager.h"
 #include"PostEffect.h"
 #include"SpriteCommon.h"
@@ -30,7 +30,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 
 	DxWindow* window = nullptr;
-	GameScene* gameScene = nullptr;
+	unique_ptr<GameScene>gameScene;
 
 	window = DxWindow::GetInstance();
 	window->CreateGameWindow();
@@ -43,12 +43,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		debugController->SetEnableGPUBasedValidation(TRUE);
 	}
 #endif	
-	DirectXCommon* dxCommon = nullptr;
-	dxCommon = new DirectXCommon();
+	unique_ptr<DirectXCommon>dxCommon;
+	dxCommon = std::make_unique<DirectXCommon>();
 	dxCommon->Initialize(window);
-	ImGuiManager::Initialize(window->GetHwnd(), dxCommon);
+	ImGuiManager::Initialize(window->GetHwnd(), dxCommon.get());
 
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	//FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Input::Init(window->GetHInstance(), window->GetHwnd());
 
 	OBJ3D::StaticInitialize(dxCommon->GetDevice());
@@ -57,21 +57,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Draw3DLine::SetDevice(dxCommon->GetDevice(),dxCommon->GetCommandList());
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
-	PostEffect::SetDXCommon(dxCommon);
+	PostEffect::SetDXCommon(dxCommon.get());
 	PostEffect::CreateGraphicsPipeline();
 
 	
-
-	PostEffect* postEffect = nullptr;
-	postEffect = new PostEffect();
+	unique_ptr<PostEffect>postEffect;
+	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
 
 	unique_ptr<FPS>fps;
 	fps = std::make_unique<FPS>();
 	fps->Initialize();
 
-	gameScene = new GameScene();
-	gameScene->Init(dxCommon);
+	gameScene = std::make_unique<GameScene>();
+	gameScene->Init(dxCommon.get());
 
 	
 	while (true)
@@ -87,7 +86,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 
 		postEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw(dxCommon);
+		gameScene->Draw(dxCommon.get());
 		postEffect->PostDrawScene(dxCommon->GetCommandList());
 		
 		dxCommon->PreDraw();
@@ -103,10 +102,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	
 	gameScene->Finalize();
-	FbxLoader::GetInstance()->Finalize();
-	complete_type_safe_delete(gameScene);
-	complete_type_safe_delete(postEffect);
+	//FbxLoader::GetInstance()->Finalize();
 	ImGuiManager::Finalize();
-	complete_type_safe_delete(dxCommon);
 	window->TerminateGameWindow();
 }

@@ -30,7 +30,8 @@ class GameScene
 {
 
 private:
-	SpriteCommon* spritecommon = nullptr;
+	std::unique_ptr <SpriteCommon> spritecommon;
+
 	TextureManager* texturemanager;
 
 
@@ -46,10 +47,6 @@ public:
 
 	void Finalize()
 	{
-		delete spritecommon;
-		texturemanager->DeleteInstance();
-		delete light;
-
 		delete skydome_model;
 		delete skydome;
 	}
@@ -85,7 +82,7 @@ private:
 
 private:
 	Camera camera;
-	LightGroup* light = nullptr;
+	std::unique_ptr<LightGroup> light;
 
 	ObjModel* skydome_model = nullptr;
 	OBJ3D* skydome = nullptr;
