@@ -89,7 +89,7 @@ private:
 	static ComPtr<ID3D12Resource> vertBuff;
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
 
-	TextureData* tex;
+	shared_ptr<TextureData> tex;
 
 	WorldTransform wt;
 	

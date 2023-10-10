@@ -45,13 +45,6 @@ public:
 
 	void ALLCol();
 
-	void Finalize()
-	{
-		delete skydome_model;
-		delete skydome;
-	}
-
-	
 
 private:
 
@@ -83,12 +76,6 @@ private:
 private:
 	Camera camera;
 	std::unique_ptr<LightGroup> light;
-
-	ObjModel* skydome_model = nullptr;
-	OBJ3D* skydome = nullptr;
-
-	//ObjModel* field_model = nullptr;
-	//OBJ3D* field = nullptr;
 
 	std::unique_ptr<Sprite2D> preTitle;
 	uint32_t preTitleHandle;

@@ -51,7 +51,7 @@ private:
 
 public:
 
-	void SetModel(ObjModel* _model) { model = _model; }
+	void SetModel(ObjModel* _model) { model.reset(_model); }
 
 	bool Initialize();
 
@@ -75,7 +75,7 @@ private:
 
 private:
 
-	ObjModel* model = nullptr;
+	shared_ptr<ObjModel> model;
 
 
 

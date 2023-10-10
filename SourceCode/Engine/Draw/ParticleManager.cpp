@@ -10,7 +10,7 @@ ParticleManager::VertexPos ParticleManager::vertices[vertexCount];
 
 ParticleManager::ParticleManager(uint32_t handle)
 {
-	tex = TextureManager::GetTextureData(handle);
+	tex.reset(TextureManager::GetTextureData(handle));
 }
 
 void ParticleManager::StaticInitialize(ID3D12Device* _device)

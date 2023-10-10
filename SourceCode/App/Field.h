@@ -21,8 +21,11 @@ private:
 
 	Camera* camera;
 
-	std::unique_ptr<OBJ3D> St;
-	std::unique_ptr<ObjModel> model;
+	std::unique_ptr<OBJ3D> ground;
+	std::unique_ptr<ObjModel> ground_model;
+
+	std::unique_ptr<OBJ3D> skydome;
+	std::unique_ptr<ObjModel> skydome_model;
 
 	const float UpAreaLimit = 100.0f;
 
