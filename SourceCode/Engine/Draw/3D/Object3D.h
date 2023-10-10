@@ -32,7 +32,6 @@ public:
 		XMMATRIX bones[MAX_BONES];
 	};
 
-	static void SetDevice(ID3D12Device* Device) { Object3D::device = Device; }
 	static void SetCamera(ViewProjection* Camera) { Object3D::camera = Camera; }
 	static void CreateGraphicsPipeline();
 
@@ -47,8 +46,6 @@ public:
 	void PlayAnimation();
 
 private:
-
-	static ID3D12Device* device;
 
 	static ViewProjection* camera;
 

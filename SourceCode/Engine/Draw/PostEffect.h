@@ -17,15 +17,14 @@ public:
     //void SetDevice();
 
     static void CreateGraphicsPipeline();
-    static void SetDXCommon(DirectXCommon* dxcommon) { PostEffect::dxCommon = dxcommon; }
 
     void Initialize();
 
-    void PreDrawScene(ID3D12GraphicsCommandList* cmdlist);
+    void PreDrawScene();
 
-    void PostDrawScene(ID3D12GraphicsCommandList* cmdlist);
+    void PostDrawScene();
 
-    void Draw(ID3D12GraphicsCommandList* cmdlist);
+    void Draw();
 
     void CreateRTV();
 
@@ -59,7 +58,6 @@ private:
     };
 
     static PipelineSet pipeline;
-    static DirectXCommon* dxCommon;
    
 
     ComPtr<ID3D12Resource> TexBuff;

@@ -5,6 +5,7 @@
 #include "WorldTronsform.h"
 #include"Pipeline.h"
 #include <wrl.h>
+
 class Draw3DLine
 {
 public:
@@ -15,9 +16,7 @@ public:
 
 	void SetColor(XMFLOAT4 _color){color = _color;}
 
-	static void SetDevice(ID3D12Device* _device, ID3D12GraphicsCommandList* _cmdList);
-
-	static void CreateGraphicsPipeline(){pipeline = Pipeline::Create3DLinePipeline(device);}
+	static void CreateGraphicsPipeline();
 
 	static void SetCamera(Camera* _camera){camera = _camera;}
 
@@ -37,8 +36,6 @@ private:
 		XMFLOAT4 color;
 	};
 
-	static ID3D12Device* device;
-	static ID3D12GraphicsCommandList* cmdList;
 	static PipelineSet pipeline;
 	static Camera* camera;
 

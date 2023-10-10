@@ -4,17 +4,27 @@
 #include"Input.h"
 #include"Collision.h"
 
-void GameScene::Init(DirectXCommon* dxcommon)
+void GameScene::Finalize()
+{
+	preTitle.reset();
+	preTitle2.reset();
+
+	spritecommon.reset();
+	light.reset();
+	delete texturemanager;
+}
+
+void GameScene::Init()
 {
 	spritecommon = std::make_unique<SpriteCommon>();
-	spritecommon->Initialize(dxcommon);
+	spritecommon->Initialize();
 
 	texturemanager = TextureManager::GetInstance();
-	texturemanager->StaticInitialize(dxcommon);
+	texturemanager->StaticInitialize();
 	light= std::make_unique<LightGroup>();
 	light.reset(LightGroup::Create());
 	OBJ3D::SetLight(light.get());
-	camera.Initialize(dxcommon->GetDevice());
+	camera.Initialize();
 	Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
@@ -110,15 +120,15 @@ void GameScene::Update()
 
 }
 
-void GameScene::Draw(DirectXCommon* dxcommon)
+void GameScene::Draw()
 {
 	switch (scene)
 	{
 	case SceneType::TITLE:
-		TitleDraw(dxcommon);
+		TitleDraw();
 		break;
 	case SceneType::GAMESCENE:
-		GameDraw(dxcommon);
+		GameDraw();
 		break;
 	}
 	
@@ -172,6 +182,8 @@ void GameScene::ALLCol()
 
 }
 
+
+
 void GameScene::TitleUpdate()
 {
 	if (tenmetu > 254.0f || tenmetu < 0.0f)
@@ -205,22 +217,18 @@ void GameScene::GameUpdate()
 	boss.Update();
 }
 
-void GameScene::TitleDraw(DirectXCommon* dxcommon)
+void GameScene::TitleDraw()
 {
-	OBJ3D::PreDraw(dxcommon->GetCommandList());
 	field.Draw();
 	player.Draw();
 	spritecommon->PreDraw();
 
 	preTitle->Draw();
 	preTitle2->Draw();
-
-	spritecommon->PostDraw();
 }
 
-void GameScene::GameDraw(DirectXCommon* dxcommon)
+void GameScene::GameDraw()
 {
-	OBJ3D::PreDraw(dxcommon->GetCommandList());
 
 	field.Draw();
 
@@ -247,7 +255,6 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 	//sprite->Draw({ 0,0 });
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
 
-	spritecommon->PostDraw();
 
 }
 

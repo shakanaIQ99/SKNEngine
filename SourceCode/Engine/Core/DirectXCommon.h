@@ -15,28 +15,30 @@ class DirectXCommon
 {
 public:
 
-	DirectXCommon();
-
 	void Initialize(DxWindow* win, int32_t BackBufferWidth = DxWindow::window_width, int32_t BackBufferHeight = DxWindow::window_height);
 
 	void PreDraw();
 
 	void PostDraw();
 
+	void Destroy();
+
 	/// <returns>デバイス</returns>
-	ID3D12Device* GetDevice() const { return device.Get(); }
+	ComPtr<ID3D12Device> GetDevice() { return device; }
 
 	/// <summary>
 	/// 描画コマンドリストの取得
 	/// </summary>
 	/// <returns>描画コマンドリスト</returns>
-	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
+	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return commandList; }
 
 	DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }
 
 	size_t GetBackBufferCount()const { return backBuffers.size(); }
 
 	//DescriptorHeap* GetDescriptorHeap()const { return descHeap.get(); }
+
+	static DirectXCommon* GetInstance();
 
 private:
 
@@ -79,6 +81,12 @@ private:
 	void InitializeDepthBuffer();
 
 	void InitializeFence();
+
+	DirectXCommon() = default;
+	~DirectXCommon() = default;
+
+	DirectXCommon& operator=(const DirectXCommon&) = delete;
+	DirectXCommon(const DirectXCommon&) = delete;
 
 };
 

@@ -16,27 +16,18 @@ class SpriteCommon
 {
 
 public:
-    void Initialize(DirectXCommon* _dxcommon);
+    void Initialize();
 
     //void InitializeGraphicsPipeline();
 
     void PreDraw();
 
-    void PostDraw();
-
     void DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
-
-    DirectXCommon* GetDirextXCommon() { return dxcommon; }
 
     XMMATRIX Getmat() { return matProjection; }
 
 private:
-
-    DirectXCommon* dxcommon;
-
     PipelineSet spritepipline;
-
-    ID3D12GraphicsCommandList* commandList;
 
     XMMATRIX matProjection{};
 };

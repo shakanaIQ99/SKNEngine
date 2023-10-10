@@ -5,9 +5,8 @@ void Sprite2D::Initialize(SpriteCommon* _spritecommon,uint32_t handle)
 	spritecommon = _spritecommon;
 	tex.reset(TextureManager::GetTextureData(handle));
 
-	device = spritecommon->GetDirextXCommon()->GetDevice();
 	CreateVertexIndexBuffer();
-	Wt.CreateConstBuffer(device);
+	Wt.CreateConstBuffer();
 
 	
 }
@@ -98,9 +97,9 @@ void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX, bool fl
 void Sprite2D::CreateVertexIndexBuffer()
 {
 	vertexBuffer = make_unique<VertexBuffer>();
-	vertexBuffer->Create(device, 4, sizeof(VertexPos));
+	vertexBuffer->Create(4, sizeof(VertexPos));
 
 	indexBuffer = make_unique<IndexBuffer>();
-	indexBuffer->Create(device, 6);
+	indexBuffer->Create(6);
 }
 

@@ -43,21 +43,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		debugController->SetEnableGPUBasedValidation(TRUE);
 	}
 #endif	
-	unique_ptr<DirectXCommon>dxCommon;
-	dxCommon = std::make_unique<DirectXCommon>();
-	dxCommon->Initialize(window);
-	ImGuiManager::Initialize(window->GetHwnd(), dxCommon.get());
+	DirectXCommon::GetInstance()->Initialize(window);
+	ImGuiManager::Initialize(window->GetHwnd());
 
 	//FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Input::Init(window->GetHInstance(), window->GetHwnd());
 
-	OBJ3D::StaticInitialize(dxCommon->GetDevice());
-	Object3D::SetDevice(dxCommon->GetDevice());
+	OBJ3D::StaticInitialize();
 	Object3D::CreateGraphicsPipeline();
-	Draw3DLine::SetDevice(dxCommon->GetDevice(),dxCommon->GetCommandList());
-	ParticleManager::StaticInitialize(dxCommon->GetDevice());
-	LightGroup::StaticInitialize(dxCommon->GetDevice());
-	PostEffect::SetDXCommon(dxCommon.get());
+	Draw3DLine::CreateGraphicsPipeline();
+	ParticleManager::StaticInitialize();
 	PostEffect::CreateGraphicsPipeline();
 
 	
@@ -70,7 +65,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	fps->Initialize();
 
 	gameScene = std::make_unique<GameScene>();
-	gameScene->Init(dxCommon.get());
+	gameScene->Init();
 
 	
 	while (true)
@@ -85,22 +80,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		gameScene->Update();
 
 
-		postEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw(dxCommon.get());
-		postEffect->PostDrawScene(dxCommon->GetCommandList());
+		postEffect->PreDrawScene();
+		gameScene->Draw();
+		postEffect->PostDrawScene();
 		
-		dxCommon->PreDraw();
-		postEffect->Draw(dxCommon->GetCommandList());
+		DirectXCommon::GetInstance()->PreDraw();
+		postEffect->Draw();
 		//gameScene->Draw(dxCommon);
 
 		ImGuiManager::Draw();
-		dxCommon->PostDraw();
+		DirectXCommon::GetInstance()->PostDraw();
 
 		fps->Update();
 
 	}
 
 	//FbxLoader::GetInstance()->Finalize();
+	gameScene->Finalize();
+	gameScene.reset();
+	postEffect.reset();
 	ImGuiManager::Finalize();
+	DirectXCommon::GetInstance()->Destroy();
 	window->TerminateGameWindow();
 }

@@ -5,10 +5,8 @@ unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 
 
 
-void TextureManager::StaticInitialize(DirectXCommon* dxcommon)
+void TextureManager::StaticInitialize()
 {
-	dxCommon = dxcommon;
-
 	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	texHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
@@ -98,7 +96,7 @@ TextureData* TextureManager::LoadFromTextureData(const string& path)
 	ScratchImage scratchImg{};
 	ScratchImage mipChain{};
 
-	texdata->srvHeap = dxCommon->GetDescriptorHeap()->GetHeap();
+	texdata->srvHeap = DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap();
 
 	FileLoad(path, metadata, scratchImg);
 
@@ -138,7 +136,7 @@ ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(TexMetadata& metadata, Scra
 	rsDesc.MipLevels = (UINT16)metadata.mipLevels;
 	rsDesc.SampleDesc.Count = 1;
 
-	result = dxCommon->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&texHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&rsDesc,	//リソース設定
@@ -172,7 +170,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::CreateSRV(ID3D12Resource* texBuff, T
 
 	D3D12_GPU_DESCRIPTOR_HANDLE srvgpudesc;
 
-	srvgpudesc.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff);
+	srvgpudesc.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff);
 
 	return srvgpudesc;
 }

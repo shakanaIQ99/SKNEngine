@@ -37,7 +37,6 @@ protected:
     void CreateVertexIndexBuffer();
 
     SpriteCommon* spritecommon = nullptr;
-    ID3D12Device* device = nullptr;
 
     std::unique_ptr<VertexBuffer> vertexBuffer = {};
 

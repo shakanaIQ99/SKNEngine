@@ -98,7 +98,7 @@ public:
 	
 	
 
-	void CreateBuffers(ID3D12Device* device);
+	void CreateBuffers();
 
 
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }

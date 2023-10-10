@@ -33,13 +33,11 @@ public:
 	};
 
 public: 
-	static void StaticInitialize(ID3D12Device* device);
-
 	
 	static LightGroup* Create();
 
 private: 
-	static ComPtr<ID3D12Device> device;
+
 
 public: 
 	void Initialize();
@@ -48,7 +46,7 @@ public:
 	void Update();
 
 	
-	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndex);
+	void Draw(UINT rootParamIndex);
 
 	
 	void TransferConstBuffer();

@@ -1,6 +1,7 @@
 #include "VertexBuffer.h"
+#include"DirectXCommon.h"
 
-void VertexBuffer::Create(ID3D12Device* device, size_t length, size_t singleSize, const void* data)
+void VertexBuffer::Create(size_t length, size_t singleSize, const void* data)
 {
 	// ヒープ設定
 	D3D12_HEAP_PROPERTIES heapProp{};
@@ -22,7 +23,7 @@ void VertexBuffer::Create(ID3D12Device* device, size_t length, size_t singleSize
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// リソースを生成
-	HRESULT result = device->CreateCommittedResource(
+	HRESULT result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,

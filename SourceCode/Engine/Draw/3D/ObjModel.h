@@ -68,13 +68,10 @@ public:
 
 	static ObjModel* LoadFromOBJ(const string& modelname, bool smoothing = false);
 
-	static void SetDevice(ID3D12Device* _device) { ObjModel::device = _device; }
 
-	void Draw(ID3D12GraphicsCommandList* commandList, UINT rootParamIndexMaterial);
+	void Draw(UINT rootParamIndexMaterial);
 
 private:
-
-	static ID3D12Device* device;
 
 	void LoadFromOBJInternal(const string& modelname,bool smoothing);
 

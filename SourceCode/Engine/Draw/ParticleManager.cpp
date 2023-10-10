@@ -1,6 +1,4 @@
 #include "ParticleManager.h"
-ID3D12Device* ParticleManager::device = nullptr;
-ID3D12GraphicsCommandList* ParticleManager::commandList;
 PipelineSet ParticleManager::ParPipeline;
 ComPtr<ID3D12Resource> ParticleManager::vertBuff;
 D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
@@ -13,28 +11,24 @@ ParticleManager::ParticleManager(uint32_t handle)
 	tex.reset(TextureManager::GetTextureData(handle));
 }
 
-void ParticleManager::StaticInitialize(ID3D12Device* _device)
+void ParticleManager::StaticInitialize()
 {
-	assert(_device);
-	ParticleManager::device = _device;
-	ParPipeline = Pipeline::CreateParticlePipline(device);
+	ParPipeline = Pipeline::CreateParticlePipline(DirectXCommon::GetInstance()->GetDevice().Get());
 	CreateModel();
 
 }
 
-void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList)
+void ParticleManager::PreDraw()
 {
-	commandList = cmdList;
-
-	commandList->SetPipelineState(ParPipeline.pipelineState.Get());
-	commandList->SetGraphicsRootSignature(ParPipeline.rootSignature.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetPipelineState(ParPipeline.pipelineState.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootSignature(ParPipeline.rootSignature.Get());
 	// プリミティブ形状の設定コマンド
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
 void ParticleManager::PostDraw()
 {
-	ParticleManager::commandList = nullptr;
+	
 }
 
 void ParticleManager::CreateModel()
@@ -65,7 +59,7 @@ void ParticleManager::CreateModel()
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,
@@ -112,7 +106,7 @@ ParticleManager* ParticleManager::Create(uint32_t Handle)
 
 bool ParticleManager::Initialize()
 {
-	wt.CreateConstBuffer(device);
+	wt.CreateConstBuffer();
 	
 	return true;
 }
@@ -162,16 +156,16 @@ void ParticleManager::Update(ViewProjection* camera)
 
 void ParticleManager::Draw()
 {
-	commandList->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetVertexBuffers(0, 1, &vbView);
 
-	commandList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = tex->gpuHandle;
 
-	commandList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
-	commandList->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
 
-	commandList->DrawInstanced((UINT)std::distance(particle.begin(), particle.end()), 1, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->DrawInstanced((UINT)std::distance(particle.begin(), particle.end()), 1, 0, 0);
 
 }
 

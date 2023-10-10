@@ -30,10 +30,7 @@ public:
 	OBJ3D();
 
 
-	static void StaticInitialize(ID3D12Device* device);
-
-	/// <param name="cmdList">描画コマンドリスト</param>
-	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
+	static void StaticInitialize();
 
 	static OBJ3D* Create();
 
@@ -41,10 +38,7 @@ public:
 
 private:
 
-	static ID3D12Device* device;
-
 	// コマンドリスト
-	static ID3D12GraphicsCommandList* commandList;
 
 	static LightGroup* lightGroup;
 

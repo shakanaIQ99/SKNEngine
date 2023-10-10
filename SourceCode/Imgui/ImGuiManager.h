@@ -11,7 +11,7 @@ class ImGuiManager
 
 public:
 
-	static void Initialize(HWND hwnd, DirectXCommon* dxcommon);
+	static void Initialize(HWND hwnd);
 
 	static void Finalize();
 
@@ -22,8 +22,6 @@ public:
 	static void Draw();
 
 private:
-
-	static DirectXCommon* dxCommon;
 
 	static ComPtr<ID3D12DescriptorHeap>srvheap;
 

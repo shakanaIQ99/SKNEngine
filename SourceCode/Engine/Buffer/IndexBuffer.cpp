@@ -1,6 +1,7 @@
 #include "IndexBuffer.h"
+#include"DirectXCommon.h"
 
-void IndexBuffer::Create(ID3D12Device* device, size_t length, const void* data)
+void IndexBuffer::Create(size_t length, const void* data)
 {
 	bufferLength = length;
 
@@ -23,7 +24,7 @@ void IndexBuffer::Create(ID3D12Device* device, size_t length, const void* data)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// リソースを生成
-	HRESULT result = device->CreateCommittedResource(
+	HRESULT result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,

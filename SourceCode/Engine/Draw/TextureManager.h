@@ -36,7 +36,7 @@ class TextureManager
 
 public:
 
-	void StaticInitialize(DirectXCommon* dxcommon);
+	void StaticInitialize();
 	
 	uint32_t LoadTexture(const string& path);
 
@@ -56,8 +56,6 @@ private:
 	ComPtr<ID3D12Resource>CreateTexBuff(TexMetadata& metadata, ScratchImage& scratchImg);
 
 	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12Resource* texBuff, TexMetadata& metadata);
-
-	DirectXCommon* dxCommon;
 
 	static std::shared_ptr<TextureManager> texManager;
 

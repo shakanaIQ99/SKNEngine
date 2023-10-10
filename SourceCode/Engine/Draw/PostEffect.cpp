@@ -8,11 +8,10 @@ using namespace DirectX;
 
 const float PostEffect::clearcolor[4] = { 0.0f,0.0f,0.0f,0.0f };
 PipelineSet PostEffect::pipeline;
-DirectXCommon* PostEffect::dxCommon = nullptr;
 
 void PostEffect::CreateGraphicsPipeline()
 {
-	pipeline = Pipeline::CreatePostEffectPipeline(dxCommon->GetDevice());
+	pipeline = Pipeline::CreatePostEffectPipeline(DirectXCommon::GetInstance()->GetDevice().Get());
 }
 
 void PostEffect::Initialize()
@@ -38,45 +37,45 @@ void PostEffect::Initialize()
 
 }
 
-void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdlist)
+void PostEffect::PreDrawScene()
 {
 	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff.Get(),
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	cmdlist->ResourceBarrier(1, &barrier);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->ResourceBarrier(1, &barrier);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = dsvHeap->GetCPUDescriptorHandleForHeapStart();
 
-	cmdlist->OMSetRenderTargets(1, &rtvH, false, &dsvH);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
 	auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, DxWindow::window_width, DxWindow::window_height);
 
-	cmdlist->RSSetViewports(1, &viewport);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->RSSetViewports(1, &viewport);
 
 	auto scissorRects = CD3DX12_RECT(0, 0, DxWindow::window_width, DxWindow::window_height);
 
-	cmdlist->RSSetScissorRects(1, &scissorRects);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->RSSetScissorRects(1, &scissorRects);
 
-	cmdlist->ClearRenderTargetView(rtvH, clearcolor, 0, nullptr);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->ClearRenderTargetView(rtvH, clearcolor, 0, nullptr);
 
-	cmdlist->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 
 }
 
-void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdlist)
+void PostEffect::PostDrawScene()
 {
 	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff.Get(),
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	cmdlist->ResourceBarrier(1, &barrier);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->ResourceBarrier(1, &barrier);
 }
 
-void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
+void PostEffect::Draw()
 {
 	
 	VertexPos vertices[] =
@@ -101,27 +100,27 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 
 	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
 
-	cmdlist->SetPipelineState(pipeline.pipelineState.Get());
-	cmdlist->SetGraphicsRootSignature(pipeline.rootSignature.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetPipelineState(pipeline.pipelineState.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootSignature(pipeline.rootSignature.Get());
 
 	//spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
 
 	// 頂点バッファビューの設定コマンド
-	cmdlist->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetVertexBuffers(0, 1, &vbView);
 
-	cmdlist->IASetIndexBuffer(&ibView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetIndexBuffer(&ibView);
 	//プリミティブ形状の設定コマンド
-	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	//cmdlist->SetDescriptorHeaps(1, dxCommon->GetDescriptorHeap()->GetHeap().GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = gpuHandle;
 
-	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
-	cmdlist->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
 	// 描画コマンド
-	cmdlist->DrawIndexedInstanced(6, 1, 0, 0, 0); // 全ての頂点を使って描画
+	DirectXCommon::GetInstance()->GetCommandList().Get()->DrawIndexedInstanced(6, 1, 0, 0, 0); // 全ての頂点を使って描画
 }
 
 void PostEffect::CreateRTV()
@@ -133,7 +132,7 @@ void PostEffect::CreateRTV()
 	rtvDescHeapDesc.NumDescriptors = 1;
 
 	HRESULT result;
-	result = dxCommon->GetDevice()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap));
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap));
 	assert(SUCCEEDED(result));
 
 	D3D12_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
@@ -141,7 +140,7 @@ void PostEffect::CreateRTV()
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	dxCommon->GetDevice()->CreateRenderTargetView(TexBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	DirectXCommon::GetInstance()->GetDevice().Get()->CreateRenderTargetView(TexBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
 
 }
 
@@ -153,14 +152,14 @@ void PostEffect::CreateDSV()
 
 	HRESULT result;
 
-	result = dxCommon->GetDevice()->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&dsvHeap));
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
 	assert(SUCCEEDED(result));
 
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	dxCommon->GetDevice()->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, dsvHeap->GetCPUDescriptorHandleForHeapStart());
+	DirectXCommon::GetInstance()->GetDevice().Get()->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, dsvHeap->GetCPUDescriptorHandleForHeapStart());
 
 
 }
@@ -184,7 +183,7 @@ void PostEffect::CreateTexBuff()
 
 	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearcolor);
 
-	result = dxCommon->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&texHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&rsDesc,	//リソース設定
@@ -218,7 +217,7 @@ void PostEffect::CreateSRV()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	gpuHandle.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, TexBuff.Get());
+	gpuHandle.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, TexBuff.Get());
 }
 
 void PostEffect::CreateDepth()
@@ -239,7 +238,7 @@ void PostEffect::CreateDepth()
 
 	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0);
 
-	result = dxCommon->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&heapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&depthDesc,	//リソース設定
@@ -255,10 +254,10 @@ void PostEffect::CreateDepth()
 void PostEffect::CreateBuffer()
 {
 	vertexBuffer = make_unique<VertexBuffer>();
-	vertexBuffer->Create(dxCommon->GetDevice(), 4, sizeof(VertexPos));
+	vertexBuffer->Create(4, sizeof(VertexPos));
 
 	indexBuffer = make_unique<IndexBuffer>();
-	indexBuffer->Create(dxCommon->GetDevice(), 6);
+	indexBuffer->Create(6);
 	HRESULT result;
 
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -268,7 +267,7 @@ void PostEffect::CreateBuffer()
 	auto rsDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff);
 
 	//定数バッファの生成
-	result = dxCommon->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&rsDesc,	//リソース設定

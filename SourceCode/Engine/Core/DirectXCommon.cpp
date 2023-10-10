@@ -5,14 +5,7 @@
 #pragma comment(lib,"dxgi.lib")
 
 
-
-DirectXCommon::DirectXCommon()
-{
-	backBufferWidth = 0;
-	backBufferHeight = 0;
-
-	fenceVal = 0;
-}
+DirectXCommon* directX = nullptr;
 
 void DirectXCommon::Initialize(DxWindow* win, int32_t BackBufferWidth, int32_t BackBufferHeight)
 {
@@ -125,6 +118,18 @@ void DirectXCommon::PostDraw()
 	result = commandList->Reset(commandAllocator.Get(), nullptr);
 	assert(SUCCEEDED(result));
 
+}
+
+void DirectXCommon::Destroy()
+{
+	directX = nullptr;
+}
+
+DirectXCommon* DirectXCommon::GetInstance()
+{
+	static DirectXCommon instance;
+
+	return &instance;
 }
 
 void DirectXCommon::InitializeDXGIdevice()

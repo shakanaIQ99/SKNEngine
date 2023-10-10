@@ -1,15 +1,14 @@
 #include "Draw3DLine.h"
+#include "DirectXCommon.h"
 
-ID3D12Device* Draw3DLine::device;
-ID3D12GraphicsCommandList* Draw3DLine::cmdList;
 PipelineSet Draw3DLine::pipeline;
 Camera* Draw3DLine::camera = nullptr;
 void Draw3DLine::Init()
 {
-	wt.CreateConstBuffer(device);
+	wt.CreateConstBuffer();
 	CreateColorBuff();
 	vertexBuffer = std::make_unique<VertexBuffer>();
-	vertexBuffer->Create(device, 2, sizeof(VertexPos));
+	vertexBuffer->Create(2, sizeof(VertexPos));
 }
 
 void Draw3DLine::Draw(XMFLOAT3 startpos, XMFLOAT3 endpos)
@@ -28,23 +27,21 @@ void Draw3DLine::Draw(XMFLOAT3 startpos, XMFLOAT3 endpos)
 
 	vbView = vertexBuffer->GetView();
 
-	cmdList->SetPipelineState(pipeline.pipelineState.Get());
-	cmdList->SetGraphicsRootSignature(pipeline.rootSignature.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetPipelineState(pipeline.pipelineState.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootSignature(pipeline.rootSignature.Get());
 
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetVertexBuffers(0, 1, &vbView);
 
-	cmdList->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
-	cmdList->SetGraphicsRootConstantBufferView(1, constBuffB1->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(1, constBuffB1->GetGPUVirtualAddress());
 
-	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->DrawInstanced(_countof(vertices), 1, 0, 0);
 }
 
-void Draw3DLine::SetDevice(ID3D12Device* _device, ID3D12GraphicsCommandList* _cmdList)
+void Draw3DLine::CreateGraphicsPipeline()
 {
-	device = _device;
-	cmdList = _cmdList;
-	CreateGraphicsPipeline();
+	pipeline = Pipeline::Create3DLinePipeline(DirectXCommon::GetInstance()->GetDevice().Get());
 }
 
 void Draw3DLine::CreateColorBuff()
@@ -65,7 +62,7 @@ void Draw3DLine::CreateColorBuff()
 	cbResourceDescB1.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&cbHeapPropB1,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDescB1,	//リソース設定

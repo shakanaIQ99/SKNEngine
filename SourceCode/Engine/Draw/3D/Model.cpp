@@ -15,13 +15,13 @@ Model::~Model()
 //	fbxScene->Destroy();
 //}
 
-void Model::CreateBuffers(ID3D12Device* device)
+void Model::CreateBuffers()
 {
 	vertexBuffer = make_unique<VertexBuffer>();
-	vertexBuffer->Create(device, vertices.size(), sizeof(VertexPosNormalUvSkin), vertices.data());
+	vertexBuffer->Create(vertices.size(), sizeof(VertexPosNormalUvSkin), vertices.data());
 
 	indexBuffer = make_unique<IndexBuffer>();
-	indexBuffer->Create(device, indices.size(),indices.data());
+	indexBuffer->Create(indices.size(),indices.data());
 
 	
 

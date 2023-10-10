@@ -57,9 +57,9 @@ public:
 
 	std::forward_list<Particle> particle;
 
-	static void StaticInitialize(ID3D12Device* device);
+	static void StaticInitialize();
 
-	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
+	static void PreDraw();
 	
 	static void PostDraw();
 
@@ -76,9 +76,6 @@ public:
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
 
 private:
-	static ID3D12Device* device;
-
-	static ID3D12GraphicsCommandList* commandList;
 
 	static PipelineSet ParPipeline;
 

@@ -6,9 +6,6 @@
 #include <DirectXTex.h>
 
 
-
-ID3D12Device* ObjModel::device = nullptr;
-
 ObjModel* ObjModel::LoadFromOBJ(const string& modelname, bool smoothing)
 {
 	ObjModel* model = new ObjModel();
@@ -20,22 +17,22 @@ ObjModel* ObjModel::LoadFromOBJ(const string& modelname, bool smoothing)
 	return model;
 }
 
-void ObjModel::Draw(ID3D12GraphicsCommandList* commandList, UINT rootParamIndexMaterial)
+void ObjModel::Draw(UINT rootParamIndexMaterial)
 {
-	commandList->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetVertexBuffers(0, 1, &vbView);
 
-	commandList->IASetIndexBuffer(&ibView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetIndexBuffer(&ibView);
 
-	commandList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
 
-	commandList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
 
 	if (material.textureFilename.size() > 0)
 	{
-		commandList->SetGraphicsRootDescriptorTable(2, tex->gpuHandle);
+		DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootDescriptorTable(2, tex->gpuHandle);
 	}
 	//commandList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
-	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
 
@@ -147,7 +144,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,
@@ -185,7 +182,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&heapProp,	//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,	//リソース設定
@@ -286,7 +283,7 @@ void ObjModel::CreateBuffers()
 	cbResourceDescB1.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&cbHeapPropB1,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDescB1,	//リソース設定

@@ -37,13 +37,15 @@ private:
 
 public:
 
-	void Init(DirectXCommon* dxcommon);
+	void Init();
 
 	void Update();
 
-	void Draw(DirectXCommon* dxcommon);
+	void Draw();
 
 	void ALLCol();
+
+	void Finalize();
 
 
 private:
@@ -52,8 +54,8 @@ private:
 	void GameUpdate();
 
 
-	void TitleDraw(DirectXCommon* dxcommon);
-	void GameDraw(DirectXCommon* dxcommon);
+	void TitleDraw();
+	void GameDraw();
 
 	void ImGuiView();
 

@@ -1,15 +1,7 @@
 #include "LightGroup.h"
-Microsoft::WRL::ComPtr<ID3D12Device> LightGroup::device;
+#include"DirectXCommon.h"
 using namespace DirectX;
 
-void LightGroup::StaticInitialize(ID3D12Device* _device)
-{
-	assert(!LightGroup::device);
-
-	assert(_device);
-
-	device = _device;
-}
 
 LightGroup* LightGroup::Create()
 {
@@ -42,7 +34,7 @@ void LightGroup::Initialize()
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -67,9 +59,9 @@ void LightGroup::Update()
 
 }
 
-void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndex)
+void LightGroup::Draw(UINT rootParamIndex)
 {
-	cmdList->SetGraphicsRootConstantBufferView(rootParamIndex, constBuff->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(rootParamIndex, constBuff->GetGPUVirtualAddress());
 }
 
 void LightGroup::TransferConstBuffer()
