@@ -75,16 +75,15 @@ void BossEnemy::Update()
 		switch (BossMove)
 		{
 		case MovePattern::NONE:
+
+			stopTimer = stopTime;
 			MoveTable();
 			break;
 		case MovePattern::BACK:
 			BackMove();
 			break;
-		case MovePattern::FANSHAPE:
-			FanShapeMove();
-			break;
-		case MovePattern::FLY:
-			FlyMove();
+		case MovePattern::CLOSEMOVE:
+			CloseMove();
 			break;
 		}
 	}
@@ -194,35 +193,43 @@ void BossEnemy::AtkTable()
 		}
 
 	}
+
+	WaitTimer--;
 }
 
 void BossEnemy::MoveTable()
 {
-	int MoveRand = rand() % 5;
-	bool TimeRand = rand() % 1;
-	if (Lange > LangeMax)
+	if (stopTimer < 0)
 	{
-		if (MoveRand<2)
+		int MoveRand = rand() % 5;
+		bool TimeRand = rand() % 1;
+		if (Lange > LangeMax)
 		{
-			BossMove = MovePattern::BACK;
+			if (MoveRand < 2)
+			{
+				BossMove = MovePattern::BACK;
+			}
+			else
+			{
+				BossMove = MovePattern::CLOSEMOVE;
+			}
 		}
 		else
 		{
-			BossMove = MovePattern::FANSHAPE;
+			BossMove = MovePattern::BACK;
+		}
+
+		if (TimeRand)
+		{
+			MoveTimer = LongMoveTime;
+		}
+		else
+		{
+			MoveTimer = MidMoveTime;
 		}
 	}
-	else
-	{
-		BossMove = MovePattern::BACK;
-	}
-	if (TimeRand)
-	{
-		MoveTimer = LongMoveTime;
-	}
-	else
-	{
-		MoveTimer = MidMoveTime;
-	}
+
+	stopTimer--;
 
 }
 
@@ -241,16 +248,22 @@ void BossEnemy::BackMove()
 	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
 }
 
-void BossEnemy::FanShapeMove()
+void BossEnemy::CloseMove()
 {
-	
+	XMFLOAT3 moveVec = player->GetPos() - St->Wt.translation_;
+	moveVec.y = 0;
+
+	normalize(moveVec);
+
+	moveVec *= 0.2f;
+
+	St->Wt.translation_ += moveVec;
+
+
 	MoveTimer--;
 	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
 }
 
-void BossEnemy::FlyMove()
-{
-}
 
 void BossEnemy::SimpleShot()
 {
@@ -369,7 +382,7 @@ void BossEnemy::ImGuiSet()
 
 	ImGui::NewLine();
 	static int MovemodeNum = 0;
-	const char* MoveModes[] = { "NONE", "BACK", "FANSHAPE" };
+	const char* MoveModes[] = { "NONE", "BACK", "CLOSEMOVE" };
 	ImGui::Combo("##MovemodeNumCombo", &MovemodeNum, MoveModes, IM_ARRAYSIZE(MoveModes));
 	ImGui::SameLine();
 	if (ImGui::Button("Change"))
@@ -383,7 +396,7 @@ void BossEnemy::ImGuiSet()
 			BossMove = MovePattern::BACK;
 			break;
 		case 2:
-			BossMove = MovePattern::FANSHAPE;
+			BossMove = MovePattern::CLOSEMOVE;
 			break;
 		}
 

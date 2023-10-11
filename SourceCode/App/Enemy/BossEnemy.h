@@ -17,8 +17,7 @@ enum struct MovePattern
 {
 	NONE,
 	BACK,
-	FANSHAPE,
-	FLY
+	CLOSEMOVE,
 };
 
 class BossEnemy : public StuructTransform
@@ -79,9 +78,7 @@ private:
 
 	void BackMove();
 
-	void FanShapeMove();
-
-	void FlyMove();
+	void CloseMove();
 
 	void SimpleShot();
 
@@ -123,6 +120,9 @@ private:
 	float Angle=0;
 
 	Draw3DLine LeserPoint;
+
+	int stopTimer = 0;
+	const int stopTime = 120;
 
 	int WaitTimer = 0;
 	const int WaitTime = 180;
