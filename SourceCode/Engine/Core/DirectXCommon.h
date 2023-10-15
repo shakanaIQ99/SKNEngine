@@ -1,4 +1,5 @@
 #pragma once
+//汎用DirectX
 #include "DxWindow.h"
 #include<d3d12.h>
 #include<dxgi1_6.h>
@@ -14,13 +15,27 @@ using namespace std;
 class DirectXCommon
 {
 public:
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="win"></param>
+	/// <param name="BackBufferWidth"></param>
+	/// <param name="BackBufferHeight"></param>
 	void Initialize(DxWindow* win, int32_t BackBufferWidth = DxWindow::window_width, int32_t BackBufferHeight = DxWindow::window_height);
 
+	/// <summary>
+	/// 描画前処理
+	/// </summary>
 	void PreDraw();
 
+	/// <summary>
+	/// 描画後処理
+	/// </summary>
 	void PostDraw();
 
+	/// <summary>
+	/// 破棄
+	/// </summary>
 	void Destroy();
 
 	/// <returns>デバイス</returns>
@@ -32,12 +47,24 @@ public:
 	/// <returns>描画コマンドリスト</returns>
 	ComPtr<ID3D12GraphicsCommandList> GetCommandList() { return commandList; }
 
+	/// <summary>
+	/// デスクリプタヒープ取得
+	/// </summary>
+	/// <returns></returns>
 	DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }
 
+	/// <summary>
+	/// バックバッファ取得
+	/// </summary>
+	/// <returns></returns>
 	size_t GetBackBufferCount()const { return backBuffers.size(); }
 
 	//DescriptorHeap* GetDescriptorHeap()const { return descHeap.get(); }
 
+	/// <summary>
+	/// インスタンス
+	/// </summary>
+	/// <returns></returns>
 	static DirectXCommon* GetInstance();
 
 private:
@@ -70,16 +97,34 @@ private:
 
 private:
 
+	/// <summary>
+	/// デバイス
+	/// </summary>
 	void InitializeDXGIdevice();
 
+	/// <summary>
+	/// スワップチェイン
+	/// </summary>
 	void InitializeSwapChain();
 
+	/// <summary>
+	/// コマンド
+	/// </summary>
 	void InitializeCommand();
 
+	/// <summary>
+	/// RSV
+	/// </summary>
 	void InitializeRenserTargetView();
 
+	/// <summary>
+	/// 深度バッファ
+	/// </summary>
 	void InitializeDepthBuffer();
 
+	/// <summary>
+	/// フェンス
+	/// </summary>
 	void InitializeFence();
 
 	DirectXCommon() = default;

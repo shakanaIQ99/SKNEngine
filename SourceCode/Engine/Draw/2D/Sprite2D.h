@@ -1,4 +1,5 @@
 #pragma once
+//2Dスプライト
 #include"SpriteCommon.h"
 #include"WorldTronsform.h"
 #include <DirectXTex.h>
@@ -22,18 +23,42 @@ public:
     };
 
 
-
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="_spritecommon"></param>
+    /// <param name="handle"></param>
     void Initialize(SpriteCommon* _spritecommon,uint32_t handle);
 
+    /// <summary>
+    /// 更新
+    /// </summary>
     void Update();
 
+
+    /// <summary>
+    /// 描画
+    /// </summary>
+    /// <param name="anchor"></param>
+    /// <param name="flipX"></param>
+    /// <param name="flipY"></param>
     void Draw(XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
 
+    /// <summary>
+    /// 切り抜き描画
+    /// </summary>
+    /// <param name="ClipPos"></param>
+    /// <param name="ClipSize"></param>
+    /// <param name="flipX"></param>
+    /// <param name="flipY"></param>
     void DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX = false, bool flipY = false);
     
     WorldTransform Wt;
 protected:
 
+    /// <summary>
+    /// バッファ生成
+    /// </summary>
     void CreateVertexIndexBuffer();
 
     SpriteCommon* spritecommon = nullptr;

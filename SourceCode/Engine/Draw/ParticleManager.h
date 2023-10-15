@@ -1,4 +1,5 @@
 #pragma once
+//パーティクルマネージャ
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -21,7 +22,10 @@ using namespace std;
 class ParticleManager
 {
 public:
-
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="handle"></param>
 	ParticleManager(uint32_t handle);
 	struct VertexPos
 	{
@@ -57,22 +61,59 @@ public:
 
 	std::forward_list<Particle> particle;
 
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
 	static void StaticInitialize();
 
+	/// <summary>
+	/// 描画前処理
+	/// </summary>
 	static void PreDraw();
 	
+	/// <summary>
+	/// 描画後処理
+	/// </summary>
 	static void PostDraw();
 
+	/// <summary>
+	/// モデル生成
+	/// </summary>
 	static void CreateModel();
 
+	/// <summary>
+	/// マネージャ生成
+	/// </summary>
+	/// <param name="Handle"></param>
+	/// <returns></returns>
 	static ParticleManager* Create(uint32_t Handle);
 
+	/// <summary>
+	/// 初期化(生成用)
+	/// </summary>
+	/// <returns></returns>
 	bool Initialize();
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="camera"></param>
 	void Update(ViewProjection* camera);
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 動きを加算
+	/// </summary>
+	/// <param name="life"></param>
+	/// <param name="position"></param>
+	/// <param name="velocity"></param>
+	/// <param name="accel"></param>
+	/// <param name="start_scale"></param>
+	/// <param name="end_scale"></param>
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
 
 private:

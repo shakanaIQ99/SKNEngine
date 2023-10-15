@@ -1,4 +1,5 @@
 #pragma once
+//パイプライン
 #include <d3d12.h>
 #include<wrl.h>
 #include<memory>
@@ -20,6 +21,7 @@ class Pipeline
 {
 public:
 
+	//各パイプライン生成
 	static PipelineSet CreateSpritePipline(ID3D12Device* device);
 	static PipelineSet CreateModelPipline(ID3D12Device* device);
 	static PipelineSet CreateParticlePipline(ID3D12Device* device);

@@ -104,7 +104,6 @@
     <ClCompile Include="SourceCode\Engine\Draw\3D\Draw3DLine.cpp" />
     <ClCompile Include="SourceCode\App\Player\PlayerBullet.cpp" />
     <ClCompile Include="SourceCode\App\Camera.cpp" />
-    <ClCompile Include="SourceCode\Engine\Math\Float4.cpp" />
     <ClCompile Include="SourceCode\Engine\Math\Matrix4.cpp" />
     <ClCompile Include="SourceCode\App\Enemy\BossEnemy.cpp" />
     <ClCompile Include="SourceCode\App\Player\Player.cpp" />
@@ -170,7 +169,6 @@
     <ClInclude Include="SourceCode\Engine\Draw\3D\Draw3DLine.h" />
     <ClInclude Include="SourceCode\App\Player\PlayerBullet.h" />
     <ClInclude Include="SourceCode\App\Camera.h" />
-    <ClInclude Include="SourceCode\Engine\Math\Float4.h" />
     <ClInclude Include="SourceCode\Engine\Math\Matrix4.h" />
     <ClInclude Include="SourceCode\App\Enemy\BossEnemy.h" />
     <ClInclude Include="SourceCode\App\Player\Player.h" />

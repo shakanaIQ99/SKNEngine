@@ -1,8 +1,8 @@
 #pragma once
+///太陽光
 #include <wrl.h>
 #include <DirectXMath.h>
 #include <d3d12.h>
-
 
 class DirectionLight
 {

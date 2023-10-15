@@ -1,4 +1,5 @@
 #pragma once
+//当たり判定関数群
 #include"CollisionPrimitive.h"
 
 class Collision

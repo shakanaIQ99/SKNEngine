@@ -1,4 +1,5 @@
 #pragma once
+//汎用描画
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 #include<string>

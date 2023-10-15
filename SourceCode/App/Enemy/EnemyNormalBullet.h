@@ -1,4 +1,5 @@
 #pragma once
+//敵通常弾
 #include "StuructTransform.h"
 using namespace DirectX;
 
@@ -8,6 +9,7 @@ public:
 	EnemyNormalBullet();
 	~EnemyNormalBullet();
 
+	//モデルセット
 	static void SetModel(ObjModel* _model);
 
 	/// <summary>
@@ -34,7 +36,16 @@ public:
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
+	/// <summary>
+	/// 座標取得
+	/// </summary>
+	/// <returns></returns>
 	XMFLOAT3 GetWorldPosition() { return St->Wt.translation_; }
+
+	/// <summary>
+	/// スケール取得
+	/// </summary>
+	/// <returns></returns>
 	XMFLOAT3 GetScale() { return St->Wt.scale_; }
 
 

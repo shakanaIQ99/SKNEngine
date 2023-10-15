@@ -1,4 +1,5 @@
 #pragma once
+//多分使ってない
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>

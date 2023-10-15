@@ -1,4 +1,5 @@
 #pragma once
+//敵
 #include"StuructTransform.h"
 #include"EnemyNormalBullet.h"
 #include"Draw3DLine.h"
@@ -24,36 +25,71 @@ class BossEnemy : public StuructTransform
 {
 public:
 
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	BossEnemy();
 	
-
+	/// <summary>
+	/// プレイヤーポインタ
+	/// </summary>
+	/// <param name="pl"></param>
 	void SetPlayer(Player* pl)
 	{
 		player = pl;
 	}
 
 	
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Init();
 
+	/// <summary>
+	/// リセット
+	/// </summary>
 	void Reset();
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 被ダメ
+	/// </summary>
+	/// <param name="dmg"></param>
 	void Damege(float dmg);
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// UI描画
+	/// </summary>
 	void DrawUI();
 
+	/// <summary>
+	/// 攻撃パターン取得
+	/// </summary>
+	/// <returns></returns>
 	AtkPattern GetAtkPattern()
 	{
 		return BossAtk;
 	}
 
+	/// <summary>
+	/// 弾削除
+	/// </summary>
 	void Bulletremove();
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
 
+	/// <summary>
+	/// 生きてるか
+	/// </summary>
+	/// <returns></returns>
 	bool Death()
 	{
 		if (HP <= 0)
@@ -66,28 +102,59 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// 座標取得
+	/// </summary>
+	/// <returns></returns>
 	XMFLOAT3 GetPos()
 	{
 		return St->Wt.translation_;
 	}
 private:
 
+	/// <summary>
+	/// 攻撃テーブル
+	/// </summary>
 	void AtkTable();
 
+	/// <summary>
+	/// 移動テーブル
+	/// </summary>
 	void MoveTable();
 
+	/// <summary>
+	/// 後退
+	/// </summary>
 	void BackMove();
 
+	/// <summary>
+	/// 接近
+	/// </summary>
 	void CloseMove();
 
+	/// <summary>
+	/// 通常射撃
+	/// </summary>
 	void SimpleShot();
 
+	/// <summary>
+	/// 突進攻撃
+	/// </summary>
 	void ChargeAtk();
 
+	/// <summary>
+	/// レーザー
+	/// </summary>
 	void LaserShot();
 
+	/// <summary>
+	/// ミサイル
+	/// </summary>
 	void MissileShot();
 
+	/// <summary>
+	/// ImGui関係
+	/// </summary>
 	void ImGuiSet();
 
 	

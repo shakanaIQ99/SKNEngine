@@ -1,4 +1,5 @@
 #pragma once
+//ゲームシーン
 #include"DirectXCommon.h"
 #include"DxWindow.h"
 #include"ViewProjection.h"
@@ -37,26 +38,56 @@ private:
 
 public:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Init();
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 当たり判定まとめ
+	/// </summary>
 	void ALLCol();
 
+	/// <summary>
+	/// 破棄
+	/// </summary>
 	void Finalize();
 
 
 private:
-
+	/// <summary>
+	/// タイトル更新
+	/// </summary>
 	void TitleUpdate();
+
+	/// <summary>
+	/// メイン更新
+	/// </summary>
 	void GameUpdate();
 
-
+	/// <summary>
+	/// タイトル描画
+	/// </summary>
 	void TitleDraw();
+
+	/// <summary>
+	/// メイン描画
+	/// </summary>
 	void GameDraw();
 
+	/// <summary>
+	/// ImGui関係
+	/// </summary>
 	void ImGuiView();
 
 	Player player;

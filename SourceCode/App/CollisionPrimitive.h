@@ -1,5 +1,5 @@
 #pragma once
-
+//当たり判定変数群
 #include<DirectXMath.h>
 
 using namespace DirectX;

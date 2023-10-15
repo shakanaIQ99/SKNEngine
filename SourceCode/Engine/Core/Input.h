@@ -1,5 +1,5 @@
 #pragma once
-
+//入力関係
 #define DIRECTINPUT_VERSION	0x0800
 #include<dinput.h>
 #include<Xinput.h>
@@ -21,17 +21,43 @@ private:
 
 
 public:
-
+	/// <summary>
+	/// インスタンス
+	/// </summary>
+	/// <returns></returns>
 	static Input* GetInstance();
 
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="hinstance"></param>
+	/// <param name="hwnd"></param>
 	static void Init(HINSTANCE hinstance, HWND hwnd);
 
+	/// <summary>
+	/// 静的更新
+	/// </summary>
 	static void InputUpdate();
 
+	/// <summary>
+	/// 押されているか
+	/// </summary>
+	/// <param name="_key"></param>
+	/// <returns></returns>
 	static bool GetKey(BYTE _key);
 
+	/// <summary>
+	/// 押した瞬間か
+	/// </summary>
+	/// <param name="_key"></param>
+	/// <returns></returns>
 	static bool GetPressKey(BYTE _key);
 
+	/// <summary>
+	/// 離した瞬間か
+	/// </summary>
+	/// <param name="_key"></param>
+	/// <returns></returns>
 	static bool GetReleaseKey(BYTE _key);
 
 	//パッドに接続されてるか
@@ -86,6 +112,11 @@ public:
 
 private:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="hinstance"></param>
+	/// <param name="hwnd"></param>
 	void Initialize(HINSTANCE hinstance, HWND hwnd);
 
 	ComPtr<IDirectInput8>directInput;

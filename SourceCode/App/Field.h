@@ -1,4 +1,5 @@
 #pragma once
+//フィールド
 #include"ObjModel.h"
 #include"OBJ3D.h"
 #include"Camera.h"
@@ -7,14 +8,33 @@ class Field
 {
 public:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="_camera"></param>
 	void Init(Camera* _camera);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// エリア制限範囲取得
+	/// </summary>
+	/// <returns></returns>
 	static float GetArea();
 
+	/// <summary>
+	/// 上昇限界値
+	/// </summary>
+	/// <returns></returns>
 	float GetUpArea();
 
 private:

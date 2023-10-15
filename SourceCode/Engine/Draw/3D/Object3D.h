@@ -1,4 +1,5 @@
 #pragma once
+//FBXオブジェクト(OBJ対応まだ)
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -32,17 +33,43 @@ public:
 		XMMATRIX bones[MAX_BONES];
 	};
 
+	/// <summary>
+	/// カメラ設定
+	/// </summary>
+	/// <param name="Camera"></param>
 	static void SetCamera(ViewProjection* Camera) { Object3D::camera = Camera; }
+
+	/// <summary>
+	/// パイプライン生成
+	/// </summary>
 	static void CreateGraphicsPipeline();
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="Wt"></param>
 	void Initilaize(WorldTransform* Wt);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="cmdList"></param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
+	/// <summary>
+	/// モデルセット
+	/// </summary>
+	/// <param name="model"></param>
 	void SetModel(Model* model);
 
+	/// <summary>
+	/// アニメーション
+	/// </summary>
 	void PlayAnimation();
 
 private:

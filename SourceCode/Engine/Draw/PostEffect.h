@@ -1,4 +1,5 @@
 #pragma once
+//ポストエフェクト
 #include <TextureManager.h>
 #include "WorldTronsform.h"
 #include <wrl.h>
@@ -14,32 +15,60 @@ class PostEffect
 {
 public:
 
-    //void SetDevice();
-
+    /// <summary>
+    /// パイプライン生成
+    /// </summary>
     static void CreateGraphicsPipeline();
 
+    /// <summary>
+    /// 初期化
+    /// </summary>
     void Initialize();
 
+    /// <summary>
+    /// 描画前処理
+    /// </summary>
     void PreDrawScene();
 
+    /// <summary>
+    /// 描画後処理
+    /// </summary>
     void PostDrawScene();
 
+    /// <summary>
+    /// 描画
+    /// </summary>
     void Draw();
 
+    /// <summary>
+    /// RTV生成
+    /// </summary>
     void CreateRTV();
 
+    /// <summary>
+    /// DSV生成
+    /// </summary>
     void CreateDSV();
 
+    /// <summary>
+    /// テクスチャバッファ生成
+    /// </summary>
     void CreateTexBuff();
 
+    /// <summary>
+    /// SRV生成
+    /// </summary>
     void CreateSRV();
 
+    /// <summary>
+    /// 深度生成
+    /// </summary>
     void CreateDepth();
 
+    /// <summary>
+    /// バッファ生成
+    /// </summary>
     void CreateBuffer();
-
-    //void SetPipeline();
-
 
 private:
 

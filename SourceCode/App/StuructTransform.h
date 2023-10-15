@@ -1,4 +1,5 @@
 #pragma once
+//汎用Transform
 #include"OBJ3D.h"
 #include"ObjModel.h"
 #include"Camera.h"

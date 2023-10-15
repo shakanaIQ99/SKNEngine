@@ -1,4 +1,5 @@
 #pragma once
+//ImGuiマネージャ
 #include<Windows.h>
 #include"DirectXCommon.h"
 #include <imgui.h>
@@ -11,14 +12,27 @@ class ImGuiManager
 
 public:
 
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="hwnd"></param>
 	static void Initialize(HWND hwnd);
 
+	/// <summary>
+	/// 解放
+	/// </summary>
 	static void Finalize();
 
+	/// <summary>
+	/// ImGuiの始め
+	/// </summary>
 	static void Begin();
 
 	//static void End();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	static void Draw();
 
 private:

@@ -1,4 +1,5 @@
 #pragma once
+//座標構造体
 
 #include <DirectXMath.h>
 #include <d3d12.h>
@@ -56,8 +57,16 @@ struct WorldTransform {
 	/// </summary>
 	void UpdateMatrix(ViewProjection* camera);
 
+	/// <summary>
+	/// 行列更新(ビルボード)
+	/// </summary>
+	/// <param name="camera"></param>
 	void UpdateMatrixBill(ViewProjection* camera);
 
+	/// <summary>
+	/// 行列更新(スプライト)
+	/// </summary>
+	/// <param name="projection"></param>
 	void UpdateSpriteMatrix(XMMATRIX projection);
 
 

@@ -1,5 +1,5 @@
 #pragma once
-
+//FBXローダー
 #pragma warning(push)
 #pragma warning(disable:26495)
 #pragma warning(disable:26812)
@@ -30,12 +30,30 @@ public:
 	/// <returns>インスタンス</returns>
 	static FbxLoader* GetInstance();
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="device"></param>
 	void Initialize(ID3D12Device* device);
 
+	/// <summary>
+	/// 解放
+	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// 読み込んだモデルを取得
+	/// </summary>
+	/// <param name="modelname"></param>
+	/// <returns></returns>
 	Model* LoadModelFlomFile(const string& modelname);
 
+	/// <summary>
+	/// ノード再帰関数
+	/// </summary>
+	/// <param name="model"></param>
+	/// <param name="fbxNode"></param>
+	/// <param name="parent"></param>
 	void ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent = nullptr);
 	/// <summary>
 	/// メッシュ読み取り
@@ -58,6 +76,11 @@ public:
 	//ディレクリを含んだファイルパスからファイル名を抽出する
 	string ExtractFileName(const string& path);
 
+	/// <summary>
+	/// FBXモデルから行列取得
+	/// </summary>
+	/// <param name="dst"></param>
+	/// <param name="src"></param>
 	static void ConvertMatrixFromFbx(XMMATRIX* dst, const FbxAMatrix& src);
 
 private:

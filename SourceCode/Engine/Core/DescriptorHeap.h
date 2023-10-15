@@ -1,4 +1,5 @@
 #pragma once
+//デスクリプタヒープ
 #include<wrl.h>
 #include <d3d12.h>
 
@@ -14,15 +15,37 @@ public:
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle;
 	};
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="Device"></param>
 	void Initialize(ID3D12Device* Device);
 
-
+	/// <summary>
+	/// SRV生成
+	/// </summary>
+	/// <param name="desc"></param>
+	/// <param name="resource"></param>
+	/// <returns></returns>
 	UINT64 CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Resource* resource);
 
+	/// <summary>
+	/// CBV生成
+	/// </summary>
+	/// <param name="desc"></param>
+	/// <returns></returns>
 	UINT64 CreateCBV(D3D12_CONSTANT_BUFFER_VIEW_DESC& desc);
 
+	/// <summary>
+	/// SRV追加
+	/// </summary>
+	/// <returns></returns>
 	DescriptorHeapViewHandle AddSRV();
 
+	/// <summary>
+	/// ヒープ取得
+	/// </summary>
+	/// <returns></returns>
 	ComPtr<ID3D12DescriptorHeap> GetHeap();
 
 private:

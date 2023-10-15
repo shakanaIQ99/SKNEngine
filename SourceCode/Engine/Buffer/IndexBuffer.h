@@ -1,4 +1,5 @@
 #pragma once
+//インデックスバッファ
 #include<wrl.h>
 #include <d3d12.h>
 #include <cstdint>
@@ -11,10 +12,23 @@ public:
     IndexBuffer() = default;
     ~IndexBuffer() = default;
 
+    /// <summary>
+    /// 生成
+    /// </summary>
+    /// <param name="length"></param>
+    /// <param name="data"></param>
     void Create(size_t length, const void* data = nullptr);
 
+    /// <summary>
+    /// バッファビュー取得
+    /// </summary>
+    /// <returns></returns>
     D3D12_INDEX_BUFFER_VIEW GetView() const;
 
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="data"></param>
     void Update(void* data);
 private:
 

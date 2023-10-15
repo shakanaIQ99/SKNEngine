@@ -1,4 +1,5 @@
 #pragma once
+//プレイヤー
 #include"Input.h"
 #include"PlayerBullet.h"
 #include"StuructTransform.h"
@@ -8,25 +9,56 @@
 class Player : public StuructTransform
 {
 public:
+
+	/// <summary>
+	/// 敵ポインタ
+	/// </summary>
+	/// <param name="enemy"></param>
 	void SetEnemy(WorldTransform* enemy)
 	{
 		boss = enemy;
 	}
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Init();
 
+	/// <summary>
+	/// リセット
+	/// </summary>
 	void Reset();
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 被ダメ
+	/// </summary>
+	/// <param name="dmg"></param>
 	void Damege(float dmg);
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// UI描画
+	/// </summary>
 	void DrawUI();
 
+	/// <summary>
+	/// 仮タイトル用更新
+	/// </summary>
 	void TitleUpdate();
 
+	/// <summary>
+	/// 生きてるか
+	/// </summary>
+	/// <returns></returns>
 	bool Death()
 	{
 		if (HP <= 0)
@@ -39,10 +71,19 @@ public:
 		}
 	}
 
+
+	/// <summary>
+	/// 座標取得
+	/// </summary>
+	/// <returns></returns>
 	XMFLOAT3 GetPos()
 	{
 		return St->Wt.translation_;
 	}
+	/// <summary>
+	/// 足元座標
+	/// </summary>
+	/// <returns></returns>
 	XMFLOAT3 GetUnderPos()
 	{
 		XMFLOAT3 UnderPos = GetPos();
@@ -58,21 +99,45 @@ private:
 	/// </summary>
 	void Attack(XMFLOAT3 flont);
 
+	/// <summary>
+	/// 移動
+	/// </summary>
 	void Move();
 
+	/// <summary>
+	/// ジャンプ
+	/// </summary>
+	/// <param name="front"></param>
 	void Jump(XMFLOAT3 front);
 
+	/// <summary>
+	/// ダッシュ
+	/// </summary>
+	/// <param name="front"></param>
 	void Dash(XMFLOAT3 front);
 
+	/// <summary>
+	/// ENゲージ処理
+	/// </summary>
 	void EN();
 
+	/// <summary>
+	/// ロックオン処理
+	/// </summary>
 	void LockOn();
 
+	/// <summary>
+	/// ロックオンしているか
+	/// </summary>
+	/// <param name="prewt"></param>
+	/// <returns></returns>
 	bool ScLock(WorldTransform* prewt);
 
 	XMFLOAT2 WorldToMonitor(XMFLOAT3 pos);
 
-
+	/// <summary>
+	/// ImGui関係
+	/// </summary>
 	void ImGuiSet();
 
 

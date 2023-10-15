@@ -66,23 +66,58 @@ public:
 
 	Material material;
 
+	/// <summary>
+	/// 読み込んだモデルを取得
+	/// </summary>
+	/// <param name="modelname"></param>
+	/// <param name="smoothing"></param>
+	/// <returns></returns>
 	static ObjModel* LoadFromOBJ(const string& modelname, bool smoothing = false);
 
-
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="rootParamIndexMaterial"></param>
 	void Draw(UINT rootParamIndexMaterial);
 
 private:
 
+	/// <summary>
+	/// モデル読み込み
+	/// </summary>
+	/// <param name="modelname"></param>
+	/// <param name="smoothing"></param>
 	void LoadFromOBJInternal(const string& modelname,bool smoothing);
 
+	/// <summary>
+	/// マテリアル読み込み
+	/// </summary>
+	/// <param name="directoryPath"></param>
+	/// <param name="filename"></param>
 	void LoadMaterial(const string& directoryPath, const string& filename);
 
+	/// <summary>
+	/// テクスチャ読み込み
+	/// </summary>
+	/// <param name="directoryPath"></param>
+	/// <param name="filename"></param>
 	void LoadTexture(const string& directoryPath, const string& filename);
 
+	/// <summary>
+	/// バッファ生成
+	/// </summary>
 	void CreateBuffers();
 
+	/// <summary>
+	/// スムージング処理
+	/// </summary>
+	/// <param name="indexPosition"></param>
+	/// <param name="indexVertex"></param>
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
 
+	/// <summary>
+	/// スムージング計算
+	/// </summary>
 	void CaliculateSmoothedVertexNormals();
 
 	vector<unsigned short>indices;

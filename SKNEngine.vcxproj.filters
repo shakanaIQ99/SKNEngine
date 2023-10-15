@@ -189,9 +189,6 @@
     <ClCompile Include="SourceCode\Engine\Math\Matrix4.cpp">
       <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\Engine\Math\Float4.cpp">
-      <Filter>ソース ファイル\cppファイル\Math</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\App\GameScene.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
@@ -330,9 +327,6 @@
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Math\Matrix4.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\Engine\Math\Float4.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\App\Camera.h">

@@ -1,4 +1,5 @@
 #pragma once
+//モデル
 #include<string>
 #include"DxWindow.h"
 #include<vector>
@@ -97,13 +98,33 @@ public:
 	FbxScene* fbxScene = nullptr;
 	
 	
-
+	/// <summary>
+	/// バッファ生成
+	/// </summary>
 	void CreateBuffers();
 
-
+	/// <summary>
+	/// モデルトランスフォーム取得
+	/// </summary>
+	/// <returns></returns>
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="cmdList"></param>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	/// ボーン取得
+	/// </summary>
+	/// <returns></returns>
 	vector<Bone>& GetBones() { return bones; }
+
+	/// <summary>
+	/// FBXシーン取得
+	/// </summary>
+	/// <returns></returns>
 	FbxScene* GetFbxScene() { return fbxScene; }
 private:
 

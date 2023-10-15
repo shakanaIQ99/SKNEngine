@@ -1,4 +1,5 @@
 #pragma once
+//プレイヤー弾
 #include "StuructTransform.h"
 using namespace DirectX;
 class PlayerBullet:public StuructTransform
@@ -7,6 +8,10 @@ public:
 	PlayerBullet();
 	~PlayerBullet();
 
+	/// <summary>
+	/// モデルセット
+	/// </summary>
+	/// <param name="model"></param>
 	static void SetModel(ObjModel* model);
 
 	/// <summary>
@@ -28,12 +33,25 @@ public:
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Draw();
 
+	/// <summary>
+	/// 生きてるか
+	/// </summary>
+	/// <returns></returns>
 	bool IsDead()const { return isDead_; }
 
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
+	/// <summary>
+	/// 座標取得
+	/// </summary>
+	/// <returns></returns>
 	XMFLOAT3 GetWorldPosition();
+
+	/// <summary>
+	/// スケール取得
+	/// </summary>
+	/// <returns></returns>
 	XMFLOAT3 GetScale();
 
 private:

@@ -1,4 +1,6 @@
 #pragma once
+//3Dベクトル
+
 class Vector2;
 
 class Vector3

@@ -1,7 +1,10 @@
 #pragma once
+//イージング
+
 #include <math.h>
 #define PI 3.14f
 
+//各イージング関数
 float easeInSine(float start, float end, float movetime, float endtime);
 float easeInQuint(float start, float end, float movetime, float endtime);
 float easeOutSine(float start, float end, float movetime, float endtime);
