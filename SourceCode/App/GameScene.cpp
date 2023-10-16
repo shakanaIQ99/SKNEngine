@@ -3,6 +3,7 @@
 #include"StuructTransform.h"
 #include"Input.h"
 #include"Collision.h"
+#include"Easing.h"
 
 void GameScene::Finalize()
 {
@@ -34,16 +35,17 @@ void GameScene::Init()
 	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
 	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");
+	SceneChaHandle = texturemanager->LoadTexture("Resources/scene.png");
 	
 
 	//3Dモデル周り
-	model.reset(FbxLoader::GetInstance()->LoadModelFlomFile("Robo"));
+	//model.reset(FbxLoader::GetInstance()->LoadModelFlomFile("Robo"));
 	
-	Robo = std::make_unique<Object3D>();
-	Robo->Initilaize();
-	Robo->SetModel(model.get());
+	//Robo = std::make_unique<Object3D>();
+	//Robo->Initilaize();
+	//Robo->SetModel(model.get());
 
-	Robo->wt.scale_ = { 1.0f,1.0f,1.0f};
+	//Robo->wt.scale_ = { 1.0f,1.0f,1.0f};
 	
 	field.Init(&camera);
 
@@ -65,6 +67,10 @@ void GameScene::Init()
 	preTitle2 = std::make_unique<Sprite2D>();
 	preTitle2->Initialize(spritecommon.get(), preTitleHandle2);
 	preTitle2->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f)+60.0f ,0.0f};
+
+	SceneCha = std::make_unique<Sprite2D>();
+	SceneCha->Initialize(spritecommon.get(), SceneChaHandle);
+	SceneCha->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 
 	//パーティクル周り
@@ -106,14 +112,36 @@ void GameScene::Update()
 		TitleUpdate();
 		if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A)||Input::GetPressKey(DIK_END))
 		{
-			scene = SceneType::GAMESCENE;
-			player.Reset();
-			camera.setTarget(&player.St->Wt);
-			boss.Reset();
+			sceneChaflag = true;
+		}
+
+		if (sceneChaflag)
+		{
+			SceneChangeTimer++;
+			if (SceneChangeTimer >= SceneChangeTime)
+			{
+				player.Reset();
+				camera.setTarget(&player.St->Wt);
+				boss.Reset();
+				GameUpdate();
+				scene = SceneType::GAMESCENE;
+			}
 		}
 		break;
 	case SceneType::GAMESCENE:
-		GameUpdate();
+		if (sceneChaflag)
+		{
+			SceneChangeTimer--;
+			if (SceneChangeTimer <=0)
+			{
+				sceneChaflag = false;
+				SceneChangeTimer = 0;
+			}
+		}
+		else
+		{
+			GameUpdate();
+		}
 		if (player.Death() || boss.Death())
 		{
 			scene = SceneType::TITLE;
@@ -122,6 +150,10 @@ void GameScene::Update()
 		}
 		break;
 	}
+
+	SceneAlpha = easeOutSine(0, 255.0f, static_cast<float>(SceneChangeTimer), static_cast<float>(SceneChangeTime));
+	SceneCha->Wt.color = { SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f };
+	SceneCha->Update();
 
 }
 
@@ -136,6 +168,10 @@ void GameScene::Draw()
 		GameDraw();
 		break;
 	}
+	spritecommon->PreDraw();
+
+	SceneCha->Draw();
+
 	
 }
 
@@ -220,7 +256,7 @@ void GameScene::GameUpdate()
 	field.Update();
 	player.Update();
 	boss.Update();
-	Robo->Update();
+	//Robo->Update();
 }
 
 void GameScene::TitleDraw()
@@ -266,6 +302,7 @@ void GameScene::GameDraw()
 
 void GameScene::ImGuiView()
 {
+
 }
 
 

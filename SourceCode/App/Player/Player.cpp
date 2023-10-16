@@ -133,7 +133,7 @@ void Player::Update()
 	
 	sprite_Lock->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
 
-	ImGuiSet();
+	//ImGuiSet();
 
 	LockOn();
 
@@ -521,7 +521,7 @@ void Player::TitleUpdate()
 {
 	St->Wt.rotation_.y += 0.05f;
 
-	ImGuiSet();
+	//ImGuiSet();
 	St->Update(camera->getView());
 }
 

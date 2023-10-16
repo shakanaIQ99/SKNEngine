@@ -116,11 +116,21 @@ private:
 	std::unique_ptr<Sprite2D> preTitle2;
 	uint32_t preTitleHandle2;
 
-	std::unique_ptr<Object3D> Robo;
-	std::unique_ptr<Model> model;
+	std::unique_ptr<Sprite2D> SceneCha;
+	uint32_t SceneChaHandle;
 
+	//std::unique_ptr<Object3D> Robo;
+	//std::unique_ptr<Model> model;
+
+	bool sceneChaflag = false;
+
+	int SceneChangeTimer = 0;
+
+	const int SceneChangeTime = 60;
 
 	float tenmetu = 255.0f;
+
+	float SceneAlpha = 255.0f;
 
 	float decri = 3.0f;
 	

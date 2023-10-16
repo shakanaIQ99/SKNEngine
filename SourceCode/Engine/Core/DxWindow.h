@@ -45,7 +45,7 @@ public:
 	/// <param name="windowStyle"></param>
 	/// <param name="clientWidth"></param>
 	/// <param name="clientHeight"></param>
-	void CreateGameWindow(const wchar_t* title = L"MyEngine", UINT windowStyle = WS_OVERLAPPEDWINDOW, int32_t clientWidth = window_width, int32_t clientHeight = window_height);
+	void CreateGameWindow(const wchar_t* title = L"Mecha Core", UINT windowStyle = WS_OVERLAPPEDWINDOW, int32_t clientWidth = window_width, int32_t clientHeight = window_height);
 
 	/// <summary>
 	/// ウィンドウ破棄
