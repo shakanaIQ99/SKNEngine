@@ -1,6 +1,6 @@
 #include"DxWindow.h"
 #include"DirectXCommon.h"
-//#include"Object3D.h"
+#include"Object3D.h"
 #include "OBJ3D.h"
 #include"Input.h"
 #include<wrl.h>
@@ -9,7 +9,7 @@
 #include<iomanip>
 #include"ImGuiManager.h"
 #include"FPS.h"
-//#include"FbxLoader.h"
+#include"FbxLoader.h"
 #include"ParticleManager.h"
 #include"PostEffect.h"
 #include"SpriteCommon.h"
@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	DirectXCommon::GetInstance()->Initialize(window);
 	ImGuiManager::Initialize(window->GetHwnd());
 
-	//FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	FbxLoader::GetInstance()->Initialize();
 	Input::Init(window->GetHInstance(), window->GetHwnd());
 
 	OBJ3D::StaticInitialize();
@@ -95,7 +95,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	}
 
-	//FbxLoader::GetInstance()->Finalize();
+	FbxLoader::GetInstance()->Finalize();
 	gameScene->Finalize();
 	gameScene.reset();
 	postEffect.reset();

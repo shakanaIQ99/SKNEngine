@@ -37,8 +37,13 @@ void GameScene::Init()
 	
 
 	//3Dモデル周り
-
+	model.reset(FbxLoader::GetInstance()->LoadModelFlomFile("Robo"));
 	
+	Robo = std::make_unique<Object3D>();
+	Robo->Initilaize();
+	Robo->SetModel(model.get());
+
+	Robo->wt.scale_ = { 1.0f,1.0f,1.0f};
 	
 	field.Init(&camera);
 
@@ -215,6 +220,7 @@ void GameScene::GameUpdate()
 	field.Update();
 	player.Update();
 	boss.Update();
+	Robo->Update();
 }
 
 void GameScene::TitleDraw()
@@ -231,7 +237,7 @@ void GameScene::GameDraw()
 {
 
 	field.Draw();
-
+	//Robo->Draw();
 	player.Draw();
 	boss.Draw();
 	//ParticleManager::PreDraw(dxcommon->GetCommandList());

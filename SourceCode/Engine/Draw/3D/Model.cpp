@@ -3,6 +3,7 @@
 #include<fstream>
 #include<sstream>
 #include <DirectXTex.h>
+#include"DirectXCommon.h"
 
 
 Model::~Model()
@@ -27,7 +28,7 @@ void Model::CreateBuffers()
 
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* cmdList)
+void Model::Draw()
 {
 	vertexBuffer->Update(vertices.data());
 	indexBuffer->Update(indices.data());
@@ -35,16 +36,16 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList)
 	vbView = vertexBuffer->GetView();
 	ibView = indexBuffer->GetView();
 
-	cmdList->IASetVertexBuffers(0, 1,&vbView);
-	cmdList->IASetIndexBuffer(&ibView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetVertexBuffers(0, 1,&vbView);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetIndexBuffer(&ibView);
 
-	cmdList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
 
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = tex->gpuHandle;
 
-	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 
 }
 

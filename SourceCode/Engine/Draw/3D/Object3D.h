@@ -27,6 +27,7 @@ public:
 	static const int MAX_BONES = 32;
 
 	ComPtr<ID3D12Resource> constBuffSkin;
+	WorldTransform wt;
 
 	struct ConstBufferDataSkin
 	{
@@ -48,7 +49,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="Wt"></param>
-	void Initilaize(WorldTransform* Wt);
+	void Initilaize();
 
 	/// <summary>
 	/// 更新
@@ -59,7 +60,7 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="cmdList"></param>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 
 	/// <summary>
 	/// モデルセット
@@ -88,7 +89,6 @@ private:
 
 	bool isPlay = false;
 protected:
-	WorldTransform* wt = nullptr;
 
 	Model* model = nullptr;
 

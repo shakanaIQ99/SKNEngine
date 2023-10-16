@@ -6,7 +6,7 @@
 #include<fstream>
 #include<sstream>
 #include<vector>
-
+#include"DirectXCommon.h"
 #include <FbxLoader.h>
 
 
@@ -23,10 +23,9 @@ void Object3D::CreateGraphicsPipeline()
 	fbxPipeline = Pipeline::CreateFBXPipeline(DirectXCommon::GetInstance()->GetDevice().Get());
 }
 
-void Object3D::Initilaize(WorldTransform* Wt)
+void Object3D::Initilaize()
 {
-	wt = Wt;
-	wt->CreateConstBuffer();
+	wt.CreateConstBuffer();
 
 	HRESULT result;
 
@@ -69,7 +68,7 @@ void Object3D::Update()
 	HRESULT result;
 
 
-	wt->UpdateMatrix(camera);
+	wt.UpdateMatrix(camera);
 
 	vector<Model::Bone>& bones = model->GetBones();
 
@@ -84,6 +83,10 @@ void Object3D::Update()
 		{
 			currentTime = startTime;
 		}
+	}
+	else
+	{
+		currentTime = startTime;
 	}
 
 	for (size_t i = 0; i < bones.size(); i++)
@@ -126,20 +129,20 @@ void Object3D::PlayAnimation()
 
 }
 
-void Object3D::Draw(ID3D12GraphicsCommandList* cmdList)
+void Object3D::Draw()
 {
 	if (model == nullptr)
 	{
 		return;
 	}
 
-	cmdList->SetPipelineState(fbxPipeline.pipelineState.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetPipelineState(fbxPipeline.pipelineState.Get());
 
-	cmdList->SetGraphicsRootSignature(fbxPipeline.rootSignature.Get());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootSignature(fbxPipeline.rootSignature.Get());
 
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	cmdList->SetGraphicsRootConstantBufferView(0, wt->constBuffB0->GetGPUVirtualAddress());
-	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
-	model->Draw(cmdList);
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
+	model->Draw();
 }

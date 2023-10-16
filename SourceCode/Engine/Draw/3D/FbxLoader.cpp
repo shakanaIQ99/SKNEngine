@@ -12,12 +12,9 @@ FbxLoader* FbxLoader::GetInstance()
     return &instance;
 }
 
-void FbxLoader::Initialize(ID3D12Device* _device)
+void FbxLoader::Initialize()
 {
     assert(fbxManager == nullptr);
-    assert(_device);
-
-    device = _device;
 
     fbxManager = FbxManager::Create();
 

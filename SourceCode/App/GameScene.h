@@ -116,6 +116,10 @@ private:
 	std::unique_ptr<Sprite2D> preTitle2;
 	uint32_t preTitleHandle2;
 
+	std::unique_ptr<Object3D> Robo;
+	std::unique_ptr<Model> model;
+
+
 	float tenmetu = 255.0f;
 
 	float decri = 3.0f;

@@ -194,7 +194,7 @@ void BossEnemy::AtkTable()
 
 	}
 
-	WaitTimer--;
+	//WaitTimer--;
 }
 
 void BossEnemy::MoveTable()

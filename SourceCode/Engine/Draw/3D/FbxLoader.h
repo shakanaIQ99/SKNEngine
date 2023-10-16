@@ -34,7 +34,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Initialize(ID3D12Device* device);
+	void Initialize();
 
 	/// <summary>
 	/// 解放
@@ -86,8 +86,6 @@ public:
 private:
 
 	static const string defaultTextureFileName;
-
-	ID3D12Device* device = nullptr;
 
 	FbxManager* fbxManager = nullptr;
 
