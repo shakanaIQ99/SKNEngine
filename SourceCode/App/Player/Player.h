@@ -143,6 +143,8 @@ private:
 
 private:
 	WorldTransform* boss;
+
+	std::unique_ptr<ObjModel> Premodel;
 	
 	float move_speed;
 

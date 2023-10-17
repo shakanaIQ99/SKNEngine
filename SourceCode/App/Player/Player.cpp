@@ -21,7 +21,7 @@ void Player::Init()
 {
 
 	ModelInit("Player");
-	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
+	Premodel.reset(ObjModel::LoadFromOBJ("maru"));
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
@@ -133,8 +133,9 @@ void Player::Update()
 	
 	sprite_Lock->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
 
-	//ImGuiSet();
-
+#ifdef _DEBUG
+	ImGuiSet();
+#endif
 	LockOn();
 
 	St->Update(camera->getView());
@@ -172,7 +173,9 @@ void Player::Attack(XMFLOAT3 flont)
 
 
 	std::unique_ptr <PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	newBullet->SetModel(Premodel.get());
 	newBullet->Initlize(BulletStart, St->Wt.rotation_, velocity);
+
 
 	bullets_.push_back(std::move(newBullet));
 
@@ -521,7 +524,9 @@ void Player::TitleUpdate()
 {
 	St->Wt.rotation_.y += 0.05f;
 
-	//ImGuiSet();
+#ifdef _DEBUG
+	ImGuiSet();
+#endif
 	St->Update(camera->getView());
 }
 

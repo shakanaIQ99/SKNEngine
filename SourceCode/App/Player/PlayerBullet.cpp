@@ -1,10 +1,7 @@
 #include "PlayerBullet.h"
 
-std::unique_ptr<ObjModel> PlayerBullet::Premodel;
-
 PlayerBullet::PlayerBullet()
 {
-	ModelInit(Premodel.get());
 	Velocity_ = { 0,0,0 };
 }
 
@@ -12,9 +9,9 @@ PlayerBullet::~PlayerBullet()
 {
 }
 
-void PlayerBullet::SetModel(ObjModel* model)
+void PlayerBullet::SetModel(ObjModel* _model)
 {
-	Premodel.reset(model);
+	ModelInit(_model);
 }
 
 void PlayerBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)

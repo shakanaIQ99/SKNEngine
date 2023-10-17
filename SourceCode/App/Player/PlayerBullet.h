@@ -12,7 +12,7 @@ public:
 	/// モデルセット
 	/// </summary>
 	/// <param name="model"></param>
-	static void SetModel(ObjModel* model);
+	void SetModel(ObjModel* _model);
 
 	/// <summary>
 	/// 初期化
@@ -56,7 +56,6 @@ public:
 
 private:
 
-	static std::unique_ptr<ObjModel> Premodel;
 
 	//モデル
 	//StuructTransform bullet;

@@ -97,7 +97,7 @@ private:
 
 private:
 
-	shared_ptr<ObjModel> model;
+	std::unique_ptr<ObjModel> model;
 
 
 

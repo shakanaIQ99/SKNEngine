@@ -19,20 +19,22 @@ ObjModel* ObjModel::LoadFromOBJ(const string& modelname, bool smoothing)
 
 void ObjModel::Draw(UINT rootParamIndexMaterial)
 {
-	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetVertexBuffers(0, 1, &vbView);
+	ID3D12GraphicsCommandList* commandList = DirectXCommon::GetInstance()->GetCommandList().Get();
 
-	DirectXCommon::GetInstance()->GetCommandList().Get()->IASetIndexBuffer(&ibView);
+	commandList->IASetVertexBuffers(0, 1, &vbView);
 
-	DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
+	commandList->IASetIndexBuffer(&ibView);
 
-	DirectXCommon::GetInstance()->GetCommandList().Get()->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
+	commandList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
+
+	commandList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
 
 	if (material.textureFilename.size() > 0)
 	{
-		DirectXCommon::GetInstance()->GetCommandList().Get()->SetGraphicsRootDescriptorTable(2, tex->gpuHandle);
+		commandList->SetGraphicsRootDescriptorTable(2, tex->gpuHandle);
 	}
 	//commandList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
-	DirectXCommon::GetInstance()->GetCommandList().Get()->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
 

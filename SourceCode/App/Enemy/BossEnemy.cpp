@@ -119,7 +119,9 @@ void BossEnemy::Update()
 		bullet->Update();
 	}
 
-	//ImGuiSet();
+#ifdef _DEBUG
+	ImGuiSet();
+#endif
 
 	if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
 	{
