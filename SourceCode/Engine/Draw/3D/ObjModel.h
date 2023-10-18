@@ -18,6 +18,21 @@ using namespace Microsoft::WRL;
 
 using namespace std;
 
+class Modeldata
+{
+
+};
+
+
+class ModelManager
+{
+public:
+
+
+private:
+
+};
+
 
 class ObjModel
 {
@@ -136,6 +151,6 @@ private:
 
 	unordered_map<unsigned short, vector<unsigned short>>smoothData;
 
-	shared_ptr<TextureData> tex;
+	unique_ptr<TextureData> tex;
 };
 

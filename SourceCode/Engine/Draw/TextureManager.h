@@ -103,7 +103,7 @@ private:
 	/// <returns></returns>
 	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12Resource* texBuff, TexMetadata& metadata);
 
-	static std::shared_ptr<TextureManager> texManager;
+	static std::unique_ptr<TextureManager> texManager;
 
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 

@@ -1,5 +1,5 @@
 #include "TextureManager.h"
-std::shared_ptr<TextureManager> TextureManager::texManager;
+std::unique_ptr<TextureManager> TextureManager::texManager;
 vector<string>TextureManager::FilePaths;
 unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 
@@ -65,7 +65,7 @@ TextureManager* TextureManager::GetInstance()
 {
 	if (!texManager)
 	{
-		texManager = std::make_shared<TextureManager>();
+		texManager = std::make_unique<TextureManager>();
 	}
 
 	return texManager.get();

@@ -16,6 +16,7 @@ void PlayerBullet::SetModel(ObjModel* _model)
 
 void PlayerBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)
 {
+	//St->Initialize();
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;
 	St->Wt.scale_ = { 0.5f,0.5f,0.5f };

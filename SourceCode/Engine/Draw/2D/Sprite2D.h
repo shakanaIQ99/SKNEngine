@@ -67,6 +67,6 @@ protected:
 
     std::unique_ptr<IndexBuffer> indexBuffer = {};
 
-    shared_ptr<TextureData> tex;
+    unique_ptr<TextureData> tex;
    
 };
