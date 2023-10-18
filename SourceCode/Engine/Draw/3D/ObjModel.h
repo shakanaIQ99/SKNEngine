@@ -20,6 +20,55 @@ using namespace std;
 
 class Modeldata
 {
+public:
+
+
+	struct VertexPos
+	{
+		XMFLOAT3 pos; // xyz座標
+		XMFLOAT3 normal;
+		XMFLOAT2 uv;
+	};
+
+
+	struct Material
+	{
+		string name;
+		XMFLOAT3 ambient;
+		XMFLOAT3 diffuse;
+		XMFLOAT3 specular;
+
+		float alpha;
+		string textureFilename;
+
+		Material()
+		{
+			ambient = { 0.3f,0.3f,0.3f };
+			diffuse = { 0.0f,0.0f,0.0f };
+			specular = { 0.0f,0.0f,0.0f };
+			alpha = 1.0f;
+
+		}
+
+	};
+
+	struct ConstBufferDataMaterial
+	{
+		XMFLOAT3 ambient;
+		float pad1;
+		XMFLOAT3 diffuse;
+		float pad2;
+		XMFLOAT3 specular;
+		float alpha;
+	};
+
+
+	Material material;
+
+
+private:
+
+
 
 };
 
