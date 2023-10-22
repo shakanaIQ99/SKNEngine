@@ -7,13 +7,13 @@ void WorldTransform::CreateConstBuffer(ID3D12Device* device)
 	HRESULT result;
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 
-	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPU‚Ö‚Ì“]‘——p
+	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPUã¸ã®è»¢é€ç”¨
 
 	D3D12_RESOURCE_DESC cbResourceDesc{};
-	//ƒŠƒ\[ƒXÝ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	
-	cbResourceDesc.Width = (sizeof(ConstBufferDataWorldTransformB0) + 0xff) & ~0Xff;	//256ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg
+	cbResourceDesc.Width = (sizeof(ConstBufferDataWorldTransformB0) + 0xff) & ~0Xff;	//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
 		
 	
 	cbResourceDesc.Height = 1;
@@ -22,11 +22,11 @@ void WorldTransform::CreateConstBuffer(ID3D12Device* device)
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = device->CreateCommittedResource(
-		&cbHeapProp,		//ƒq[ƒvÝ’è
+		&cbHeapProp,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDesc,	//ƒŠƒ\[ƒXÝ’è
+		&cbResourceDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffB0)
@@ -40,7 +40,7 @@ void WorldTransform::UpdateMatrix(ViewProjection* camera)
 {
 	XMMATRIX matScale, matRot, matTrans;
 
-	// ƒXƒP[ƒ‹A‰ñ“]A•½sˆÚ“®s—ñ‚ÌŒvŽZ
+	// ã‚¹ã‚±ãƒ¼ãƒ«ã€å›žè»¢ã€å¹³è¡Œç§»å‹•è¡Œåˆ—ã®è¨ˆç®—
 	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(rotation_.z);
@@ -48,20 +48,20 @@ void WorldTransform::UpdateMatrix(ViewProjection* camera)
 	matRot *= XMMatrixRotationY(rotation_.y);
 	matTrans = XMMatrixTranslation(translation_.x, translation_.y, translation_.z);
 
-	// ƒ[ƒ‹ƒhs—ñ‚Ì‡¬
-	matWorld_ = XMMatrixIdentity(); // •ÏŒ`‚ðƒŠƒZƒbƒg
-	matWorld_ *= matScale;          // ƒ[ƒ‹ƒhs—ñ‚ÉƒXƒP[ƒŠƒ“ƒO‚ð”½‰f
-	matWorld_ *= matRot;            // ƒ[ƒ‹ƒhs—ñ‚É‰ñ“]‚ð”½‰f
-	matWorld_ *= matTrans;          // ƒ[ƒ‹ƒhs—ñ‚É•½sˆÚ“®‚ð”½‰f
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®åˆæˆ
+	matWorld_ = XMMatrixIdentity(); // å¤‰å½¢ã‚’ãƒªã‚»ãƒƒãƒˆ
+	matWorld_ *= matScale;          // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã‚’åæ˜ 
+	matWorld_ *= matRot;            // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å›žè»¢ã‚’åæ˜ 
+	matWorld_ *= matTrans;          // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å¹³è¡Œç§»å‹•ã‚’åæ˜ 
 
-	//// es—ñ‚ÌŽw’è‚ª‚ ‚éê‡‚ÍAŠ|‚¯ŽZ‚·‚é
+	//// è¦ªè¡Œåˆ—ã®æŒ‡å®šãŒã‚ã‚‹å ´åˆã¯ã€æŽ›ã‘ç®—ã™ã‚‹
 	//if (parent_) {
 	//	matWorld_ *= parent_->matWorld_;
 	//}
 
 	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	assert(SUCCEEDED(result));
-	// ’è”ƒoƒbƒtƒ@‚É‘‚«ž‚Ý
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã¿
 	constMap->color = color;
 	//constMap->matWorld = matWorld_ * view * projection;
 	constMap->viewproj = camera->GetMAtView() * camera->GetMatProjection();
@@ -75,7 +75,7 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 {
 	XMMATRIX matScale, matRot, matTrans;
 
-	// ƒXƒP[ƒ‹A‰ñ“]A•½sˆÚ“®s—ñ‚ÌŒvŽZ
+	// ã‚¹ã‚±ãƒ¼ãƒ«ã€å›žè»¢ã€å¹³è¡Œç§»å‹•è¡Œåˆ—ã®è¨ˆç®—
 	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(rotation_.z);
@@ -83,11 +83,11 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 	matRot *= XMMatrixRotationY(rotation_.y);
 	matTrans = XMMatrixTranslation(translation_.x, translation_.y, translation_.z);
 
-	// ƒ[ƒ‹ƒhs—ñ‚Ì‡¬
-	matWorld_ = XMMatrixIdentity(); // •ÏŒ`‚ðƒŠƒZƒbƒg
-	matWorld_ *= matScale;          // ƒ[ƒ‹ƒhs—ñ‚ÉƒXƒP[ƒŠƒ“ƒO‚ð”½‰f
-	matWorld_ *= matRot;            // ƒ[ƒ‹ƒhs—ñ‚É‰ñ“]‚ð”½‰f
-	matWorld_ *= matTrans;          // ƒ[ƒ‹ƒhs—ñ‚É•½sˆÚ“®‚ð”½‰f
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®åˆæˆ
+	matWorld_ = XMMatrixIdentity(); // å¤‰å½¢ã‚’ãƒªã‚»ãƒƒãƒˆ
+	matWorld_ *= matScale;          // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã‚’åæ˜ 
+	matWorld_ *= matRot;            // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å›žè»¢ã‚’åæ˜ 
+	matWorld_ *= matTrans;          // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å¹³è¡Œç§»å‹•ã‚’åæ˜ 
 
 	XMVECTOR eyePosition = XMLoadFloat3(&camera->Geteye());
 
@@ -133,7 +133,7 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 	matBillboard.r[2] = cameraAxisZ;
 	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
 
-	//// es—ñ‚ÌŽw’è‚ª‚ ‚éê‡‚ÍAŠ|‚¯ŽZ‚·‚é
+	//// è¦ªè¡Œåˆ—ã®æŒ‡å®šãŒã‚ã‚‹å ´åˆã¯ã€æŽ›ã‘ç®—ã™ã‚‹
 	//if (parent_) {
 	//	matWorld_ *= parent_->matWorld_;
 	//}
@@ -141,7 +141,7 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	assert(SUCCEEDED(result));
 
-	// ’è”ƒoƒbƒtƒ@‚É‘‚«ž‚Ý
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã¿
 	constMap->viewproj = matView * camera->GetMatProjection();
 	constMap->world = matBillboard;
 	constBuffB0->Unmap(0, nullptr);
@@ -153,7 +153,7 @@ void WorldTransform::UpdateSpriteMatrix(XMMATRIX projection)
 {
 	XMMATRIX matScale, matRot, matTrans;
 
-	// ƒXƒP[ƒ‹A‰ñ“]A•½sˆÚ“®s—ñ‚ÌŒvŽZ
+	// ã‚¹ã‚±ãƒ¼ãƒ«ã€å›žè»¢ã€å¹³è¡Œç§»å‹•è¡Œåˆ—ã®è¨ˆç®—
 	matScale = XMMatrixScaling(scale_.x, scale_.y, 1.0f);
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(rotation_.z);
@@ -161,13 +161,13 @@ void WorldTransform::UpdateSpriteMatrix(XMMATRIX projection)
 	matRot *= XMMatrixRotationY(0.0f);
 	matTrans = XMMatrixTranslation(translation_.x, translation_.y, 0.0f);
 
-	// ƒ[ƒ‹ƒhs—ñ‚Ì‡¬
-	matWorld_ = XMMatrixIdentity(); // •ÏŒ`‚ðƒŠƒZƒbƒg
-	matWorld_ *= matScale;          // ƒ[ƒ‹ƒhs—ñ‚ÉƒXƒP[ƒŠƒ“ƒO‚ð”½‰f
-	matWorld_ *= matRot;            // ƒ[ƒ‹ƒhs—ñ‚É‰ñ“]‚ð”½‰f
-	matWorld_ *= matTrans;          // ƒ[ƒ‹ƒhs—ñ‚É•½sˆÚ“®‚ð”½‰f
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®åˆæˆ
+	matWorld_ = XMMatrixIdentity(); // å¤‰å½¢ã‚’ãƒªã‚»ãƒƒãƒˆ
+	matWorld_ *= matScale;          // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ã‚’åæ˜ 
+	matWorld_ *= matRot;            // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å›žè»¢ã‚’åæ˜ 
+	matWorld_ *= matTrans;          // ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã«å¹³è¡Œç§»å‹•ã‚’åæ˜ 
 
-	//// es—ñ‚ÌŽw’è‚ª‚ ‚éê‡‚ÍAŠ|‚¯ŽZ‚·‚é
+	//// è¦ªè¡Œåˆ—ã®æŒ‡å®šãŒã‚ã‚‹å ´åˆã¯ã€æŽ›ã‘ç®—ã™ã‚‹
 	//if (parent_) {
 	//    matWorld_ *= parent_->matWorld_;
 	//}
@@ -175,7 +175,7 @@ void WorldTransform::UpdateSpriteMatrix(XMMATRIX projection)
 	HRESULT result = constBuffB0->Map(0, nullptr, (void**)&constMap);
 	assert(SUCCEEDED(result));
 
-	// ’è”ƒoƒbƒtƒ@‚É‘‚«ž‚Ý
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã¿
 	constMap->color = color;
 	constMap->world = matWorld_ * projection;
 

@@ -1,5 +1,5 @@
 #pragma once
-//ŒãXModel‚ğ‰ü‘¢‚µƒNƒ‰ƒX“‡—\’è
+//å¾Œã€…Modelã‚’æ”¹é€ ã—ã‚¯ãƒ©ã‚¹çµ±åˆäºˆå®š
 #include<string>
 #include"DxWindow.h"
 #include<vector>
@@ -26,7 +26,7 @@ public:
 
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyzÀ•W
+		XMFLOAT3 pos; // xyzåº§æ¨™
 		XMFLOAT3 normal;
 		XMFLOAT2 uv;
 	};

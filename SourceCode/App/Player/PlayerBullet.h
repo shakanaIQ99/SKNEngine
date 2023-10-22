@@ -10,27 +10,27 @@ public:
 	static void SetModel(ObjModel* model);
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="model">ƒ‚ƒfƒ‹</param>
-	/// <param name="position">‰ŠúÀ•W</param>
-	/// <param name="velocity">‘¬“x</param>
+	/// <param name="model">ãƒ¢ãƒ‡ãƒ«</param>
+	/// <param name="position">åˆæœŸåº§æ¨™</param>
+	/// <param name="velocity">é€Ÿåº¦</param>
 	void Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity);
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
-	/// <param name="viewProjection">ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“</param>
+	/// <param name="viewProjection">ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³</param>
 	void Draw();
 
 	bool IsDead()const { return isDead_; }
 
-	//Õ“Ë‚ğŒŸo‚µ‚½‚çŒÄ‚Ño‚³‚ê‚éƒR[ƒ‹ƒoƒbƒNŠÖ”
+	//è¡çªã‚’æ¤œå‡ºã—ãŸã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void OnCollision();
 
 	XMFLOAT3 GetWorldPosition();
@@ -40,23 +40,23 @@ private:
 
 	static std::unique_ptr<ObjModel> Premodel;
 
-	//ƒ‚ƒfƒ‹
+	//ãƒ¢ãƒ‡ãƒ«
 	//StuructTransform bullet;
 	
 
-	//ƒeƒNƒXƒ`ƒƒƒnƒ“ƒhƒ‹
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒ³ãƒ‰ãƒ«
 
 
-	//‘¬“x
+	//é€Ÿåº¦
 	XMFLOAT3 Velocity_;
 
-	//õ–½<frm>
+	//å¯¿å‘½<frm>
 	static const int32_t kLifeTime = 60 * 5;
 
-	//ƒfƒXƒ^ƒCƒ}[
+	//ãƒ‡ã‚¹ã‚¿ã‚¤ãƒãƒ¼
 	int32_t deathTimer_ = kLifeTime;
 
-	//ƒfƒXƒtƒ‰ƒO
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°
 	bool isDead_ = false;
 
 };

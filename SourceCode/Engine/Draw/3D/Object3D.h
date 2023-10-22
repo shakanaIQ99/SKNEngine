@@ -83,11 +83,11 @@ protected:
 //
 //	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
 //
-//	/// <param name="cmdList">•`‰æƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
+//	/// <param name="cmdList">æç”»ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
 //	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 //
 //	/// <summary>
-//	/// •`‰æŒãˆ—
+//	/// æç”»å¾Œå‡¦ç†
 //	/// </summary>
 //	static void PostDraw();
 //
@@ -99,7 +99,7 @@ protected:
 //
 //	static ID3D12Device* device;
 //
-//	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+//	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 //	static ID3D12GraphicsCommandList* commandList;
 //
 //	static LightGroup* lightGroup;

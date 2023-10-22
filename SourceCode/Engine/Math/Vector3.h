@@ -10,50 +10,50 @@ public:
 
 
 public:
-	//ƒ[ƒƒxƒNƒgƒ‹
+	//ã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3();
-	//”CˆÓƒxƒNƒgƒ‹
+	//ä»»æ„ãƒ™ã‚¯ãƒˆãƒ«
 	Vector3(float x, float y, float z);
 
-	//ŠÖ”
+	//é–¢æ•°
 
-	//’·‚³
+	//é•·ã•
 	float length()const;
-	//³‹K‰»
+	//æ­£è¦åŒ–
 	Vector3& normalize();
-	//³‹K‰»‚ğ“üè
+	//æ­£è¦åŒ–ã‚’å…¥æ‰‹
 	Vector3 getnormalize() const;
-	//“àÏ
+	//å†…ç©
 	float dot(const Vector3& v)const;
-	//ŠOÏ
+	//å¤–ç©
 	Vector3 cross(const Vector3& v)const;
 
-	//‹tƒxƒN
+	//é€†ãƒ™ã‚¯
 	Vector3 operator-()const;
 
-	//”äŠr‘g
+	//æ¯”è¼ƒçµ„
 
 	bool operator==(const Vector3& v) const;
 	bool operator!=(const Vector3& v) const;
 
-	//‰‰Z‘g
+	//æ¼”ç®—çµ„
 
-	//‘«‚µZ
+	//è¶³ã—ç®—
 	Vector3& operator+=(const Vector3& v);
-	//ˆø‚«Z
+	//å¼•ãç®—
 	Vector3& operator-=(const Vector3& v);
-	//Š|‚¯Z
+	//æ›ã‘ç®—
 	Vector3& operator*=(float s);
-	//œZ
+	//é™¤ç®—
 	Vector3& operator/=(float s);
 
-	//‘«‚µZ
+	//è¶³ã—ç®—
 	Vector3 operator+(const Vector3& v) const;
-	//ˆø‚«Z
+	//å¼•ãç®—
 	Vector3 operator-(const Vector3& v) const;
-	//Š|‚¯Z
+	//æ›ã‘ç®—
 	Vector3 operator*(const float s) const;
-	//œZ
+	//é™¤ç®—
 	Vector3 operator/(const float s) const;
 
 	operator Vector2() const;

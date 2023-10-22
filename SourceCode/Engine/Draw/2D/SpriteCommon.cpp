@@ -32,12 +32,12 @@ void SpriteCommon::PostDraw()
 
 void SpriteCommon::DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView, WorldTransform* wt)
 {
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìİ’èƒRƒ}ƒ“ƒh
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
 	dxcommon->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 
 	dxcommon->GetCommandList()->IASetIndexBuffer(&ibView);
-	//ƒvƒŠƒ~ƒeƒBƒuŒ`ó‚Ìİ’èƒRƒ}ƒ“ƒh
-	dxcommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // OŠpŒ`ƒŠƒXƒg
+	//ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
+	dxcommon->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // ä¸‰è§’å½¢ãƒªã‚¹ãƒˆ
 
 	dxcommon->GetCommandList()->SetDescriptorHeaps(1, textureData->srvHeap.GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = textureData->gpuHandle;
@@ -46,9 +46,9 @@ void SpriteCommon::DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW
 
 	dxcommon->GetCommandList()->SetGraphicsRootConstantBufferView(0, wt->constBuffB0->GetGPUVirtualAddress());
 
-	// •`‰æƒRƒ}ƒ“ƒh
-	//commandList->DrawInstanced(3, 1, 0, 0); // ‘S‚Ä‚Ì’¸“_‚ğg‚Á‚Ä•`‰æ
-	dxcommon->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0); // ‘S‚Ä‚Ì’¸“_‚ğg‚Á‚Ä•`‰æ
+	// æç”»ã‚³ãƒãƒ³ãƒ‰
+	//commandList->DrawInstanced(3, 1, 0, 0); // å…¨ã¦ã®é ‚ç‚¹ã‚’ä½¿ã£ã¦æç”»
+	dxcommon->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0); // å…¨ã¦ã®é ‚ç‚¹ã‚’ä½¿ã£ã¦æç”»
 
 }
 

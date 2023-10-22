@@ -9,26 +9,26 @@ class Camera
 {
 public:
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
-	/// <param name="worldTransform">ƒ[ƒ‹ƒhÀ•W</param>
-	/// <param name="Rot">‰ñ“]Šp(ƒ‰ƒWƒAƒ“)</param>
+	/// <param name="worldTransform">ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™</param>
+	/// <param name="Rot">å›žè»¢è§’(ãƒ©ã‚¸ã‚¢ãƒ³)</param>
 	void Initialize(ID3D12Device* Device);
 
 	void Reset();
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	/// s—ñ‚ÆƒxƒNƒgƒ‹‚ÌŒvŽZ(¶‘¤‚ªs—ñŒvŽZ‚Ìæ)
+	/// è¡Œåˆ—ã¨ãƒ™ã‚¯ãƒˆãƒ«ã®è¨ˆç®—(å·¦å´ãŒè¡Œåˆ—è¨ˆç®—ã®å…ˆ)
 	/// </summary>
 	XMFLOAT3 VectorMat(XMFLOAT3 vector, XMMATRIX mat);
 
 	/// <summary>
-	/// s—ñ‚ÆƒxƒNƒgƒ‹‚ÌŒvŽZ(¶‘¤‚ªs—ñŒvŽZ‚Ìæ)
+	/// è¡Œåˆ—ã¨ãƒ™ã‚¯ãƒˆãƒ«ã®è¨ˆç®—(å·¦å´ãŒè¡Œåˆ—è¨ˆç®—ã®å…ˆ)
 	/// </summary>
 	XMFLOAT3 VectorMat(XMMATRIX mat, XMFLOAT3 vector);
 
@@ -38,14 +38,14 @@ public:
 
 	XMFLOAT3 getForwardVec();
 
-	//ƒ[ƒ‹ƒhÀ•W‚ðŽæ“¾
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
 	XMFLOAT3 GetWorldPosition();
 
 	void setPos(XMFLOAT3 pos);
 
 	void setTarget(XMFLOAT3 Target);
 	/// <summary>
-	/// ƒJƒƒ‰‚É’Ç]æ‚Ìƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ð“n‚·
+	/// ã‚«ãƒ¡ãƒ©ã«è¿½å¾“å…ˆã®ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’æ¸¡ã™
 	/// </summary>
 	void setTarget(WorldTransform* target) { targetWT = target; }
 
@@ -59,10 +59,10 @@ private:
 
 	ViewProjection viewProjection_;
 
-	//ƒ[ƒ‹ƒh•ÏŠ·ƒf[ƒ^(“K“–“Ç‚Ýž‚Ý)
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ãƒ‡ãƒ¼ã‚¿(é©å½“èª­ã¿è¾¼ã¿)
 	WorldTransform wt;
 
-	//ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“
+	//ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³
 
 	XMFLOAT3 forward = { 0.0f, 0.0f, 1.0f };
 

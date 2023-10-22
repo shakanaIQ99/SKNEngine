@@ -9,7 +9,7 @@ using namespace DirectX;
 
 using namespace Microsoft::WRL;
 
-// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 struct ConstBufferDataWorldTransformB0
 {
 	XMMATRIX viewproj;
@@ -22,37 +22,37 @@ struct ConstBufferDataWorldTransformB0
 
 
 /// <summary>
-/// ƒ[ƒ‹ƒh•ÏŠ·ƒf[ƒ^
+/// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ãƒ‡ãƒ¼ã‚¿
 /// </summary>
 struct WorldTransform {
 
 	
-	// ’è”ƒoƒbƒtƒ@
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuffB0;
-	// ƒ}ƒbƒsƒ“ƒOÏ‚İƒAƒhƒŒƒX
+	// ãƒãƒƒãƒ”ãƒ³ã‚°æ¸ˆã¿ã‚¢ãƒ‰ãƒ¬ã‚¹
 	ConstBufferDataWorldTransformB0* constMap = nullptr;
-	// ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	// ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	XMFLOAT3 scale_ = { 1, 1, 1 };
-	// X,Y,Z²‰ñ‚è‚Ìƒ[ƒJƒ‹‰ñ“]Šp
+	// X,Y,Zè»¸å›ã‚Šã®ãƒ­ãƒ¼ã‚«ãƒ«å›è»¢è§’
 	XMFLOAT3 rotation_ = { 0.0f, 0.0f, 0.0f };
-	// ƒ[ƒJƒ‹À•W
+	// ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 	XMFLOAT3 translation_ = { 0.0f, 0.0f, 0.0f };
 
 	XMFLOAT4 color = { 1,1,1,1 };
-	// ƒ[ƒJƒ‹ ¨ ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	// ãƒ­ãƒ¼ã‚«ãƒ« â†’ ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	XMMATRIX matWorld_;
 
 	XMMATRIX matBillboard;
-	// e‚Æ‚È‚éƒ[ƒ‹ƒh•ÏŠ·‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	// è¦ªã¨ãªã‚‹ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	//WorldTransform* parent_ = nullptr;
 
 	/// <summary>
-	/// ’è”ƒoƒbƒtƒ@¶¬
+	/// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	/// </summary>
 	void CreateConstBuffer(ID3D12Device* device);
 	
 	/// <summary>
-	/// s—ñ‚ğXV‚·‚é
+	/// è¡Œåˆ—ã‚’æ›´æ–°ã™ã‚‹
 	/// </summary>
 	void UpdateMatrix(ViewProjection* camera);
 

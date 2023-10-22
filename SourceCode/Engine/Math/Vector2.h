@@ -9,50 +9,50 @@ public:
 	float y;
 
 public:
-	//—ëƒxƒNƒgƒ‹¶¬
+	//é›¶ãƒ™ã‚¯ãƒˆãƒ«ç”Ÿæˆ
 	Vector2();			
-	//x,y¬•ª‚ğw’è‚µ‚Ä¶¬
+	//x,yæˆåˆ†ã‚’æŒ‡å®šã—ã¦ç”Ÿæˆ
 	Vector2(float x, float y);	
 
-	//ŠÖ”
+	//é–¢æ•°
 	
-	//’·‚³
+	//é•·ã•
 	float length()const;				
-	//³‹K‰»
+	//æ­£è¦åŒ–
 	Vector2& normalize();		
-	//³‹K‰»‚ğ“üè
+	//æ­£è¦åŒ–ã‚’å…¥æ‰‹
 	Vector2 getnormalize() const;
-	//“àÏ
+	//å†…ç©
 	float dot(const Vector2& v)const;	
-	//ŠOÏ
+	//å¤–ç©
 	float cross(const Vector2& v)const;	
 
-	//‹tƒxƒN
+	//é€†ãƒ™ã‚¯
 	Vector2 operator-()const;
 
-	//”äŠr‘g
+	//æ¯”è¼ƒçµ„
 
 	bool operator==(const Vector2& v) const;
 	bool operator!=(const Vector2& v) const;
 
-	//‰‰Z‘g
+	//æ¼”ç®—çµ„
 	 
-	//‘«‚µZ
+	//è¶³ã—ç®—
 	Vector2& operator+=(const Vector2& v);
-	//ˆø‚«Z
+	//å¼•ãç®—
 	Vector2& operator-=(const Vector2& v);
-	//Š|‚¯Z
+	//æ›ã‘ç®—
 	Vector2& operator*=(float s);
-	//œZ
+	//é™¤ç®—
 	Vector2& operator/=(float s);
 
-	//‘«‚µZ
+	//è¶³ã—ç®—
 	Vector2 operator+(const Vector2& v) const;
-	//ˆø‚«Z
+	//å¼•ãç®—
 	Vector2 operator-(const Vector2& v) const;
-	//Š|‚¯Z
+	//æ›ã‘ç®—
 	Vector2 operator*(const float s) const;
-	//œZ
+	//é™¤ç®—
 	Vector2 operator/(const float s) const;
 
 	operator Vector3() const;

@@ -432,15 +432,15 @@ XMFLOAT2 Player::WorldToMonitor(XMFLOAT3 pos)
 		1280 / 2 + 0,720 / 2 + 0,0,1
 	};
 
-	//ƒrƒ…[s—ñ‚ÆƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñAƒrƒ…[ƒ|[ƒgs—ñ‚ð‡¬‚·‚é
+	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã¨ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—ã€ãƒ“ãƒ¥ãƒ¼ãƒãƒ¼ãƒˆè¡Œåˆ—ã‚’åˆæˆã™ã‚‹
 	XMMATRIX matViewProjectionViewport = camera->getView()->GetMAtView();
 	matViewProjectionViewport *= camera->getView()->GetMatProjection();
 	matViewProjectionViewport *= matViewport;
 
-	//ƒ[ƒ‹ƒh¨ƒXƒNƒŠ[ƒ“À•W•ÏŠ·(‚±‚±‚Å3D‚©‚ç2D‚É‚È‚é)
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰â†’ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™å¤‰æ›(ã“ã“ã§3Dã‹ã‚‰2Dã«ãªã‚‹)
 	positionReticle = VectorMatDivW(matViewProjectionViewport, positionReticle);
 
-	//ƒXƒvƒ‰ƒCƒg‚ÌƒŒƒeƒBƒNƒ‹‚ÉÀ•WÝ’è
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®ãƒ¬ãƒ†ã‚£ã‚¯ãƒ«ã«åº§æ¨™è¨­å®š
 	return XMFLOAT2(positionReticle.x, positionReticle.y);
 }
 

@@ -28,8 +28,8 @@ void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList)
 
 	commandList->SetPipelineState(ParPipeline.pipelineState.Get());
 	commandList->SetGraphicsRootSignature(ParPipeline.rootSignature.Get());
-	// ƒvƒŠƒ~ƒeƒBƒuŒ`ó‚ÌÝ’èƒRƒ}ƒ“ƒh
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ŽOŠpŒ`ƒŠƒXƒg
+	// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶ã®è¨­å®šã‚³ãƒžãƒ³ãƒ‰
+	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // ä¸‰è§’å½¢ãƒªã‚¹ãƒˆ
 }
 
 void ParticleManager::PostDraw()
@@ -76,7 +76,7 @@ void ParticleManager::CreateModel()
 	assert(SUCCEEDED(result));
 
 
-	// ’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
 	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result))
@@ -93,14 +93,14 @@ void ParticleManager::CreateModel()
 
 ParticleManager* ParticleManager::Create(uint32_t Handle)
 {
-	// Sprite‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ð¶¬
+	// Spriteã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	ParticleManager* pat = new ParticleManager(Handle);
 
 	if (pat == nullptr) {
 		return nullptr;
 	}
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	if (!pat->Initialize()) {
 		delete pat;
 		assert(0);

@@ -1,4 +1,4 @@
-﻿#include "FbxLoader.h"
+#include "FbxLoader.h"
 #include<cassert>
 
 const string FbxLoader::baseDirectory = "Resources/";

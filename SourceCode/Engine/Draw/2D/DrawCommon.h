@@ -9,7 +9,7 @@ using namespace DirectX;
 
 struct PNU
 {
-	XMFLOAT3 pos; // xyzç¿ïW
+	XMFLOAT3 pos; // xyzÂ∫ßÊ®ô
 	XMFLOAT3 normal;
 	XMFLOAT2 uv;
 };

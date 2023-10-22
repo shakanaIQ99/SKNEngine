@@ -19,13 +19,13 @@ void GameScene::Init(DirectXCommon* dxcommon)
 
 	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);
 
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚Ýž‚Ý
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
 	
 
-	//3Dƒ‚ƒfƒ‹Žü‚è
+	//3Dãƒ¢ãƒ‡ãƒ«å‘¨ã‚Š
 
 	
 	skydome = OBJ3D::Create();
@@ -42,14 +42,14 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	player.SetEnemy(&boss.St->Wt);
 
 
-	//ƒXƒvƒ‰ƒCƒgŽü‚è
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆå‘¨ã‚Š
 
 	preTitle = std::make_unique<Sprite2D>();
 	preTitle->Initialize(spritecommon,preTitleHandle);
 	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
 
 
-	//ƒp[ƒeƒBƒNƒ‹Žü‚è
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«å‘¨ã‚Š
 
 	float ambientColor[3] = { 1,1,1 };
 
@@ -213,15 +213,15 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 	boss.Draw();
 	//ParticleManager::PreDraw(dxcommon->GetCommandList());
 
-	// 3DƒIƒuƒNƒWƒFƒNƒg‚Ì•`‰æ
+	// 3Dã‚ªãƒ–ã‚¯ã‚¸ã‚§ã‚¯ãƒˆã®æç”»
 	//particleMan->Draw();
 
 
 	/// <summary>
-	/// ‚±‚±‚É3DƒIƒuƒWƒFƒNƒg‚Ì•`‰æˆ—‚ð’Ç‰Á‚Å‚«‚é
+	/// ã“ã“ã«3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æç”»å‡¦ç†ã‚’è¿½åŠ ã§ãã‚‹
 	/// </summary>
 
-	// 3DƒIƒuƒWƒFƒNƒg•`‰æŒãˆ—
+	// 3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæç”»å¾Œå‡¦ç†
 	//ParticleManager::PostDraw();
 
 	spritecommon->PreDraw();

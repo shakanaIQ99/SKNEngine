@@ -55,7 +55,7 @@ void BossEnemy::Update()
 			return bullet->IsDead();
 		});
 
-	//•½–Êã‚Ì‹——£
+	//å¹³é¢ä¸Šã®è·é›¢
 	XMFLOAT3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
 	Lange = length(plUnderPos);
 

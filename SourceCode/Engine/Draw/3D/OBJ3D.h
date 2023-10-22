@@ -1,5 +1,5 @@
 #pragma once
-//ŒãXObjct3D‚ğ‰ü‘¢‚µƒNƒ‰ƒX“‡—\’è
+//å¾Œã€…Objct3Dã‚’æ”¹é€ ã—ã‚¯ãƒ©ã‚¹çµ±åˆäºˆå®š
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -32,7 +32,7 @@ public:
 
 	static void StaticInitialize(ID3D12Device* device);
 
-	/// <param name="cmdList">•`‰æƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
+	/// <param name="cmdList">æç”»ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
 	static OBJ3D* Create();
@@ -43,7 +43,7 @@ private:
 
 	static ID3D12Device* device;
 
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	static ID3D12GraphicsCommandList* commandList;
 
 	static LightGroup* lightGroup;

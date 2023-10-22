@@ -32,7 +32,7 @@ void PlayerBullet::Update()
 
 	St->Update(camera->getView());
 
-	//�f�X�^�C�}�[���Ђ���0�ȉ��ɂȂ�����t���O�𗧂Ă�
+	//デスタイマーをひいて0以下になったらフラグを立てる
 	if (--deathTimer_ <= 0)
 	{
 		isDead_ = true;

@@ -25,14 +25,14 @@ public:
 	ParticleManager(uint32_t handle);
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyzÀ•W
+		XMFLOAT3 pos; // xyzåº§æ¨™
 		float scale;
 	};
 
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
-		XMMATRIX mat;	// ‚R‚c•ÏŠ·s—ñ
+		XMMATRIX mat;	// ï¼“ï¼¤å¤‰æ›è¡Œåˆ—
 		XMMATRIX matBillboard;
 	};
 

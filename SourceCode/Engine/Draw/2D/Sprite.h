@@ -20,7 +20,7 @@ public:
 
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyzÀ•W
+		XMFLOAT3 pos; // xyzåº§æ¨™
 		XMFLOAT2 uv;
 	};
 
@@ -33,11 +33,11 @@ public:
 
 	void StaticInitialize(ID3D12Device* device);
 
-	/// <param name="cmdList">•`‰æƒRƒ}ƒ“ƒhƒŠƒXƒg</param>
+	/// <param name="cmdList">æç”»ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ</param>
 	void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
-	/// •`‰æŒãˆ—
+	/// æç”»å¾Œå‡¦ç†
 	/// </summary>
 	void PostDraw();
 
@@ -68,19 +68,19 @@ private:
 
 	ComPtr<ID3D12DescriptorHeap> descHeap;
 
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	ID3D12GraphicsCommandList* commandList;
 
 	ComPtr<ID3D12Resource> vertBuff;
 
 	ComPtr<ID3D12Resource> indexBuff;
-	// ’è”ƒoƒbƒtƒ@
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuff;
 
 	ComPtr<ID3D12Resource> texBuff[SrvCount];
 
 	ComPtr<ID3D12RootSignature> rootsignature;
-	// ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	ComPtr<ID3D12PipelineState> pipelinestate;
 
 	D3D12_VERTEX_BUFFER_VIEW vbView;

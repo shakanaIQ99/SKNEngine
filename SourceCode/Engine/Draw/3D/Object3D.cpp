@@ -53,8 +53,8 @@ PipelineSet Object3D::fbxPipeline;
 //
 //	commandList->SetPipelineState(ObjPipeline.pipelineState.Get());
 //	commandList->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
-//	// ƒvƒŠƒ~ƒeƒBƒuŒ`ó‚Ìİ’èƒRƒ}ƒ“ƒh
-//	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // OŠpŒ`ƒŠƒXƒg
+//	// ãƒ—ãƒªãƒŸãƒ†ã‚£ãƒ–å½¢çŠ¶ã®è¨­å®šã‚³ãƒãƒ³ãƒ‰
+//	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // ä¸‰è§’å½¢ãƒªã‚¹ãƒˆ
 //}
 //
 //void Object3D::PostDraw()
@@ -64,13 +64,13 @@ PipelineSet Object3D::fbxPipeline;
 //
 //Object3D* Object3D::Create(WorldTransform* wt)
 //{
-//	// Sprite‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+//	// Spriteã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 //	Object3D* obj = new Object3D(wt);
 //	if (obj == nullptr) {
 //		return nullptr;
 //	}
 //
-//	// ‰Šú‰»
+//	// åˆæœŸåŒ–
 //	if (!obj->Initialize()) {
 //		delete obj;
 //		assert(0);
@@ -127,20 +127,20 @@ void Object3D::Initilaize(WorldTransform* Wt)
 
 	cbHeapPropB1.Type = D3D12_HEAP_TYPE_UPLOAD;
 	D3D12_RESOURCE_DESC cbResourceDescB1{};
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	cbResourceDescB1.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	cbResourceDescB1.Width = (sizeof(ConstBufferDataSkin) + 0xff) & ~0Xff;	//256ƒoƒCƒgƒAƒ‰ƒCƒƒ“ƒg
+	cbResourceDescB1.Width = (sizeof(ConstBufferDataSkin) + 0xff) & ~0Xff;	//256ãƒã‚¤ãƒˆã‚¢ãƒ©ã‚¤ãƒ¡ãƒ³ãƒˆ
 	cbResourceDescB1.Height = 1;
 	cbResourceDescB1.DepthOrArraySize = 1;
 	cbResourceDescB1.MipLevels = 1;
 	cbResourceDescB1.SampleDesc.Count = 1;
 	cbResourceDescB1.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = device->CreateCommittedResource(
-		&cbHeapPropB1,		//ƒq[ƒvİ’è
+		&cbHeapPropB1,		//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&cbResourceDescB1,	//ƒŠƒ\[ƒXİ’è
+		&cbResourceDescB1,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffSkin)
