@@ -75,16 +75,15 @@ void BossEnemy::Update()
 		switch (BossMove)
 		{
 		case MovePattern::NONE:
+
+			stopTimer = stopTime;
 			MoveTable();
 			break;
 		case MovePattern::BACK:
 			BackMove();
 			break;
-		case MovePattern::FANSHAPE:
-			FanShapeMove();
-			break;
-		case MovePattern::FLY:
-			FlyMove();
+		case MovePattern::CLOSEMOVE:
+			CloseMove();
 			break;
 		}
 	}
@@ -92,27 +91,27 @@ void BossEnemy::Update()
 
 	switch (BossAtk)
 	{
-		case AtkPattern::NONE:
+	case AtkPattern::NONE:
 
-			AimMode = false;
-			WaitTimer = WaitTimer;
-			AtkTable();
+		AimMode = false;
+		WaitTimer = WaitTimer;
+		AtkTable();
 
-			break;
-		case AtkPattern::SIMPLESHOT:
+		break;
+	case AtkPattern::SIMPLESHOT:
 
-			SimpleShot();
+		SimpleShot();
 
-			break;
-		case AtkPattern::CHARGE:
-			
-			
-			ChargeAtk();
-			break;
-		case AtkPattern::LASER:
-			break;
-		case AtkPattern::MISSILE:
-			break;
+		break;
+	case AtkPattern::CHARGE:
+
+
+		ChargeAtk();
+		break;
+	case AtkPattern::LASER:
+		break;
+	case AtkPattern::MISSILE:
+		break;
 	}
 
 	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
@@ -120,7 +119,9 @@ void BossEnemy::Update()
 		bullet->Update();
 	}
 
+#ifdef _DEBUG
 	ImGuiSet();
+#endif
 
 	if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
 	{
@@ -153,7 +154,7 @@ void BossEnemy::Draw()
 	Head.y += St->Wt.scale_.y;
 	if (AimMode)
 	{
-		LeserPoint.Draw(Head,TargetPos);
+		LeserPoint.Draw(Head, TargetPos);
 	}
 }
 
@@ -194,35 +195,43 @@ void BossEnemy::AtkTable()
 		}
 
 	}
+
+	WaitTimer--;
 }
 
 void BossEnemy::MoveTable()
 {
-	int MoveRand = rand() % 5;
-	bool TimeRand = rand() % 1;
-	if (Lange > LangeMax)
+	if (stopTimer < 0)
 	{
-		if (MoveRand<2)
+		int MoveRand = rand() % 5;
+		bool TimeRand = rand() % 1;
+		if (Lange > LangeMax)
 		{
-			BossMove = MovePattern::BACK;
+			if (MoveRand < 2)
+			{
+				BossMove = MovePattern::BACK;
+			}
+			else
+			{
+				BossMove = MovePattern::CLOSEMOVE;
+			}
 		}
 		else
 		{
-			BossMove = MovePattern::FANSHAPE;
+			BossMove = MovePattern::BACK;
+		}
+
+		if (TimeRand)
+		{
+			MoveTimer = LongMoveTime;
+		}
+		else
+		{
+			MoveTimer = MidMoveTime;
 		}
 	}
-	else
-	{
-		BossMove = MovePattern::BACK;
-	}
-	if (TimeRand)
-	{
-		MoveTimer = LongMoveTime;
-	}
-	else
-	{
-		MoveTimer = MidMoveTime;
-	}
+
+	stopTimer--;
 
 }
 
@@ -241,16 +250,22 @@ void BossEnemy::BackMove()
 	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
 }
 
-void BossEnemy::FanShapeMove()
+void BossEnemy::CloseMove()
 {
-	
+	XMFLOAT3 moveVec = player->GetPos() - St->Wt.translation_;
+	moveVec.y = 0;
+
+	normalize(moveVec);
+
+	moveVec *= 0.2f;
+
+	St->Wt.translation_ += moveVec;
+
+
 	MoveTimer--;
 	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
 }
 
-void BossEnemy::FlyMove()
-{
-}
 
 void BossEnemy::SimpleShot()
 {
@@ -295,7 +310,7 @@ void BossEnemy::SimpleShot()
 
 void BossEnemy::ChargeAtk()
 {
-	
+
 
 	XMFLOAT3 chargeMoved = St->Wt.translation_ - prePos;
 	chargeMoved.y = 0;
@@ -369,7 +384,7 @@ void BossEnemy::ImGuiSet()
 
 	ImGui::NewLine();
 	static int MovemodeNum = 0;
-	const char* MoveModes[] = { "NONE", "BACK", "FANSHAPE" };
+	const char* MoveModes[] = { "NONE", "BACK", "CLOSEMOVE" };
 	ImGui::Combo("##MovemodeNumCombo", &MovemodeNum, MoveModes, IM_ARRAYSIZE(MoveModes));
 	ImGui::SameLine();
 	if (ImGui::Button("Change"))
@@ -383,7 +398,7 @@ void BossEnemy::ImGuiSet()
 			BossMove = MovePattern::BACK;
 			break;
 		case 2:
-			BossMove = MovePattern::FANSHAPE;
+			BossMove = MovePattern::CLOSEMOVE;
 			break;
 		}
 

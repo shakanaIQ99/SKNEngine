@@ -17,16 +17,27 @@ public:
 
 	float GetUpArea();
 
+	/// <summary>
+	/// ImGui関係
+	/// </summary>
+	void ImGuiSet();
+
 private:
 
 	Camera* camera;
 
-	std::unique_ptr<OBJ3D> St;
-	std::unique_ptr<ObjModel> model;
+	vector<std::unique_ptr<OBJ3D>> ground;
+	std::unique_ptr<ObjModel> ground_model;
 
 	const float UpAreaLimit = 100.0f;
 
 	static const float AreaLimit;
+
+	const size_t LaneTileNum = 10;
+
+	const float TileSize = AreaLimit / static_cast<float>(LaneTileNum);
+
+	const size_t TileNum = LaneTileNum * LaneTileNum;
 
 };
 
