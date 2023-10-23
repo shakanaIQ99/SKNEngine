@@ -34,7 +34,7 @@ void DxWindow::CreateGameWindow(const char* title, UINT windowStyle, int32_t cli
 	winStyle_ = windowStyle;
 	winClass.cbSize = sizeof(WNDCLASSEX);
 	winClass.lpfnWndProc = (WNDPROC)WindowProc;	//ウィンドウプロシージャを設定
-	winClass.lpszClassName = L"MyEngine";		//ウィンドウクラス名
+	winClass.lpszClassName = L"Mecha Core";		//ウィンドウクラス名
 	winClass.hInstance = GetModuleHandle(nullptr);	//ウィンドウハンドル
 	winClass.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
 	//ウィンドウクラスをOSに登録する
@@ -47,7 +47,7 @@ void DxWindow::CreateGameWindow(const char* title, UINT windowStyle, int32_t cli
 	hwnd = CreateWindow
 	(
 		winClass.lpszClassName,		//クラス名
-		L"MyEngine",			//タイトルバーの文字
+		L"Mecha Core",			//タイトルバーの文字
 		winStyle_,	//標準的なウィンドウスタイル
 		CW_USEDEFAULT,			//表示X座標(OSに任せる)
 		CW_USEDEFAULT,			//表示Y座標(OSに任せる)

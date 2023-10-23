@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)SourceCode;$(ProjectDir)SourceCode\Draw;$(ProjectDir)SourceCode\EngineCore;$(ProjectDir)SourceCode\Imgui;$(ProjectDir)SourceCode\Light;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SourceCode;$(ProjectDir)SourceCode\Engine\Draw;$(ProjectDir)SourceCode\Engine\Buffer;$(ProjectDir)SourceCode\Imgui;$(ProjectDir)SourceCode\Engine\Light;$(ProjectDir)SourceCode\Engine\Math;$(ProjectDir)SourceCode\Engine\Core;$(ProjectDir)SourceCode\App\Player;$(ProjectDir)SourceCode\App;$(ProjectDir)SourceCode\App\Enemy;$(ProjectDir)SourceCode\Engine;$(ProjectDir)SourceCode\Engine\Draw\3D;$(ProjectDir)SourceCode\Engine\Draw\2D;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>

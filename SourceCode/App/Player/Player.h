@@ -25,6 +25,18 @@ public:
 
 	void DrawUI();
 
+	/// <summary>
+	/// 仮タイトル用更新
+	/// </summary>
+	void TitleUpdate();
+
+	void StartUpdate();
+
+	bool Start()
+	{
+		return startFlag;
+	}
+
 	bool Death()
 	{
 		if (HP <= 0)
@@ -177,7 +189,15 @@ private:
 
 	bool InfEN = false;
 
+
+
 	//--------
+
+	int SceneCameraTimer = 0;
+
+	const int SceneCameraTime = 120;
+
+	bool startFlag = false;
 
 	/// <summary>
 	/// 行列とベクトルの計算(左側が行列計算の先)

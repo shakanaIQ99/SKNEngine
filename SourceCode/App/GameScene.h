@@ -58,13 +58,32 @@ public:
 
 private:
 
+private:
+	/// <summary>
+	/// タイトル更新
+	/// </summary>
 	void TitleUpdate();
+
+	/// <summary>
+	/// メイン更新
+	/// </summary>
 	void GameUpdate();
 
-
+	/// <summary>
+	/// タイトル描画
+	/// </summary>
 	void TitleDraw(DirectXCommon* dxcommon);
+
+	/// <summary>
+	/// メイン描画
+	/// </summary>
 	void GameDraw(DirectXCommon* dxcommon);
 
+	void StartUpdate();
+
+	/// <summary>
+	/// ImGui関係
+	/// </summary>
 	void ImGuiView();
 
 	Player player;
@@ -90,16 +109,39 @@ private:
 	ObjModel* skydome_model = nullptr;
 	OBJ3D* skydome = nullptr;
 
-	//ObjModel* field_model = nullptr;
-	//OBJ3D* field = nullptr;
 
-	std::unique_ptr<Sprite2D> preTitle;
-	uint32_t preTitleHandle;
-	
 	XMFLOAT3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;
 
+	std::unique_ptr<Sprite2D> preTitle;
+	uint32_t preTitleHandle;
+
+	std::unique_ptr<Sprite2D> preTitle2;
+	uint32_t preTitleHandle2;
+
+	std::unique_ptr<Sprite2D> SceneCha;
+	uint32_t SceneChaHandle;
+
+	bool sceneChaflag = false;
+
+	int SceneChangeTimer = 0;
+
+	const int SceneChangeTime = 60;
+
+	float tenmetu = 255.0f;
+
+	float SceneAlpha = 255.0f;
+
+	float decri = 3.0f;
+
+
 	SceneType scene = SceneType::TITLE;
+
+	XMFLOAT3 sceneCamera = { 0,0,0 };
+
+	int SceneCameraTimer = 0;
+
+	const int SceneCameraTime = 120;
 
 };
 

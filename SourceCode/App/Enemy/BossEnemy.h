@@ -53,7 +53,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(bool flag=false);
 
 	/// <summary>
 	/// 被ダメ

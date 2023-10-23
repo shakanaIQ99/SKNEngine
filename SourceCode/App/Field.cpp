@@ -39,7 +39,9 @@ void Field::Update()
 	{
 		Ground->Update(camera->getView());
 	}
+#ifdef _DEBUG
 	ImGuiSet();
+#endif
 
 
 }

@@ -74,7 +74,7 @@ void Player::Init()
 void Player::Reset()
 {
 	HP = MaxHP;
-	St->Wt.translation_ = { 0,10.0f,0 };
+	St->Wt.translation_ = { 0,50.0f,0 };
 	const std::list<std::unique_ptr<PlayerBullet>>& Bullets = GetBullets();
 	for (const std::unique_ptr<PlayerBullet>& p_bullet : Bullets)
 	{
@@ -87,7 +87,8 @@ void Player::Reset()
 			return bullet->IsDead();
 		});
 
-	
+	startFlag = false;
+	SceneCameraTimer = 0;
 
 }
 
@@ -131,7 +132,9 @@ void Player::Update()
 	
 	sprite_Lock->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
 
+#ifdef _DEBUG
 	ImGuiSet();
+#endif
 
 	LockOn();
 
@@ -513,6 +516,33 @@ void Player::DrawUI()
 	
 
 	
+}
+
+void Player::TitleUpdate()
+{
+
+	St->Wt.rotation_.y += 0.05f;
+
+#ifdef _DEBUG
+	ImGuiSet();
+#endif
+	St->Update(camera->getView());
+}
+
+void Player::StartUpdate()
+{
+	SceneCameraTimer++;
+	St->Wt.translation_.y = easeOutQuint(50.0f, 1.5f, static_cast<float>(SceneCameraTimer), static_cast<float>(SceneCameraTime));
+
+	if (SceneCameraTimer >= SceneCameraTime)
+	{
+		SceneCameraTimer = SceneCameraTime;
+		startFlag = true;
+	}
+#ifdef _DEBUG
+	ImGuiSet();
+#endif
+	St->Update(camera->getView());
 }
 
 XMFLOAT3 Player::VectorMat(XMFLOAT3 vector, XMMATRIX mat)

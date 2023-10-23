@@ -17,6 +17,8 @@ void Camera::Reset()
 	wt.scale_ = { 1.0f,1.0f,1.0f };
 	setRotate({ 0,0,0 });
 	viewProjection_.Update();
+
+	targetWT = nullptr;
 }
 
 void Camera::Update()
@@ -153,6 +155,7 @@ void Camera::setWorldMat(XMMATRIX woeldMat)
 {
 	wt.matWorld_ = woeldMat;
 }
+
 
 const XMFLOAT3 operator+= (XMFLOAT3& v1, const XMFLOAT3& v2)
 {

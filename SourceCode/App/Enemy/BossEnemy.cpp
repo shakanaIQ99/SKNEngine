@@ -48,7 +48,7 @@ void BossEnemy::Reset()
 
 }
 
-void BossEnemy::Update()
+void BossEnemy::Update(bool flag)
 {
 	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
 		{
@@ -70,7 +70,7 @@ void BossEnemy::Update()
 
 	chargeCool--;
 
-	if (BossAtk != AtkPattern::CHARGE)
+	if (BossAtk != AtkPattern::CHARGE&&!flag)
 	{
 		switch (BossMove)
 		{
@@ -88,30 +88,32 @@ void BossEnemy::Update()
 		}
 	}
 
-
-	switch (BossAtk)
+	if (!flag)
 	{
-	case AtkPattern::NONE:
+		switch (BossAtk)
+		{
+		case AtkPattern::NONE:
 
-		AimMode = false;
-		WaitTimer = WaitTimer;
-		AtkTable();
+			AimMode = false;
+			WaitTimer = WaitTimer;
+			AtkTable();
 
-		break;
-	case AtkPattern::SIMPLESHOT:
+			break;
+		case AtkPattern::SIMPLESHOT:
 
-		SimpleShot();
+			SimpleShot();
 
-		break;
-	case AtkPattern::CHARGE:
+			break;
+		case AtkPattern::CHARGE:
 
 
-		ChargeAtk();
-		break;
-	case AtkPattern::LASER:
-		break;
-	case AtkPattern::MISSILE:
-		break;
+			ChargeAtk();
+			break;
+		case AtkPattern::LASER:
+			break;
+		case AtkPattern::MISSILE:
+			break;
+		}
 	}
 
 	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
