@@ -130,6 +130,11 @@ private:
 	BYTE key[256] = {};
 	BYTE oldkey[256] = {};
 
+	Input() = default;
+	~Input() = default;
+
+	Input(const Input&) = delete;
+	void operator = (const 	Input&) = delete;
 };
 
 const DirectX::XMFLOAT2 operator+= (DirectX::XMFLOAT2& v1, const DirectX::XMFLOAT2& v2);
