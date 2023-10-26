@@ -21,19 +21,19 @@ void PlayerBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, cons
 	St->Wt.rotation_ = rota;
 	St->Wt.scale_ = { 0.5f,0.5f,0.5f };
 	
-	Velocity_ = velocity;
+	Velocity = velocity;
 }
 
 void PlayerBullet::Update()
 {
-	St->Wt.translation_ = St->Wt.translation_ + Velocity_;
+	St->Wt.translation_ = St->Wt.translation_ + Velocity;
 
 	St->Update(camera->getView());
 
 	//デスタイマーをひいて0以下になったらフラグを立てる
-	if (--deathTimer_ <= 0)
+	if (--DeathTimer <= 0)
 	{
-		isDead_ = true;
+		IsDead = true;
 	}
 }
 
@@ -45,7 +45,7 @@ void PlayerBullet::Draw()
 
 void PlayerBullet::OnCollision()
 {
-	isDead_ = true;
+	IsDead = true;
 }
 
 XMFLOAT3 PlayerBullet::GetWorldPosition()

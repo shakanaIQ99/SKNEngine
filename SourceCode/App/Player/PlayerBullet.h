@@ -37,7 +37,7 @@ public:
 	/// 生きてるか
 	/// </summary>
 	/// <returns></returns>
-	bool IsDead()const { return isDead_; }
+	bool IsDead()const { return IsDead; }
 
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
@@ -65,15 +65,15 @@ private:
 
 
 	//速度
-	XMFLOAT3 Velocity_;
+	XMFLOAT3 Velocity;
 
 	//寿命<frm>
-	static const int32_t kLifeTime = 60 * 5;
+	static const int32_t LifeTime = 60 * 5;
 
 	//デスタイマー
-	int32_t deathTimer_ = kLifeTime;
+	int32_t DeathTimer = LifeTime;
 
 	//デスフラグ
-	bool isDead_ = false;
+	bool IsDead = false;
 
 };

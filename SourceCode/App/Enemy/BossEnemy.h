@@ -77,14 +77,14 @@ public:
 	/// <returns></returns>
 	AtkPattern GetAtkPattern()
 	{
-		return BossAtk;
+		return bossAtk;
 	}
 
 	/// <summary>
 	/// 弾削除
 	/// </summary>
 	void Bulletremove();
-	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
+	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return normalBullets; };
 
 	/// <summary>
 	/// 生きてるか
@@ -166,63 +166,63 @@ private:
 	XMFLOAT3 prePos = { 0,0,0 };
 	Player* player;
 	//攻撃パターン
-	AtkPattern BossAtk = AtkPattern::NONE;
+	AtkPattern bossAtk = AtkPattern::NONE;
 
 	//HP
 	std::unique_ptr<Sprite2D> sprite_HPbar;
 
-	uint32_t HpBarHandle;
-	const float MaxHP = 100.0f;
+	uint32_t hpBarHandle;
+	const float maxHP = 100.0f;
 	float HP = 0.0f;
 
 	//行動パターン
-	MovePattern BossMove = MovePattern::NONE;
+	MovePattern bossMove = MovePattern::NONE;
 
-	const int LongMoveTime = 60 * 6;
+	const int longMoveTime = 60 * 6;
 
-	const int MidMoveTime = 60 * 3;
+	const int midMoveTime = 60 * 3;
 
-	int MoveTimer = 0;
+	int moveTimer = 0;
 
-	float Angle=0;
+	float angle=0;
 
-	Draw3DLine LeserPoint;
+	Draw3DLine leserPoint;
 
 	int stopTimer = 0;
 	const int stopTime = 120;
 
-	int WaitTimer = 0;
-	const int WaitTime = 180;
+	int waitTimer = 0;
+	const int waitTime = 180;
 
 	//弾関連
-	std::list<std::unique_ptr<EnemyNormalBullet>> Normalbullets_;
+	std::list<std::unique_ptr<EnemyNormalBullet>> normalBullets;
 
 	//照準周り
-	XMFLOAT3 TargetPos = { 0,0,0 };
+	XMFLOAT3 targetPos = { 0,0,0 };
 
-	const int TargetTime = 60 * 2;
+	const int targetTime = 60 * 2;
 
-	int TargetTimer = 0;
+	int targetTimer = 0;
 
-	bool AimMode = false;
+	bool aimMode = false;
 
 	//通常射撃
 
-	const int BurstRate = 3;
-	const int BurstNum = 40;
-	int BurstTime = BurstNum * BurstRate;
+	const int burstRate = 3;
+	const int burstNum = 40;
+	int burstTime = burstNum * burstRate;
 
 	//突進攻撃
-	XMFLOAT3 TargetVec= { 0,0,0 };
+	XMFLOAT3 targetVec= { 0,0,0 };
 	float chargeLenge = 0;
 	int chargeCool = 0;
 	const int chargeCoolTime = 600;
 
 
 	//認知範囲
-	float Lange = 0;
-	float LangeMax = 50;
-	float LangeMin = 10;
+	float reactionLange = 0;
+	float reactionLangeMax = 50;
+	float reactionLangeMin = 10;
 
 	
 
