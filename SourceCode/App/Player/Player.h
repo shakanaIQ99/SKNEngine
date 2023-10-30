@@ -3,6 +3,7 @@
 #include"PlayerBullet.h"
 #include"StuructTransform.h"
 #include"ParticleManager.h"
+#include"DeathParticle.h"
 
 
 class Player : public StuructTransform
@@ -49,6 +50,11 @@ public:
 		}
 	}
 
+	bool GameEnd()
+	{
+		return endFlag;
+	}
+
 	XMFLOAT3 GetPos()
 	{
 		return St->Wt.translation_;
@@ -61,6 +67,8 @@ public:
 	}
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
+
+	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
 private:
 
 	/// <summary>
@@ -80,6 +88,8 @@ private:
 
 	bool ScLock(WorldTransform* prewt);
 
+	void DeathAnimetion();
+
 	XMFLOAT2 WorldToMonitor(XMFLOAT3 pos);
 
 
@@ -94,6 +104,10 @@ private:
 	bool BoostMode = false;
 
 	XMFLOAT3 moveVec;
+
+	XMFLOAT3 rotaVec = { 0,0,0 };
+
+	XMFLOAT3 mae = { 0,0,0 };
 
 	//HUD周り----------
 	std::unique_ptr<Sprite2D> sprite_Reticle;
@@ -111,8 +125,14 @@ private:
 
 	XMFLOAT2 Lock2DPos = { 0,0 };
 
+	float scale = 1.0f;
+	int DpRate = 0;
+	const int DpRateNum = 1;
+
 	//弾関連
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+
+	std::list<std::unique_ptr<DeathParticle>> deathPaticles;
 
 	const float MaxHP = 20.0f;
 	float HP = 0.0f;
@@ -193,11 +213,17 @@ private:
 
 	//--------
 
+	int DeathTimer = 0;
+
+	const int DeathTime = 120;
+
 	int SceneCameraTimer = 0;
 
 	const int SceneCameraTime = 120;
 
 	bool startFlag = false;
+
+	bool endFlag = false;
 
 	/// <summary>
 	/// 行列とベクトルの計算(左側が行列計算の先)
@@ -208,6 +234,8 @@ private:
 	/// 行列とベクトルの計算(左側が行列計算の先)
 	/// </summary>
 	XMFLOAT3 VectorMat(XMMATRIX mat, XMFLOAT3 vector);
+
+	
 
 };
 
@@ -220,5 +248,9 @@ const DirectX::XMFLOAT3 operator*(float s, const DirectX::XMFLOAT3& v);
 const DirectX::XMFLOAT3 operator-= (DirectX::XMFLOAT3& v1, const DirectX::XMFLOAT3& v2);
 
 const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1, const DirectX::XMFLOAT3& v2);
+
+const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1);
+
+
 
 

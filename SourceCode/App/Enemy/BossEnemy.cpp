@@ -46,6 +46,14 @@ void BossEnemy::Reset()
 			return bullet->IsDead();
 		});
 
+	BossAtk = AtkPattern::NONE;
+	BossMove = MovePattern::NONE;
+	chargeMoveAniTimer = 0;
+	chargeCool = 0;
+	TargetTimer = 0;
+	MoveTimer = 0;
+	stopTimer = 0;
+	WaitTimer = 0;
 }
 
 void BossEnemy::Update(bool flag)
@@ -183,6 +191,9 @@ void BossEnemy::AtkTable()
 		{
 			if (chargeCool < 0)
 			{
+				
+
+				
 				BossAtk = AtkPattern::CHARGE;
 				prePos = St->Wt.translation_;
 				prePos.y = 0;
@@ -191,6 +202,10 @@ void BossEnemy::AtkTable()
 				chargeLenge = length(TargetVec);
 				normalize(TargetVec);
 				chargeCool = chargeCoolTime;
+				chargeMoveAniTimer = chargeMoveAniTime;
+				
+
+				
 			}
 
 

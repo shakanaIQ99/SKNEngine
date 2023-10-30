@@ -22,6 +22,7 @@ void Player::Init()
 
 	ModelInit("Player");
 	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
+	DeathParticle::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
@@ -82,19 +83,38 @@ void Player::Reset()
 		p_bullet->OnCollision();
 		
 	}
+	const std::list<std::unique_ptr<DeathParticle>>& Dps = GetDps();
+	for (const std::unique_ptr<DeathParticle>& Dp : Dps)
+	{
+
+		Dp->Death();
+
+	}
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
 		{
 			return bullet->IsDead();
 		});
 
+	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
+		{
+			return dp->IsDead();
+		});
+
 	startFlag = false;
 	SceneCameraTimer = 0;
+	endFlag = false;
+	DeathTimer = 0;
+
+	rotaVec = { 0,0,1.0f };
+	mae = { 0,0,0 };
+	DpRate = 0;
+	scale = 1.0f;
 
 }
 
 void Player::Update()
 {
-
+	
 	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
 	sprite_HPbar->Wt.scale_.x = (10.0f * HP / MaxHP);
 
@@ -111,9 +131,20 @@ void Player::Update()
 			return bullet->IsDead();
 		});
 
-	Move();
+
+	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
+		{
+			return dp->IsDead();
+		});
+
+	if (!Death())Move();
+	else
+	{
+		DeathAnimetion();
+	}
 	
-	if (Input::GetRTrigger())
+	
+	if (Input::GetRTrigger()&& !Death())
 	{
 		if (latetime <= 0)
 		{
@@ -128,6 +159,11 @@ void Player::Update()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
 		bullet->Update();
+	}
+
+	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
+	{
+		dp->Update();
 	}
 	
 	sprite_Lock->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
@@ -183,6 +219,8 @@ void Player::Attack(XMFLOAT3 flont)
 void Player::Move()
 {
 	EN();
+
+	rotaVec = mae;
 	moveVec = { 0,0,0 };
 	XMFLOAT3 Flont = camera->getForwardVec();
 	Flont.y = 0;
@@ -192,16 +230,17 @@ void Player::Move()
 	moveVec.x += (float)inputnum.x / SHRT_MAX;
 	moveVec.z += (float)inputnum.y / SHRT_MAX;
 
+
 	float p_pos = atan2(moveVec.x, moveVec.z);
 	float c_vec = atan2(Flont.x, Flont.z);
 
-	St->Wt.rotation_.y = (p_pos + c_vec);
 
-	XMFLOAT3 mae = { 0,0,0 };
+	mae = { 0,0,0 };
 
 	if ((moveVec.x != 0 || moveVec.z != 0))
 	{
 		mae = { 0,0,1.0f };
+		St->Wt.rotation_.y = (p_pos + c_vec);	
 	}
 
 	mae = VectorMat(mae, St->Wt.matWorld_);
@@ -210,6 +249,11 @@ void Player::Move()
 
 	
 	Jump(mae);
+
+	if ((moveVec.x == 0 && moveVec.z == 0))
+	{
+		mae = rotaVec;
+	}
 	Dash(mae);
 
 	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B))
@@ -218,7 +262,7 @@ void Player::Move()
 	}
 
 
-	if (!DashFlag)
+	if (!DashFlag&& (moveVec.x != 0 || moveVec.z != 0))
 	{
 		St->Wt.translation_ += mae * (move_speed+(move_speed*BoostMode));
 	}
@@ -424,6 +468,32 @@ bool Player::ScLock(WorldTransform* prewt)
 	}
 }
 
+void Player::DeathAnimetion()
+{
+	DpRate++;
+	DeathTimer++;
+
+	scale = easeInSine(1.0f, 0, static_cast<float>(DeathTimer), static_cast<float>(DeathTime));
+
+	St->Wt.scale_ = { scale,scale,scale };
+
+	if (DpRate >= DpRateNum)
+	{
+
+		std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
+		newBullet->Initlize(St->Wt.translation_, St->Wt.rotation_, -rotaVec);
+
+		deathPaticles.push_back(std::move(newBullet));
+		DpRate = 0;
+	}
+	if (DeathTimer >= DeathTime)
+	{
+		endFlag = true;
+		DeathTimer = DeathTime;
+	}
+	
+}
+
 XMFLOAT2 Player::WorldToMonitor(XMFLOAT3 pos)
 {
 	XMFLOAT3 positionReticle = pos;
@@ -485,6 +555,10 @@ void Player::Draw()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
 	{
 		bullet->Draw();
+	}
+	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
+	{
+		dp->Draw();
 	}
 
 	St->Draw();
@@ -567,6 +641,8 @@ XMFLOAT3 Player::VectorMat(XMMATRIX mat, XMFLOAT3 vector)
 	return changeVector;
 }
 
+
+
 const DirectX::XMFLOAT3 operator*=(DirectX::XMFLOAT3& v, float s)
 {
 
@@ -602,4 +678,9 @@ const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1, const DirectX::XM
 {
 	DirectX::XMFLOAT3 temp(v1);
 	return temp -= v2;
+}
+
+const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1)
+{
+	return DirectX::XMFLOAT3(-v1.x, -v1.y, -v1.z);
 }

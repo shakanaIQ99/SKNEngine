@@ -240,6 +240,9 @@
     <ClCompile Include="SourceCode\Engine\Draw\2D\DrawCommon.cpp">
       <Filter>ソース ファイル\cppファイル\Draw\2D</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\App\DeathParticle.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Draw\2D\DrawCommon.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Draw\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\DeathParticle.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

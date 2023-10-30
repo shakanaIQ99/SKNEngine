@@ -218,6 +218,9 @@ private:
 	int chargeCool = 0;
 	const int chargeCoolTime = 600;
 
+	int chargeMoveAniTimer = 0;
+
+	const int chargeMoveAniTime = 30;
 
 	//認知範囲
 	float Lange = 0;

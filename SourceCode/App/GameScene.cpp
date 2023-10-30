@@ -113,6 +113,7 @@ void GameScene::Update()
 				//camera.setPos(boss.GetPos());
 				camera.setTarget(&player.St->Wt);
 				scene = SceneType::GAMESCENE;
+				
 			}
 		}
 		break;
@@ -126,11 +127,21 @@ void GameScene::Update()
 		{
 			GameUpdate();
 		}
-		if (player.Death() || boss.Death())
+		if (player.GameEnd() || boss.Death())
 		{
-			scene = SceneType::TITLE;
-			player.Reset();
-			camera.Reset();
+			endSceneChaflag = true;
+			
+		}
+		if (endSceneChaflag)
+		{
+			SceneChangeTimer++;
+			if (SceneChangeTimer >= SceneChangeTime)
+			{
+				scene = SceneType::TITLE;
+				player.Reset();
+				camera.Reset();
+				endSceneChaflag = false;
+			}
 		}
 		break;
 	}

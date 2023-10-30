@@ -123,6 +123,7 @@ private:
 	uint32_t SceneChaHandle;
 
 	bool sceneChaflag = false;
+	bool endSceneChaflag = false;
 
 	int SceneChangeTimer = 0;
 
