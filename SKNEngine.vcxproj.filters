@@ -240,6 +240,9 @@
     <ClCompile Include="SourceCode\Engine\Draw\2D\DrawCommon.cpp">
       <Filter>ソース ファイル\cppファイル\Draw\2D</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>ソース ファイル\cppファイル\Draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Draw\TextureManager.h">
@@ -397,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Core\Pipeline.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Draw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
