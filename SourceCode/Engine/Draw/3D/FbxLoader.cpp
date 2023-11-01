@@ -85,20 +85,15 @@ void FbxLoader::ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent)
     node.scaling = { (float)scaling[0],(float)scaling[1],(float)scaling[2],0.0f };
     node.translation = { (float)translation[0],(float)translation[1],(float)translation[2],0.0f };
 
-    XMVECTOR Vrotation = XMLoadFloat4(&node.rotation);
-    XMVECTOR Vscaling = XMLoadFloat4(&node.scaling);
-    XMVECTOR Vtranslation = XMLoadFloat4(&node.translation);
 
-    Vrotation.m128_f32[0] = XMConvertToRadians(Vrotation.m128_f32[0]);
-    Vrotation.m128_f32[1] = XMConvertToRadians(Vrotation.m128_f32[1]);
-    Vrotation.m128_f32[2] = XMConvertToRadians(Vrotation.m128_f32[2]);
-
-    XMStoreFloat4(&node.rotation, Vrotation);
+    node.rotation.v.m128_f32[0] = XMConvertToRadians(node.rotation.v.m128_f32[0]);
+    node.rotation.v.m128_f32[1] = XMConvertToRadians(node.rotation.v.m128_f32[1]);
+    node.rotation.v.m128_f32[2] = XMConvertToRadians(node.rotation.v.m128_f32[2]);
 
     XMMATRIX matScaling, matRotation, matTranslation;
-    matScaling = XMMatrixScalingFromVector(Vscaling);
-    matRotation = XMMatrixRotationRollPitchYawFromVector(Vrotation);
-    matTranslation = XMMatrixTranslationFromVector(Vtranslation);
+    matScaling = XMMatrixScalingFromVector(node.scaling);
+    matRotation = XMMatrixRotationRollPitchYawFromVector(node.rotation);
+    matTranslation = XMMatrixTranslationFromVector(node.translation);
 
 
 

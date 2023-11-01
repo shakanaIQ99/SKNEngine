@@ -23,17 +23,24 @@ struct Node
 {
 	string name;
 
-	XMFLOAT4 scaling = { 1,1,1,0 };
+	XMVECTORF32 scaling ;
 
-	XMFLOAT4 rotation = { 0,0,0,0 };
+	XMVECTORF32 rotation ;
 
-	XMFLOAT4 translation = { 0,0,0,1 };
+	XMVECTORF32 translation ;
 
 	XMMATRIX transform;
 
 	XMMATRIX globalTransform;
 
 	Node* parent = nullptr;
+
+	Node()
+	{
+		scaling.v = { 1.0f,1.0f,1.0f,0 };
+		rotation.v = { 0,0,0,0 };
+		translation.v = { 0,0,0,1.0f };
+	}
 };
 
 

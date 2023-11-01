@@ -20,7 +20,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity);
+	void Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& _velocity);
 
 	/// <summary>
 	/// 更新
@@ -37,7 +37,7 @@ public:
 	/// 生きてるか
 	/// </summary>
 	/// <returns></returns>
-	bool IsDead()const { return IsDead; }
+	bool IsDead()const { return isDead; }
 
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
@@ -65,7 +65,7 @@ private:
 
 
 	//速度
-	XMFLOAT3 Velocity;
+	XMFLOAT3 velocity;
 
 	//寿命<frm>
 	static const int32_t LifeTime = 60 * 5;
@@ -74,6 +74,6 @@ private:
 	int32_t DeathTimer = LifeTime;
 
 	//デスフラグ
-	bool IsDead = false;
+	bool isDead = false;
 
 };
