@@ -56,7 +56,8 @@ private:
 
 	ComPtr<ID3D12Resource> constBuff;
 
-	XMVECTOR lightdir = { 1,0,0,0 };
+	DirectX::XMVECTORF32 floatingVector = { 1.0f, 0, 0, 0 };
+	XMVECTOR lightdir = floatingVector;
 
 	XMFLOAT3 lightcolor = { 1,1,1 };
 
