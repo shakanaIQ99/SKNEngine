@@ -4,6 +4,7 @@
 #include"Input.h"
 #include"Collision.h"
 #include"Easing.h"
+#include"DeathParticle.h"
 
 void GameScene::Init(DirectXCommon* dxcommon)
 {
@@ -22,10 +23,12 @@ void GameScene::Init(DirectXCommon* dxcommon)
 
 	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
+	DeathParticle::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
 	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");
 	SceneChaHandle = texturemanager->LoadTexture("Resources/scene.png");
+	clearScHandle = texturemanager->LoadTexture("Resources/clear.png");
 	
 
 	//3Dモデル周り
@@ -58,6 +61,10 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	SceneCha = std::make_unique<Sprite2D>();
 	SceneCha->Initialize(spritecommon, SceneChaHandle);
 	SceneCha->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
+
+	clearSc = std::make_unique<Sprite2D>();
+	clearSc->Initialize(spritecommon, clearScHandle);
+	clearSc->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 
 	//パーティクル周り
@@ -127,7 +134,7 @@ void GameScene::Update()
 		{
 			GameUpdate();
 		}
-		if (player.GameEnd() || boss.Death())
+		if (player.GameEnd() || boss.GameEnd())
 		{
 			endSceneChaflag = true;
 			
@@ -137,18 +144,32 @@ void GameScene::Update()
 			SceneChangeTimer++;
 			if (SceneChangeTimer >= SceneChangeTime)
 			{
-				scene = SceneType::TITLE;
+				scene = SceneType::CLEARSCENE;
 				player.Reset();
 				camera.Reset();
 				endSceneChaflag = false;
 			}
 		}
 		break;
+
+	case SceneType::CLEARSCENE:
+		
+		clearSceneTimer++;
+		
+		if (clearSceneTimer >= clearSceneTime)
+		{
+			clearSceneTimer = clearSceneTime;
+		}
+
+		break;
 	}
 
 	SceneAlpha = easeOutSine(0, 255.0f, static_cast<float>(SceneChangeTimer), static_cast<float>(SceneChangeTime));
 	SceneCha->Wt.color = { SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f };
 	SceneCha->Update();
+	SceneAlpha2 = easeOutSine(0, 255.0f, static_cast<float>(clearSceneTimer), static_cast<float>(clearSceneTime));
+	clearSc->Wt.color = { SceneAlpha2 / 255.0f ,SceneAlpha2 / 255.0f ,SceneAlpha2 / 255.0f ,SceneAlpha2 / 255.0f };
+	clearSc->Update();
 
 
 }
@@ -168,7 +189,7 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	spritecommon->PreDraw();
 
 	SceneCha->Draw();
-
+	clearSc->Draw();
 	
 }
 

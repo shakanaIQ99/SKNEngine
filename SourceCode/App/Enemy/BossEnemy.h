@@ -4,6 +4,7 @@
 #include"EnemyNormalBullet.h"
 #include"Draw3DLine.h"
 #include"Player.h"
+#include"DeathParticle.h"
 
 enum struct AtkPattern
 {
@@ -102,6 +103,13 @@ public:
 		}
 	}
 
+	bool GameEnd()
+	{
+		return endFlag;
+	}
+
+	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
+
 	/// <summary>
 	/// 座標取得
 	/// </summary>
@@ -158,10 +166,34 @@ private:
 	void ImGuiSet();
 
 
-
+	void DeathAnimetion();
 
 
 private:
+	//演出周り
+
+	std::list<std::unique_ptr<DeathParticle>> deathPaticles;
+
+	//--------
+
+	XMFLOAT3 rotaVec = { 0,0,0 };
+
+	float scale = 4.0f;
+	int DpRate = 0;
+	const int DpRateNum = 1;
+
+	int DeathTimer = 0;
+
+	const int DeathTime = 120;
+
+	int SceneCameraTimer = 0;
+
+	const int SceneCameraTime = 120;
+
+	bool startFlag = false;
+
+	bool endFlag = false;
+
 	//汎用
 	XMFLOAT3 prePos = { 0,0,0 };
 	Player* player;
@@ -172,7 +204,7 @@ private:
 	std::unique_ptr<Sprite2D> sprite_HPbar;
 
 	uint32_t HpBarHandle;
-	const float MaxHP = 100.0f;
+	const float MaxHP = 1.0f;
 	float HP = 0.0f;
 
 	//行動パターン
@@ -227,6 +259,6 @@ private:
 	float LangeMax = 50;
 	float LangeMin = 10;
 
-
+	
 
 };

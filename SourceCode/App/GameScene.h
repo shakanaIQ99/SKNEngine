@@ -23,7 +23,8 @@
 enum struct SceneType
 {
 	TITLE,
-	GAMESCENE
+	GAMESCENE,
+	CLEARSCENE
 };
 
 class GameScene
@@ -122,6 +123,9 @@ private:
 	std::unique_ptr<Sprite2D> SceneCha;
 	uint32_t SceneChaHandle;
 
+	std::unique_ptr<Sprite2D> clearSc;
+	uint32_t clearScHandle;
+
 	bool sceneChaflag = false;
 	bool endSceneChaflag = false;
 
@@ -133,6 +137,8 @@ private:
 
 	float SceneAlpha = 255.0f;
 
+	float SceneAlpha2 = 255.0f;
+
 	float decri = 3.0f;
 
 
@@ -143,6 +149,10 @@ private:
 	int SceneCameraTimer = 0;
 
 	const int SceneCameraTime = 120;
+
+	int clearSceneTimer = 0;
+
+	const int clearSceneTime = 60;
 
 };
 

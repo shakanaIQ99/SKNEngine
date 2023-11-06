@@ -22,7 +22,7 @@ void Player::Init()
 
 	ModelInit("Player");
 	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
-	DeathParticle::SetModel(ObjModel::LoadFromOBJ("maru"));
+	
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");

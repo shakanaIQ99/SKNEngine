@@ -1,5 +1,6 @@
 #include "BossEnemy.h"
 #include"ImGuiManager.h"
+#include"Easing.h"
 #include"Field.h"
 
 #include <iostream>     // cout
@@ -14,7 +15,7 @@ void BossEnemy::Init()
 {
 	ModelInit("Player");
 	EnemyNormalBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
-	St->Wt.scale_ = { 4.0f,4.0f,4.0f };
+	St->Wt.scale_ = { scale,scale,scale };
 	St->color = { 1.0f,0,0,1.0f };
 	LeserPoint.Init();
 	HP = MaxHP;
@@ -46,6 +47,19 @@ void BossEnemy::Reset()
 			return bullet->IsDead();
 		});
 
+	const std::list<std::unique_ptr<DeathParticle>>& Dps = GetDps();
+	for (const std::unique_ptr<DeathParticle>& Dp : Dps)
+	{
+
+		Dp->Death();
+
+	}
+
+	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
+		{
+			return dp->IsDead();
+		});
+
 	BossAtk = AtkPattern::NONE;
 	BossMove = MovePattern::NONE;
 	chargeMoveAniTimer = 0;
@@ -54,6 +68,12 @@ void BossEnemy::Reset()
 	MoveTimer = 0;
 	stopTimer = 0;
 	WaitTimer = 0;
+	endFlag = false;
+	DeathTimer = 0;
+
+	rotaVec = { 0,0,1.0f };
+	DpRate = 0;
+	scale = 4.0f;
 }
 
 void BossEnemy::Update(bool flag)
@@ -62,6 +82,15 @@ void BossEnemy::Update(bool flag)
 		{
 			return bullet->IsDead();
 		});
+	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
+		{
+			return dp->IsDead();
+		});
+
+	if (Death())
+	{
+		DeathAnimetion();
+	}
 
 	//平面上の距離
 	XMFLOAT3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
@@ -78,7 +107,7 @@ void BossEnemy::Update(bool flag)
 
 	chargeCool--;
 
-	if (BossAtk != AtkPattern::CHARGE&&!flag)
+	if (BossAtk != AtkPattern::CHARGE&&!flag&&!Death())
 	{
 		switch (BossMove)
 		{
@@ -96,7 +125,7 @@ void BossEnemy::Update(bool flag)
 		}
 	}
 
-	if (!flag)
+	if (!flag && !Death())
 	{
 		switch (BossAtk)
 		{
@@ -129,6 +158,12 @@ void BossEnemy::Update(bool flag)
 		bullet->Update();
 	}
 
+	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
+	{
+		dp->Update();
+	}
+
+
 #ifdef _DEBUG
 	ImGuiSet();
 #endif
@@ -156,6 +191,10 @@ void BossEnemy::Draw()
 	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
 	{
 		bullet->Draw();
+	}
+	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
+	{
+		dp->Draw();
 	}
 
 	St->Draw();
@@ -426,6 +465,34 @@ void BossEnemy::ImGuiSet()
 	ImGui::DragFloat("HP", &HP, 0.2f);
 
 	ImGui::End();
+}
+
+void BossEnemy::DeathAnimetion()
+{
+
+	DpRate++;
+	DeathTimer++;
+
+	scale = easeInSine(4.0f, 0, static_cast<float>(DeathTimer), static_cast<float>(DeathTime));
+
+	St->Wt.scale_ = { scale,scale,scale };
+
+	if (DpRate >= DpRateNum)
+	{
+
+		std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
+		newBullet->Initlize(St->Wt.translation_, St->Wt.rotation_, -rotaVec);
+
+		deathPaticles.push_back(std::move(newBullet));
+		DpRate = 0;
+	}
+	if (DeathTimer >= DeathTime)
+	{
+		endFlag = true;
+		DeathTimer = DeathTime;
+	}
+
+	
 }
 
 void BossEnemy::Bulletremove()
