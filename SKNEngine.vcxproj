@@ -126,13 +126,27 @@
     <ClCompile Include="SourceCode\Engine\Core\DxWindow.cpp" />
     <ClCompile Include="SourceCode\Engine\Core\FPS.cpp" />
     <ClCompile Include="SourceCode\Imgui\ImGuiManager.cpp" />
-    <ClCompile Include="SourceCode\Imgui\imgui.cpp" />
-    <ClCompile Include="SourceCode\Imgui\imgui_demo.cpp" />
-    <ClCompile Include="SourceCode\Imgui\imgui_draw.cpp" />
-    <ClCompile Include="SourceCode\Imgui\imgui_impl_dx12.cpp" />
-    <ClCompile Include="SourceCode\Imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="SourceCode\Imgui\imgui_tables.cpp" />
-    <ClCompile Include="SourceCode\Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="SourceCode\Imgui\imgui.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\imgui_demo.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\imgui_draw.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\imgui_impl_dx12.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\imgui_impl_win32.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\imgui_tables.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\imgui_widgets.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
+    </ClCompile>
     <ClCompile Include="SourceCode\Engine\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="SourceCode\Engine\Core\Input.cpp" />
     <ClCompile Include="SourceCode\Engine\Light\DirectionLight.cpp" />
