@@ -52,7 +52,7 @@ private:
 
 
 
-	static ID3D12Device* device;
+	static ComPtr<ID3D12Device> device;
 
 	ComPtr<ID3D12Resource> constBuff;
 

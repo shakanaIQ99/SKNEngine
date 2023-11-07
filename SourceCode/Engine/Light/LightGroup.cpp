@@ -1,5 +1,5 @@
 #include "LightGroup.h"
-ID3D12Device* LightGroup::device = nullptr;
+Microsoft::WRL::ComPtr<ID3D12Device> LightGroup::device;
 using namespace DirectX;
 
 void LightGroup::StaticInitialize(ID3D12Device* _device)
@@ -8,7 +8,7 @@ void LightGroup::StaticInitialize(ID3D12Device* _device)
 
 	assert(_device);
 
-	LightGroup::device = _device;
+	device = _device;
 }
 
 LightGroup* LightGroup::Create()

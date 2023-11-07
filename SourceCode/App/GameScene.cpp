@@ -21,7 +21,6 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	StuructTransform::SetStruct(&camera, spritecommon.get(), texturemanager);
 
 	//テクスチャ読み込み
-	skydome_model = ObjModel::LoadFromOBJ("skydome");
 	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
 	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");
@@ -30,9 +29,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//3Dモデル周り
 
 	
-	skydome = OBJ3D::Create();
-	skydome->SetModel(skydome_model);
-
+	
 	field.Init(&camera);
 
 	boss.Init();
@@ -203,7 +200,6 @@ void GameScene::GameUpdate()
 	light->Update();
 
 	camera.Update();
-	skydome->Update(camera.getView());
 	field.Update();
 	player.Update();
 	boss.Update();
@@ -212,7 +208,6 @@ void GameScene::GameUpdate()
 void GameScene::TitleDraw(DirectXCommon* dxcommon)
 {
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
-	skydome->Draw();
 	field.Draw();
 	player.Draw();
 	spritecommon->PreDraw();
@@ -227,7 +222,6 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 {
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
 
-	skydome->Draw();
 	field.Draw();
 
 	player.Draw();

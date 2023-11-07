@@ -2,13 +2,13 @@
 #include<cassert>
 using namespace DirectX;
 
-ID3D12Device* DirectionLight::device = nullptr;
+Microsoft::WRL::ComPtr<ID3D12Device> DirectionLight::device;
 
 void DirectionLight::StaticInitialize(ID3D12Device* _device)
 {
 	assert(!DirectionLight::device);
 	assert(_device);
-	DirectionLight::device = _device;
+	device = _device;
 
 
 }

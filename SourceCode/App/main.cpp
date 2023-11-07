@@ -100,8 +100,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	}
 
-	
-	gameScene->Finalize();
 	//FbxLoader::GetInstance()->Finalize();
 	ImGuiManager::Finalize();
 	window->TerminateGameWindow();

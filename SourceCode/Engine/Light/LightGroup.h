@@ -39,7 +39,7 @@ public:
 	static LightGroup* Create();
 
 private: 
-	static ID3D12Device* device;
+	static ComPtr<ID3D12Device> device;
 
 public: 
 	void Initialize();
