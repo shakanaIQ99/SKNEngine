@@ -54,6 +54,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Draw3DLine::CreateGraphicsPipeline();
 	ParticleManager::StaticInitialize();
 	PostEffect::CreateGraphicsPipeline();
+	TextureManager::GetInstance()->StaticInitialize();
 
 	
 	unique_ptr<PostEffect>postEffect;
@@ -97,9 +98,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//FbxLoader::GetInstance()->Finalize();
 	gameScene->Finalize();
-	gameScene.reset();
 	postEffect.reset();
 	ImGuiManager::Finalize();
+	TextureManager::GetInstance()->Destoroy();
 	DirectXCommon::GetInstance()->Destroy();
 	window->TerminateGameWindow();
 }

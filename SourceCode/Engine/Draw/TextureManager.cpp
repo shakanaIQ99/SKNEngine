@@ -1,9 +1,9 @@
 #include "TextureManager.h"
-std::unique_ptr<TextureManager> TextureManager::texManager;
+std::shared_ptr<TextureManager> TextureManager::texManager;
 vector<string>TextureManager::FilePaths;
 unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 
-
+using namespace DirectX;
 
 void TextureManager::StaticInitialize()
 {
@@ -28,13 +28,13 @@ uint32_t TextureManager::LoadTexture(const string& path)
 
 	if (itreter == texDatas.end())
 	{
-		unique_ptr<TextureData> data;
+		TextureData* data;
 
-		data.reset(LoadFromTextureData(path));
+		data = LoadFromTextureData(path);
 		data->texHandle = TextureSize;
 		data->path = path;
 
-		texDatas[path] = move(data);
+		texDatas[path].reset(data);
 		FilePaths[TextureSize] = path;
 		uint32_t handl = TextureSize;
 		TextureSize++;
@@ -65,10 +65,15 @@ TextureManager* TextureManager::GetInstance()
 {
 	if (!texManager)
 	{
-		texManager = std::make_unique<TextureManager>();
+		texManager = std::make_shared<TextureManager>();
 	}
 
 	return texManager.get();
+}
+
+void TextureManager::Destoroy()
+{
+	texManager.reset();
 }
 
 void TextureManager::FileLoad(const string& path, TexMetadata& metadata, ScratchImage& scratchImg)

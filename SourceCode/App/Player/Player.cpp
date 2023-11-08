@@ -24,9 +24,9 @@ void Player::Init()
 	Premodel.reset(ObjModel::LoadFromOBJ("maru"));
 	
 	
-	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
-	LockHandle = texMana->LoadTexture("Resources/Lock.png");
-	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
+	reticleHandle = TextureManager::GetInstance()->LoadTexture("Resources/Reticle.png");
+	LockHandle = TextureManager::GetInstance()->LoadTexture("Resources/Lock.png");
+	HpBarHandle = TextureManager::GetInstance()->LoadTexture("Resources/HpBar.png");
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
 	St->Wt.translation_.y = -3.5f;
 	St->Wt.translation_.z = 14.0f;

@@ -200,6 +200,6 @@ private:
 
 	unordered_map<unsigned short, vector<unsigned short>>smoothData;
 
-	unique_ptr<TextureData> tex;
+	TextureData* tex;
 };
 

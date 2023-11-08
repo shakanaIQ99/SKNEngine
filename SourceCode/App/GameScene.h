@@ -33,8 +33,6 @@ class GameScene
 private:
 	std::unique_ptr <SpriteCommon> spritecommon;
 
-	TextureManager* texturemanager;
-
 
 public:
 

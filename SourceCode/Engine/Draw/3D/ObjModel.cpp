@@ -264,7 +264,7 @@ void ObjModel::LoadTexture(const string& directoryPath, const string& filename)
 
 	uint32_t handl = TextureManager::Load(filepath);
 
-	tex.reset(TextureManager::GetTextureData(handl));
+	tex = TextureManager::GetTextureData(handl);
 }
 
 void ObjModel::CreateBuffers()

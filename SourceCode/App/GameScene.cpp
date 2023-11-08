@@ -12,7 +12,6 @@ void GameScene::Finalize()
 
 	spritecommon.reset();
 	light.reset();
-	delete texturemanager;
 }
 
 void GameScene::Init()
@@ -20,8 +19,6 @@ void GameScene::Init()
 	spritecommon = std::make_unique<SpriteCommon>();
 	spritecommon->Initialize();
 
-	texturemanager = TextureManager::GetInstance();
-	texturemanager->StaticInitialize();
 	light= std::make_unique<LightGroup>();
 	light.reset(LightGroup::Create());
 	OBJ3D::SetLight(light.get());
@@ -29,13 +26,13 @@ void GameScene::Init()
 	Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
-	StuructTransform::SetStruct(&camera, spritecommon.get(), texturemanager);
+	StuructTransform::SetStruct(&camera, spritecommon.get());
 
 	//テクスチャ読み込み
 	
-	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
-	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");
-	SceneChaHandle = texturemanager->LoadTexture("Resources/scene.png");
+	preTitleHandle = TextureManager::GetInstance()->LoadTexture("Resources/title.png");
+	preTitleHandle2 = TextureManager::GetInstance()->LoadTexture("Resources/title2.png");
+	SceneChaHandle = TextureManager::GetInstance()->LoadTexture("Resources/scene.png");
 	
 
 	//3Dモデル周り

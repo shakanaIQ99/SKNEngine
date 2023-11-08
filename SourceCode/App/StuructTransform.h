@@ -10,7 +10,7 @@ class StuructTransform
 public:
 
 	//各シングルトーン化したら不要になるかも
-	static void SetStruct(Camera* _camera, SpriteCommon* spcommon, TextureManager* texmana);
+	static void SetStruct(Camera* _camera, SpriteCommon* spcommon);
 
 
 	/// <summary>
@@ -32,7 +32,6 @@ public:
 protected:
 
 	static SpriteCommon* spCommon;
-	static TextureManager* texMana;
 	static Camera* camera;
 
 };

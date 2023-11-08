@@ -19,7 +19,7 @@ void BossEnemy::Init()
 	leserPoint.Init();
 	HP = maxHP;
 
-	hpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
+	hpBarHandle = TextureManager::GetInstance()->LoadTexture("Resources/HpBar.png");
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
 	sprite_HPbar->Initialize(spCommon, hpBarHandle);

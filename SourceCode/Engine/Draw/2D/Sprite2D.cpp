@@ -3,7 +3,7 @@
 void Sprite2D::Initialize(SpriteCommon* _spritecommon,uint32_t handle)
 {
 	spritecommon = _spritecommon;
-	tex.reset(TextureManager::GetTextureData(handle));
+	tex = TextureManager::GetTextureData(handle);
 
 	CreateVertexIndexBuffer();
 	Wt.CreateConstBuffer();
@@ -50,7 +50,7 @@ void Sprite2D::Draw(XMFLOAT2 anchor, bool flipX, bool flipY)
 
 	Update();
 
-	spritecommon->DrawCommand(tex.get(), vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 
@@ -88,7 +88,7 @@ void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX, bool fl
 
 	Update();
 
-	spritecommon->DrawCommand(tex.get(), vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 

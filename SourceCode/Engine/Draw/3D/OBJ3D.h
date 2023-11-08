@@ -62,7 +62,7 @@ public:
 	/// モデルセット
 	/// </summary>
 	/// <param name="_model"></param>
-	void SetModel(ObjModel* _model) { model.reset(_model); }
+	void SetModel(ObjModel* _model) { model=_model; }
 
 	/// <summary>
 	/// 初期化(生成用)
@@ -97,7 +97,7 @@ private:
 
 private:
 
-	std::unique_ptr<ObjModel> model;
+	ObjModel* model;
 
 
 
