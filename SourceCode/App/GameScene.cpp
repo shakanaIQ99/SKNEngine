@@ -29,6 +29,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");
 	SceneChaHandle = texturemanager->LoadTexture("Resources/scene.png");
 	clearScHandle = texturemanager->LoadTexture("Resources/clear.png");
+	GameOverScHandle = texturemanager->LoadTexture("Resources/GameOver.png");
 	
 
 	//3Dモデル周り
@@ -94,7 +95,9 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//float a = 0.2f;
 
 	//field->Wt->translation_.y = -5.0f;
-
+	player.Reset();
+	boss.Reset();
+	camera.Reset();
 }
 
 void GameScene::Update()
@@ -116,12 +119,17 @@ void GameScene::Update()
 			{
 				player.Reset();
 				boss.Reset();
+				camera.Reset();
 				GameUpdate();
 				//camera.setPos(boss.GetPos());
 				camera.setTarget(&player.St->Wt);
 				scene = SceneType::GAMESCENE;
 				
 			}
+		}
+		else
+		{
+			SceneChangeTimer = 0;
 		}
 		break;
 	case SceneType::GAMESCENE:
@@ -144,7 +152,17 @@ void GameScene::Update()
 			SceneChangeTimer++;
 			if (SceneChangeTimer >= SceneChangeTime)
 			{
-				scene = SceneType::CLEARSCENE;
+				if (player.GameEnd())
+				{
+					scene = SceneType::GAMEOVER;
+					clearSc->SetTexture(GameOverScHandle);
+				}
+				else if(boss.GameEnd())
+				{
+					scene = SceneType::CLEARSCENE;
+					clearSc->SetTexture(clearScHandle);
+				}
+				
 				player.Reset();
 				camera.Reset();
 				endSceneChaflag = false;
@@ -154,12 +172,30 @@ void GameScene::Update()
 
 	case SceneType::CLEARSCENE:
 		
-		clearSceneTimer++;
-		
-		if (clearSceneTimer >= clearSceneTime)
+		SceneChangeTimer--;
+
+		if (SceneChangeTimer <= 0)
 		{
-			clearSceneTimer = clearSceneTime;
+			SceneChangeTimer = 0;
+			scene = SceneType::TITLE;
+			player.Reset();
+			camera.Reset();
 		}
+
+		break;
+
+	case SceneType::GAMEOVER:
+
+		SceneChangeTimer--;
+
+		if (SceneChangeTimer <= 0)
+		{
+			SceneChangeTimer = 0;
+			scene = SceneType::TITLE;
+			player.Reset();
+			camera.Reset();
+		}
+
 
 		break;
 	}
@@ -167,9 +203,6 @@ void GameScene::Update()
 	SceneAlpha = easeOutSine(0, 255.0f, static_cast<float>(SceneChangeTimer), static_cast<float>(SceneChangeTime));
 	SceneCha->Wt.color = { SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f };
 	SceneCha->Update();
-	SceneAlpha2 = easeOutSine(0, 255.0f, static_cast<float>(clearSceneTimer), static_cast<float>(clearSceneTime));
-	clearSc->Wt.color = { SceneAlpha2 / 255.0f ,SceneAlpha2 / 255.0f ,SceneAlpha2 / 255.0f ,SceneAlpha2 / 255.0f };
-	clearSc->Update();
 
 
 }
@@ -184,12 +217,20 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 	case SceneType::GAMESCENE:
 		GameDraw(dxcommon);
 		break;
+	case SceneType::CLEARSCENE:
+		spritecommon->PreDraw();
+		clearSc->Draw();
+		break;
+	case SceneType::GAMEOVER:
+		spritecommon->PreDraw();
+		clearSc->Draw();
+		break;
 	}
 	
 	spritecommon->PreDraw();
-
 	SceneCha->Draw();
-	clearSc->Draw();
+
+	
 	
 }
 
@@ -278,8 +319,8 @@ void GameScene::GameUpdate()
 void GameScene::TitleDraw(DirectXCommon* dxcommon)
 {
 	OBJ3D::PreDraw(dxcommon->GetCommandList());
-	skydome->Draw();
-	field.Draw();
+	/*skydome->Draw();
+	field.Draw();*/
 	player.Draw();
 	spritecommon->PreDraw();
 

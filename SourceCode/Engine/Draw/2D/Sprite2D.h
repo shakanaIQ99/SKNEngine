@@ -30,6 +30,8 @@ public:
     void Draw(XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
 
     void DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX = false, bool flipY = false);
+
+    void SetTexture(uint32_t handle);
     
     WorldTransform Wt;
 protected:

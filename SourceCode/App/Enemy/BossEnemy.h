@@ -204,7 +204,7 @@ private:
 	std::unique_ptr<Sprite2D> sprite_HPbar;
 
 	uint32_t HpBarHandle;
-	const float MaxHP = 1.0f;
+	const float MaxHP = 100.0f;
 	float HP = 0.0f;
 
 	//行動パターン

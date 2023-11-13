@@ -16,7 +16,13 @@ void Camera::Reset()
 	wt.rotation_ = { 0.0f,0.0f,0.0f };
 	wt.scale_ = { 1.0f,1.0f,1.0f };
 	setRotate({ 0,0,0 });
-	viewProjection_.Update();
+	viewProjection_.Initialize();
+
+	cameraRotateX = 0;
+	cameraRotateY = 0;
+	rotateX = 0;
+	rotateY = 0;
+
 
 	targetWT = nullptr;
 }

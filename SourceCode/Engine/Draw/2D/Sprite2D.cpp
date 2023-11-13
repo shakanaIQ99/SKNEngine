@@ -93,6 +93,11 @@ void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX, bool fl
 
 }
 
+void Sprite2D::SetTexture(uint32_t handle)
+{
+	tex = TextureManager::GetTextureData(handle);
+}
+
 
 
 void Sprite2D::CreateVertexIndexBuffer()

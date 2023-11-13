@@ -9,7 +9,7 @@
 #include<iomanip>
 #include"ImGuiManager.h"
 #include"FPS.h"
-#include"FbxLoader.h"
+//#include"FbxLoader.h"
 #include"ParticleManager.h"
 #include"PostEffect.h"
 #include"SpriteCommon.h"
@@ -48,7 +48,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	dxCommon->Initialize(window);
 	ImGuiManager::Initialize(window->GetHwnd(), dxCommon);
 
-	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
+	//FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Input::Init(window->GetHInstance(), window->GetHwnd());
 
 	OBJ3D::StaticInitialize(dxCommon->GetDevice());
@@ -103,7 +103,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	
 	gameScene->Finalize();
-	FbxLoader::GetInstance()->Finalize();
+	//FbxLoader::GetInstance()->Finalize();
 	complete_type_safe_delete(gameScene);
 	complete_type_safe_delete(postEffect);
 	ImGuiManager::Finalize();

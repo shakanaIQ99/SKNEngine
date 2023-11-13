@@ -24,7 +24,8 @@ enum struct SceneType
 {
 	TITLE,
 	GAMESCENE,
-	CLEARSCENE
+	CLEARSCENE,
+	GAMEOVER
 };
 
 class GameScene
@@ -125,6 +126,7 @@ private:
 
 	std::unique_ptr<Sprite2D> clearSc;
 	uint32_t clearScHandle;
+	uint32_t GameOverScHandle;
 
 	bool sceneChaflag = false;
 	bool endSceneChaflag = false;

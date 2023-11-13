@@ -29,7 +29,7 @@ void Player::Init()
 	LockHandle = texMana->LoadTexture("Resources/Lock.png");
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
-	St->Wt.translation_.y = 10.0f;
+	St->Wt.translation_.y = 50.0f;
 
 	HP = MaxHP;
 
@@ -76,6 +76,7 @@ void Player::Reset()
 {
 	HP = MaxHP;
 	St->Wt.translation_ = { 0,50.0f,0 };
+	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
 	const std::list<std::unique_ptr<PlayerBullet>>& Bullets = GetBullets();
 	for (const std::unique_ptr<PlayerBullet>& p_bullet : Bullets)
 	{

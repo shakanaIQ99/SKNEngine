@@ -74,6 +74,7 @@ void BossEnemy::Reset()
 	rotaVec = { 0,0,1.0f };
 	DpRate = 0;
 	scale = 4.0f;
+	St->Wt.scale_ = { scale,scale,scale };
 }
 
 void BossEnemy::Update(bool flag)
