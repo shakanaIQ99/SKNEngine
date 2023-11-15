@@ -11,7 +11,7 @@ enum struct AtkPattern
 	NONE,
 	SIMPLESHOT,
 	CHARGE,
-	LASER,
+	HARDSHOT,
 	MISSILE
 };
 
@@ -151,9 +151,9 @@ private:
 	void ChargeAtk();
 
 	/// <summary>
-	/// レーザー
+	/// 強射撃
 	/// </summary>
-	void LaserShot();
+	void HardShot();
 
 	/// <summary>
 	/// ミサイル

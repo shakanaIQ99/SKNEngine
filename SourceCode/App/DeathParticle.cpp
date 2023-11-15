@@ -23,7 +23,7 @@ void DeathParticle::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, con
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;
 	St->Wt.scale_ = { 0.2f,0.2f,0.2f };
-	St->Wt.color = { 0,0.3f,1.0f,1.0f };
+	St->color = { 0,0.3f,1.0f,1.0f };
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());

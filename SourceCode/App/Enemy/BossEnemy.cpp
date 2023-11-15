@@ -147,7 +147,7 @@ void BossEnemy::Update(bool flag)
 
 			ChargeAtk();
 			break;
-		case AtkPattern::LASER:
+		case AtkPattern::HARDSHOT:
 			break;
 		case AtkPattern::MISSILE:
 			break;
@@ -382,7 +382,7 @@ void BossEnemy::ChargeAtk()
 
 }
 
-void BossEnemy::LaserShot()
+void BossEnemy::HardShot()
 {
 }
 
@@ -429,7 +429,7 @@ void BossEnemy::ImGuiSet()
 			BossAtk = AtkPattern::CHARGE;
 			break;
 		case 3:
-			BossAtk = AtkPattern::LASER;
+			BossAtk = AtkPattern::HARDSHOT;
 			break;
 		case 4:
 			BossAtk = AtkPattern::MISSILE;
