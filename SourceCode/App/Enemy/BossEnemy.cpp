@@ -13,7 +13,7 @@ BossEnemy::BossEnemy()
 
 void BossEnemy::Init()
 {
-	ModelInit("Player");
+	ModelInit("muso");
 	EnemyNormalBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	St->Wt.scale_ = { scale,scale,scale };
 	St->color = { 1.0f,0,0,1.0f };
@@ -110,11 +110,24 @@ void BossEnemy::Update(bool flag)
 
 	if (BossAtk != AtkPattern::CHARGE&&!flag&&!Death())
 	{
+		
+		
+		XMFLOAT3 Flont = { 0,0,1.0f };
+		normalize(Flont);
+		normalize(plUnderPos);
+		
+
+		float p_pos = atan2(plUnderPos.x, plUnderPos.z);
+		float c_vec = atan2(Flont.x, Flont.z);
+
+		St->Wt.rotation_.y = (p_pos + c_vec);
+
+
 		switch (BossMove)
 		{
 		case MovePattern::NONE:
 
-			stopTimer = stopTime;
+			//stopTimer = stopTime;
 			MoveTable();
 			break;
 		case MovePattern::BACK:
@@ -260,18 +273,11 @@ void BossEnemy::MoveTable()
 {
 	if (stopTimer < 0)
 	{
-		int MoveRand = rand() % 5;
 		bool TimeRand = rand() % 1;
 		if (Lange > LangeMax)
 		{
-			if (MoveRand < 2)
-			{
-				BossMove = MovePattern::BACK;
-			}
-			else
-			{
-				BossMove = MovePattern::CLOSEMOVE;
-			}
+			BossMove = MovePattern::CLOSEMOVE;
+			
 		}
 		else
 		{
@@ -299,7 +305,7 @@ void BossEnemy::BackMove()
 
 	normalize(moveVec);
 
-	moveVec *= 0.2f;
+	moveVec *= 0.4f;
 
 	St->Wt.translation_ += moveVec;
 
@@ -314,7 +320,7 @@ void BossEnemy::CloseMove()
 
 	normalize(moveVec);
 
-	moveVec *= 0.2f;
+	moveVec *= 0.4f;
 
 	St->Wt.translation_ += moveVec;
 
@@ -372,7 +378,7 @@ void BossEnemy::ChargeAtk()
 	XMFLOAT3 chargeMoved = St->Wt.translation_ - prePos;
 	chargeMoved.y = 0;
 
-	St->Wt.translation_ += TargetVec * 1.0f;
+	St->Wt.translation_ += TargetVec * 1.5f;
 
 	if (chargeLenge + 5.0f < length(chargeMoved))
 	{
@@ -384,6 +390,11 @@ void BossEnemy::ChargeAtk()
 
 void BossEnemy::HardShot()
 {
+
+
+
+
+
 }
 
 void BossEnemy::MissileShot()
