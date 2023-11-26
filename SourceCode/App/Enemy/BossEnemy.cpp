@@ -2,6 +2,7 @@
 #include"ImGuiManager.h"
 #include"Easing.h"
 #include"Field.h"
+#include"myMath.h"
 
 #include <iostream>     // cout
 #include <ctime>        // time
@@ -161,6 +162,7 @@ void BossEnemy::Update(bool flag)
 			ChargeAtk();
 			break;
 		case AtkPattern::HARDSHOT:
+			HardShot();
 			break;
 		case AtkPattern::MISSILE:
 			break;
@@ -236,7 +238,7 @@ void BossEnemy::AtkTable()
 		if (Lange > LangeMax)
 		{
 			TargetTimer = TargetTime;
-			BossAtk = AtkPattern::SIMPLESHOT;
+			BossAtk = AtkPattern::HARDSHOT;
 			BurstTime = BurstNum * BurstRate;
 
 		}
@@ -390,11 +392,54 @@ void BossEnemy::ChargeAtk()
 
 void BossEnemy::HardShot()
 {
+	if (TargetTimer > 0)
+	{
+		if (TargetTimer > 10)
+		{
+			TargetPos = player->GetPos();
 
+		}
+		TargetTimer--;
+		AimMode = true;
+	}
+	else
+	{
+		XMFLOAT3 Head = St->Wt.translation_;
 
+		Head.y += St->Wt.scale_.y;
+		AimMode = false;
+		XMFLOAT3 BulletVec = player->GetPos() - Head;
+		normalize(BulletVec);
 
+		XMMATRIX matRot[3];
 
+		for (auto& e : matRot)
+		{
+			e = XMMatrixIdentity();
+		}
 
+		// スケール、回転、平行移動行列の計算
+		matRot[0] *= XMMatrixRotationY(XMConvertToRadians(5.0f));
+		matRot[1] *= XMMatrixRotationY(XMConvertToRadians(-5.0f));
+		matRot[2] *= XMMatrixRotationY(XMConvertToRadians(0));
+
+		for (size_t i = 0; i < 3; i++)
+		{
+			XMFLOAT3 HardBullet = myMath::VectorMat(BulletVec, matRot[i]);
+			normalize(HardBullet);
+			HardBullet *= 5.0f;
+
+			std::unique_ptr <EnemyNormalBullet> newBullet = std::make_unique<EnemyNormalBullet>();
+			newBullet->Initlize(Head, St->Wt.rotation_, HardBullet);
+
+			Normalbullets_.push_back(std::move(newBullet));
+
+		}
+		
+		BossAtk = AtkPattern::NONE;
+
+		
+	}
 }
 
 void BossEnemy::MissileShot()
@@ -421,7 +466,7 @@ void BossEnemy::ImGuiSet()
 	ImGui::DragFloat("Max", &LangeMax, 0.5f);
 	ImGui::NewLine();
 	static int AtkmodeNum = 0;
-	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","LASER","MISSILE" };
+	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","HARDSHOT","MISSILE" };
 	ImGui::Combo("##AtkmodeNumCombo", &AtkmodeNum, AtkModes, IM_ARRAYSIZE(AtkModes));
 	ImGui::SameLine();
 	if (ImGui::Button("Change"))
@@ -493,7 +538,7 @@ void BossEnemy::DeathAnimetion()
 	{
 
 		std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
-		newBullet->Initlize(St->Wt.translation_, St->Wt.rotation_, -rotaVec);
+		newBullet->CreateDeathParticle(St->Wt.translation_, St->Wt.rotation_, -rotaVec,scale/3.0f, { 1.0f,0.3f,0.0f,1.0f });
 
 		deathPaticles.push_back(std::move(newBullet));
 		DpRate = 0;

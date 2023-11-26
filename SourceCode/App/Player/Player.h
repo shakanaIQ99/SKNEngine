@@ -121,6 +121,11 @@ private:
 	uint32_t LockHandle;
 	uint32_t HpBarHandle;
 
+
+	XMFLOAT2 hpBarShakePos = {0,0};
+
+	float hpBarShakeNum = 0;
+
 	//----------------
 
 	XMFLOAT2 Lock2DPos = { 0,0 };
@@ -224,16 +229,6 @@ private:
 	bool startFlag = false;
 
 	bool endFlag = false;
-
-	/// <summary>
-	/// 行列とベクトルの計算(左側が行列計算の先)
-	/// </summary>
-	XMFLOAT3 VectorMat(XMFLOAT3 vector, XMMATRIX mat);
-
-	/// <summary>
-	/// 行列とベクトルの計算(左側が行列計算の先)
-	/// </summary>
-	XMFLOAT3 VectorMat(XMMATRIX mat, XMFLOAT3 vector);
 
 	
 

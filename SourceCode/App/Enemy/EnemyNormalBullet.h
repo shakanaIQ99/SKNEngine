@@ -36,6 +36,7 @@ public:
 
 	XMFLOAT3 GetWorldPosition() { return St->Wt.translation_; }
 	XMFLOAT3 GetScale() { return St->Wt.scale_; }
+	XMFLOAT3 GetVec() { return Velocity_; }
 
 
 private:

@@ -23,7 +23,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 
 	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome");
-	DeathParticle::SetModel(ObjModel::LoadFromOBJ("maru"));
+	DeathParticle::SetModel(ObjModel::LoadFromOBJ("boxobj"));
 	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
 	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");

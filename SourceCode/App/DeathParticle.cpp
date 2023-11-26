@@ -1,6 +1,7 @@
 #include "DeathParticle.h"
 #include <iostream>
 #include <random>
+#include"Easing.h"
 std::unique_ptr<ObjModel> DeathParticle::Premodel;
 
 DeathParticle::DeathParticle()
@@ -18,12 +19,14 @@ void DeathParticle::SetModel(ObjModel* model)
 	Premodel.reset(model);
 }
 
-void DeathParticle::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity, Pattern _mode)
+void DeathParticle::CreateDeathParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity, float _scale, XMFLOAT4 color, Pattern _mode)
 {
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;
-	St->Wt.scale_ = { 0.2f,0.2f,0.2f };
-	St->color = { 0,0.3f,1.0f,1.0f };
+	startScale = _scale;
+	scale = 0;
+	St->Wt.scale_ = { startScale,startScale,startScale };
+	St->color =color;
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -49,10 +52,18 @@ void DeathParticle::Update()
 
 
 		break;
+
+	case Pattern::HIT:
+
+
+		break;
 	case Pattern::SCATTER:
 
+		scale = easeInSine(0, startScale, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
 
 		St->Wt.translation_ = St->Wt.translation_ + romdom;
+		St->Wt.rotation_ = St->Wt.rotation_ + romdom;
+		St->Wt.scale_ = { scale,scale,scale };
 		break;
 	}
 
