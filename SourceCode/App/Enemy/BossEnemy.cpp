@@ -238,7 +238,7 @@ void BossEnemy::AtkTable()
 		if (Lange > LangeMax)
 		{
 			TargetTimer = TargetTime;
-			BossAtk = AtkPattern::HARDSHOT;
+			BossAtk = AtkPattern::SIMPLESHOT;
 			BurstTime = BurstNum * BurstRate;
 
 		}

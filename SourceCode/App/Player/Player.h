@@ -22,6 +22,8 @@ public:
 
 	void Damege(float dmg);
 
+	void HitParticle(XMFLOAT3 vec);
+
 	void Draw();
 
 	void DrawUI();

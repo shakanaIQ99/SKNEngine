@@ -189,6 +189,22 @@ void Player::Update()
 void Player::Damege(float dmg)
 {
 	HP -= dmg;
+
+}
+
+void Player::HitParticle(XMFLOAT3 vec)
+{
+	if (!Death())
+	{
+		for (size_t i = 0; i < 10; i++)
+		{
+			std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
+			newBullet->CreateHitParticle(St->Wt.translation_, St->Wt.rotation_, vec, 0.2f, { 0,0.3f,1.0f,1.0f });
+
+			deathPaticles.push_back(std::move(newBullet));
+		}
+	}
+	
 }
 
 void Player::Attack(XMFLOAT3 flont)

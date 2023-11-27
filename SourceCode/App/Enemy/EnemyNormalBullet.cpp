@@ -22,6 +22,7 @@ void EnemyNormalBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota,
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;
 	St->Wt.scale_ = { 0.5f,0.5f,0.5f };
+	St->color = { 1.0f,0,0,1.0f };
 
 	Velocity_ = velocity;
 }

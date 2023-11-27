@@ -19,6 +19,7 @@
 #include"BossEnemy.h"
 #include"Draw3DLine.h"
 #include"Field.h"
+#include"DeathParticle.h"
 
 enum struct SceneType
 {
@@ -155,6 +156,8 @@ private:
 	int clearSceneTimer = 0;
 
 	const int clearSceneTime = 60;
+
+
 
 };
 

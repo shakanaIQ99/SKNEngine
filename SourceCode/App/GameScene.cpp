@@ -254,6 +254,7 @@ void GameScene::ALLCol()
 		if (boss.GetAtkPattern() == AtkPattern::CHARGE)
 		{
 			player.Damege(0.2f);
+			player.HitParticle(player.GetPos() - boss.GetPos());
 		}
 	}
 	for (const std::unique_ptr<EnemyNormalBullet>& bullet : enemyBullets)
@@ -263,7 +264,9 @@ void GameScene::ALLCol()
 		bossBulletSp.radius = bullet->GetScale().x;
 		if (Collision::CheckSphereToSphere(playerSp, bossBulletSp))
 		{
+			
 			player.Damege(1.0f);
+			player.HitParticle(bullet->GetVec());
 			bullet->OnCollision();
 		}
 		

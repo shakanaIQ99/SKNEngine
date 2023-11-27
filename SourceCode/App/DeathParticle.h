@@ -24,7 +24,15 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void CreateDeathParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity,float _scale,XMFLOAT4 color, Pattern _mode = Pattern::SCATTER);
+	void CreateDeathParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity,float _scale,XMFLOAT4 color);
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="position">初期座標</param>
+	/// <param name="velocity">速度</param>
+	void CreateHitParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity, float _scale, XMFLOAT4 color);
 
 	/// <summary>
 	/// 更新
@@ -65,7 +73,7 @@ private:
 	XMFLOAT3 Velocity_;
 
 	//寿命<frm>
-	static const int32_t kLifeTime = 60;
+	int32_t kLifeTime = 60;
 
 	//デスタイマー
 	int32_t deathTimer_ = kLifeTime;
