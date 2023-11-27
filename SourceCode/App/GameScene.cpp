@@ -279,6 +279,7 @@ void GameScene::ALLCol()
 		if (Collision::CheckSphereToSphere(playerBulletSp, bossSp))
 		{
 			boss.Damege(2.0f);
+			boss.HitParticle(p_bullet->GetVec());
 			p_bullet->OnCollision();
 		}
 	}

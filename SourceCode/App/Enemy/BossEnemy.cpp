@@ -231,6 +231,17 @@ void BossEnemy::DrawUI()
 	}
 }
 
+void BossEnemy::HitParticle(XMFLOAT3 vec)
+{
+	for (size_t i = 0; i < 10; i++)
+	{
+		std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
+		newBullet->CreateHitParticle(St->Wt.translation_, St->Wt.rotation_, vec, 2.0f, { 1.f,0.0f,0.0f,1.0f });
+
+		deathPaticles.push_back(std::move(newBullet));
+	}
+}
+
 void BossEnemy::AtkTable()
 {
 	if (WaitTimer < 0)
@@ -538,7 +549,7 @@ void BossEnemy::DeathAnimetion()
 	{
 
 		std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
-		newBullet->CreateDeathParticle(St->Wt.translation_, St->Wt.rotation_, -rotaVec,scale/3.0f, { 1.0f,0.3f,0.0f,1.0f });
+		newBullet->CreateDeathParticle(St->Wt.translation_, St->Wt.rotation_, -rotaVec,scale/3.0f, { 1.0f,0.0f,0.0f,1.0f });
 
 		deathPaticles.push_back(std::move(newBullet));
 		DpRate = 0;

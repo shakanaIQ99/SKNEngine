@@ -74,7 +74,8 @@ void DeathParticle::CreateHitParticle(const XMFLOAT3& position, const XMFLOAT3& 
 	rotaMat *= XMMatrixRotationX(XMConvertToRadians(distr(eng2)));
 
 	mode = Pattern::HIT;
-	kLifeTime = 10;
+	kLifeTime = 30;
+	deathTimer_ = kLifeTime;
 
 	Velocity_ = myMath::VectorMat(Velocity_, rotaMat);
 
@@ -94,7 +95,7 @@ void DeathParticle::Update()
 
 	case Pattern::HIT:
 		scale = easeInSine(0, startScale, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
-		St->color.z = easeInSine(0, 1.0f, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
+		//St->color.z = easeInSine(0, 1.0f, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
 		St->Wt.translation_ = St->Wt.translation_ + Velocity_;
 		St->Wt.rotation_ = St->Wt.rotation_ + romdom;
 		St->Wt.scale_ = { scale,scale,scale };
@@ -111,6 +112,10 @@ void DeathParticle::Update()
 	}
 
 	St->Update(camera->getView());
+	if (deathTimer_ <= 0)
+	{
+		deathTimer_ = 0;
+	}
 
 	//デスタイマーをひいて0以下になったらフラグを立てる
 	if (--deathTimer_ <= 0)

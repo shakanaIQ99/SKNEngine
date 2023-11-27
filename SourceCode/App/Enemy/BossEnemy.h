@@ -108,6 +108,8 @@ public:
 		return endFlag;
 	}
 
+	void HitParticle(XMFLOAT3 vec);
+
 	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
 
 	/// <summary>

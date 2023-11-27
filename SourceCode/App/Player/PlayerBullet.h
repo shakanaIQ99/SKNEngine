@@ -35,6 +35,7 @@ public:
 
 	XMFLOAT3 GetWorldPosition();
 	XMFLOAT3 GetScale();
+	XMFLOAT3 GetVec() { return Velocity_; }
 
 private:
 
