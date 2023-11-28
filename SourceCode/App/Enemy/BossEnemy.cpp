@@ -165,6 +165,10 @@ void BossEnemy::Update(bool flag)
 			HardShot();
 			break;
 		case AtkPattern::MISSILE:
+
+			break;
+		case AtkPattern::MINE:
+
 			break;
 		}
 	}
@@ -455,6 +459,14 @@ void BossEnemy::HardShot()
 
 void BossEnemy::MissileShot()
 {
+
+
+
+
+}
+
+void BossEnemy::MineAttack()
+{
 }
 
 void BossEnemy::ImGuiSet()
@@ -477,7 +489,7 @@ void BossEnemy::ImGuiSet()
 	ImGui::DragFloat("Max", &LangeMax, 0.5f);
 	ImGui::NewLine();
 	static int AtkmodeNum = 0;
-	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","HARDSHOT","MISSILE" };
+	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","HARDSHOT","MISSILE","MINE"};
 	ImGui::Combo("##AtkmodeNumCombo", &AtkmodeNum, AtkModes, IM_ARRAYSIZE(AtkModes));
 	ImGui::SameLine();
 	if (ImGui::Button("Change"))
@@ -501,10 +513,13 @@ void BossEnemy::ImGuiSet()
 		case 4:
 			BossAtk = AtkPattern::MISSILE;
 			break;
+		case 5:
+			BossAtk = AtkPattern::MINE;
+			break;
 		}
 
 	}
-	ImGui::Text("BossMode::%s", AtkModes[static_cast<int>(BossAtk)]);
+	ImGui::Text("BossAtkPattern::%s", AtkModes[static_cast<int>(BossAtk)]);
 
 	ImGui::NewLine();
 	static int MovemodeNum = 0;
@@ -527,7 +542,7 @@ void BossEnemy::ImGuiSet()
 		}
 
 	}
-	ImGui::Text("BossMode::%s", MoveModes[static_cast<int>(BossMove)]);
+	ImGui::Text("BossMoveMode::%s", MoveModes[static_cast<int>(BossMove)]);
 	ImGui::NewLine();
 	ImGui::Text("HP::%5.2f", HP);
 	ImGui::DragFloat("HP", &HP, 0.2f);

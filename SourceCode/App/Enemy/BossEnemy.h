@@ -12,7 +12,8 @@ enum struct AtkPattern
 	SIMPLESHOT,
 	CHARGE,
 	HARDSHOT,
-	MISSILE
+	MISSILE,
+	MINE
 };
 
 enum struct MovePattern
@@ -161,6 +162,11 @@ private:
 	/// ミサイル
 	/// </summary>
 	void MissileShot();
+
+	/// <summary>
+	/// 地雷
+	/// </summary>
+	void MineAttack();
 
 	/// <summary>
 	/// ImGui関係
