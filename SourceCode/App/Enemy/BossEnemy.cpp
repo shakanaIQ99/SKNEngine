@@ -3,6 +3,7 @@
 #include"Easing.h"
 #include"Field.h"
 #include"myMath.h"
+#include <random>
 
 #include <iostream>     // cout
 #include <ctime>        // time
@@ -252,9 +253,27 @@ void BossEnemy::AtkTable()
 	{
 		if (Lange > LangeMax)
 		{
-			TargetTimer = TargetTime;
-			BossAtk = AtkPattern::SIMPLESHOT;
-			BurstTime = BurstNum * BurstRate;
+			mt19937 mt{ random_device{}() };
+
+			uniform_int_distribution<int> dist(1, 6);
+
+			int aktmode = dist(mt);
+
+			if (aktmode >=2)
+			{
+				TargetTimer = TargetTime;
+				BossAtk = AtkPattern::SIMPLESHOT;
+				BurstTime = BurstNum * BurstRate;
+			}
+			else
+			{
+				TargetTimer = TargetTime;
+				BossAtk = AtkPattern::HARDSHOT;
+				BurstTime = BurstNum * BurstRate;
+			}
+
+
+			
 
 		}
 		if (Lange < LangeMax)
@@ -276,6 +295,13 @@ void BossEnemy::AtkTable()
 				
 
 				
+			}
+			else
+			{
+				TargetTimer = TargetTime;
+				BossAtk = AtkPattern::SIMPLESHOT;
+				BurstTime = BurstNum * BurstRate;
+
 			}
 
 
