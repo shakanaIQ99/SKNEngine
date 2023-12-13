@@ -243,6 +243,9 @@
     <ClCompile Include="SourceCode\App\DeathParticle.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\App\Enemy\EnemyMine.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -403,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\App\DeathParticle.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\Enemy\EnemyMine.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

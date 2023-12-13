@@ -101,6 +101,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\App\Enemy\EnemyMine.cpp" />
     <ClCompile Include="SourceCode\App\DeathParticle.cpp" />
     <ClCompile Include="SourceCode\App\Field.cpp" />
     <ClCompile Include="SourceCode\Engine\Math\Easing.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="SourceCode\App\StuructTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\App\Enemy\EnemyMine.h" />
     <ClInclude Include="SourceCode\App\DeathParticle.h" />
     <ClInclude Include="SourceCode\App\Field.h" />
     <ClInclude Include="SourceCode\Engine\Math\Easing.h" />
