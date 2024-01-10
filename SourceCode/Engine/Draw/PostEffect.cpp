@@ -3,7 +3,7 @@
 #include "DxWindow.h"
 #include<cassert>
 
-
+using namespace SKNEngine;
 using namespace DirectX;
 
 const float PostEffect::clearcolor[4] = { 0.0f,0.0f,0.0f,0.0f };

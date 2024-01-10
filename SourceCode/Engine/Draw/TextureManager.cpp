@@ -3,6 +3,7 @@ TextureManager* TextureManager::texManager = nullptr;
 vector<string>TextureManager::FilePaths;
 unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 
+using namespace SKNEngine;
 
 
 void TextureManager::StaticInitialize(DirectXCommon* dxcommon)

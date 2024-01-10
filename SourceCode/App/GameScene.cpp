@@ -6,6 +6,8 @@
 #include"Easing.h"
 #include"DeathParticle.h"
 
+using namespace SKNEngine;
+
 void GameScene::Init(DirectXCommon* dxcommon)
 {
 	spritecommon = new SpriteCommon();

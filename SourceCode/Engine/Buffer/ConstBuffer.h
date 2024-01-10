@@ -11,7 +11,7 @@ public:
 	ConstBuffer() = default;
 	~ConstBuffer() = default;
 
-	void Create(DirectXCommon* dxcommon, size_t size);
+	void Create(SKNEngine::DirectXCommon* dxcommon, size_t size);
 
 	D3D12_GPU_VIRTUAL_ADDRESS GetAddress() const;
 

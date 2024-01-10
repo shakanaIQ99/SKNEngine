@@ -1,4 +1,5 @@
 #include "ConstBuffer.h"
+using namespace SKNEngine;
 
 void ConstBuffer::Create(DirectXCommon* dxcommon, size_t size)
 {

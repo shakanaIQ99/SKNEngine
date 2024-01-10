@@ -16,6 +16,8 @@
 #include"Draw3DLine.h"
 
 #include "GameScene.h"
+
+using namespace SKNEngine;
 template <class T>
 inline void complete_type_safe_delete(T * &p) {
 	//  不完全な型のポインタをdeleteしようとした時にコンパイルエラーにする

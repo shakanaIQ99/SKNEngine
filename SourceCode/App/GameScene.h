@@ -39,11 +39,11 @@ private:
 
 public:
 
-	void Init(DirectXCommon* dxcommon);
+	void Init(SKNEngine::DirectXCommon* dxcommon);
 
 	void Update();
 
-	void Draw(DirectXCommon* dxcommon);
+	void Draw(SKNEngine::DirectXCommon* dxcommon);
 
 	void ALLCol();
 
@@ -75,12 +75,12 @@ private:
 	/// <summary>
 	/// タイトル描画
 	/// </summary>
-	void TitleDraw(DirectXCommon* dxcommon);
+	void TitleDraw(SKNEngine::DirectXCommon* dxcommon);
 
 	/// <summary>
 	/// メイン描画
 	/// </summary>
-	void GameDraw(DirectXCommon* dxcommon);
+	void GameDraw(SKNEngine::DirectXCommon* dxcommon);
 
 	void StartUpdate();
 

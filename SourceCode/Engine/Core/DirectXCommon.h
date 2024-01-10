@@ -10,75 +10,77 @@
 using namespace Microsoft::WRL;
 using namespace std;
 
-
-class DirectXCommon
+namespace SKNEngine
 {
-public:
+	class DirectXCommon
+	{
+	public:
 
-	DirectXCommon();
+		DirectXCommon();
 
-	void Initialize(DxWindow* win, int32_t BackBufferWidth = DxWindow::window_width, int32_t BackBufferHeight = DxWindow::window_height);
+		void Initialize(DxWindow* win, int32_t BackBufferWidth = DxWindow::window_width, int32_t BackBufferHeight = DxWindow::window_height);
 
-	void PreDraw();
+		void PreDraw();
 
-	void PostDraw();
+		void PostDraw();
 
-	/// <returns>デバイス</returns>
-	ID3D12Device* GetDevice() const { return device.Get(); }
+		/// <returns>デバイス</returns>
+		ID3D12Device* GetDevice() const { return device.Get(); }
 
-	/// <summary>
-	/// 描画コマンドリストの取得
-	/// </summary>
-	/// <returns>描画コマンドリスト</returns>
-	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
+		/// <summary>
+		/// 描画コマンドリストの取得
+		/// </summary>
+		/// <returns>描画コマンドリスト</returns>
+		ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
 
-	DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }
+		DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }
 
-	size_t GetBackBufferCount()const { return backBuffers.size(); }
+		size_t GetBackBufferCount()const { return backBuffers.size(); }
 
-	//DescriptorHeap* GetDescriptorHeap()const { return descHeap.get(); }
+		//DescriptorHeap* GetDescriptorHeap()const { return descHeap.get(); }
 
-private:
+	private:
 
-	DxWindow* dxWin;
+		DxWindow* dxWin;
 
-	ComPtr<ID3D12Device> device;
-	ComPtr<IDXGIFactory7> dxgiFactory;
-	ComPtr<IDXGISwapChain4> swapChain;
-	ComPtr<ID3D12CommandAllocator> commandAllocator;
-	ComPtr<ID3D12GraphicsCommandList> commandList;
-	ComPtr<ID3D12CommandQueue> commandQueue;
-	ComPtr<ID3D12DescriptorHeap> rtvHeap;
-	ComPtr<ID3D12Resource> depthBuff;
-	ComPtr<ID3D12DescriptorHeap> dsvHeap;
-	
+		ComPtr<ID3D12Device> device;
+		ComPtr<IDXGIFactory7> dxgiFactory;
+		ComPtr<IDXGISwapChain4> swapChain;
+		ComPtr<ID3D12CommandAllocator> commandAllocator;
+		ComPtr<ID3D12GraphicsCommandList> commandList;
+		ComPtr<ID3D12CommandQueue> commandQueue;
+		ComPtr<ID3D12DescriptorHeap> rtvHeap;
+		ComPtr<ID3D12Resource> depthBuff;
+		ComPtr<ID3D12DescriptorHeap> dsvHeap;
 
-	vector<ComPtr<ID3D12Resource>> backBuffers;
 
-	ComPtr<ID3D12Fence> fence;
+		vector<ComPtr<ID3D12Resource>> backBuffers;
 
-	ComPtr<ID3D12Resource> depthBuffer;
+		ComPtr<ID3D12Fence> fence;
 
-	unique_ptr<DescriptorHeap> descHeap;
+		ComPtr<ID3D12Resource> depthBuffer;
 
-	UINT backBufferWidth = 0;
-	UINT backBufferHeight = 0;
+		unique_ptr<DescriptorHeap> descHeap;
 
-	UINT64 fenceVal = 0;
+		UINT backBufferWidth = 0;
+		UINT backBufferHeight = 0;
 
-private:
+		UINT64 fenceVal = 0;
 
-	void InitializeDXGIdevice();
+	private:
 
-	void InitializeSwapChain();
+		void InitializeDXGIdevice();
 
-	void InitializeCommand();
+		void InitializeSwapChain();
 
-	void InitializeRenserTargetView();
+		void InitializeCommand();
 
-	void InitializeDepthBuffer();
+		void InitializeRenserTargetView();
 
-	void InitializeFence();
+		void InitializeDepthBuffer();
 
-};
+		void InitializeFence();
+
+	};
+}
 

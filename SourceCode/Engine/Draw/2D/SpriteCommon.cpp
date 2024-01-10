@@ -6,6 +6,8 @@
 
 #pragma comment(lib, "d3dcompiler.lib")
 
+using namespace SKNEngine;
+
 void SpriteCommon::Initialize(DirectXCommon* _dxcommon)
 {
 	this->dxcommon = _dxcommon;

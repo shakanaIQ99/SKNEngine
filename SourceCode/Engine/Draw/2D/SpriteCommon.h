@@ -16,7 +16,7 @@ class SpriteCommon
 {
 
 public:
-    void Initialize(DirectXCommon* _dxcommon);
+    void Initialize(SKNEngine::DirectXCommon* _dxcommon);
 
     //void InitializeGraphicsPipeline();
 
@@ -26,13 +26,13 @@ public:
 
     void DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
 
-    DirectXCommon* GetDirextXCommon() { return dxcommon; }
+    SKNEngine::DirectXCommon* GetDirextXCommon() { return dxcommon; }
 
     XMMATRIX Getmat() { return matProjection; }
 
 private:
 
-    DirectXCommon* dxcommon;
+    SKNEngine::DirectXCommon* dxcommon;
 
     PipelineSet spritepipline;
 

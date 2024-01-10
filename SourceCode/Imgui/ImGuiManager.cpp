@@ -1,4 +1,5 @@
 #include "ImGuiManager.h"
+using namespace SKNEngine;
 
 DirectXCommon* ImGuiManager::dxCommon = nullptr;
 ComPtr<ID3D12DescriptorHeap> ImGuiManager::srvheap;
