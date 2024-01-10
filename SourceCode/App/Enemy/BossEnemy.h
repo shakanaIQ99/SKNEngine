@@ -104,11 +104,19 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// ゲームエンド時
+	/// </summary>
+	/// <returns></returns>
 	bool GameEnd()
 	{
 		return endFlag;
 	}
 
+	/// <summary>
+	/// 被弾時パーティクル
+	/// </summary>
+	/// <param name="vec"></param>
 	void HitParticle(XMFLOAT3 vec);
 
 	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
@@ -173,7 +181,9 @@ private:
 	/// </summary>
 	void ImGuiSet();
 
-
+	/// <summary>
+	/// 死亡時の動き
+	/// </summary>
 	void DeathAnimetion();
 
 

@@ -34,9 +34,12 @@ void BossEnemy::Init()
 
 void BossEnemy::Reset()
 {
+
+	
 	LeserPoint.Init();
 	St->Wt.translation_ = { 0,0.0f,20.0f };
 	HP = MaxHP;
+	//エフェクトや弾周りの初期化
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& Bullets = GetBullets();
 	for (const std::unique_ptr<EnemyNormalBullet>& bullet : Bullets)
 	{
@@ -48,7 +51,7 @@ void BossEnemy::Reset()
 		{
 			return bullet->IsDead();
 		});
-
+	//死亡時パーティクル初期化
 	const std::list<std::unique_ptr<DeathParticle>>& Dps = GetDps();
 	for (const std::unique_ptr<DeathParticle>& Dp : Dps)
 	{
@@ -62,6 +65,7 @@ void BossEnemy::Reset()
 			return dp->IsDead();
 		});
 
+	//各パラメータ初期化
 	BossAtk = AtkPattern::NONE;
 	BossMove = MovePattern::NONE;
 	chargeMoveAniTimer = 0;
@@ -81,6 +85,7 @@ void BossEnemy::Reset()
 
 void BossEnemy::Update(bool flag)
 {
+	//弾やパーティクルを消していく
 	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
 		{
 			return bullet->IsDead();
@@ -90,6 +95,7 @@ void BossEnemy::Update(bool flag)
 			return dp->IsDead();
 		});
 
+	//死んだとき
 	if (Death())
 	{
 		DeathAnimetion();
@@ -103,6 +109,7 @@ void BossEnemy::Update(bool flag)
 
 	St->Wt.translation_.y -= 0.5f;
 
+	//地面押し戻し
 	if (St->Wt.translation_.y - (St->Wt.scale_.y * 1.5f) < 0.0f)
 	{
 		St->Wt.translation_.y = (St->Wt.scale_.y * 1.5f);
@@ -110,6 +117,7 @@ void BossEnemy::Update(bool flag)
 
 	chargeCool--;
 
+	//突進してないときの基本的な行動テーブル
 	if (BossAtk != AtkPattern::CHARGE&&!flag&&!Death())
 	{
 		
@@ -124,7 +132,7 @@ void BossEnemy::Update(bool flag)
 
 		St->Wt.rotation_.y = (p_pos + c_vec);
 
-
+		//行動state
 		switch (BossMove)
 		{
 		case MovePattern::NONE:
@@ -143,6 +151,7 @@ void BossEnemy::Update(bool flag)
 
 	if (!flag && !Death())
 	{
+		//攻撃state
 		switch (BossAtk)
 		{
 		case AtkPattern::NONE:
@@ -174,11 +183,13 @@ void BossEnemy::Update(bool flag)
 		}
 	}
 
+	//弾更新
 	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
 	{
 		bullet->Update();
 	}
 
+	//パーティクル更新
 	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
 	{
 		dp->Update();
@@ -189,6 +200,7 @@ void BossEnemy::Update(bool flag)
 	ImGuiSet();
 #endif
 
+	//エリア外行かないように
 	if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
 	{
 		St->Wt.translation_.x = Field::GetArea() - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
@@ -222,6 +234,7 @@ void BossEnemy::Draw()
 	XMFLOAT3 Head = St->Wt.translation_;
 
 	Head.y += St->Wt.scale_.y;
+	//白線描画
 	if (AimMode)
 	{
 		LeserPoint.Draw(Head, TargetPos);
@@ -249,8 +262,10 @@ void BossEnemy::HitParticle(XMFLOAT3 vec)
 
 void BossEnemy::AtkTable()
 {
+	//攻撃間のクールタイム参照
 	if (WaitTimer < 0)
 	{
+		//突進攻撃のレンジにいないとき
 		if (Lange > LangeMax)
 		{
 			mt19937 mt{ random_device{}() };
@@ -276,6 +291,7 @@ void BossEnemy::AtkTable()
 			
 
 		}
+		//突進攻撃範囲内
 		if (Lange < LangeMax)
 		{
 			if (chargeCool < 0)
@@ -308,7 +324,7 @@ void BossEnemy::AtkTable()
 		}
 
 	}
-
+	//攻撃間のクールタイムカウントダウン
 	WaitTimer--;
 }
 
@@ -375,6 +391,7 @@ void BossEnemy::CloseMove()
 
 void BossEnemy::SimpleShot()
 {
+	//照準時間
 	if (TargetTimer > 0)
 	{
 		if (TargetTimer > 10)
@@ -385,7 +402,7 @@ void BossEnemy::SimpleShot()
 		TargetTimer--;
 		AimMode = true;
 	}
-	else
+	else//照準終わり時の攻撃
 	{
 		XMFLOAT3 Head = St->Wt.translation_;
 
@@ -396,6 +413,7 @@ void BossEnemy::SimpleShot()
 
 		BulletVec *= 2.0f;
 
+		//発射レート
 		if (BurstTime % BurstRate == 0)
 		{
 			std::unique_ptr <EnemyNormalBullet> newBullet = std::make_unique<EnemyNormalBullet>();
@@ -405,6 +423,7 @@ void BossEnemy::SimpleShot()
 
 		}
 		BurstTime--;
+		//射撃時間終わったら
 		if (BurstTime <= 0)
 		{
 			BossAtk = AtkPattern::NONE;
@@ -433,6 +452,7 @@ void BossEnemy::ChargeAtk()
 
 void BossEnemy::HardShot()
 {
+	//照準
 	if (TargetTimer > 0)
 	{
 		if (TargetTimer > 10)
