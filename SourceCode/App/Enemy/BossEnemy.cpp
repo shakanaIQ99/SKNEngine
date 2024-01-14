@@ -17,6 +17,7 @@ void BossEnemy::Init()
 {
 	ModelInit("muso");
 	EnemyNormalBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
+	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
 	St->Wt.scale_ = { scale,scale,scale };
 	St->color = { 1.0f,0,0,1.0f };
 	LeserPoint.Init();
@@ -47,10 +48,15 @@ void BossEnemy::Reset()
 		bullet->OnCollision();
 
 	}
-	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
-		{
-			return bullet->IsDead();
-		});
+	const std::list<std::unique_ptr<EnemyMine>>& Mines = GetMines();
+	for (const std::unique_ptr<EnemyMine>& mine : Mines)
+	{
+
+		mine->OnCollision();
+
+	}
+	//弾消し関数
+	Bulletremove();
 	//死亡時パーティクル初期化
 	const std::list<std::unique_ptr<DeathParticle>>& Dps = GetDps();
 	for (const std::unique_ptr<DeathParticle>& Dp : Dps)
@@ -86,10 +92,7 @@ void BossEnemy::Reset()
 void BossEnemy::Update(bool flag)
 {
 	//弾やパーティクルを消していく
-	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
-		{
-			return bullet->IsDead();
-		});
+	Bulletremove();
 	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
 		{
 			return dp->IsDead();
@@ -178,7 +181,7 @@ void BossEnemy::Update(bool flag)
 
 			break;
 		case AtkPattern::MINE:
-
+			MineAttack();
 			break;
 		}
 	}
@@ -188,6 +191,12 @@ void BossEnemy::Update(bool flag)
 	{
 		bullet->Update();
 	}
+
+	for (std::unique_ptr<EnemyMine>& mine : Mines_)
+	{
+		mine->Update();
+	}
+
 
 	//パーティクル更新
 	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
@@ -224,6 +233,10 @@ void BossEnemy::Draw()
 	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
 	{
 		bullet->Draw();
+	}
+	for (std::unique_ptr<EnemyMine>& mine : Mines_)
+	{
+		mine->Draw();
 	}
 	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
 	{
@@ -314,9 +327,16 @@ void BossEnemy::AtkTable()
 			}
 			else
 			{
-				TargetTimer = TargetTime;
+				BossAtk = AtkPattern::MINE;
+				TargetVec = player->GetPos() - St->Wt.translation_;
+				TargetVec.y = 0;
+				normalize(TargetVec);
+				mineThrowTimer = 0;
+				mineThrowDeg = 0;
+
+				/*TargetTimer = TargetTime;
 				BossAtk = AtkPattern::SIMPLESHOT;
-				BurstTime = BurstNum * BurstRate;
+				BurstTime = BurstNum * BurstRate;*/
 
 			}
 
@@ -353,7 +373,7 @@ void BossEnemy::MoveTable()
 		}
 	}
 
-	stopTimer--;
+	//stopTimer--;
 
 }
 
@@ -513,6 +533,52 @@ void BossEnemy::MissileShot()
 
 void BossEnemy::MineAttack()
 {
+	XMFLOAT3 throwVec = { 0,0,0 };
+
+	
+
+	if (mineThrowTimer == 0)
+	{
+		for (size_t i = 0; i < mineNum; i++)
+		{
+
+			size_t preMineNum = 60*i;
+
+			float deg = XMConvertToRadians(static_cast<float>(preMineNum));
+
+			throwVec.x = TargetVec.x * cosf(deg) - TargetVec.z * sinf(deg);
+
+			throwVec.z = TargetVec.x * sinf(deg) + TargetVec.z * cosf(deg);
+
+			normalize(throwVec);
+			throwVec *= 1.0f;
+
+			std::unique_ptr <EnemyMine> newMine = std::make_unique<EnemyMine>();
+			newMine->Initlize(St->Wt.translation_, St->Wt.rotation_, throwVec);
+
+			Mines_.push_back(std::move(newMine));
+
+		}
+	}
+
+	mineThrowTimer++;
+	
+	mineThrowDeg = easeOutQuint(0.0, 360.0f, static_cast<float>(mineThrowTimer), static_cast<float>(mineThrowTime));
+
+	St->Wt.rotation_.y += XMConvertToRadians(mineThrowDeg);
+
+	
+	
+
+	if (mineThrowTimer >= mineThrowTime)
+	{
+		
+		mineThrowTimer = mineThrowTime;
+		mineThrowDeg = 0;
+		BossAtk = AtkPattern::NONE;
+	}
+
+
 }
 
 void BossEnemy::ImGuiSet()
@@ -629,6 +695,10 @@ void BossEnemy::Bulletremove()
 	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
 		{
 			return bullet->IsDead();
+		});
+	Mines_.remove_if([](std::unique_ptr<EnemyMine>& mine)
+		{
+			return mine->IsDead();
 		});
 
 }

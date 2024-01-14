@@ -2,6 +2,7 @@
 //敵
 #include"StuructTransform.h"
 #include"EnemyNormalBullet.h"
+#include"EnemyMine.h"
 #include"Draw3DLine.h"
 #include"Player.h"
 #include"DeathParticle.h"
@@ -86,7 +87,8 @@ public:
 	/// 弾削除
 	/// </summary>
 	void Bulletremove();
-	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; };
+	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; }
+	const std::list<std::unique_ptr<EnemyMine>>& GetMines() { return Mines_; };
 
 	/// <summary>
 	/// 生きてるか
@@ -247,6 +249,8 @@ private:
 	//弾関連
 	std::list<std::unique_ptr<EnemyNormalBullet>> Normalbullets_;
 
+	std::list<std::unique_ptr<EnemyMine>> Mines_;
+
 	//照準周り
 	XMFLOAT3 TargetPos = { 0,0,0 };
 
@@ -276,6 +280,15 @@ private:
 	float Lange = 0;
 	float LangeMax = 50;
 	float LangeMin = 10;
+
+	//地雷
+	const size_t mineNum = 6;
+
+	float mineThrowDeg = 0;
+
+	size_t mineThrowTimer = 0;
+
+	const size_t mineThrowTime = 40;
 
 	
 

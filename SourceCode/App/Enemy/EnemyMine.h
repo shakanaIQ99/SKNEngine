@@ -2,6 +2,15 @@
 #include "StuructTransform.h"
 using namespace DirectX;
 
+enum mineState
+{
+	WAIT,
+	EXPLOSION,
+	STOPEXPLOSION,
+	END
+
+};
+
 class EnemyMine:public StuructTransform
 {
 public:
@@ -40,6 +49,8 @@ public:
 	XMFLOAT3 GetVec() { return Velocity_; }
 
 
+
+
 private:
 
 	static std::unique_ptr<ObjModel> Premodel;
@@ -54,16 +65,23 @@ private:
 	//速度
 	XMFLOAT3 Velocity_;
 
-	//寿命<frm>
-	static const int32_t kLifeTime = 60 * 5;
-
-	//デスタイマー
-	int32_t deathTimer_ = kLifeTime;
-
 	//デスフラグ
 	bool isDead_ = false;
 
+	size_t mineTimer = 0;
+	const size_t mineTime = 60;
 
+	size_t explodeTimer = 0;
+	const size_t explodeTime = 20;
+
+	size_t stopCounter = 0;
+	const size_t stopCount = 120;
+
+	bool onField = false;
+
+	mineState state = mineState::WAIT;
+
+	float scale = 1.0f;
 
 };
 
