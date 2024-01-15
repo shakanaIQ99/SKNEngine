@@ -290,6 +290,9 @@ private:
 
 	const size_t mineThrowTime = 40;
 
+	int mineCool = 0;
+	const int mineCoolTime = 300;
+
 	
 
 };

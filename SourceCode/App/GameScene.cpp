@@ -242,6 +242,8 @@ void GameScene::ALLCol()
 
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& enemyBullets = boss.GetBullets();
 
+	const std::list<std::unique_ptr<EnemyMine>>& enemyMines = boss.GetMines();
+
 	Sphere playerSp;
 	Sphere bossSp;
 
@@ -272,6 +274,21 @@ void GameScene::ALLCol()
 			bullet->OnCollision();
 		}
 		
+	}
+	for (const std::unique_ptr<EnemyMine>& mine : enemyMines)
+	{
+		Sphere bossMineSp;
+		bossMineSp.center = { mine->GetWorldPosition().x ,mine->GetWorldPosition().y ,mine->GetWorldPosition().z ,1.0f };
+		bossMineSp.radius = mine->GetScale().x;
+		if (Collision::CheckSphereToSphere(playerSp, bossMineSp)&&!mine->IsHit())
+		{
+
+			player.Damege(5.0f);
+			player.HitParticle(mine->GetVec());
+			mine->OnCol();
+			//mine->Destoroy();
+		}
+
 	}
 	for (const std::unique_ptr<PlayerBullet>& p_bullet : playerBullets)
 	{

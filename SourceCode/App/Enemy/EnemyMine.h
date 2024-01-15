@@ -41,8 +41,14 @@ public:
 
 	bool IsDead()const { return isDead_; }
 
+	bool IsHit()const;
+
 	//衝突を検出したら呼び出されるコールバック関数
-	void OnCollision();
+	void Destoroy();
+
+	void OnCol();
+
+
 
 	XMFLOAT3 GetWorldPosition() { return St->Wt.translation_; }
 	XMFLOAT3 GetScale() { return St->Wt.scale_; }
@@ -82,6 +88,9 @@ private:
 	mineState state = mineState::WAIT;
 
 	float scale = 1.0f;
+
+	bool hited = false;
+	bool explode = false;
 
 };
 

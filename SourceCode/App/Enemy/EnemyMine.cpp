@@ -61,7 +61,11 @@ void EnemyMine::Update()
 		{
 		case WAIT:
 			mineTimer--;
-			if (mineTimer <= 0)state = mineState::EXPLOSION;
+			if (mineTimer <= 0)
+			{
+				state = mineState::EXPLOSION;
+				explode = true;
+			}
 			break;
 		case EXPLOSION:
 			explodeTimer++;
@@ -100,7 +104,21 @@ void EnemyMine::Draw()
 	St->Draw();
 }
 
-void EnemyMine::OnCollision()
+bool EnemyMine::IsHit() const
+{
+	if (!hited && explode)
+	{
+		return true;
+	}
+	return false;
+}
+
+void EnemyMine::Destoroy()
 {
 	isDead_ = true;
+}
+
+void EnemyMine::OnCol()
+{
+	hited = true;
 }

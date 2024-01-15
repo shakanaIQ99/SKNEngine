@@ -52,7 +52,7 @@ void BossEnemy::Reset()
 	for (const std::unique_ptr<EnemyMine>& mine : Mines)
 	{
 
-		mine->OnCollision();
+		mine->Destoroy();
 
 	}
 	//弾消し関数
@@ -76,6 +76,7 @@ void BossEnemy::Reset()
 	BossMove = MovePattern::NONE;
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
+	mineCool = 0;
 	TargetTimer = 0;
 	MoveTimer = 0;
 	stopTimer = 0;
@@ -119,6 +120,7 @@ void BossEnemy::Update(bool flag)
 	}
 
 	chargeCool--;
+	mineCool--;
 
 	//突進してないときの基本的な行動テーブル
 	if (BossAtk != AtkPattern::CHARGE&&!flag&&!Death())
@@ -325,7 +327,7 @@ void BossEnemy::AtkTable()
 
 				
 			}
-			else
+			else if(mineCool<0)
 			{
 				BossAtk = AtkPattern::MINE;
 				TargetVec = player->GetPos() - St->Wt.translation_;
@@ -333,11 +335,16 @@ void BossEnemy::AtkTable()
 				normalize(TargetVec);
 				mineThrowTimer = 0;
 				mineThrowDeg = 0;
+				mineCool = mineCoolTime;
 
-				/*TargetTimer = TargetTime;
+				
+
+			}
+			else if(mineCool>0&& chargeCool>0)
+			{
+				TargetTimer = TargetTime;
 				BossAtk = AtkPattern::SIMPLESHOT;
-				BurstTime = BurstNum * BurstRate;*/
-
+				BurstTime = BurstNum * BurstRate;
 			}
 
 
