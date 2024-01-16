@@ -1,7 +1,7 @@
 #include "Field.h"
 
 #include"ImGuiManager.h"
-const float Field::AreaLimit = 500.0f;
+const float Field::AreaLimit = 250.0f;	//半径
 
 void Field::Init(Camera* _camera)
 {
