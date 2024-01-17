@@ -280,7 +280,7 @@ void GameScene::ALLCol()
 		Sphere bossMineSp;
 		bossMineSp.center = { mine->GetWorldPosition().x ,mine->GetWorldPosition().y ,mine->GetWorldPosition().z ,1.0f };
 		bossMineSp.radius = mine->GetScale().x;
-		if (Collision::CheckSphereToSphere(playerSp, bossMineSp)&&!mine->IsHit())
+		if (Collision::CheckSphereToSphere(playerSp, bossMineSp)&&mine->IsHit())
 		{
 
 			player.Damege(5.0f);
