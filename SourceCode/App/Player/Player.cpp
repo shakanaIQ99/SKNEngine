@@ -112,7 +112,7 @@ void Player::Reset()
 	DpRate = 0;
 	scale = 1.0f;
 	hpBarShakeNum = 0;
-
+	diff = 0;
 }
 
 void Player::Update()
@@ -243,6 +243,7 @@ void Player::Move()
 	moveVec = { 0,0,0 };
 	XMFLOAT3 Flont = camera->getForwardVec();
 	Flont.y = 0;
+	
 	normalize(Flont);
 	XMFLOAT2 inputnum = Input::GetLStick(true, true);
 
@@ -254,13 +255,18 @@ void Player::Move()
 	float c_vec = atan2(Flont.x, Flont.z);
 
 
+
+
+
 	mae = { 0,0,0 };
 
 	if ((moveVec.x != 0 || moveVec.z != 0))
 	{
 		mae = { 0,0,1.0f };
-		St->Wt.rotation_.y = (p_pos + c_vec);	
+		diff = p_pos+c_vec;
+		//St->Wt.rotation_.y = (p_pos + c_vec);	
 	}
+	St->Wt.rotation_.y = myMath::LerpShortAngle(St->Wt.rotation_.y, diff, 0.1f);
 
 	mae = myMath::VectorMat(mae, St->Wt.matWorld_);
 

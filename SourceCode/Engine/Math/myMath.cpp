@@ -23,3 +23,34 @@ XMFLOAT3 myMath::VectorMat(XMMATRIX mat, XMFLOAT3 vector)
 	return changeVector;
 }
 
+float myMath::LerpShortAngle(float a, float b, float t)
+{
+
+	//角度差分
+	float diff = b - a;
+
+	if (diff > XMConvertToRadians(360.0f)|| diff < XMConvertToRadians(-360.0f))
+	{
+		diff = static_cast<float>(std::fmod(static_cast<double>(diff), static_cast<double>(XMConvertToRadians(360.0f))));
+	}
+
+	if (diff > XMConvertToRadians(180.0f))
+	{
+		diff -= XMConvertToRadians(360.0f);
+
+	}
+	else if(diff< XMConvertToRadians(-180.0f))
+	{
+		diff += XMConvertToRadians(360.0f);
+	}
+
+	return a + diff * t;
+	
+
+
+
+
+
+	//return 0.0f;
+}
+

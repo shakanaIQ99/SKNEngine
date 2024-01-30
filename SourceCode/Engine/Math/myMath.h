@@ -1,5 +1,6 @@
 #pragma once
 #include<DirectXMath.h>
+#include<cmath>
 
 using namespace DirectX;
 
@@ -18,5 +19,15 @@ namespace myMath
 	XMFLOAT3 VectorMat(XMMATRIX mat, XMFLOAT3 vector);
 
 	//double 
+
+	/// <summary>
+	/// 最短角度補間
+	/// </summary>
+	float LerpShortAngle(float a, float b, float t);
+
+	
+
+
+
 }
 

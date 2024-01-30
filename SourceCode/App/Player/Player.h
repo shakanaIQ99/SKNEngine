@@ -232,6 +232,8 @@ private:
 
 	bool endFlag = false;
 
+
+	float diff = 0;
 	
 
 };
