@@ -74,5 +74,7 @@ private:
 
 	string fileExt_;
 
+	bool ddscheck = false;
+
 };
 
