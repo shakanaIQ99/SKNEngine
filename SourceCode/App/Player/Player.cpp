@@ -78,8 +78,8 @@ void Player::Reset()
 	HP = MaxHP;
 	St->Wt.translation_ = { 0,50.0f,0 };
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
-	const std::list<std::unique_ptr<PlayerBullet>>& Bullets = GetBullets();
-	for (const std::unique_ptr<PlayerBullet>& p_bullet : Bullets)
+	const std::list<std::unique_ptr<BulletManager>>& Bullets = GetBullets();
+	for (const std::unique_ptr<BulletManager>& p_bullet : Bullets)
 	{
 		
 		p_bullet->OnCollision();
@@ -92,7 +92,7 @@ void Player::Reset()
 		Dp->Death();
 
 	}
-	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
+	bullets_.remove_if([](std::unique_ptr<BulletManager>& bullet)
 		{
 			return bullet->IsDead();
 		});
@@ -129,7 +129,7 @@ void Player::Update()
 
 	
 
-	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet)
+	bullets_.remove_if([](std::unique_ptr<BulletManager>& bullet)
 		{
 			return bullet->IsDead();
 		});
@@ -159,7 +159,7 @@ void Player::Update()
 
 	latetime--;
 
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	for (std::unique_ptr<BulletManager>& bullet : bullets_)
 	{
 		bullet->Update();
 	}
@@ -227,7 +227,7 @@ void Player::Attack(XMFLOAT3 flont)
 	velocity *= kBulletSpeed;
 
 
-	std::unique_ptr <PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	std::unique_ptr <BulletManager> newBullet = std::make_unique<PlayerBullet>();
 	newBullet->Initlize(BulletStart, St->Wt.rotation_, velocity);
 
 	bullets_.push_back(std::move(newBullet));
@@ -577,7 +577,7 @@ void Player::ImGuiSet()
 
 void Player::Draw()
 {
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_)
+	for (std::unique_ptr<BulletManager>& bullet : bullets_)
 	{
 		bullet->Draw();
 	}

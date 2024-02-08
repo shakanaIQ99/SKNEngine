@@ -238,7 +238,7 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 
 void GameScene::ALLCol()
 {
-	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player.GetBullets();
+	const std::list<std::unique_ptr<BulletManager>>& playerBullets = player.GetBullets();
 
 	const std::list<std::unique_ptr<EnemyNormalBullet>>& enemyBullets = boss.GetBullets();
 
@@ -290,7 +290,7 @@ void GameScene::ALLCol()
 		}
 
 	}
-	for (const std::unique_ptr<PlayerBullet>& p_bullet : playerBullets)
+	for (const std::unique_ptr<BulletManager>& p_bullet : playerBullets)
 	{
 		Sphere playerBulletSp;
 		playerBulletSp.center = { p_bullet->GetWorldPosition().x ,p_bullet->GetWorldPosition().y ,p_bullet->GetWorldPosition().z ,1.0f };

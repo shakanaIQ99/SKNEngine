@@ -45,17 +45,4 @@ void PlayerBullet::Draw()
 	St->Draw();
 }
 
-void PlayerBullet::OnCollision()
-{
-	isDead_ = true;
-}
 
-XMFLOAT3 PlayerBullet::GetWorldPosition()
-{
-	return St->Wt.translation_;
-}
-
-XMFLOAT3 PlayerBullet::GetScale()
-{
-	return St->Wt.scale_;
-}

@@ -1,6 +1,7 @@
 #pragma once
 #include"Input.h"
 #include"PlayerBullet.h"
+#include"BulletManager.h"
 #include"StuructTransform.h"
 #include"ParticleManager.h"
 #include"DeathParticle.h"
@@ -68,7 +69,7 @@ public:
 		return UnderPos;
 	}
 
-	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; };
+	const std::list<std::unique_ptr<BulletManager>>& GetBullets() { return bullets_; };
 
 	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
 private:
@@ -137,7 +138,7 @@ private:
 	const int DpRateNum = 1;
 
 	//弾関連
-	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+	std::list<std::unique_ptr<BulletManager>> bullets_;
 
 	std::list<std::unique_ptr<DeathParticle>> deathPaticles;
 
