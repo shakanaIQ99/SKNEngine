@@ -62,6 +62,11 @@ public:
 	{
 		return St->Wt.translation_;
 	}
+
+	WorldTransform GetPre() 
+	{
+		return prePlayer;
+	}
 	XMFLOAT3 GetUnderPos()
 	{
 		XMFLOAT3 UnderPos = GetPos();
@@ -69,9 +74,13 @@ public:
 		return UnderPos;
 	}
 
+	XMFLOAT3 GetPredictionPoint() { return playerPredictionPoint; }
+
 	const std::list<std::unique_ptr<BulletManager>>& GetBullets() { return bullets_; };
 
 	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
+
+	WorldTransform prePlayer;
 private:
 
 	/// <summary>
@@ -98,15 +107,22 @@ private:
 
 	void ImGuiSet();
 
+	
+	
 
 private:
 	WorldTransform* boss;
+
+	std::unique_ptr<OBJ3D> prePP;
+
 	
 	float move_speed;
 
 	bool BoostMode = false;
 
 	XMFLOAT3 moveVec;
+
+	XMFLOAT3 playerPredictionPoint;
 
 	XMFLOAT3 rotaVec = { 0,0,0 };
 

@@ -23,6 +23,12 @@ void Camera::Reset()
 	rotateX = 0;
 	rotateY = 0;
 
+	/*if (targetWT)
+	{
+		interTarget = targetWT->translation_;
+		wt.rotation_.y = targetWT->rotation_.y;
+	}*/
+
 
 	targetWT = nullptr;
 }

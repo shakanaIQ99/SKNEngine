@@ -188,6 +188,15 @@ private:
 	/// </summary>
 	void DeathAnimetion();
 
+	XMFLOAT3 LinePrediction2(XMFLOAT3 shotPosition, XMFLOAT3 targetPosition, XMFLOAT3 targetPrePosition, float bulletSpeed);
+
+	float PlusMin(float a, float b)
+	{
+		if (a < 0 && b < 0) return 0;
+		if (a < 0) return b;
+		if (b < 0) return a;
+		return a < b ? a : b;
+	}
 
 private:
 	//演出周り
@@ -265,6 +274,8 @@ private:
 	const int BurstRate = 3;
 	const int BurstNum = 40;
 	int BurstTime = BurstNum * BurstRate;
+
+	bool CriticalAim = false;
 
 	//突進攻撃
 	XMFLOAT3 TargetVec = { 0,0,0 };

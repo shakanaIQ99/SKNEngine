@@ -45,7 +45,8 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	boss.Init();
 	player.Init();
 
-	camera.setTarget(&player.St->Wt);
+	camera.setTarget(&player.prePlayer);
+	//camera.setTarget(&player.St->Wt);
 
 	boss.SetPlayer(&player);
 	player.SetEnemy(&boss.St->Wt);

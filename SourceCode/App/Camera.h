@@ -66,6 +66,8 @@ private:
 
 	XMFLOAT3 forward = { 0.0f, 0.0f, 1.0f };
 
+	XMFLOAT3 interTarget = {};
+
 	float cameraRotateX = 0;
 	float cameraRotateY = 0;
 	float rotateX = 0;

@@ -4,6 +4,7 @@
 #include"Field.h"
 #include"myMath.h"
 #include <random>
+#include<cmath>
 
 #include <iostream>     // cout
 #include <ctime>        // time
@@ -418,6 +419,8 @@ void BossEnemy::CloseMove()
 
 void BossEnemy::SimpleShot()
 {
+
+	XMFLOAT3 BulletVec;
 	//照準時間
 	if (TargetTimer > 0)
 	{
@@ -434,11 +437,21 @@ void BossEnemy::SimpleShot()
 		XMFLOAT3 Head = St->Wt.translation_;
 
 		Head.y += St->Wt.scale_.y;
+		//Head.y = 1.5f;
 		AimMode = false;
-		XMFLOAT3 BulletVec = player->GetPos() - Head;
+		if (CriticalAim)
+		{
+			BulletVec = LinePrediction2(Head, player->GetPos(), player->GetPredictionPoint(), 2.0f) - Head;
+		}
+		else
+		{
+			BulletVec = player->GetPos() - Head;
+		}
 		normalize(BulletVec);
 
 		BulletVec *= 2.0f;
+		
+		
 
 		//発射レート
 		if (BurstTime % BurstRate == 0)
@@ -665,6 +678,7 @@ void BossEnemy::ImGuiSet()
 	ImGui::NewLine();
 	ImGui::Text("HP::%5.2f", HP);
 	ImGui::DragFloat("HP", &HP, 0.2f);
+	ImGui::Checkbox("CriticalAim", &CriticalAim);
 
 	ImGui::End();
 }
@@ -695,6 +709,71 @@ void BossEnemy::DeathAnimetion()
 	}
 
 	
+}
+
+XMFLOAT3 BossEnemy::LinePrediction2(XMFLOAT3 shotPosition, XMFLOAT3 targetPosition, XMFLOAT3 targetPrePosition, float bulletSpeed)
+{
+	
+	XMFLOAT3 v3_Mv = targetPosition - targetPrePosition;
+	XMFLOAT3 v3_Pos = targetPosition - shotPosition;
+
+	//normalize(v3_Mv);
+	//normalize(v3_Pos);
+
+	//float A = myMath::VectorLengthSq(v3_Mv) - bulletSpeed * bulletSpeed;
+	//float B = myMath::VectorDot(v3_Pos, v3_Mv);
+	//float C = myMath::VectorLengthSq(v3_Pos);
+
+	////0割禁止
+	//if (A == 0 && B == 0)return targetPosition;
+	//if (A == 0)return targetPosition + v3_Mv * (-C / B / 2);
+
+	////虚数解はどうせ当たらないので絶対値で無視した
+	//float D = sqrtf(fabsf(B * B - A * C));
+	//return targetPosition + v3_Mv * PlusMin((-B - D) / A, (-B + D) / A);
+
+
+
+	//ピタゴラスの定理から２つのベクトルの長さが等しい場合の式を作り
+	//二次方程式の解の公式を使って弾が当たる予測時間を計算する
+	float A = (v3_Mv.x * v3_Mv.x + v3_Mv.y * v3_Mv.y + v3_Mv.z * v3_Mv.z) - bulletSpeed * bulletSpeed;
+	float B = 2 * (v3_Pos.x * v3_Mv.x + v3_Pos.y * v3_Mv.y + v3_Pos.z * v3_Mv.z);
+	float C = (v3_Pos.x * v3_Pos.x + v3_Pos.y * v3_Pos.y + v3_Pos.z * v3_Pos.z);
+
+	//0割り禁止処理
+	if (A == 0)
+	{
+		if (B == 0)
+		{
+			return targetPosition;
+		}
+		else
+		{
+			return targetPosition + v3_Mv * (-C / B);
+		}
+	}
+
+	//弾が当たる時間のフレームを計算する
+	float flame1, flame2;
+	//二次方程式の解の公式の判別式で分類
+	float D = B * B - 4 * A * C;
+	if (D > 0)
+	{
+		float E = sqrtf(D);
+		flame1 = (-B - E) / (2 * A);
+		flame2 = (-B + E) / (2 * A);
+		//解は2つなので正の数の最小値を使う
+		flame1 = PlusMin(flame1, flame2);
+	}
+	else
+	{
+		//虚数解
+		//当たらないので今の位置を狙う
+		flame1 = 0;
+	}
+
+	//予想位置を返す
+	return targetPosition + v3_Mv * flame1;
 }
 
 void BossEnemy::Bulletremove()

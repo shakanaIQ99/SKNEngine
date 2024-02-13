@@ -18,6 +18,8 @@ namespace myMath
 	/// </summary>
 	XMFLOAT3 VectorMat(XMMATRIX mat, XMFLOAT3 vector);
 
+	XMFLOAT3 lerp(XMFLOAT3 vector, XMFLOAT3 vector2, float t);
+
 	//double 
 
 	/// <summary>
@@ -25,6 +27,9 @@ namespace myMath
 	/// </summary>
 	float LerpShortAngle(float a, float b, float t);
 
+	float VectorLengthSq(const DirectX::XMFLOAT3& vf3);
+	
+	float VectorDot(const DirectX::XMFLOAT3& vec1, const DirectX::XMFLOAT3& vec2);
 	
 
 

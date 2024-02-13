@@ -22,6 +22,10 @@ void Player::Init()
 {
 
 	ModelInit("Player");
+	
+
+	prePP.reset(OBJ3D::Create());
+	prePP->SetModel(model.get());
 	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	
@@ -31,6 +35,8 @@ void Player::Init()
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
 	St->Wt.translation_.y = 50.0f;
+
+	prePP->Wt.scale_ = St->Wt.scale_;
 
 	HP = MaxHP;
 
@@ -71,6 +77,8 @@ void Player::Init()
 	move_speed = 0.4f;
 
 	ENGauge = ENMAXGauge;
+
+	prePlayer = St->Wt;
 }
 
 void Player::Reset()
@@ -117,7 +125,7 @@ void Player::Reset()
 
 void Player::Update()
 {
-	
+	prePlayer.rotation_ = St->Wt.rotation_;
 	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
 	sprite_HPbar->Wt.scale_.x = (10.0f * HP / MaxHP);
 
@@ -178,6 +186,8 @@ void Player::Update()
 	LockOn();
 
 	St->Update(camera->getView());
+	prePlayer.UpdateMatrix(camera->getView());
+	prePP->Update(camera->getView());
 	sprite_Reticle->Update();
 	sprite_HPbar->Update();
 	sprite_ENGauge->Update();
@@ -239,10 +249,14 @@ void Player::Move()
 {
 	EN();
 
+	prePlayer.translation_ = myMath::lerp(prePlayer.translation_, St->Wt.translation_, 0.6f);
+
 	rotaVec = mae;
 	moveVec = { 0,0,0 };
 	XMFLOAT3 Flont = camera->getForwardVec();
 	Flont.y = 0;
+
+	playerPredictionPoint = St->Wt.translation_;
 	
 	normalize(Flont);
 	XMFLOAT2 inputnum = Input::GetLStick(true, true);
@@ -266,12 +280,13 @@ void Player::Move()
 		diff = p_pos+c_vec;
 		//St->Wt.rotation_.y = (p_pos + c_vec);	
 	}
-	St->Wt.rotation_.y = myMath::LerpShortAngle(St->Wt.rotation_.y, diff, 0.1f);
+	St->Wt.rotation_.y = myMath::LerpShortAngle(St->Wt.rotation_.y, diff, 0.6f);
 
 	mae = myMath::VectorMat(mae, St->Wt.matWorld_);
 
 	normalize(mae);
 
+	
 	
 	Jump(mae);
 
@@ -290,6 +305,8 @@ void Player::Move()
 	if (!DashFlag&& (moveVec.x != 0 || moveVec.z != 0))
 	{
 		St->Wt.translation_ += mae * (move_speed+(move_speed*BoostMode));
+		/*playerPredictionPoint = St->Wt.translation_ + mae * (move_speed + (move_speed * BoostMode));
+		playerPredictionPoint.y = 1.5f;*/
 	}
 	
 	if ((moveVec.x == 0 && moveVec.z == 0))
@@ -317,6 +334,7 @@ void Player::Move()
 	{
 		St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
 	}
+	prePP->Wt.translation_ = playerPredictionPoint;
 
 }
 
@@ -554,7 +572,7 @@ void Player::ImGuiSet()
 
 	ImGui::Text("Position");
 	ImGui::DragFloat("X", &St->Wt.translation_.x, 0.5f);
-	ImGui::DragFloat("Y", &St->Wt.translation_.y, 0.5f);
+	ImGui::DragFloat("Y", &prePP->Wt.translation_.y, 0.5f);
 	ImGui::DragFloat("Z", &St->Wt.translation_.z, 0.5f);
 	ImGui::NewLine();
 	ImGui::Text("HP::%5.2f", HP);
@@ -587,6 +605,7 @@ void Player::Draw()
 	}
 
 	St->Draw();
+	//prePP->Draw();
 }
 
 void Player::DrawUI()
@@ -661,7 +680,11 @@ const DirectX::XMFLOAT3 operator*=(DirectX::XMFLOAT3& v, float s)
 const DirectX::XMFLOAT3 operator*(const DirectX::XMFLOAT3& v, float s)
 {
 	DirectX::XMFLOAT3 temp(v);
-	return temp *= s;
+	temp.x *= s;
+	temp.y *= s;
+	temp.z *= s;
+
+	return temp;
 }
 
 const DirectX::XMFLOAT3 operator*(float s, const DirectX::XMFLOAT3& v)
