@@ -16,11 +16,11 @@ BossEnemy::BossEnemy()
 
 void BossEnemy::Init()
 {
-	ModelInit("muso");
+	ModelInit("enemy");
 	EnemyNormalBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
-	St->Wt.scale_ = { scale,scale,scale };
-	St->color = { 1.0f,0,0,1.0f };
+	//St->Wt.scale_ = { 20.0f,20.0f,20.0f };
+	St->color = { 1.0f,1.0f,1.0f,1.0f };
 	LeserPoint.Init();
 	HP = MaxHP;
 
@@ -88,7 +88,7 @@ void BossEnemy::Reset()
 	rotaVec = { 0,0,1.0f };
 	DpRate = 0;
 	scale = 4.0f;
-	St->Wt.scale_ = { scale,scale,scale };
+	//St->Wt.scale_ = { scale,scale,scale };
 }
 
 void BossEnemy::Update(bool flag)
@@ -115,9 +115,9 @@ void BossEnemy::Update(bool flag)
 	St->Wt.translation_.y -= 0.5f;
 
 	//地面押し戻し
-	if (St->Wt.translation_.y - (St->Wt.scale_.y * 1.5f) < 0.0f)
+	if (St->Wt.translation_.y - (St->Wt.scale_.y/3.0f) < 0.0f)
 	{
-		St->Wt.translation_.y = (St->Wt.scale_.y * 1.5f);
+		St->Wt.translation_.y = (St->Wt.scale_.y / 3.0f);
 	}
 
 	chargeCool--;
@@ -610,7 +610,10 @@ void BossEnemy::ImGuiSet()
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	ImGui::Begin("Boss", NULL, window_flags);
-
+	ImGui::Text("Scale_X::%5.2f", St->Wt.scale_.x);
+	ImGui::Text("Scale_Y::%5.2f", St->Wt.scale_.y);
+	ImGui::Text("Scale_Z::%5.2f", St->Wt.scale_.z);
+	ImGui::NewLine();
 	ImGui::Text("Position");
 	ImGui::DragFloat("X", &St->Wt.translation_.x, 0.5f);
 	ImGui::DragFloat("Y", &St->Wt.translation_.y, 0.5f);
