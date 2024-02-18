@@ -125,7 +125,7 @@ void GameScene::Update()
 				camera.Reset();
 				GameUpdate();
 				//camera.setPos(boss.GetPos());
-				camera.setTarget(&player.St->Wt);
+				camera.setTarget(&player.prePlayer);
 				scene = SceneType::GAMESCENE;
 				
 			}

@@ -37,6 +37,7 @@ void Player::Init()
 	St->Wt.translation_.y = 50.0f;
 
 	prePP->Wt.scale_ = St->Wt.scale_;
+	prePP->color = { 0,1.0f,0,1.0f };
 
 	HP = MaxHP;
 
@@ -128,6 +129,7 @@ void Player::Update()
 	prePlayer.rotation_ = St->Wt.rotation_;
 	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
 	sprite_HPbar->Wt.scale_.x = (10.0f * HP / MaxHP);
+	prePlayer.translation_ = myMath::lerp(prePlayer.translation_, St->Wt.translation_, 0.3f);
 
 	sprite_ENGauge->Wt.scale_.x = ENGaugeSize * static_cast<float>(ENGauge) / static_cast<float>(ENMAXGauge);
 	if (HP > MaxHP)
@@ -275,7 +277,7 @@ void Player::Move()
 {
 	EN();
 
-	prePlayer.translation_ = myMath::lerp(prePlayer.translation_, St->Wt.translation_, 0.6f);
+	
 
 	rotaVec = mae;
 	moveVec = { 0,0,0 };
@@ -360,7 +362,8 @@ void Player::Move()
 	{
 		St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
 	}
-	prePP->Wt.translation_ = playerPredictionPoint;
+	
+	prePP->Wt.translation_ = prePlayer.translation_;
 
 }
 
@@ -683,6 +686,7 @@ void Player::StartUpdate()
 		SceneCameraTimer = SceneCameraTime;
 		startFlag = true;
 	}
+	prePlayer.translation_ = St->Wt.translation_;
 #ifdef _DEBUG
 	ImGuiSet();
 #endif
