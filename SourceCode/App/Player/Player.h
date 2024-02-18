@@ -25,6 +25,8 @@ public:
 
 	void HitParticle(XMFLOAT3 vec);
 
+	void KnockBack(XMFLOAT3 vec);
+
 	void Draw();
 
 	void DrawUI();
@@ -251,6 +253,12 @@ private:
 
 
 	float diff = 0;
+
+	//ノックバック
+	bool knockBack = false;
+	XMFLOAT3 knockVec = { 0,0,0 };
+	float knockSpeed = 0;
+	const float knockSpeedNum = 5.0f;
 	
 
 };

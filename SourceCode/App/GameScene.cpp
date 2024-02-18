@@ -286,6 +286,7 @@ void GameScene::ALLCol()
 
 			player.Damege(5.0f);
 			player.HitParticle(mine->GetVec());
+			player.KnockBack(mine->GetVec());
 			mine->OnCol();
 			//mine->Destoroy();
 		}

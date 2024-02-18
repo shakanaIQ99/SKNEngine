@@ -148,7 +148,23 @@ void Player::Update()
 			return dp->IsDead();
 		});
 
-	if (!Death())Move();
+	if (!Death())
+	{
+		if (knockBack)
+		{
+			St->Wt.translation_ += knockVec * knockSpeed;
+			knockSpeed -= 0.5f;
+			if (knockSpeed <= 0)
+			{
+				knockBack = false;
+			}
+		}
+		else
+		{
+			Move();
+		}
+		
+	}
 	else
 	{
 		DeathAnimetion();
@@ -215,6 +231,16 @@ void Player::HitParticle(XMFLOAT3 vec)
 		}
 	}
 	
+}
+
+void Player::KnockBack(XMFLOAT3 vec)
+{
+	knockBack = true;
+	knockVec = vec;
+	knockVec.y = 0;
+	normalize(knockVec);
+	knockSpeed = knockSpeedNum;
+
 }
 
 void Player::Attack(XMFLOAT3 flont)
