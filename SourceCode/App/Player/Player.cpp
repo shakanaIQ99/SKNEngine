@@ -28,6 +28,12 @@ void Player::Init()
 	prePP->SetModel(model.get());
 	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
+	colBox.reset(OBJ3D::Create());
+	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
+
+
+	colBox->Wt.scale_ = St->Wt.scale_;
+	colBox->Wt.color = { 1.0f,1.0f,1.0f,1.0f };
 	
 	
 	
@@ -38,7 +44,7 @@ void Player::Init()
 	St->Wt.translation_.y = 50.0f;
 
 	prePP->Wt.scale_ = St->Wt.scale_;
-	prePP->color = { 0,1.0f,0,1.0f };
+	prePP->Wt.color = { 0,1.0f,0,1.0f };
 
 	HP = MaxHP;
 
@@ -80,12 +86,6 @@ void Player::Init()
 
 	ENGauge = ENMAXGauge;
 
-	colBox.reset(OBJ3D::Create());
-	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
-
-
-	colBox->Wt.scale_ = St->Wt.scale_;
-	colBox->color = { 1.0f,1.0f,1.0f,0.1f };
 
 	prePlayer = St->Wt;
 }
@@ -214,9 +214,10 @@ void Player::Update()
 	St->Update(camera->getView());
 	prePlayer.UpdateMatrix(camera->getView());
 	prePP->Update(camera->getView());
-	colBox->Wt = St->Wt;
-	colBox->Update(camera->getView());
 	sprite_Reticle->Update();
+	colBox->Wt.translation_ = St->Wt.translation_;
+	colBox->Wt.scale_ = St->Wt.scale_;
+	colBox->Update(camera->getView());
 	sprite_HPbar->Update();
 	sprite_ENGauge->Update();
 	sprite_CoverENGaugebar->Update();

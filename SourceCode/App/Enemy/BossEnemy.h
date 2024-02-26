@@ -279,7 +279,7 @@ private:
 	const int BurstNum = 40;
 	int BurstTime = BurstNum * BurstRate;
 
-	bool CriticalAim = false;
+	bool CriticalAim = true;
 
 	//突進攻撃
 	XMFLOAT3 TargetVec = { 0,0,0 };
