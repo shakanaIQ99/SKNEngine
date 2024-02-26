@@ -207,6 +207,7 @@ void GameScene::Update()
 	SceneCha->Wt.color = { SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f };
 	SceneCha->Update();
 
+	ImGuiView();
 
 }
 
@@ -253,9 +254,10 @@ void GameScene::ALLCol()
 
 	bossSp.center = { boss.St->Wt.translation_.x, boss.St->Wt.translation_.y,  boss.St->Wt.translation_.z ,1.0f };
 	bossSp.radius = boss.St->Wt.scale_.x;
-
+	hitcheck = false;
 	if (Collision::CheckSphereToSphere(playerSp, bossSp))
 	{
+		hitcheck = true;
 		if (boss.GetAtkPattern() == AtkPattern::CHARGE)
 		{
 			player.Damege(0.2f);
@@ -429,6 +431,17 @@ void GameScene::StartUpdate()
 
 void GameScene::ImGuiView()
 {
+	//ImguI
+	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize({ 400, 500 });
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	ImGui::Begin("Collsion", NULL, window_flags);
+
+	ImGui::Checkbox("hit", &hitcheck);
+	
+	ImGui::End();
 }
 
 

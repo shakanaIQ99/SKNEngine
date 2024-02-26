@@ -30,6 +30,7 @@ void Player::Init()
 	
 	
 	
+	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
 	LockHandle = texMana->LoadTexture("Resources/Lock.png");
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
@@ -78,6 +79,13 @@ void Player::Init()
 	move_speed = 0.4f;
 
 	ENGauge = ENMAXGauge;
+
+	colBox.reset(OBJ3D::Create());
+	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
+
+
+	colBox->Wt.scale_ = St->Wt.scale_;
+	colBox->color = { 1.0f,1.0f,1.0f,0.1f };
 
 	prePlayer = St->Wt;
 }
@@ -206,6 +214,8 @@ void Player::Update()
 	St->Update(camera->getView());
 	prePlayer.UpdateMatrix(camera->getView());
 	prePP->Update(camera->getView());
+	colBox->Wt = St->Wt;
+	colBox->Update(camera->getView());
 	sprite_Reticle->Update();
 	sprite_HPbar->Update();
 	sprite_ENGauge->Update();
@@ -616,6 +626,7 @@ void Player::ImGuiSet()
 	ImGui::NewLine();
 	ImGui::Text("BoostMode::%d", BoostMode);
 	ImGui::Checkbox("InfEN", &InfEN);
+	ImGui::Checkbox("colLock", &colLock);
 
 
 	ImGui::End();
@@ -634,6 +645,10 @@ void Player::Draw()
 	}
 
 	St->Draw();
+	if (colLock)
+	{
+		colBox->Draw();
+	}
 	//prePP->Draw();
 }
 

@@ -117,6 +117,9 @@ private:
 
 	std::unique_ptr<OBJ3D> prePP;
 
+	std::unique_ptr<OBJ3D> colBox;
+	bool colLock = false;
+
 	
 	float move_speed;
 

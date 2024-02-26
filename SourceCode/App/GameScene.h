@@ -157,6 +157,8 @@ private:
 
 	const int clearSceneTime = 60;
 
+	bool hitcheck = false;
+
 
 
 };

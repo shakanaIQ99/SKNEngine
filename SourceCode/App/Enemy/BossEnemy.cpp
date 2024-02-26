@@ -24,7 +24,16 @@ void BossEnemy::Init()
 	LeserPoint.Init();
 	HP = MaxHP;
 
+	colBox.reset(OBJ3D::Create());
+	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
+
+
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
+
+
+	colBox->Wt.scale_ = St->Wt.scale_;
+	colBox->color = { 1.0f,1.0f,1.0f,0.1f };
+
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
 	sprite_HPbar->Initialize(spCommon, HpBarHandle);
@@ -136,7 +145,7 @@ void BossEnemy::Update(bool flag)
 		float p_pos = atan2(plUnderPos.x, plUnderPos.z);
 		float c_vec = atan2(Flont.x, Flont.z);
 
-		St->Wt.rotation_.y = (p_pos + c_vec);
+		//St->Wt.rotation_.y = (p_pos + c_vec);
 
 		//行動state
 		switch (BossMove)
@@ -222,7 +231,10 @@ void BossEnemy::Update(bool flag)
 		St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
 	}
 
+	colBox->Wt = St->Wt;
+
 	St->Update(camera->getView());
+	colBox->Update(camera->getView());
 	sprite_HPbar->Update();
 }
 
@@ -247,6 +259,11 @@ void BossEnemy::Draw()
 	}
 
 	St->Draw();
+	if (colLock)
+	{
+
+		colBox->Draw();
+	}
 	XMFLOAT3 Head = St->Wt.translation_;
 
 	Head.y += St->Wt.scale_.y;
@@ -614,6 +631,11 @@ void BossEnemy::ImGuiSet()
 	ImGui::Text("Scale_Y::%5.2f", St->Wt.scale_.y);
 	ImGui::Text("Scale_Z::%5.2f", St->Wt.scale_.z);
 	ImGui::NewLine();
+	ImGui::Text("colScale_X::%5.2f", colBox->Wt.scale_.x);
+	ImGui::Text("colScale_Y::%5.2f", colBox->Wt.scale_.y);
+	ImGui::Text("colScale_Z::%5.2f", colBox->Wt.scale_.z);
+
+	ImGui::NewLine();
 	ImGui::Text("Position");
 	ImGui::DragFloat("X", &St->Wt.translation_.x, 0.5f);
 	ImGui::DragFloat("Y", &St->Wt.translation_.y, 0.5f);
@@ -682,6 +704,7 @@ void BossEnemy::ImGuiSet()
 	ImGui::Text("HP::%5.2f", HP);
 	ImGui::DragFloat("HP", &HP, 0.2f);
 	ImGui::Checkbox("CriticalAim", &CriticalAim);
+	ImGui::Checkbox("colLock", &colLock);
 
 	ImGui::End();
 }

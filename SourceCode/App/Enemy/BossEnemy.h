@@ -199,6 +199,10 @@ private:
 	}
 
 private:
+
+	std::unique_ptr<OBJ3D> colBox;
+	bool colLock = false;
+
 	//演出周り
 
 	std::list<std::unique_ptr<DeathParticle>> deathPaticles;
