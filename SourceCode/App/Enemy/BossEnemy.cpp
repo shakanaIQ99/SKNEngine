@@ -82,7 +82,7 @@ void BossEnemy::Reset()
 		});
 
 	//各パラメータ初期化
-	BossAtk = AtkPattern::NONE;
+	BossAtk = AtkPattern::MISSILE;
 	BossMove = MovePattern::NONE;
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
