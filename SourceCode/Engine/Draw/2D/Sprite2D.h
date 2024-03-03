@@ -27,6 +27,8 @@ public:
 
     void Update();
 
+    void Draw(float x, float y, float x2, float y2, XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
+
     void Draw(XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
 
     void DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX = false, bool flipY = false);

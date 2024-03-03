@@ -141,6 +141,8 @@ private:
 	std::unique_ptr<Sprite2D> sprite_ENGauge;
 	std::unique_ptr<Sprite2D> sprite_CoverENGaugebar;
 
+	std::unique_ptr<Sprite2D> KeyUI;
+
 	uint32_t reticleHandle;
 	uint32_t LockHandle;
 	uint32_t HpBarHandle;

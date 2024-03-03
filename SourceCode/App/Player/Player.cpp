@@ -48,6 +48,9 @@ void Player::Init()
 
 	HP = MaxHP;
 
+	KeyUI = std::make_unique<Sprite2D>();
+	KeyUI->Initialize(spCommon, texMana->LoadTexture("Resources/preKeyUI.png"));
+
 	sprite_HPbar = std::make_unique<Sprite2D>();
 	sprite_HPbar->Initialize(spCommon, HpBarHandle);
 	sprite_HPbar->Wt.translation_ = { 200.0f,680.0f,0.0f };
@@ -668,6 +671,7 @@ void Player::DrawUI()
 	sprite_Lock->Draw();
 	sprite_CoverHPbar->Draw();
 	sprite_CoverENGaugebar->Draw();
+	KeyUI->Draw(1280.0f-64.0f, 720.0f-128.0f, 1280.0f, 720.0f);
 	if (ENGauge > 0)
 	{
 		sprite_ENGauge->Draw();

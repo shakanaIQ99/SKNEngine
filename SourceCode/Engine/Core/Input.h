@@ -82,6 +82,8 @@ public:
 	/// <returns>入力量</returns>
 	static XMFLOAT2 GetRStick(bool useWASD, bool useArrow);
 
+	static XMFLOAT2 GetMousePostion();
+
 
 
 private:
@@ -93,6 +95,8 @@ private:
 
 	XINPUT_STATE xInputState;
 	XINPUT_STATE OldxInputState;
+
+	
 
 	bool isConnectPad = false;
 

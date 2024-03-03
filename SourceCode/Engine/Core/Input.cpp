@@ -244,6 +244,11 @@ XMFLOAT2 Input::GetRStick(bool useWASD, bool useArrow)
 	return result;
 }
 
+XMFLOAT2 Input::GetMousePostion()
+{
+	return XMFLOAT2();
+}
+
 const DirectX::XMFLOAT2 operator+=(DirectX::XMFLOAT2& v1, const DirectX::XMFLOAT2& v2)
 {
 	v1.x += v2.x;

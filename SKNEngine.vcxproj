@@ -169,6 +169,7 @@
     <ClCompile Include="SourceCode\Engine\Math\Vector2.cpp" />
     <ClCompile Include="SourceCode\Engine\Math\Vector3.cpp" />
     <ClCompile Include="SourceCode\App\StuructTransform.cpp" />
+    <ClCompile Include="SourceCode\App\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\App\BulletManager.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="SourceCode\Engine\Math\Vector2.h" />
     <ClInclude Include="SourceCode\Engine\Math\Vector3.h" />
     <ClInclude Include="SourceCode\App\StuructTransform.h" />
+    <ClInclude Include="SourceCode\App\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\3DLine.hlsli" />
