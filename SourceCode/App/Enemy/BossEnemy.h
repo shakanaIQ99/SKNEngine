@@ -183,6 +183,8 @@ private:
 	/// </summary>
 	void ImGuiSet();
 
+	void aiming();
+
 	/// <summary>
 	/// 死亡時の動き
 	/// </summary>
@@ -230,6 +232,8 @@ private:
 	//汎用
 	XMFLOAT3 prePos = { 0,0,0 };
 	Player* player;
+
+	XMFLOAT3 aimingTargetPos = { 0,0,0 };
 	//攻撃パターン
 	AtkPattern BossAtk = AtkPattern::NONE;
 

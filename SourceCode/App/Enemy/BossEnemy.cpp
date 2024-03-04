@@ -94,6 +94,8 @@ void BossEnemy::Reset()
 	endFlag = false;
 	DeathTimer = 0;
 
+	aimingTargetPos = { 0,0,0 };
+
 	rotaVec = { 0,0,1.0f };
 	DpRate = 0;
 	scale = 4.0f;
@@ -454,7 +456,7 @@ void BossEnemy::SimpleShot()
 		AimMode = false;
 		if (CriticalAim)
 		{
-			BulletVec = LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), 2.0f) - St->Wt.translation_;
+			BulletVec = LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), 3.0f) - St->Wt.translation_;
 		}
 		else
 		{
@@ -701,6 +703,16 @@ void BossEnemy::ImGuiSet()
 	ImGui::Checkbox("colLock", &colLock);
 
 	ImGui::End();
+}
+
+void BossEnemy::aiming()
+{
+	
+
+
+
+
+
 }
 
 void BossEnemy::DeathAnimetion()
