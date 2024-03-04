@@ -8,7 +8,7 @@ BulletManager::~BulletManager()
 {
 }
 
-void BulletManager::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)
+void BulletManager::Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity)
 {
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;
@@ -30,12 +30,12 @@ void BulletManager::OnCollision()
 	isDead_ = true;
 }
 
-XMFLOAT3 BulletManager::GetWorldPosition()
+Vector3 BulletManager::GetWorldPosition()
 {
 	return St->Wt.translation_;
 }
 
-XMFLOAT3 BulletManager::GetScale()
+Vector3 BulletManager::GetScale()
 {
 	return St->Wt.scale_;
 }

@@ -10,9 +10,7 @@
 #pragma comment(lib,"dxguid.lib")
 #pragma comment (lib, "xinput.lib")
 
-#include <DirectXMath.h>
-
-using namespace DirectX;
+#include"myMath.h"
 
 class Input
 {
@@ -47,10 +45,10 @@ public:
 	static bool GetPadButtonDown(UINT button);
 
 	//パッドの左スティック
-	static XMFLOAT2 GetPadLStick();
+	static Vector2 GetPadLStick();
 
 	//パッドの右スティック
-	static XMFLOAT2 GetPadRStick();
+	static Vector2 GetPadRStick();
 
 	//左トリガーを押し込んだ瞬間か
 	static bool GetLTriggerDown();
@@ -72,7 +70,7 @@ public:
 	/// <param name="useWASD">WASDキーもスティックに見立てて処理する</param>
 	/// <param name="useArrow">矢印キーもスティックに見立てて処理する</param>
 	/// <returns>入力量</returns>
-	static XMFLOAT2 GetLStick(bool useWASD, bool useArrow);
+	static Vector2 GetLStick(bool useWASD, bool useArrow);
 
 	/// <summary>
 	/// 右スティック入力を得る
@@ -80,9 +78,9 @@ public:
 	/// <param name="useWASD">WASDキーもスティックに見立てて処理する</param>
 	/// <param name="useArrow">矢印キーもスティックに見立てて処理する</param>
 	/// <returns>入力量</returns>
-	static XMFLOAT2 GetRStick(bool useWASD, bool useArrow);
+	static Vector2 GetRStick(bool useWASD, bool useArrow);
 
-	static XMFLOAT2 GetMousePostion();
+	static Vector2 GetMousePostion();
 
 
 
@@ -105,9 +103,3 @@ private:
 
 };
 
-const DirectX::XMFLOAT2 operator+= (DirectX::XMFLOAT2& v1, const DirectX::XMFLOAT2& v2);
-
-const DirectX::XMFLOAT2 operator+(const DirectX::XMFLOAT2& v1, const DirectX::XMFLOAT2& v2);
-
-float length2(DirectX::XMFLOAT2& a);
-void normalize2(DirectX::XMFLOAT2& a);

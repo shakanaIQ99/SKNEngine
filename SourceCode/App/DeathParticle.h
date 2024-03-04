@@ -24,7 +24,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void CreateDeathParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity,float _scale,XMFLOAT4 color);
+	void CreateDeathParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity,float _scale,Float4 color);
 
 	/// <summary>
 	/// 初期化
@@ -32,7 +32,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void CreateHitParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity, float _scale, XMFLOAT4 color);
+	void CreateHitParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity, float _scale, Float4 color);
 
 	/// <summary>
 	/// 更新
@@ -54,7 +54,7 @@ private:
 
 	static std::unique_ptr<ObjModel> Premodel;
 
-	XMFLOAT3 romdom = { 0,0,0 };
+	Vector3 romdom = { 0,0,0 };
 
 	const float spead = 0.3f;
 
@@ -70,7 +70,7 @@ private:
 
 
 	//速度
-	XMFLOAT3 Velocity_;
+	Vector3 Velocity_;
 
 	//寿命<frm>
 	int32_t kLifeTime = 60;
@@ -85,8 +85,3 @@ private:
 
 };
 
-const DirectX::XMFLOAT3 operator*=(DirectX::XMFLOAT3& v, float s);
-
-const DirectX::XMFLOAT3 operator*(const DirectX::XMFLOAT3& v, float s);
-
-const DirectX::XMFLOAT3 operator*(float s, const DirectX::XMFLOAT3& v);

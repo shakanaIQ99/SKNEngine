@@ -4,19 +4,7 @@
 #include"Field.h"
 #include"myMath.h"
 
-XMFLOAT3 VectorMatDivW(XMMATRIX mat, XMFLOAT3 pos)
-{
-	float w = pos.x * mat.r[0].m128_f32[3] + pos.y * mat.r[1].m128_f32[3] + pos.z * mat.r[2].m128_f32[3] + mat.r[3].m128_f32[3];
 
-	XMFLOAT3 result =
-	{
-		(pos.x * mat.r[0].m128_f32[0] + pos.y * mat.r[1].m128_f32[0] + pos.z * mat.r[2].m128_f32[0] + mat.r[3].m128_f32[0]) / w,
-		(pos.x * mat.r[0].m128_f32[1] + pos.y * mat.r[1].m128_f32[1] + pos.z * mat.r[2].m128_f32[1] + mat.r[3].m128_f32[1]) / w,
-		(pos.x * mat.r[0].m128_f32[2] + pos.y * mat.r[1].m128_f32[2] + pos.z * mat.r[2].m128_f32[2] + mat.r[3].m128_f32[2]) / w
-	};
-
-	return result;
-}
 
 void Player::Init()
 {
@@ -234,7 +222,7 @@ void Player::Damege(float dmg)
 
 }
 
-void Player::HitParticle(XMFLOAT3 vec)
+void Player::HitParticle(Vector3 vec)
 {
 	if (!Death())
 	{
@@ -249,33 +237,33 @@ void Player::HitParticle(XMFLOAT3 vec)
 	
 }
 
-void Player::KnockBack(XMFLOAT3 vec)
+void Player::KnockBack(Vector3 vec)
 {
 	knockBack = true;
 	knockVec = vec;
 	knockVec.y = 0;
-	normalize(knockVec);
+	knockVec.normalize();
 	knockSpeed = knockSpeedNum;
 
 }
 
-void Player::Attack(XMFLOAT3 flont)
+void Player::Attack(Vector3 flont)
 {
 	const float kBulletSpeed = 5.0f;
 	
-	XMFLOAT3 velocity = flont;
+	Vector3 velocity = flont;
 
 	if (Locked)
 	{
 		velocity = boss->translation_ - GetPos();
 	}
 
-	normalize(velocity);
+	velocity.normalize();
 
 	/*velocity = VectorMat(velocity,player->Wt->matWorld_);
 	normalize(velocity);*/
 
-	XMFLOAT3 BulletStart = St->Wt.translation_ ;
+	Vector3 BulletStart = St->Wt.translation_ ;
 	velocity *= kBulletSpeed;
 
 
@@ -295,13 +283,13 @@ void Player::Move()
 
 	rotaVec = mae;
 	moveVec = { 0,0,0 };
-	XMFLOAT3 Flont = camera->getForwardVec();
+	Vector3 Flont = camera->getForwardVec();
 	Flont.y = 0;
 
 	playerPredictionPoint = St->Wt.translation_;
 	
-	normalize(Flont);
-	XMFLOAT2 inputnum = Input::GetLStick(true, true);
+	Flont.normalize();
+	Vector2 inputnum = Input::GetLStick(true, true);
 
 	moveVec.x += (float)inputnum.x / SHRT_MAX;
 	moveVec.z += (float)inputnum.y / SHRT_MAX;
@@ -324,9 +312,9 @@ void Player::Move()
 	}
 	St->Wt.rotation_.y = myMath::LerpShortAngle(St->Wt.rotation_.y, diff, 0.6f);
 
-	mae = myMath::VectorMat(mae, St->Wt.matWorld_);
+	mae *= St->Wt.matWorld_;
 
-	normalize(mae);
+	mae.normalize();
 
 	
 	
@@ -381,7 +369,7 @@ void Player::Move()
 
 }
 
-void Player::Jump(XMFLOAT3 front)
+void Player::Jump(Vector3 front)
 {
 	if (!OverHeat)
 	{
@@ -434,7 +422,7 @@ void Player::Jump(XMFLOAT3 front)
 
 }
 
-void Player::Dash(XMFLOAT3 front)
+void Player::Dash(Vector3 front)
 {
 	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_X) && !DashFlag&&!OverHeat)
 	{
@@ -534,13 +522,13 @@ void Player::LockOn()
 
 bool Player::ScLock(WorldTransform* prewt)
 {
-	XMMATRIX Pos = prewt->matWorld_;
+	Matrix4 Pos = prewt->matWorld_;
 	Pos *= camera->getView()->GetMAtView();
 	Pos *= camera->getView()->GetMatProjection();
 
-	float objZ = Pos.r[3].m128_f32[2];
+	float objZ = Pos.GetTranslation().z;
 
-	XMFLOAT2 scr_pos = WorldToMonitor(prewt->translation_);
+	Vector2 scr_pos = WorldToMonitor(prewt->translation_);
 
 	if (0 < scr_pos.x && (DxWindow::window_width)  > scr_pos.x && 
 		0 < scr_pos.y &&(DxWindow::window_height)> scr_pos.y && objZ > 0)
@@ -580,27 +568,19 @@ void Player::DeathAnimetion()
 	
 }
 
-XMFLOAT2 Player::WorldToMonitor(XMFLOAT3 pos)
+Vector2 Player::WorldToMonitor(Vector3 pos)
 {
-	XMFLOAT3 positionReticle = pos;
+	Vector3 positionReticle = pos;
 
-	XMMATRIX matViewport = {
-		1280 / 2,0,0,0,
-		0,-720 / 2,0,0,
-		0,0,1,0,
-		1280 / 2 + 0,720 / 2 + 0,0,1
-	};
+	Matrix4 matViewport = Matrix4::Viewport(0, 0, static_cast<float>(DxWindow::window_width), static_cast<float>(DxWindow::window_height), 0, 1.0f);
 
 	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
-	XMMATRIX matViewProjectionViewport = camera->getView()->GetMAtView();
-	matViewProjectionViewport *= camera->getView()->GetMatProjection();
-	matViewProjectionViewport *= matViewport;
-
+	Matrix4 matViewProjectionViewport = camera->getView()->GetMAtView() * camera->getView()->GetMatProjection() * matViewport;
 	//ワールド→スクリーン座標変換(ここで3Dから2Dになる)
-	positionReticle = VectorMatDivW(matViewProjectionViewport, positionReticle);
+	positionReticle = Matrix4::ProjectionDivW(positionReticle,matViewProjectionViewport);
 
 	//スプライトのレティクルに座標設定
-	return XMFLOAT2(positionReticle.x, positionReticle.y);
+	return Vector2(positionReticle.x, positionReticle.y);
 }
 
 void Player::ImGuiSet()
@@ -714,51 +694,3 @@ void Player::StartUpdate()
 }
 
 
-
-
-
-const DirectX::XMFLOAT3 operator*=(DirectX::XMFLOAT3& v, float s)
-{
-
-	v.x *= s;
-	v.y *= s;
-	v.z *= s;
-
-	return v;
-}
-
-const DirectX::XMFLOAT3 operator*(const DirectX::XMFLOAT3& v, float s)
-{
-	DirectX::XMFLOAT3 temp(v);
-	temp.x *= s;
-	temp.y *= s;
-	temp.z *= s;
-
-	return temp;
-}
-
-const DirectX::XMFLOAT3 operator*(float s, const DirectX::XMFLOAT3& v)
-{
-	return v * s;
-}
-
-const DirectX::XMFLOAT3 operator-= (DirectX::XMFLOAT3& v1, const DirectX::XMFLOAT3& v2)
-{
-
-	v1.x -= v2.x;
-	v1.y -= v2.y;
-	v1.z -= v2.z;
-
-	return v1;
-}
-
-const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1, const DirectX::XMFLOAT3& v2)
-{
-	DirectX::XMFLOAT3 temp(v1);
-	return temp -= v2;
-}
-
-const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1)
-{
-	return DirectX::XMFLOAT3(-v1.x, -v1.y, -v1.z);
-}

@@ -82,23 +82,19 @@ void FbxLoader::ParseNodeRecursive(Model* model, FbxNode* fbxNode, Node* parent)
     FbxDouble3 scaling = fbxNode->LclScaling.Get();
     FbxDouble3 translation = fbxNode->LclTranslation.Get();
 
-    node.rotation = { (float)rotation[0],(float)rotation[1],(float)rotation[2],0.0f };
-    node.scaling = { (float)scaling[0],(float)scaling[1],(float)scaling[2],0.0f };
-    node.translation = { (float)translation[0],(float)translation[1],(float)translation[2],0.0f };
+    node.rotation = { (float)rotation[0],(float)rotation[1],(float)rotation[2] };
+    node.scaling = { (float)scaling[0],(float)scaling[1],(float)scaling[2]};
+    node.translation = { (float)translation[0],(float)translation[1],(float)translation[2] };
 
-    node.rotation.m128_f32[0] = XMConvertToRadians(node.rotation.m128_f32[0]);
-    node.rotation.m128_f32[1] = XMConvertToRadians(node.rotation.m128_f32[1]);
-    node.rotation.m128_f32[2] = XMConvertToRadians(node.rotation.m128_f32[2]);
+    node.rotation.x = XMConvertToRadians(node.rotation.x);
+    node.rotation.y = XMConvertToRadians(node.rotation.y);
+    node.rotation.z = XMConvertToRadians(node.rotation.z);
 
-    XMMATRIX matScaling, matRotation, matTranslation;
-    matScaling = XMMatrixScalingFromVector(node.scaling);
-    matRotation = XMMatrixRotationRollPitchYawFromVector(node.rotation);
-    matTranslation = XMMatrixTranslationFromVector(node.translation);
 
-    node.transform = XMMatrixIdentity();
-    node.transform *= matScaling;
-    node.transform *= matRotation;
-    node.transform *= matTranslation;
+    node.transform = Matrix4();
+    node.transform *= Matrix4::Scaling(node.scaling.x, node.scaling.y, node.scaling.z);
+    node.transform *= Matrix4::RotationZXY(node.rotation.x, node.rotation.y, node.rotation.z);
+    node.transform *= Matrix4::Translation(node.translation.x, node.translation.y, node.translation.z);
 
     node.globalTransform = node.transform;
     if (parent)
@@ -330,10 +326,10 @@ void FbxLoader::ParseSkin(Model* model, FbxMesh* fbxMesh)
         FbxAMatrix fbxMat;
         fbxCluster->GetTransformLinkMatrix(fbxMat);
 
-        XMMATRIX initialPose;
+        Matrix4 initialPose;
         ConvertMatrixFromFbx(&initialPose, fbxMat);
 
-        bone.invInitialPose = XMMatrixInverse(nullptr, initialPose);
+        bone.invInitialPose = -initialPose;
 
     }
 
@@ -421,7 +417,7 @@ string FbxLoader::ExtractFileName(const string& path)
     return path;
 }
 
-void FbxLoader::ConvertMatrixFromFbx(XMMATRIX* dst, const FbxAMatrix& src)
+void FbxLoader::ConvertMatrixFromFbx(Matrix4* dst, const FbxAMatrix& src)
 {
     for (int i = 0; i < 4; i++)
     {

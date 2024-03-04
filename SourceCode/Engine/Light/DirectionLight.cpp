@@ -1,6 +1,6 @@
 #include "DirectionLight.h"
 #include<cassert>
-using namespace DirectX;
+
 
 ID3D12Device* DirectionLight::device = nullptr;
 
@@ -86,13 +86,13 @@ void DirectionLight::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamInde
 	cmdlist->SetGraphicsRootConstantBufferView(rootParamIndex, constBuff->GetGPUVirtualAddress());
 }
 
-void DirectionLight::SetLightDir(const XMVECTOR& _lightdir)
+void DirectionLight::SetLightDir(const Vector3& _lightdir)
 {
-	lightdir = XMVector3Normalize(_lightdir);
+	lightdir = _lightdir;
 	dirty = true;
 }
 
-void DirectionLight::SetLightColor(const XMFLOAT3& _lightcolor)
+void DirectionLight::SetLightColor(const Vector3& _lightcolor)
 {
 	lightcolor = _lightcolor;
 	dirty = true;

@@ -118,8 +118,8 @@ void BossEnemy::Update(bool flag)
 	}
 
 	//平面上の距離
-	XMFLOAT3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
-	Lange = length(plUnderPos);
+	Vector3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
+	Lange = plUnderPos.length();
 
 	sprite_HPbar->Wt.scale_.x = (30.0f * HP / MaxHP);
 
@@ -139,9 +139,9 @@ void BossEnemy::Update(bool flag)
 	{
 		
 		
-		XMFLOAT3 Flont = { 0,0,1.0f };
-		normalize(Flont);
-		normalize(plUnderPos);
+		Vector3 Flont = { 0,0,1.0f };
+		Flont.normalize();
+		plUnderPos.normalize();
 		
 
 		float p_pos = atan2(plUnderPos.x, plUnderPos.z);
@@ -282,7 +282,7 @@ void BossEnemy::DrawUI()
 	}
 }
 
-void BossEnemy::HitParticle(XMFLOAT3 vec)
+void BossEnemy::HitParticle(Vector3 vec)
 {
 	for (size_t i = 0; i < 10; i++)
 	{
@@ -337,8 +337,8 @@ void BossEnemy::AtkTable()
 				prePos.y = 0;
 				TargetVec = player->GetPos() - St->Wt.translation_;
 				TargetVec.y = 0;
-				chargeLenge = length(TargetVec);
-				normalize(TargetVec);
+				chargeLenge = TargetVec.length();
+				TargetVec.normalize();
 				chargeCool = chargeCoolTime;
 				chargeMoveAniTimer = chargeMoveAniTime;
 				
@@ -350,7 +350,7 @@ void BossEnemy::AtkTable()
 				BossAtk = AtkPattern::MINE;
 				TargetVec = player->GetPos() - St->Wt.translation_;
 				TargetVec.y = 0;
-				normalize(TargetVec);
+				TargetVec.normalize();
 				mineThrowTimer = 0;
 				mineThrowDeg = 0;
 				mineCool = mineCoolTime;
@@ -404,10 +404,10 @@ void BossEnemy::MoveTable()
 
 void BossEnemy::BackMove()
 {
-	XMFLOAT3 moveVec = St->Wt.translation_ - player->GetPos();
+	Vector3 moveVec = St->Wt.translation_ - player->GetPos();
 	moveVec.y = 0;
 
-	normalize(moveVec);
+	moveVec.normalize();
 
 	moveVec *= 0.4f;
 
@@ -419,10 +419,10 @@ void BossEnemy::BackMove()
 
 void BossEnemy::CloseMove()
 {
-	XMFLOAT3 moveVec = player->GetPos() - St->Wt.translation_;
+	Vector3 moveVec = player->GetPos() - St->Wt.translation_;
 	moveVec.y = 0;
 
-	normalize(moveVec);
+	moveVec.normalize();
 
 	moveVec *= 0.4f;
 
@@ -437,7 +437,7 @@ void BossEnemy::CloseMove()
 void BossEnemy::SimpleShot()
 {
 
-	XMFLOAT3 BulletVec;
+	Vector3 BulletVec;
 	//照準時間
 	if (TargetTimer > 0)
 	{
@@ -462,7 +462,7 @@ void BossEnemy::SimpleShot()
 		{
 			BulletVec = player->GetPos() - St->Wt.translation_;
 		}
-		normalize(BulletVec);
+		BulletVec.normalize();
 
 		BulletVec *= 2.0f;
 		
@@ -492,12 +492,12 @@ void BossEnemy::ChargeAtk()
 {
 
 
-	XMFLOAT3 chargeMoved = St->Wt.translation_ - prePos;
+	Vector3 chargeMoved = St->Wt.translation_ - prePos;
 	chargeMoved.y = 0;
 
 	St->Wt.translation_ += TargetVec * 1.5f;
 
-	if (chargeLenge + 5.0f < length(chargeMoved))
+	if (chargeLenge + 5.0f < chargeMoved.length())
 	{
 		BossAtk = AtkPattern::NONE;
 	}
@@ -522,25 +522,22 @@ void BossEnemy::HardShot()
 	{
 		
 		AimMode = false;
-		XMFLOAT3 BulletVec = player->GetPos() - St->Wt.translation_;
-		normalize(BulletVec);
+		Vector3 BulletVec = player->GetPos() - St->Wt.translation_;
+		BulletVec.normalize();
 
-		XMMATRIX matRot[3];
+		Matrix4 matRot[3];
 
-		for (auto& e : matRot)
-		{
-			e = XMMatrixIdentity();
-		}
+		
 
 		// スケール、回転、平行移動行列の計算
-		matRot[0] *= XMMatrixRotationY(XMConvertToRadians(5.0f));
-		matRot[1] *= XMMatrixRotationY(XMConvertToRadians(-5.0f));
-		matRot[2] *= XMMatrixRotationY(XMConvertToRadians(0));
+		matRot[0] *= Matrix4::RotationX(5.0f);
+		matRot[1] *= Matrix4::RotationX(-5.0f);;
+		matRot[2] *= Matrix4::RotationX(0);
 
 		for (size_t i = 0; i < 3; i++)
 		{
-			XMFLOAT3 HardBullet = myMath::VectorMat(BulletVec, matRot[i]);
-			normalize(HardBullet);
+			Vector3 HardBullet = BulletVec * matRot[i];
+			HardBullet.normalize();
 			HardBullet *= 5.0f;
 
 			std::unique_ptr <EnemyNormalBullet> newBullet = std::make_unique<EnemyNormalBullet>();
@@ -566,7 +563,7 @@ void BossEnemy::MissileShot()
 
 void BossEnemy::MineAttack()
 {
-	XMFLOAT3 throwVec = { 0,0,0 };
+	Vector3 throwVec = { 0,0,0 };
 
 	
 
@@ -583,7 +580,7 @@ void BossEnemy::MineAttack()
 
 			throwVec.z = TargetVec.x * sinf(deg) + TargetVec.z * cosf(deg);
 
-			normalize(throwVec);
+			throwVec.normalize();
 			throwVec *= 1.0f;
 
 			std::unique_ptr <EnemyMine> newMine = std::make_unique<EnemyMine>();
@@ -743,11 +740,11 @@ void BossEnemy::DeathAnimetion()
 	
 }
 
-XMFLOAT3 BossEnemy::LinePrediction2(XMFLOAT3 shotPosition, XMFLOAT3 targetPosition, XMFLOAT3 targetPrePosition, float bulletSpeed)
+Vector3 BossEnemy::LinePrediction2(Vector3 shotPosition, Vector3 targetPosition, Vector3 targetPrePosition, float bulletSpeed)
 {
 	
-	XMFLOAT3 v3_Mv = targetPosition - targetPrePosition;
-	XMFLOAT3 v3_Pos = targetPosition - shotPosition;
+	Vector3 v3_Mv = targetPosition - targetPrePosition;
+	Vector3 v3_Pos = targetPosition - shotPosition;
 
 	
 	float A = (v3_Mv.x * v3_Mv.x + v3_Mv.y * v3_Mv.y + v3_Mv.z * v3_Mv.z) - bulletSpeed * bulletSpeed;

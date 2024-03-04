@@ -1,6 +1,9 @@
 #pragma once
 #include <wrl.h>
-#include <DirectXMath.h>
+#include"Matrix4.h"
+#include"Vector2.h"
+#include"Vector3.h"
+#include"Float4.h"
 #include <d3d12.h>
 
 
@@ -10,18 +13,12 @@ private:
 
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMVECTOR = DirectX::XMVECTOR;
-	using XMMATRIX = DirectX::XMMATRIX;
-
 public:
 
 	struct ConstBufferData
 	{
-		XMVECTOR lightv;
-		XMFLOAT3 lightcolor;
+		Vector3 lightv;
+		Vector3 lightcolor;
 		unsigned int active;
 	};
 
@@ -37,13 +34,13 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList*cmdlist,UINT rootParamIndex);
 
-	void SetLightDir(const XMVECTOR& _lightdir);
+	void SetLightDir(const Vector3& _lightdir);
 
-	void SetLightColor(const XMFLOAT3& _lightcolor);
+	void SetLightColor(const Vector3& _lightcolor);
 
-	XMVECTOR GetLightDir() { return lightdir; }
+	Vector3 GetLightDir() { return lightdir; }
 
-	XMFLOAT3 GetLightColor() { return lightcolor; }
+	Vector3 GetLightColor() { return lightcolor; }
 
 	inline void SetActive(bool Active) { this->active = Active; }
 	inline bool IsActive() { return active; }
@@ -56,9 +53,9 @@ private:
 
 	ComPtr<ID3D12Resource> constBuff;
 
-	XMVECTOR lightdir = { 1,0,0,0 };
+	Vector3 lightdir = { 1,0,0};
 
-	XMFLOAT3 lightcolor = { 1,1,1 };
+	Vector3 lightcolor = { 1,1,1 };
 
 	bool dirty = false;
 

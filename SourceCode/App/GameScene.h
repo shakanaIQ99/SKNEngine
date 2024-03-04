@@ -113,7 +113,7 @@ private:
 	OBJ3D* skydome = nullptr;
 
 
-	XMFLOAT3 flontVec = { 0,0,1.0f };
+	Vector3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;
 
 	std::unique_ptr<Sprite2D> preTitle;
@@ -147,7 +147,7 @@ private:
 
 	SceneType scene = SceneType::TITLE;
 
-	XMFLOAT3 sceneCamera = { 0,0,0 };
+	Vector3 sceneCamera = { 0,0,0 };
 
 	int SceneCameraTimer = 0;
 

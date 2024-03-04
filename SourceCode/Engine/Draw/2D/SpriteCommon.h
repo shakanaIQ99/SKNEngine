@@ -28,7 +28,7 @@ public:
 
     SKNEngine::DirectXCommon* GetDirextXCommon() { return dxcommon; }
 
-    XMMATRIX Getmat() { return matProjection; }
+    Matrix4 Getmat() { return matProjection; }
 
 private:
 
@@ -38,5 +38,5 @@ private:
 
     ID3D12GraphicsCommandList* commandList;
 
-    XMMATRIX matProjection{};
+    Matrix4 matProjection{};
 };

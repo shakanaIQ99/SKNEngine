@@ -1,22 +1,22 @@
 #pragma once
-
-#include <DirectXMath.h>
+#include"Matrix4.h"
+#include"Vector3.h"
+#include"Float4.h"
 #include <d3d12.h>
 #include <wrl.h>
 #include"ViewProjection.h"
 
-using namespace DirectX;
 
 using namespace Microsoft::WRL;
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransformB0
 {
-	XMMATRIX viewproj;
-	XMMATRIX world;
-	XMFLOAT3 cameraPos;
+	Matrix4 viewproj;
+	Matrix4 world;
+	Vector3 cameraPos;
 	float pad1;
-	XMFLOAT4 color;
+	Float4 color;
 };
 
 
@@ -32,17 +32,17 @@ struct WorldTransform {
 	// マッピング済みアドレス
 	ConstBufferDataWorldTransformB0* constMap = nullptr;
 	// ローカルスケール
-	XMFLOAT3 scale_ = { 1, 1, 1 };
+	Vector3 scale_ = { 1, 1, 1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation_ = { 0.0f, 0.0f, 0.0f };
+	Vector3 rotation_ = { 0.0f, 0.0f, 0.0f };
 	// ローカル座標
-	XMFLOAT3 translation_ = { 0.0f, 0.0f, 0.0f };
+	Vector3 translation_ = { 0.0f, 0.0f, 0.0f };
 
-	XMFLOAT4 color = { 1,1,1,1 };
+	Float4 color = { 1,1,1,1 };
 	// ローカル → ワールド変換行列
-	XMMATRIX matWorld_;
+	Matrix4 matWorld_;
 
-	XMMATRIX matBillboard;
+	Matrix4 matBillboard;
 	// 親となるワールド変換へのポインタ
 	//WorldTransform* parent_ = nullptr;
 
@@ -58,5 +58,5 @@ struct WorldTransform {
 
 	void UpdateMatrixBill(ViewProjection* camera);
 
-	void UpdateSpriteMatrix(XMMATRIX projection);
+	void UpdateSpriteMatrix(Matrix4 projection);
 };

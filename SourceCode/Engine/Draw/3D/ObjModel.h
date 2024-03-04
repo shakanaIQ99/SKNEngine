@@ -3,13 +3,13 @@
 #include<string>
 #include"DxWindow.h"
 #include<vector>
-#include<DirectXMath.h>
 #include <d3d12.h>
 #include <wrl.h>
 #include"TextureManager.h"
 #include"WorldTronsform.h"
 #include"IndexBuffer.h"
 #include"VertexBuffer.h"
+#include"Vector2.h"
 
 
 using namespace DirectX;
@@ -26,18 +26,18 @@ public:
 
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyz座標
-		XMFLOAT3 normal;
-		XMFLOAT2 uv;
+		Vector3 pos; // xyz座標
+		Vector3 normal;
+		Vector2 uv;
 	};
 
 
 	struct Material
 	{
 		string name;
-		XMFLOAT3 ambient;
-		XMFLOAT3 diffuse;
-		XMFLOAT3 specular;
+		Vector3 ambient;
+		Vector3 diffuse;
+		Vector3 specular;
 
 		float alpha;
 		string textureFilename;
@@ -55,11 +55,11 @@ public:
 
 	struct ConstBufferDataMaterial
 	{
-		XMFLOAT3 ambient;
+		Vector3 ambient;
 		float pad1;
-		XMFLOAT3 diffuse;
+		Vector3 diffuse;
 		float pad2;
-		XMFLOAT3 specular;
+		Vector3 specular;
 		float alpha;
 	};
 

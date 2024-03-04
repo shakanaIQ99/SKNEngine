@@ -17,7 +17,7 @@ void Sprite2D::Update()
 	Wt.UpdateSpriteMatrix(spritecommon->Getmat());
 }
 
-void Sprite2D::Draw(float x, float y, float x2, float y2, XMFLOAT2 anchor, bool flipX, bool flipY)
+void Sprite2D::Draw(float x, float y, float x2, float y2, Vector2 anchor, bool flipX, bool flipY)
 {
 	int isFlipX, isFlipY;
 	if (flipX == false)isFlipX = 1;
@@ -56,7 +56,7 @@ void Sprite2D::Draw(float x, float y, float x2, float y2, XMFLOAT2 anchor, bool 
 	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 }
 
-void Sprite2D::Draw(XMFLOAT2 anchor, bool flipX, bool flipY)
+void Sprite2D::Draw(Vector2 anchor, bool flipX, bool flipY)
 {
 	int isFlipX, isFlipY;
 	if (flipX == false)isFlipX = 1;
@@ -94,7 +94,7 @@ void Sprite2D::Draw(XMFLOAT2 anchor, bool flipX, bool flipY)
 
 }
 
-void Sprite2D::DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX, bool flipY)
+void Sprite2D::DrawClip(Vector2 ClipPos, Vector2 ClipSize, bool flipX, bool flipY)
 {
 	int isFlipX, isFlipY;
 	if (flipX == false)isFlipX = 1;

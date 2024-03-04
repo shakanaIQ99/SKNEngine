@@ -1,5 +1,4 @@
 #pragma once
-#include<DirectXMath.h>
 class Vector3;
 class Float4;
 
@@ -42,13 +41,18 @@ public:
 		float r2c0, float r2c1, float r2c2, float r2c3,
 		float r3c0, float r3c1, float r3c2, float r3c3);
 
-	Matrix4(DirectX::XMMATRIX matrix);
 
 	Row operator[](const size_t i) const;
 	Row& operator[](const size_t i);
 
 	//逆行列
 	Matrix4 operator-() const;
+
+	//転置行列
+	Matrix4& Transpose();
+
+	//転置行列を取得
+	Matrix4 GetTranspose() const;
 
 
 	//加算
@@ -62,6 +66,10 @@ public:
 	//乗算
 	Matrix4 operator*(const Matrix4& a) const;
 	Matrix4& operator*=(const Matrix4& a);
+
+	Matrix4 SetTranslation(const Float4& f);
+
+	Vector3 GetTranslation();
 
 	//平行移動行列
 	static Matrix4 Translation(float x, float y, float z);
@@ -84,6 +92,16 @@ public:
 
 	//透視投影変換行列
 	static Matrix4 PerspectiveProjection(float fov, float aspect, float nearZ, float farZ);
+
+	//平行投影変換行列
+	static Matrix4 OrthoGraphicProjection(float left, float right, float top, float bottom, float nearZ, float farZ);
+
+	//ビューポート行列
+	static Matrix4 Viewport(float x, float y, float width, float height, float minDepth, float maxDepth);
+
+	//w除算
+	static Vector3 ProjectionDivW(Vector3 pos, Matrix4 mat);
+	
 };
 
 Vector3 operator*(const Vector3 vec, const Matrix4 mat);

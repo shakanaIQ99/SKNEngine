@@ -1,42 +1,35 @@
 #pragma once
-#include <DirectXMath.h>
+#include"Vector3.h"
 
 class PointLight
 {
-private:
-
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMVECTOR = DirectX::XMVECTOR;
-	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
 
 	struct ConstBufferData
 	{
-		XMFLOAT3 lightpos;
+		Vector3 lightpos;
 		float pad1;
-		XMFLOAT3 lightcolor;
+		Vector3 lightcolor;
 		float pad2;
-		XMFLOAT3 lightatten;
+		Vector3 lightatten;
 		unsigned int active;
 	};
 
-	inline void SetLightPos(const XMFLOAT3& _lightpos) { lightpos = _lightpos; }
-	inline const XMFLOAT3& GetLightPos() { return lightpos; }
-	inline void SetLightColor(const XMFLOAT3& _lightcolor) { lightcolor = _lightcolor; }
-	inline const XMFLOAT3& GetLightColor() { return lightcolor; }
-	inline void SetLightAtten(const XMFLOAT3& _lightatten) { lightatten = _lightatten; }
-	inline const XMFLOAT3& GetLightAtten() { return lightatten; }
+	inline void SetLightPos(const Vector3& _lightpos) { lightpos = _lightpos; }
+	inline const Vector3& GetLightPos() { return lightpos; }
+	inline void SetLightColor(const Vector3& _lightcolor) { lightcolor = _lightcolor; }
+	inline const Vector3& GetLightColor() { return lightcolor; }
+	inline void SetLightAtten(const Vector3& _lightatten) { lightatten = _lightatten; }
+	inline const Vector3& GetLightAtten() { return lightatten; }
 	inline void SetActive(bool Active) { this->active = Active; }
 	inline bool IsActive() { return active; }
 
 private:
 
-	XMFLOAT3 lightpos = { 0,0,0 };
-	XMFLOAT3 lightcolor = { 1,1,1 };
-	XMFLOAT3 lightatten = { 1.0f,1.0f,1.0f };
+	Vector3 lightpos = { 0,0,0 };
+	Vector3 lightcolor = { 1,1,1 };
+	Vector3 lightatten = { 1.0f,1.0f,1.0f };
 
 	bool active = false;
 

@@ -21,7 +21,7 @@ void DeathParticle::SetModel(ObjModel* model)
 	Premodel.reset(model);
 }
 
-void DeathParticle::CreateDeathParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity, float _scale, XMFLOAT4 color)
+void DeathParticle::CreateDeathParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity, float _scale, Float4 color)
 {
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;
@@ -38,7 +38,7 @@ void DeathParticle::CreateDeathParticle(const XMFLOAT3& position, const XMFLOAT3
 
 	romdom = { distr(eng),distr(eng2),distr(eng3) };
 
-	normalize(romdom);
+	romdom.normalize();
 	romdom *= spead;
 
 	mode = Pattern::SCATTER;
@@ -46,7 +46,7 @@ void DeathParticle::CreateDeathParticle(const XMFLOAT3& position, const XMFLOAT3
 	Velocity_ = velocity;
 }
 
-void DeathParticle::CreateHitParticle(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity, float _scale, XMFLOAT4 color)
+void DeathParticle::CreateHitParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity, float _scale, Float4 color)
 {
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;
@@ -56,7 +56,7 @@ void DeathParticle::CreateHitParticle(const XMFLOAT3& position, const XMFLOAT3& 
 	St->color = color;
 	Velocity_ = velocity;
 	Velocity_.y = 0;
-	normalize(Velocity_);
+	Velocity_.normalize();
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -66,20 +66,20 @@ void DeathParticle::CreateHitParticle(const XMFLOAT3& position, const XMFLOAT3& 
 
 	romdom = { distr(eng),distr(eng2),distr(eng3) };
 
-	XMMATRIX rotaMat;
+	Matrix4 rotaMat;
 
-	rotaMat = XMMatrixIdentity();
+	
 
-	rotaMat *= XMMatrixRotationY(XMConvertToRadians(distr(eng)));
-	rotaMat *= XMMatrixRotationX(XMConvertToRadians(distr(eng2)));
+	rotaMat *= Matrix4::RotationY(distr(eng));
+	rotaMat *= Matrix4::RotationX(distr(eng2));
 
 	mode = Pattern::HIT;
 	kLifeTime = 30;
 	deathTimer_ = kLifeTime;
 
-	Velocity_ = myMath::VectorMat(Velocity_, rotaMat);
+	Velocity_ = Velocity_ * rotaMat;
 
-	normalize(Velocity_);
+	Velocity_.normalize();
 	romdom *= spead;
 	Velocity_ *= (spead*2);
 }

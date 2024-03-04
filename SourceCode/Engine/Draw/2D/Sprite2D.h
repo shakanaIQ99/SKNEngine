@@ -5,20 +5,21 @@
 #include"TextureManager.h"
 #include"IndexBuffer.h"
 #include"VertexBuffer.h"
+#include"Vector2.h"
 class Sprite2D
 {
 public:
 
     struct VertexPos
     {
-        XMFLOAT3 pos; // xyz座標
-        XMFLOAT2 uv;
+        Vector3 pos; // xyz座標
+        Vector2 uv;
     };
 
     struct ConstBufferDataMaterial
     {
-        XMFLOAT4 color;
-        XMMATRIX mat;
+        Float4 color;
+        Matrix4 mat;
     };
 
 
@@ -27,11 +28,11 @@ public:
 
     void Update();
 
-    void Draw(float x, float y, float x2, float y2, XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
+    void Draw(float x, float y, float x2, float y2, Vector2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
 
-    void Draw(XMFLOAT2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
+    void Draw(Vector2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
 
-    void DrawClip(XMFLOAT2 ClipPos, XMFLOAT2 ClipSize, bool flipX = false, bool flipY = false);
+    void DrawClip(Vector2 ClipPos, Vector2 ClipSize, bool flipX = false, bool flipY = false);
 
     void SetTexture(uint32_t handle);
     

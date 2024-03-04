@@ -17,7 +17,7 @@ void PlayerBullet::SetModel(ObjModel* model)
 	Premodel.reset(model);
 }
 
-void PlayerBullet::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)
+void PlayerBullet::Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity)
 {
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;

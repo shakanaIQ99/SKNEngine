@@ -1,7 +1,7 @@
 #pragma once
-#include<DirectXMath.h>
-
-using namespace DirectX;
+#include"Matrix4.h"
+#include"Vector3.h"
+#include<cmath>
 
 class ViewProjection
 {
@@ -15,31 +15,31 @@ public:
 
 	void UpdateMatProjection();
 
-	const XMMATRIX& GetMAtView();
-	const XMMATRIX& GetMatProjection();
-	const XMFLOAT3& Geteye();
-	const XMFLOAT3& Gettarget();
-	const XMFLOAT3& Getup();
+	const Matrix4& GetMAtView();
+	const Matrix4& GetMatProjection();
+	const Vector3& Geteye();
+	const Vector3& Gettarget();
+	const Vector3& Getup();
 	
-	void SetEye(const XMFLOAT3& eye_);
-	void SetTarget(const XMFLOAT3& target_);
-	void SetUp(const XMFLOAT3& up_);
+	void SetEye(const Vector3& eye_);
+	void SetTarget(const Vector3& target_);
+	void SetUp(const Vector3& up_);
 
 private:
 
-	XMMATRIX matView;
+	Matrix4 matView;
 
-	XMMATRIX matProjection;
+	Matrix4 matProjection;
 
-	XMFLOAT3 eye;
+	Vector3 eye;
 
-	XMFLOAT3 target;
+	Vector3 target;
 
-	XMFLOAT3 up;
+	Vector3 up;
 
 	float aspect = 0.0f;
-	float_t nearClip = 0.1f;
-	float_t farClip = 2000.0f;
+	std::float_t nearClip = 0.1f;
+	std::float_t farClip = 2000.0f;
 	float angle = 0.0f;
 	float distance = 50.0f;
 

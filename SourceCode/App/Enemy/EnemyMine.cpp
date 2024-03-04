@@ -23,7 +23,7 @@ void EnemyMine::SetModel(ObjModel* _model)
 	Premodel.reset(_model);
 }
 
-void EnemyMine::Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity)
+void EnemyMine::Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity)
 {
 	St->Wt.translation_ = position;
 	St->Wt.rotation_ = rota;

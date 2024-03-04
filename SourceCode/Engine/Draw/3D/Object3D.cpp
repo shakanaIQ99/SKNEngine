@@ -150,7 +150,7 @@ void Object3D::Initilaize(WorldTransform* Wt)
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
 	for (int i = 0; i < MAX_BONES; i++)
 	{
-		constMapSkin->bones[i] = XMMatrixIdentity();
+		constMapSkin->bones[i] = Matrix4();
 	}
 	constBuffSkin->Unmap(0, nullptr);
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
@@ -181,7 +181,7 @@ void Object3D::Update()
 
 	for (size_t i = 0; i < bones.size(); i++)
 	{
-		XMMATRIX matCurrentPose;
+		Matrix4 matCurrentPose;
 
 		FbxAMatrix fbxCurrentPose = bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
 

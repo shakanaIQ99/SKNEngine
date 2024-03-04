@@ -2,8 +2,7 @@
 #include <d3d12.h>
 #include "WorldTronsform.h"
 #include "ViewProjection.h"
-
-using namespace DirectX;
+#include"myMath.h"
 
 class Camera
 {
@@ -22,36 +21,25 @@ public:
 	/// </summary>
 	void Update();
 
-	/// <summary>
-	/// 行列とベクトルの計算(左側が行列計算の先)
-	/// </summary>
-	XMFLOAT3 VectorMat(XMFLOAT3 vector, XMMATRIX mat);
-
-	/// <summary>
-	/// 行列とベクトルの計算(左側が行列計算の先)
-	/// </summary>
-	XMFLOAT3 VectorMat(XMMATRIX mat, XMFLOAT3 vector);
-
 	ViewProjection* getView();
 
-	XMMATRIX getMatWorld();
+	Matrix4 getMatWorld();
 
-	XMFLOAT3 getForwardVec();
+	Vector3 getForwardVec();
 
-	//ワールド座標を取得
-	XMFLOAT3 GetWorldPosition();
 
-	void setPos(XMFLOAT3 pos);
 
-	void setTarget(XMFLOAT3 Target);
+	void setPos(Vector3 pos);
+
+	void setTarget(Vector3 Target);
 	/// <summary>
 	/// カメラに追従先のトランスフォームを渡す
 	/// </summary>
 	void setTarget(WorldTransform* target) { targetWT = target; }
 
-	void setRotate(XMFLOAT3 rotate);
+	void setRotate(Vector3 rotate);
 
-	void setWorldMat(XMMATRIX woeldMat);
+	void setWorldMat(Matrix4 woeldMat);
 
 private:
 
@@ -64,9 +52,9 @@ private:
 
 	//ビュープロジェクション
 
-	XMFLOAT3 forward = { 0.0f, 0.0f, 1.0f };
+	Vector3 forward = { 0.0f, 0.0f, 1.0f };
 
-	XMFLOAT3 interTarget = {};
+	Vector3 interTarget = {};
 
 	float cameraRotateX = 0;
 	float cameraRotateY = 0;
@@ -77,9 +65,3 @@ private:
 
 };
 
-const XMFLOAT3 operator+= (XMFLOAT3& v1, const XMFLOAT3& v2);
-
-const XMFLOAT3 operator+(const XMFLOAT3& v1, const XMFLOAT3& v2);
-
-float length(XMFLOAT3& a);
-void normalize(XMFLOAT3& a);

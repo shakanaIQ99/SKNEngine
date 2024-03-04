@@ -2,9 +2,9 @@
 #include"DirectXCommon.h"
 #include<memory>
 #include<DirectXTex.h>
-#include <DirectXMath.h>
 #include<string>
 #include <unordered_map>
+#include "Float4.h"
 
 using namespace std;
 
@@ -24,7 +24,7 @@ struct TextureData
 
 	size_t height = 0;
 
-	XMFLOAT4 color = { 1.0f,1.0f,1.0f,1.0f };
+	Float4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 	string path;
 

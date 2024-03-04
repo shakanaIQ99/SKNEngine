@@ -119,7 +119,7 @@ public:
 	/// 被弾時パーティクル
 	/// </summary>
 	/// <param name="vec"></param>
-	void HitParticle(XMFLOAT3 vec);
+	void HitParticle(Vector3 vec);
 
 	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
 
@@ -127,7 +127,7 @@ public:
 	/// 座標取得
 	/// </summary>
 	/// <returns></returns>
-	XMFLOAT3 GetPos()
+	Vector3 GetPos()
 	{
 		return St->Wt.translation_;
 	}
@@ -190,7 +190,7 @@ private:
 	/// </summary>
 	void DeathAnimetion();
 
-	XMFLOAT3 LinePrediction2(XMFLOAT3 shotPosition, XMFLOAT3 targetPosition, XMFLOAT3 targetPrePosition, float bulletSpeed);
+	Vector3 LinePrediction2(Vector3 shotPosition, Vector3 targetPosition, Vector3 targetPrePosition, float bulletSpeed);
 
 	float PlusMin(float a, float b)
 	{
@@ -211,7 +211,7 @@ private:
 
 	//--------
 
-	XMFLOAT3 rotaVec = { 0,0,0 };
+	Vector3 rotaVec = { 0,0,0 };
 
 	float scale = 4.0f;
 	int DpRate = 0;
@@ -230,10 +230,10 @@ private:
 	bool endFlag = false;
 
 	//汎用
-	XMFLOAT3 prePos = { 0,0,0 };
+	Vector3 prePos = { 0,0,0 };
 	Player* player;
 
-	XMFLOAT3 aimingTargetPos = { 0,0,0 };
+	Vector3 aimingTargetPos = { 0,0,0 };
 	//攻撃パターン
 	AtkPattern BossAtk = AtkPattern::NONE;
 
@@ -269,7 +269,7 @@ private:
 	std::list<std::unique_ptr<EnemyMine>> Mines_;
 
 	//照準周り
-	XMFLOAT3 TargetPos = { 0,0,0 };
+	Vector3 TargetPos = { 0,0,0 };
 
 	const int TargetTime = 60 * 2;
 
@@ -286,7 +286,7 @@ private:
 	bool CriticalAim = true;
 
 	//突進攻撃
-	XMFLOAT3 TargetVec = { 0,0,0 };
+	Vector3 TargetVec = { 0,0,0 };
 	float chargeLenge = 0;
 	int chargeCool = 0;
 	const int chargeCoolTime = 600;

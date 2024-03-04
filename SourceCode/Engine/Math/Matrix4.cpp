@@ -69,16 +69,6 @@ Matrix4::Matrix4(float r0c0, float r0c1, float r0c2, float r0c3, float r1c0, flo
 	m[3][3] = r3c3;
 }
 
-Matrix4::Matrix4(DirectX::XMMATRIX matrix)
-{
-	for (int32_t i = 0; i < 4; i++)
-	{
-		for (int32_t j = 0; j < 4; j++) 
-		{
-			m[i][j] = matrix.r[i].m128_f32[j];
-		}
-	}
-}
 
 Matrix4::Row Matrix4::operator[](const size_t i) const
 {
@@ -137,6 +127,34 @@ Matrix4 Matrix4::operator-() const
 		}
 	}
 	return temp;
+}
+
+Matrix4& Matrix4::Transpose()
+{
+	for (int32_t i = 0; i < 4; i++)
+	{
+		for (int32_t j = i; j < 4; j++)
+		{
+			float f = m[i][j];
+			m[i][j] = m[j][i];
+			m[j][i] = f;
+		}
+	}
+
+	return *this;
+}
+
+Matrix4 Matrix4::GetTranspose() const
+{
+	Matrix4 mat;
+	for (size_t i = 0; i < 4; i++)
+	{
+		for (size_t j = 0; j < 4; j++)
+		{
+			mat[i][j] = m[j][i];
+		}
+	}
+	return mat;
 }
 
 Matrix4 Matrix4::operator+(const Matrix4& a) const
@@ -270,6 +288,21 @@ Matrix4& Matrix4::operator*=(const Matrix4& a)
 	return *this;
 }
 
+Matrix4 Matrix4::SetTranslation(const Float4& f)
+{
+	m[3][0] = f.x;
+	m[3][1] = f.y;
+	m[3][2] = f.z;
+	m[3][3] = f.w;
+
+	return *this;
+}
+
+Vector3 Matrix4::GetTranslation()
+{
+	return Vector3(m[3][0], m[3][1], m[3][2]);
+}
+
 Matrix4 Matrix4::Translation(float x, float y, float z)
 {
 	Matrix4 mat;
@@ -377,6 +410,36 @@ Matrix4 Matrix4::PerspectiveProjection(float fov, float aspect, float nearZ, flo
 	mat[3][3] = 0;
 
 	return mat;
+}
+
+Matrix4 Matrix4::OrthoGraphicProjection(float left, float right, float top, float bottom, float nearZ, float farZ)
+{
+	return Matrix4();
+}
+
+Matrix4 Matrix4::Viewport(float x, float y, float width, float height, float minDepth, float maxDepth)
+{
+	Matrix4 result;
+	result[0][0] = width / 2.0f;
+	result[1][1] = -height / 2.0f;
+	result[2][2] = maxDepth - minDepth;
+	result[3][0] = x + width / 2.0f;
+	result[3][1] = y + height / 2.0f;
+	result[3][2] = minDepth;
+	return result;
+}
+
+Vector3 Matrix4::ProjectionDivW(Vector3 pos, Matrix4 mat)
+{
+	float w = pos.x * mat[0][3] + pos.y * mat[1][3] + pos.z * mat[2][3] + mat[3][3];
+	Vector3 result =
+	{
+		(pos.x * mat[0][0] + pos.y * mat[1][0] + pos.z * mat[2][0] + mat[3][0]) / w,
+		(pos.x * mat[0][1] + pos.y * mat[1][1] + pos.z * mat[2][1] + mat[3][1]) / w,
+		(pos.x * mat[0][2] + pos.y * mat[1][2] + pos.z * mat[2][2] + mat[3][2]) / w
+	};
+
+	return result;
 }
 
 Vector3 operator*(const Vector3 vec, const Matrix4 mat)

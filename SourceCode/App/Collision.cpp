@@ -1,10 +1,10 @@
 #include "Collision.h"
-using namespace DirectX;
-bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, DirectX::XMVECTOR* inter)
-{
-	XMVECTOR distV = XMVector3Dot(sphere.center, plane.normal);
 
-	float dist = distV.m128_f32[0] - plane.distance;
+bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector3* inter)
+{
+	float distV = sphere.center.dot(plane.normal);
+
+	float dist = distV - plane.distance;
 
 	if (fabsf(dist) > sphere.radius)
 	{
@@ -19,68 +19,68 @@ bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Dire
 	return true;
 }
 
-void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Triangle& triangle, DirectX::XMVECTOR* closest)
+void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& triangle, Vector3* closest)
 {
-	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
-	XMVECTOR p0_p2 = triangle.p2 - triangle.p0;
-	XMVECTOR p0_pt = point - triangle.p0;
+	Vector3 p0_p1 = triangle.p1 - triangle.p0;
+	Vector3 p0_p2 = triangle.p2 - triangle.p0;
+	Vector3 p0_pt = point - triangle.p0;
 
-	XMVECTOR d1 = XMVector3Dot(p0_p1, p0_pt);
-	XMVECTOR d2 = XMVector3Dot(p0_p2, p0_pt);
+	float d1 = p0_p1.dot(p0_pt);
+	float d2 = p0_p2.dot(p0_pt);
 
-	if (d1.m128_f32[0] <= 0.0f && d2.m128_f32[0] <= 0.0f)
+	if (d1 <= 0.0f && d2 <= 0.0f)
 	{
 		*closest = triangle.p0;
 		return;
 	}
 	
-	XMVECTOR p1_p0 = triangle.p0 - triangle.p1;
-	XMVECTOR p1_p2 = triangle.p2 - triangle.p1;
+	Vector3 p1_p0 = triangle.p0 - triangle.p1;
+	Vector3 p1_p2 = triangle.p2 - triangle.p1;
 
-	XMVECTOR p1_pt = point - triangle.p1;
+	Vector3 p1_pt = point - triangle.p1;
 
-	XMVECTOR d3 = XMVector3Dot(p1_p0, p1_pt);
-	XMVECTOR d4 = XMVector3Dot(p1_p2, p1_pt);
+	float d3 = p1_p0.dot(p1_pt);
+	float d4 = p1_p2.dot(p1_pt);
 
-	if (d3.m128_f32[0] >= 0.0f && d4.m128_f32[0] <= d3.m128_f32[0])
+	if (d3>= 0.0f && d4<= d3)
 	{
 		*closest = triangle.p1;
 		return;
 	}
 
-	float vc = d1.m128_f32[0] * d4.m128_f32[0] - d3.m128_f32[0] * d2.m128_f32[0];
-	if (vc <= 0.0f && d1.m128_f32[0] >= 0.0f && d3.m128_f32[0] <= 0.0f)
+	float vc = d1* d4 - d3 * d2;
+	if (vc <= 0.0f && d1>= 0.0f && d3 <= 0.0f)
 	{
-		float v = d1.m128_f32[0] / (d1.m128_f32[0] - d3.m128_f32[0]);
+		float v = d1/ (d1- d3);
 		*closest = triangle.p0 + v * p0_p1;
 		return;
 	}
-	XMVECTOR p2_p0 = triangle.p0 - triangle.p2;
-	XMVECTOR p2_p1 = triangle.p1 - triangle.p2;
+	Vector3 p2_p0 = triangle.p0 - triangle.p2;
+	Vector3 p2_p1 = triangle.p1 - triangle.p2;
 
 	
-	XMVECTOR p2_pt = point - triangle.p2;
+	Vector3 p2_pt = point - triangle.p2;
 
-	XMVECTOR d5 = XMVector3Dot(p2_p0, p2_pt);
-	XMVECTOR d6 = XMVector3Dot(p2_p1, p2_pt);
-	if (d6.m128_f32[0] >= 0.0f && d5.m128_f32[0] <= d6.m128_f32[0])
+	float d5 = p2_p0.dot(p2_pt);
+	float d6 = p2_p1.dot(p2_pt);
+	if (d6>= 0.0f && d5<= d6)
 	{
 		*closest = triangle.p2;
 		return;
 	}
 
-	float vb = d5.m128_f32[0] * d2.m128_f32[0] - d1.m128_f32[0] * d6.m128_f32[0];
-	if (vb <= 0.0f && d2.m128_f32[0] >= 0.0f && d6.m128_f32[0] <= 0.0f)
+	float vb = d5* d2- d1 * d6;
+	if (vb <= 0.0f && d2>= 0.0f && d6<= 0.0f)
 	{
-		float w = d2.m128_f32[0] / (d2.m128_f32[0] - d6.m128_f32[0]);
+		float w = d2/ (d2- d6);
 		*closest = triangle.p0 + w * p0_p2;
 		return;
 	}
 
-	float va = d3.m128_f32[0] * d6.m128_f32[0] - d5.m128_f32[0] * d4.m128_f32[0];
-	if (va <= 0.0f && (d4.m128_f32[0] - d3.m128_f32[0]) >= 0.0f && (d5.m128_f32[0] - d6.m128_f32[0]) >= 0.0f)
+	float va = d3 * d6 - d5 * d4;
+	if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f)
 	{
-		float w = (d4.m128_f32[0] - d3.m128_f32[0]) / ((d4.m128_f32[0] - d3.m128_f32[0]) + (d5.m128_f32[0] - d6.m128_f32[0]));
+		float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
 		*closest = triangle.p1 + w * (triangle.p2 - triangle.p1);
 		return;
 	}
@@ -91,17 +91,17 @@ void Collision::ClosestPtPoint2Triangle(const DirectX::XMVECTOR& point, const Tr
 	*closest = triangle.p0 + p0_p1 * v + p0_p2 * w;
 }
 
-bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, DirectX::XMVECTOR* inter)
+bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle, Vector3* inter)
 {
-	XMVECTOR p;
+	Vector3 p;
 
 	ClosestPtPoint2Triangle(sphere.center, triangle, &p);
 
-	XMVECTOR v = p - sphere.center;
+	Vector3 v = p - sphere.center;
 
-	v = XMVector3Dot(v, v);
+	float vf = v.dot(v);
 
-	if (v.m128_f32[0] > sphere.radius * sphere.radius)
+	if (vf > sphere.radius * sphere.radius)
 	{
 		return false;
 	}
@@ -114,18 +114,18 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 	return true;
 }
 
-bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, DirectX::XMVECTOR* inter)
+bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance, Vector3* inter)
 {
 	const float epslion = 1.0e-5f;
 
-	float d1 = XMVector3Dot(plane.normal, ray.dir).m128_f32[0];
+	float d1 = plane.normal.dot(ray.dir);
 
 	if (d1 > -epslion)
 	{
 		return false;
 	}
 
-	float d2 = XMVector3Dot(plane.normal, ray.start).m128_f32[0];
+	float d2 =plane.normal.dot(ray.start);
 
 	float dist = d2 - plane.distance;
 
@@ -149,14 +149,14 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 	return true;
 }
 
-bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, DirectX::XMVECTOR* inter)
+bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
 {
 	Plane plane;
-	XMVECTOR interPlane;
+	Vector3 interPlane;
 
 	plane.normal = triangle.normal;
 
-	plane.distance = XMVector3Dot(triangle.normal, triangle.p0).m128_f32[0];
+	plane.distance = triangle.normal.dot(triangle.p0);
 
 	if (!CheckRay2Plane(ray, plane, distance, &interPlane))
 	{
@@ -164,26 +164,26 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 	}
 
 	const float epsilon = 1.0e-5f;
-	XMVECTOR m;
+	Vector3 m;
 
-	XMVECTOR pt_p0 = triangle.p0 - interPlane;
-	XMVECTOR p0_p1 = triangle.p1 - triangle.p0;
-	m = XMVector3Cross(pt_p0, p0_p1);
-	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	Vector3 pt_p0 = triangle.p0 - interPlane;
+	Vector3 p0_p1 = triangle.p1 - triangle.p0;
+	m = pt_p0.cross(p0_p1);
+	if (m.dot(triangle.normal) < -epsilon)
 	{
 		return false;
 	}
-	XMVECTOR pt_p1 = triangle.p1 - interPlane;
-	XMVECTOR p1_p2 = triangle.p2 - triangle.p1;
-	m = XMVector3Cross(pt_p1, p1_p2);
-	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	Vector3 pt_p1 = triangle.p1 - interPlane;
+	Vector3 p1_p2 = triangle.p2 - triangle.p1;
+	m = pt_p1.cross(p1_p2);
+	if (m.dot(triangle.normal) < -epsilon)
 	{
 		return false;
 	}
-	XMVECTOR pt_p2 = triangle.p2 - interPlane;
-	XMVECTOR p2_p0 = triangle.p0 - triangle.p2;
-	m = XMVector3Cross(pt_p2, p2_p0);
-	if (XMVector3Dot(m, triangle.normal).m128_f32[0] < -epsilon)
+	Vector3 pt_p2 = triangle.p2 - interPlane;
+	Vector3 p2_p0 = triangle.p0 - triangle.p2;
+	m = pt_p2.cross(p2_p0);
+	if (m.dot(triangle.normal) < -epsilon)
 	{
 		return false;
 	}
@@ -197,11 +197,11 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 	return true;;
 }
 
-bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, DirectX::XMVECTOR* inter)
+bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, Vector3* inter)
 {
-	XMVECTOR m = ray.start - sphere.center;
-	float b = XMVector3Dot(m, ray.dir).m128_f32[0];
-	float c = XMVector3Dot(m, m).m128_f32[0] - sphere.radius * sphere.radius;
+	Vector3 m = ray.start - sphere.center;
+	float b = m.dot( ray.dir);
+	float c = m.dot( m) - sphere.radius * sphere.radius;
 
 	if (c > 0.0f && b > 0.0f)
 	{
@@ -238,12 +238,12 @@ bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* dis
 bool Collision::CheckSphereToSphere(const Sphere& sphere, const Sphere& sphere2)
 {
 
-	XMVECTOR dis = XMVector3Length(sphere2.center - sphere.center);
+	Vector3 a = sphere2.center - sphere.center;
 
-	float length = XMVectorGetX(dis);
+	
 
 
-	if (length < sphere.radius + sphere2.radius)
+	if (a.length() < sphere.radius + sphere2.radius)
 	{
 		return true;
 	}

@@ -59,15 +59,15 @@ public:
 
 	void Draw();
 
-	XMFLOAT4 color;
+	Float4 color;
 					  
-	XMFLOAT3 scale;
+	Vector3 scale;
 					  
-	XMFLOAT3 rotation;
+	Vector3 rotation;
 					  
-	XMFLOAT3 position;
+	Vector3 position;
 
-	XMMATRIX matWorld;
+	Matrix4 matWorld;
 
 	WorldTransform Wt;
 private:

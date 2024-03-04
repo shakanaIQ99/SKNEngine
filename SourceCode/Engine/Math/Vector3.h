@@ -15,6 +15,8 @@ public:
 	//任意ベクトル
 	Vector3(float x, float y, float z);
 
+	Vector3(const float* floatArray) :Vector3(floatArray[0], floatArray[1], floatArray[2]){}
+
 	//関数
 
 	//長さ

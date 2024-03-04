@@ -91,9 +91,9 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	light->SetPointLightActive(0, false);
 
 
-	light->SetPointLightPos(0, XMFLOAT3(pointLightPos));
-	light->SetPointLightColor(0, XMFLOAT3(pointLightColor));
-	light->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
+	light->SetPointLightPos(0, Vector3(pointLightPos));
+	light->SetPointLightColor(0, Vector3(pointLightColor));
+	light->SetPointLightAtten(0, Vector3(pointLightAtten));
 
 	//float a = 0.2f;
 
@@ -249,10 +249,10 @@ void GameScene::ALLCol()
 	Sphere playerSp;
 	Sphere bossSp;
 
-	playerSp.center = { player.GetPos().x, player.GetPos().y, player.GetPos().z ,1.0f };
+	playerSp.center = player.GetPos();
 	playerSp.radius = player.St->Wt.scale_.x;
 
-	bossSp.center = { boss.St->Wt.translation_.x, boss.St->Wt.translation_.y,  boss.St->Wt.translation_.z ,1.0f };
+	bossSp.center = boss.St->Wt.translation_;
 	bossSp.radius = boss.St->Wt.scale_.x;
 	hitcheck = false;
 	if (Collision::CheckSphereToSphere(playerSp, bossSp))
@@ -267,7 +267,7 @@ void GameScene::ALLCol()
 	for (const std::unique_ptr<EnemyNormalBullet>& bullet : enemyBullets)
 	{
 		Sphere bossBulletSp;
-		bossBulletSp.center = { bullet->GetWorldPosition().x ,bullet->GetWorldPosition().y ,bullet->GetWorldPosition().z ,1.0f };
+		bossBulletSp.center = bullet->GetWorldPosition();
 		bossBulletSp.radius = bullet->GetScale().x;
 		if (Collision::CheckSphereToSphere(playerSp, bossBulletSp))
 		{
@@ -281,7 +281,7 @@ void GameScene::ALLCol()
 	for (const std::unique_ptr<EnemyMine>& mine : enemyMines)
 	{
 		Sphere bossMineSp;
-		bossMineSp.center = { mine->GetWorldPosition().x ,mine->GetWorldPosition().y ,mine->GetWorldPosition().z ,1.0f };
+		bossMineSp.center = mine->GetWorldPosition();
 		bossMineSp.radius = mine->GetScale().x;
 		if (Collision::CheckSphereToSphere(playerSp, bossMineSp)&&mine->IsHit())
 		{
@@ -297,7 +297,7 @@ void GameScene::ALLCol()
 	for (const std::unique_ptr<BulletManager>& p_bullet : playerBullets)
 	{
 		Sphere playerBulletSp;
-		playerBulletSp.center = { p_bullet->GetWorldPosition().x ,p_bullet->GetWorldPosition().y ,p_bullet->GetWorldPosition().z ,1.0f };
+		playerBulletSp.center =p_bullet->GetWorldPosition();
 		playerBulletSp.radius = p_bullet->GetScale().x;
 		if (Collision::CheckSphereToSphere(playerBulletSp, bossSp))
 		{

@@ -1,19 +1,16 @@
 #pragma once
 
-#include<DirectXMath.h>
-
-using namespace DirectX;
-
+#include"myMath.h"
 struct Sphere
 {
-	XMVECTOR center = { 0,0,0,1 };
+	Vector3 center = { 0,0,0};
 
 	float radius = 1.0f;
 };
 
 struct Plane
 {
-	XMVECTOR normal = { 0,1,0,0 };
+	Vector3 normal = { 0,1,0};
 
 	float distance = 0.0f;
 };
@@ -21,16 +18,16 @@ struct Plane
 class Triangle
 {
 public:
-	XMVECTOR p0;
-	XMVECTOR p1;
-	XMVECTOR p2;
+	Vector3 p0;
+	Vector3 p1;
+	Vector3 p2;
 
-	XMVECTOR normal;
+	Vector3 normal;
 };
 
 struct Ray
 {
-	DirectX::XMVECTOR start = { 0,0,0,1 };
+	Vector3 start = { 0,0,0};
 
-	DirectX::XMVECTOR dir = { 1,0,0,0 };
+	Vector3 dir = { 1,0,0};
 };

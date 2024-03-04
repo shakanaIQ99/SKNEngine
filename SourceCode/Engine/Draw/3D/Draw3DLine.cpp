@@ -1,4 +1,5 @@
 #include "Draw3DLine.h"
+#include<cassert>
 
 ID3D12Device* Draw3DLine::device;
 ID3D12GraphicsCommandList* Draw3DLine::cmdList;
@@ -12,7 +13,7 @@ void Draw3DLine::Init()
 	vertexBuffer->Create(device, 2, sizeof(VertexPos));
 }
 
-void Draw3DLine::Draw(XMFLOAT3 startpos, XMFLOAT3 endpos)
+void Draw3DLine::Draw(Vector3 startpos, Vector3 endpos)
 {
 	VertexPos vertices[] =
 	{

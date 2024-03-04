@@ -29,7 +29,7 @@ OBJ3D::OBJ3D()
 
 	position = { 0.0f,0,0 };
 
-	matWorld = XMMatrixIdentity();
+	matWorld =Matrix4();
 }
 
 void OBJ3D::StaticInitialize(ID3D12Device* _device)

@@ -284,7 +284,7 @@ void PostEffect::CreateBuffer()
 	if (SUCCEEDED(result))
 	{
 		constMap->color = this->color;
-		constMap->mat = XMMatrixIdentity();
+		constMap->mat = Matrix4();
 		constBuff->Unmap(0, nullptr);
 	}
 	

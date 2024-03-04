@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
-#include <DirectXMath.h>
 #include"WorldTronsform.h"
 #include<vector>
 #include<string>
@@ -25,26 +24,25 @@ public:
 	ParticleManager(uint32_t handle);
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyz座標
+		Vector3 pos; // xyz座標
 		float scale;
 	};
 
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		XMMATRIX mat;	// ３Ｄ変換行列
-		XMMATRIX matBillboard;
+		Matrix4 mat;	// ３Ｄ変換行列
+		Matrix4 matBillboard;
 	};
 
 	struct Particle
 	{
-		using XMFLOAT3 = DirectX::XMFLOAT3;
+		
+		Vector3 position = {};
 
-		XMFLOAT3 position = {};
+		Vector3 velocity = {};
 
-		XMFLOAT3 velocity = {};
-
-		XMFLOAT3 accel = {};
+		Vector3 accel = {};
 
 		int frame = 0;
 
@@ -73,7 +71,7 @@ public:
 
 	void Draw();
 
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale);
+	void Add(int life, Vector3 position, Vector3 velocity, Vector3 accel, float start_scale, float end_scale);
 
 private:
 	static ID3D12Device* device;

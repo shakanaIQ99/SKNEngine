@@ -5,7 +5,7 @@ void ViewProjection::Initialize()
 {
 	eye = { 0,0,-50.0f };
 	target = { 0,0,0 };
-	up = { 0,1,0 };
+	up = { 0,1.0f,0 };
 	aspect = (float)DxWindow::window_width / DxWindow::window_height;
 	
 
@@ -22,50 +22,50 @@ void ViewProjection::Update()
 
 void ViewProjection::UpdateMatview()
 {
-	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+	matView = Matrix4::View(eye, target, up);
 }
 
 void ViewProjection::UpdateMatProjection()
 {
-	matProjection = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)DxWindow::window_width / DxWindow::window_height, nearClip, farClip);
+	matProjection = Matrix4::PerspectiveProjection(45.0f, (float)DxWindow::window_width / DxWindow::window_height, nearClip, farClip);
 }
 
-const XMMATRIX& ViewProjection::GetMAtView()
+const Matrix4& ViewProjection::GetMAtView()
 {
 	return matView;
 }
 
-const XMMATRIX& ViewProjection::GetMatProjection()
+const Matrix4& ViewProjection::GetMatProjection()
 {
 	return matProjection;
 }
 
-const XMFLOAT3& ViewProjection::Geteye()
+const Vector3& ViewProjection::Geteye()
 {
 	return eye;
 }
 
-const XMFLOAT3& ViewProjection::Gettarget()
+const Vector3& ViewProjection::Gettarget()
 {
 	return target;
 }
 
-const XMFLOAT3& ViewProjection::Getup()
+const Vector3& ViewProjection::Getup()
 {
 	return up;
 }
 
-void ViewProjection::SetEye(const XMFLOAT3& eye_)
+void ViewProjection::SetEye(const Vector3& eye_)
 {
 	eye = eye_;
 }
 
-void ViewProjection::SetTarget(const XMFLOAT3& target_)
+void ViewProjection::SetTarget(const Vector3& target_)
 {
 	target = target_;
 }
 
-void ViewProjection::SetUp(const XMFLOAT3& up_)
+void ViewProjection::SetUp(const Vector3& up_)
 {
 	up = up_;
 }

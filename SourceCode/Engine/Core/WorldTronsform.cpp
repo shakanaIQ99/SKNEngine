@@ -1,5 +1,5 @@
 #include "WorldTronsform.h"
-
+#include<cassert>
 
 
 void WorldTransform::CreateConstBuffer(ID3D12Device* device)
@@ -38,21 +38,11 @@ void WorldTransform::CreateConstBuffer(ID3D12Device* device)
 
 void WorldTransform::UpdateMatrix(ViewProjection* camera)
 {
-	XMMATRIX matScale, matRot, matTrans;
-
-	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation_.z);
-	matRot *= XMMatrixRotationX(rotation_.x);
-	matRot *= XMMatrixRotationY(rotation_.y);
-	matTrans = XMMatrixTranslation(translation_.x, translation_.y, translation_.z);
-
+	
 	// ワールド行列の合成
-	matWorld_ = XMMatrixIdentity(); // 変形をリセット
-	matWorld_ *= matScale;          // ワールド行列にスケーリングを反映
-	matWorld_ *= matRot;            // ワールド行列に回転を反映
-	matWorld_ *= matTrans;          // ワールド行列に平行移動を反映
+	matWorld_ *= Matrix4::Scaling(scale_.x, scale_.y, scale_.z);						// ワールド行列にスケーリングを反映
+	matWorld_ *= Matrix4::RotationZXY(rotation_.z, rotation_.x, rotation_.y);           // ワールド行列に回転を反映
+	matWorld_ *= Matrix4::Translation(translation_.x, translation_.y, translation_.z);          // ワールド行列に平行移動を反映
 
 	//// 親行列の指定がある場合は、掛け算する
 	//if (parent_) {
@@ -73,66 +63,48 @@ void WorldTransform::UpdateMatrix(ViewProjection* camera)
 
 void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 {
-	XMMATRIX matScale, matRot, matTrans;
-
-	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation_.z);
-	matRot *= XMMatrixRotationX(rotation_.x);
-	matRot *= XMMatrixRotationY(rotation_.y);
-	matTrans = XMMatrixTranslation(translation_.x, translation_.y, translation_.z);
-
 	// ワールド行列の合成
-	matWorld_ = XMMatrixIdentity(); // 変形をリセット
-	matWorld_ *= matScale;          // ワールド行列にスケーリングを反映
-	matWorld_ *= matRot;            // ワールド行列に回転を反映
-	matWorld_ *= matTrans;          // ワールド行列に平行移動を反映
+	matWorld_ *= Matrix4::Scaling(scale_.x, scale_.y, scale_.z);						// ワールド行列にスケーリングを反映
+	matWorld_ *= Matrix4::RotationZXY(rotation_.z, rotation_.x, rotation_.y);           // ワールド行列に回転を反映
+	matWorld_ *= Matrix4::Translation(translation_.x, translation_.y, translation_.z);          // ワールド行列に平行移動を反映
 
-	XMVECTOR eyePosition = XMLoadFloat3(&camera->Geteye());
+	Vector3 eyePosition = camera->Geteye();
 
-	XMVECTOR targetPosition = XMLoadFloat3(&camera->Gettarget());
+	Vector3 targetPosition =camera->Gettarget();
 
-	XMVECTOR upVector = XMLoadFloat3(&camera->Getup());
+	Vector3 upVector = camera->Getup();
 
-	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
+	Vector3 cameraAxisZ = targetPosition-eyePosition;
 
-	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+	cameraAxisZ.normalize();
 
-	XMVECTOR cameraAxisX;
+	Vector3 cameraAxisX;
 
-	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
+	cameraAxisX = upVector.cross(cameraAxisZ);
 
-	cameraAxisX = XMVector3Normalize(cameraAxisX);
+	cameraAxisX.normalize();
 
-	XMVECTOR cameraAxisY;
+	Vector3 cameraAxisY;
 
-	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+	cameraAxisY = cameraAxisZ.cross(cameraAxisX);
 
-	XMMATRIX matCameraRot;
+	Matrix4 matCameraRot = { Float4(cameraAxisX, 0), Float4(cameraAxisY, 0), Float4(cameraAxisZ, 0), Float4(0,0,0,1) };
 
-	matCameraRot.r[0] = cameraAxisX;
-	matCameraRot.r[1] = cameraAxisY;
-	matCameraRot.r[2] = cameraAxisZ;
-	matCameraRot.r[3] = XMVectorSet(0, 0, 0, 1);
 
-	XMMATRIX matView = XMMatrixTranspose(matCameraRot);
+	Matrix4 matView = matCameraRot.GetTranspose();
 
-	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
+	Vector3 reverseEyePosition = -eyePosition;
 
-	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);
-	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);
-	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);
+	float tX = cameraAxisX.dot(reverseEyePosition);
+	float tY = cameraAxisY.dot(reverseEyePosition);
+	float tZ = cameraAxisZ.dot(reverseEyePosition);
 
-	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
+	Vector3 translation = { tX,tY,tZ };
 
-	matView.r[3] = translation;
+	matView.SetTranslation(Float4(translation, 1.0f));
 
-	matBillboard.r[0] = cameraAxisX;
-	matBillboard.r[1] = cameraAxisY;
-	matBillboard.r[2] = cameraAxisZ;
-	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
-
+	matBillboard = { Float4(cameraAxisX, 0), Float4(cameraAxisY, 0), Float4(cameraAxisZ, 0), Float4(0,0,0,1) };
+	
 	//// 親行列の指定がある場合は、掛け算する
 	//if (parent_) {
 	//	matWorld_ *= parent_->matWorld_;
@@ -149,23 +121,15 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 
 }
 
-void WorldTransform::UpdateSpriteMatrix(XMMATRIX projection)
+void WorldTransform::UpdateSpriteMatrix(Matrix4 projection)
 {
-	XMMATRIX matScale, matRot, matTrans;
-
-	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale_.x, scale_.y, 1.0f);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation_.z);
-	matRot *= XMMatrixRotationX(0.0f);
-	matRot *= XMMatrixRotationY(0.0f);
-	matTrans = XMMatrixTranslation(translation_.x, translation_.y, 0.0f);
+	
 
 	// ワールド行列の合成
-	matWorld_ = XMMatrixIdentity(); // 変形をリセット
-	matWorld_ *= matScale;          // ワールド行列にスケーリングを反映
-	matWorld_ *= matRot;            // ワールド行列に回転を反映
-	matWorld_ *= matTrans;          // ワールド行列に平行移動を反映
+	matWorld_ *= Matrix4::Scaling(scale_.x, scale_.y, 1.0f);					// ワールド行列にスケーリングを反映
+	matWorld_ *= Matrix4::RotationZXY(rotation_.z, 0, 0);							// ワールド行列に回転を反映
+	matWorld_ *= Matrix4::Translation(translation_.x, translation_.y, 0);			// ワールド行列に平行移動を反映
+
 
 	//// 親行列の指定がある場合は、掛け算する
 	//if (parent_) {

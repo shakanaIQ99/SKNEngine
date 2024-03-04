@@ -2,7 +2,6 @@
 #include<string>
 #include"DxWindow.h"
 #include<vector>
-#include<DirectXMath.h>
 #include <d3d12.h>
 #include <wrl.h>
 #include"TextureManager.h"
@@ -10,6 +9,7 @@
 #include"IndexBuffer.h"
 #include"VertexBuffer.h"
 #include <fbxsdk.h>
+#include"myMath.h"
 
 
 using namespace DirectX;
@@ -22,15 +22,15 @@ struct Node
 {
 	string name;
 
-	XMVECTOR scaling = { 1,1,1,0 };
+	Vector3 scaling = { 1,1,1 };
 
-	XMVECTOR rotation = { 0,0,0,0 };
+	Vector3 rotation = { 0,0,0 };
 
-	XMVECTOR translation = { 0,0,0,1 };
+	Vector3 translation = { 0,0,0 };
 
-	XMMATRIX transform;
+	Matrix4 transform;
 
-	XMMATRIX globalTransform;
+	Matrix4 globalTransform;
 
 	Node* parent = nullptr;
 };
@@ -53,17 +53,17 @@ public:
 	//頂点データ構造体
 	struct VertexPosNormalUvSkin
 	{
-		XMFLOAT3 pos;	//xyz座標
-		XMFLOAT3 normal;//法線ベクトル
-		XMFLOAT2 uv;	//uv座標
+		Vector3 pos;	//xyz座標
+		Vector3 normal;//法線ベクトル
+		Vector2 uv;	//uv座標
 		UINT boneIndex[MAX_BONE_INDICES];
 		float boneWeight[MAX_BONE_INDICES];
 	};
 	struct Material
 	{
-		XMFLOAT3 ambient;
-		XMFLOAT3 diffuse;
-		XMFLOAT3 specular;
+		Vector3 ambient;
+		Vector3 diffuse;
+		Vector3 specular;
 
 		float alpha;
 		Material()
@@ -80,7 +80,7 @@ public:
 	{
 		std::string name;
 
-		DirectX::XMMATRIX invInitialPose;
+		Matrix4 invInitialPose;
 
 		FbxCluster* fbxCluster;
 
@@ -101,7 +101,7 @@ public:
 	void CreateBuffers(ID3D12Device* device);
 
 
-	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	const Matrix4& GetModelTransform() { return meshNode->globalTransform; }
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	vector<Bone>& GetBones() { return bones; }
 	FbxScene* GetFbxScene() { return fbxScene; }

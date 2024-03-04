@@ -5,15 +5,16 @@
 #include "WorldTronsform.h"
 #include"Pipeline.h"
 #include <wrl.h>
+#include"myMath.h"
 class Draw3DLine
 {
 public:
 
 	void Init();
 
-	void Draw(XMFLOAT3 startpos, XMFLOAT3 endpos);
+	void Draw(Vector3 startpos, Vector3 endpos);
 
-	void SetColor(XMFLOAT4 _color){color = _color;}
+	void SetColor(Float4 _color){color = _color;}
 
 	static void SetDevice(ID3D12Device* _device, ID3D12GraphicsCommandList* _cmdList);
 
@@ -29,12 +30,12 @@ private:
 
 	struct VertexPos
 	{
-		XMFLOAT3 pos; // xyz座標
+		Vector3 pos; // xyz座標
 	};
 
 	struct Color
 	{
-		XMFLOAT4 color;
+		Float4 color;
 	};
 
 	static ID3D12Device* device;
@@ -50,7 +51,7 @@ private:
 	ComPtr<ID3D12Resource> constBuffB1;
 	Color* constMap = nullptr;
 
-	XMFLOAT4 color = { 1.0f,1.0f,1.0f,1.0f };
+	Float4 color = { 1.0f,1.0f,1.0f,1.0f };
 
 };
 

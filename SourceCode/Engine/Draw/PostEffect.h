@@ -7,6 +7,10 @@
 #include <IndexBuffer.h>
 #include"TextureManager.h"
 #include <Pipeline.h>
+#include"Vector2.h"
+#include"Vector3.h"
+#include"Matrix4.h"
+#include"Float4.h"
 
 using namespace Microsoft::WRL;
 
@@ -48,14 +52,14 @@ private:
 
     struct VertexPos
     {
-        XMFLOAT3 pos; // xyz座標
-        XMFLOAT2 uv;
+        Vector3 pos; // xyz座標
+        Vector2 uv;
     };
 
     struct ConstBufferDataMaterial
     {
-        XMMATRIX mat;
-        XMFLOAT4 color;
+        Matrix4 mat;
+        Float4 color;
     };
 
     static PipelineSet pipeline;
@@ -83,7 +87,7 @@ private:
     // 定数バッファ
     ComPtr<ID3D12Resource> constBuff;
 
-    XMFLOAT4 color = { 1,1,1,1 };
+    Float4 color = { 1,1,1,1 };
 
 };
 

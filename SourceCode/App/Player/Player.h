@@ -23,9 +23,9 @@ public:
 
 	void Damege(float dmg);
 
-	void HitParticle(XMFLOAT3 vec);
+	void HitParticle(Vector3 vec);
 
-	void KnockBack(XMFLOAT3 vec);
+	void KnockBack(Vector3 vec);
 
 	void Draw();
 
@@ -60,7 +60,7 @@ public:
 		return endFlag;
 	}
 
-	XMFLOAT3 GetPos()
+	Vector3 GetPos()
 	{
 		return St->Wt.translation_;
 	}
@@ -69,14 +69,14 @@ public:
 	{
 		return prePlayer;
 	}
-	XMFLOAT3 GetUnderPos()
+	Vector3 GetUnderPos()
 	{
-		XMFLOAT3 UnderPos = GetPos();
+		Vector3 UnderPos = GetPos();
 		UnderPos.y -= St->Wt.scale_.y;
 		return UnderPos;
 	}
 
-	XMFLOAT3 GetPredictionPoint() { return playerPredictionPoint; }
+	Vector3 GetPredictionPoint() { return playerPredictionPoint; }
 
 	const std::list<std::unique_ptr<BulletManager>>& GetBullets() { return bullets_; };
 
@@ -88,13 +88,13 @@ private:
 	/// <summary>
 	/// 攻撃
 	/// </summary>
-	void Attack(XMFLOAT3 flont);
+	void Attack(Vector3 flont);
 
 	void Move();
 
-	void Jump(XMFLOAT3 front);
+	void Jump(Vector3 front);
 
-	void Dash(XMFLOAT3 front);
+	void Dash(Vector3 front);
 
 	void EN();
 
@@ -104,7 +104,7 @@ private:
 
 	void DeathAnimetion();
 
-	XMFLOAT2 WorldToMonitor(XMFLOAT3 pos);
+	Vector2 WorldToMonitor(Vector3 pos);
 
 
 	void ImGuiSet();
@@ -125,13 +125,13 @@ private:
 
 	bool BoostMode = false;
 
-	XMFLOAT3 moveVec;
+	Vector3 moveVec;
 
-	XMFLOAT3 playerPredictionPoint;
+	Vector3 playerPredictionPoint;
 
-	XMFLOAT3 rotaVec = { 0,0,0 };
+	Vector3 rotaVec = { 0,0,0 };
 
-	XMFLOAT3 mae = { 0,0,0 };
+	Vector3 mae = { 0,0,0 };
 
 	//HUD周り----------
 	std::unique_ptr<Sprite2D> sprite_Reticle;
@@ -148,13 +148,13 @@ private:
 	uint32_t HpBarHandle;
 
 
-	XMFLOAT2 hpBarShakePos = {0,0};
+	Vector2 hpBarShakePos = {0,0};
 
 	float hpBarShakeNum = 0;
 
 	//----------------
 
-	XMFLOAT2 Lock2DPos = { 0,0 };
+	Vector2 Lock2DPos = { 0,0 };
 
 	float scale = 1.0f;
 	int DpRate = 0;
@@ -185,7 +185,7 @@ private:
 
 	const float DashSpeadNum = 5.0f;
 
-	XMFLOAT3 DashVec = { 0,0,0 };
+	Vector3 DashVec = { 0,0,0 };
 
 	bool DashFlag = false;
 
@@ -198,7 +198,7 @@ private:
 
 	float Upspeed = 0.0f;
 
-	XMFLOAT3 JumpVec = { 0,0,0 };
+	Vector3 JumpVec = { 0,0,0 };
 
 	const float AirUpSpead = 0.5f;
 
@@ -261,25 +261,11 @@ private:
 
 	//ノックバック
 	bool knockBack = false;
-	XMFLOAT3 knockVec = { 0,0,0 };
+	Vector3 knockVec = { 0,0,0 };
 	float knockSpeed = 0;
 	const float knockSpeedNum = 5.0f;
 	
 
 };
-
-const DirectX::XMFLOAT3 operator*=(DirectX::XMFLOAT3& v, float s);
-
-const DirectX::XMFLOAT3 operator*(const DirectX::XMFLOAT3& v, float s);
-
-const DirectX::XMFLOAT3 operator*(float s, const DirectX::XMFLOAT3& v);
-
-const DirectX::XMFLOAT3 operator-= (DirectX::XMFLOAT3& v1, const DirectX::XMFLOAT3& v2);
-
-const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1, const DirectX::XMFLOAT3& v2);
-
-const DirectX::XMFLOAT3 operator-(const DirectX::XMFLOAT3& v1);
-
-
 
 

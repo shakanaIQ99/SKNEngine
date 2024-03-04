@@ -26,7 +26,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity);
+	void Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity);
 
 	/// <summary>
 	/// 更新
@@ -50,9 +50,9 @@ public:
 
 
 
-	XMFLOAT3 GetWorldPosition() { return St->Wt.translation_; }
-	XMFLOAT3 GetScale() { return St->Wt.scale_; }
-	XMFLOAT3 GetVec() { return Velocity_; }
+	Vector3 GetWorldPosition() { return St->Wt.translation_; }
+	Vector3 GetScale() { return St->Wt.scale_; }
+	Vector3 GetVec() { return Velocity_; }
 
 
 
@@ -69,7 +69,7 @@ private:
 
 
 	//速度
-	XMFLOAT3 Velocity_;
+	Vector3 Velocity_;
 
 	//デスフラグ
 	bool isDead_ = false;

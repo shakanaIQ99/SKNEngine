@@ -15,7 +15,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void Initlize(const XMFLOAT3& position, const XMFLOAT3& rota, const XMFLOAT3& velocity) override;
+	void Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity) override;
 
 	/// <summary>
 	/// 更新
@@ -41,7 +41,7 @@ private:
 
 
 	//速度
-	XMFLOAT3 Velocity_;
+	Vector3 Velocity_;
 
 	//寿命<frm>
 	static const int32_t kLifeTime = 60 * 5;

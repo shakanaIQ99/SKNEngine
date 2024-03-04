@@ -146,20 +146,20 @@ bool Input::GetPadButtonDown(UINT button)
 	return GetInstance()->xInputState.Gamepad.wButtons == button && GetInstance()->OldxInputState.Gamepad.wButtons != button;
 }
 
-XMFLOAT2 Input::GetPadLStick()
+Vector2 Input::GetPadLStick()
 {
 	SHORT x = GetInstance()->xInputState.Gamepad.sThumbLX;
 	SHORT y = GetInstance()->xInputState.Gamepad.sThumbLY;
 
-	return XMFLOAT2(static_cast<float>(x) / 32767.0f, static_cast<float>(y) / 32767.0f);
+	return Vector2(static_cast<float>(x) / 32767.0f, static_cast<float>(y) / 32767.0f);
 }
 
-XMFLOAT2 Input::GetPadRStick()
+Vector2 Input::GetPadRStick()
 {
 	SHORT x = GetInstance()->xInputState.Gamepad.sThumbRX;
 	SHORT y = GetInstance()->xInputState.Gamepad.sThumbRY;
 
-	return XMFLOAT2(static_cast<float>(x) / 32767.0f, static_cast<float>(y) / 32767.0f);
+	return Vector2(static_cast<float>(x) / 32767.0f, static_cast<float>(y) / 32767.0f);
 }
 
 bool Input::GetLTriggerDown()
@@ -198,85 +198,54 @@ bool Input::GetRTrigger()
 	return false;
 }
 
-XMFLOAT2 Input::GetLStick(bool useWASD, bool useArrow)
+Vector2 Input::GetLStick(bool useWASD, bool useArrow)
 {
-	XMFLOAT2 pad;
+	Vector2 pad;
 	pad.x = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbLX) / 32767.0f;
 	pad.y = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbLY) / 32767.0f;
 
-	XMFLOAT2 wasd;
+	Vector2 wasd;
 	if (useWASD) {
 		wasd.x = static_cast<float>(GetInstance()->key[DIK_D] - GetInstance()->key[DIK_A]);
 		wasd.y = static_cast<float>(GetInstance()->key[DIK_W] - GetInstance()->key[DIK_S]);
 	}
 
-	XMFLOAT2 arrow;
+	Vector2 arrow;
 	if (useArrow) {
 		arrow.x = static_cast<float>(GetInstance()->key[DIK_RIGHT] - GetInstance()->key[DIK_LEFT]);
 		arrow.y = static_cast<float>(GetInstance()->key[DIK_UP]	- GetInstance()->key[DIK_DOWN]);
 	}
 
-	XMFLOAT2 result = pad + wasd + arrow;
-	normalize2(result);
+	Vector2 result = pad + wasd + arrow;
+	result.normalize();
 	return result;
 }
 
-XMFLOAT2 Input::GetRStick(bool useWASD, bool useArrow)
+Vector2 Input::GetRStick(bool useWASD, bool useArrow)
 {
-	XMFLOAT2 pad;
+	Vector2 pad;
 	pad.x = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbRX) / 32767.0f;
 	pad.y = static_cast<float>(GetInstance()->xInputState.Gamepad.sThumbRY) / 32767.0f;
 
-	XMFLOAT2 wasd;
+	Vector2 wasd;
 	if (useWASD) {
 		wasd.x = static_cast<float>(GetInstance()->key[DIK_D] - GetInstance()->key[DIK_A]);
 		wasd.y = static_cast<float>(GetInstance()->key[DIK_W] - GetInstance()->key[DIK_S]);
 	}
 
-	XMFLOAT2 arrow;
+	Vector2 arrow;
 	if (useArrow) {
 		arrow.x = static_cast<float>(GetInstance()->key[DIK_RIGHT] - GetInstance()->key[DIK_LEFT]);
 		arrow.y = static_cast<float>(GetInstance()->key[DIK_UP] - GetInstance()->key[DIK_DOWN]);
 	}
 
-	XMFLOAT2 result = pad + wasd + arrow;
-	normalize2(result);
+	Vector2 result = pad + wasd + arrow;
+	result.normalize();
 	return result;
 }
 
-XMFLOAT2 Input::GetMousePostion()
+Vector2 Input::GetMousePostion()
 {
-	return XMFLOAT2();
+	return Vector2();
 }
 
-const DirectX::XMFLOAT2 operator+=(DirectX::XMFLOAT2& v1, const DirectX::XMFLOAT2& v2)
-{
-	v1.x += v2.x;
-	v1.y += v2.y;
-
-	return v1;
-}
-
-const DirectX::XMFLOAT2 operator+(const DirectX::XMFLOAT2& v1, const DirectX::XMFLOAT2& v2)
-{
-	XMFLOAT2 temp(v1);
-	return temp += v2;
-}
-
-float length2(DirectX::XMFLOAT2& a)
-{
-	return sqrtf(a.x * a.x + a.y * a.y);
-}
-
-void normalize2(DirectX::XMFLOAT2& a)
-{
-	float len = length2(a);
-	if (len != 0)
-	{
-		a.x /= len;
-		a.y /= len;
-		return;
-	}
-
-	return;
-}

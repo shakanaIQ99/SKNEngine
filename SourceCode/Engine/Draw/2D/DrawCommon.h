@@ -2,34 +2,33 @@
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 #include<string>
-#include <DirectXMath.h>
+#include"myMath.h"
 using namespace std;
 
-using namespace DirectX;
 
 struct PNU
 {
-	XMFLOAT3 pos; // xyz座標
-	XMFLOAT3 normal;
-	XMFLOAT2 uv;
+	Vector3 pos; // xyz座標
+	Vector3 normal;
+	Vector2 uv;
 };
 
 struct ConstBufferDataMaterial
 {
-	XMFLOAT3 ambient;
+	Vector3 ambient;
 	float pad1;
-	XMFLOAT3 diffuse;
+	Vector3 diffuse;
 	float pad2;
-	XMFLOAT3 specular;
+	Vector3 specular;
 	float alpha;
 };
 
 struct Material
 {
 	string name;
-	XMFLOAT3 ambient;
-	XMFLOAT3 diffuse;
-	XMFLOAT3 specular;
+	Vector3 ambient;
+	Vector3 diffuse;
+	Vector3 specular;
 
 	float alpha;
 	string textureFilename;

@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
-#include <DirectXMath.h>
 #include"WorldTronsform.h"
 #include<vector>
 #include<string>
@@ -10,6 +9,7 @@
 #include"Pipeline.h"
 #include"ViewProjection.h"
 #include"LightGroup.h"
+#include"Matrix4.h"
 
 
 using namespace DirectX;
@@ -29,7 +29,7 @@ public:
 
 	struct ConstBufferDataSkin
 	{
-		XMMATRIX bones[MAX_BONES];
+		Matrix4 bones[MAX_BONES];
 	};
 
 	static void SetDevice(ID3D12Device* Device) { Object3D::device = Device; }

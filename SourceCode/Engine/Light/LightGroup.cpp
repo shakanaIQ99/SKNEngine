@@ -1,6 +1,7 @@
 #include "LightGroup.h"
+#include<cassert>
 ID3D12Device* LightGroup::device = nullptr;
-using namespace DirectX;
+
 
 void LightGroup::StaticInitialize(ID3D12Device* _device)
 {
@@ -121,18 +122,18 @@ void LightGroup::DefaultLightSetting()
 {
 	dirLights[0].SetActive(true);
 	dirLights[0].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[0].SetLightDir({ 0.0f, -1.0f, 0.0f, 0 });
+	dirLights[0].SetLightDir({ 0.0f, -1.0f, 0.0f });
 
 	dirLights[1].SetActive(true);
 	dirLights[1].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[1].SetLightDir({ +0.5f, +0.1f, +0.2f, 0 });
+	dirLights[1].SetLightDir({+0.5f, +0.1f, +0.2f});
 
 	dirLights[2].SetActive(true);
 	dirLights[2].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[2].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
+	dirLights[2].SetLightDir({ -0.5f, +0.1f, -0.2f });
 }
 
-void LightGroup::SetAmbientColor(const XMFLOAT3& color)
+void LightGroup::SetAmbientColor(const Vector3& color)
 {
 	ambientColor = color;
 	dirty = true;
@@ -145,7 +146,7 @@ void LightGroup::SetDirLightActive(int index, bool active)
 	dirLights[index].SetActive(active);
 }
 
-void LightGroup::SetDirLightDir(int index, const XMVECTOR& lightdir)
+void LightGroup::SetDirLightDir(int index, const Vector3& lightdir)
 {
 	assert(0 <= index && index < DirLightNum);
 
@@ -153,7 +154,7 @@ void LightGroup::SetDirLightDir(int index, const XMVECTOR& lightdir)
 	dirty = true;
 }
 
-void LightGroup::SetDirLightColor(int index, const XMFLOAT3& lightcolor)
+void LightGroup::SetDirLightColor(int index, const Vector3& lightcolor)
 {
 	assert(0 <= index && index < DirLightNum);
 
@@ -167,21 +168,21 @@ void LightGroup::SetPointLightActive(int index, bool active)
 	pointLights[index].SetActive(active);
 }
 
-void LightGroup::SetPointLightPos(int index, const XMFLOAT3& lightpos)
+void LightGroup::SetPointLightPos(int index, const Vector3& lightpos)
 {
 	assert(0 <= index && index < PointLightNum);
 	pointLights[index].SetLightPos(lightpos);
 	dirty = true;
 }
 
-void LightGroup::SetPointLightColor(int index, const XMFLOAT3& lightcolor)
+void LightGroup::SetPointLightColor(int index, const Vector3& lightcolor)
 {
 	assert(0 <= index && index < PointLightNum);
 	pointLights[index].SetLightColor(lightcolor);
 	dirty = true;
 }
 
-void LightGroup::SetPointLightAtten(int index, const XMFLOAT3& lightatten)
+void LightGroup::SetPointLightAtten(int index, const Vector3& lightatten)
 {
 	assert(0 <= index && index < PointLightNum);
 	pointLights[index].SetLightAtten(lightatten);
