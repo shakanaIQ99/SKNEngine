@@ -14,7 +14,7 @@ void SpriteCommon::Initialize(DirectXCommon* _dxcommon)
 
 	spritepipline = Pipeline::CreateSpritePipline(dxcommon->GetDevice());
 
-	matProjection = Matrix4::OrthoGraphicProjection(0.0f, DxWindow::window_width, DxWindow::window_height, 0.0f, 0.0f, 1.0f);
+	matProjection = Matrix4::OrthoGraphicProjection(0.0f, DxWindow::window_width, 0.0f, DxWindow::window_height,  0.0f, 1.0f);
 
 }
 

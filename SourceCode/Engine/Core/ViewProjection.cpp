@@ -1,5 +1,6 @@
 #include "ViewProjection.h"
 #include"DxWindow.h"
+#include"myMath.h"
 
 void ViewProjection::Initialize()
 {
@@ -27,7 +28,7 @@ void ViewProjection::UpdateMatview()
 
 void ViewProjection::UpdateMatProjection()
 {
-	matProjection = Matrix4::PerspectiveProjection(45.0f, (float)DxWindow::window_width / DxWindow::window_height, nearClip, farClip);
+	matProjection = Matrix4::PerspectiveProjection(myMath::AngleToRadian(45.0f), (float)DxWindow::window_width / DxWindow::window_height, nearClip, farClip);
 }
 
 const Matrix4& ViewProjection::GetMAtView()

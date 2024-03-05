@@ -1,6 +1,8 @@
 #pragma once
+#include <cstdint>
 
 class Vector3;
+class Float4;
 
 class Vector2
 {
@@ -11,7 +13,10 @@ public:
 public:
 	//零ベクトル生成
 	Vector2();			
+
+
 	//x,y成分を指定して生成
+	Vector2(int32_t x, int32_t y);
 	Vector2(float x, float y);	
 
 	//関数

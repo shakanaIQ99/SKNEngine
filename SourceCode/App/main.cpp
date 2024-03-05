@@ -1,6 +1,6 @@
 #include"DxWindow.h"
 #include"DirectXCommon.h"
-#include"Object3D.h"
+//#include"Object3D.h"
 #include "OBJ3D.h"
 #include"Input.h"
 #include<wrl.h>
@@ -54,8 +54,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	Input::Init(window->GetHInstance(), window->GetHwnd());
 
 	OBJ3D::StaticInitialize(dxCommon->GetDevice());
-	Object3D::SetDevice(dxCommon->GetDevice());
-	Object3D::CreateGraphicsPipeline();
+	/*Object3D::SetDevice(dxCommon->GetDevice());
+	Object3D::CreateGraphicsPipeline();*/
 	Draw3DLine::SetDevice(dxCommon->GetDevice(),dxCommon->GetCommandList());
 	ParticleManager::StaticInitialize(dxCommon->GetDevice());
 	LightGroup::StaticInitialize(dxCommon->GetDevice());

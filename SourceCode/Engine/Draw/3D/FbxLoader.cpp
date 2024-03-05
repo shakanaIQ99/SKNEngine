@@ -419,13 +419,11 @@ string FbxLoader::ExtractFileName(const string& path)
 
 void FbxLoader::ConvertMatrixFromFbx(Matrix4* dst, const FbxAMatrix& src)
 {
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            dst->r[i].m128_f32[j] = (float)src.Get(i, j);
-        }
-    }
+    Matrix4 mat((float)src.Get(0, 0), (float)src.Get(0, 1), (float)src.Get(0, 2), (float)src.Get(0, 3),
+                (float)src.Get(1, 0), (float)src.Get(1, 1), (float)src.Get(1, 2), (float)src.Get(1, 3),
+                (float)src.Get(2, 0), (float)src.Get(2, 1), (float)src.Get(2, 2), (float)src.Get(2, 3),
+                (float)src.Get(3, 0), (float)src.Get(3, 1), (float)src.Get(3, 2), (float)src.Get(3, 3));
 
+    dst = &mat;
 
 }

@@ -17,8 +17,9 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	texturemanager->StaticInitialize(dxcommon);
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
+	
 	camera.Initialize(dxcommon->GetDevice());
-	Object3D::SetCamera(camera.getView());
+	//Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
 	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);

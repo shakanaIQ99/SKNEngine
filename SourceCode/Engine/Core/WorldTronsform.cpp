@@ -39,6 +39,8 @@ void WorldTransform::CreateConstBuffer(ID3D12Device* device)
 void WorldTransform::UpdateMatrix(ViewProjection* camera)
 {
 	
+	matWorld_ = Matrix4();
+
 	// ワールド行列の合成
 	matWorld_ *= Matrix4::Scaling(scale_.x, scale_.y, scale_.z);						// ワールド行列にスケーリングを反映
 	matWorld_ *= Matrix4::RotationZXY(rotation_.z, rotation_.x, rotation_.y);           // ワールド行列に回転を反映
@@ -63,6 +65,8 @@ void WorldTransform::UpdateMatrix(ViewProjection* camera)
 
 void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 {
+	matWorld_ = Matrix4();
+
 	// ワールド行列の合成
 	matWorld_ *= Matrix4::Scaling(scale_.x, scale_.y, scale_.z);						// ワールド行列にスケーリングを反映
 	matWorld_ *= Matrix4::RotationZXY(rotation_.z, rotation_.x, rotation_.y);           // ワールド行列に回転を反映
@@ -123,7 +127,7 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 
 void WorldTransform::UpdateSpriteMatrix(Matrix4 projection)
 {
-	
+	matWorld_ = Matrix4();
 
 	// ワールド行列の合成
 	matWorld_ *= Matrix4::Scaling(scale_.x, scale_.y, 1.0f);					// ワールド行列にスケーリングを反映

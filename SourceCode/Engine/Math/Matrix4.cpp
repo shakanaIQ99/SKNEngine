@@ -392,29 +392,36 @@ Matrix4 Matrix4::View(Vector3 eye, Vector3 target, Vector3 up)
 
 Matrix4 Matrix4::PerspectiveProjection(float fov, float aspect, float nearZ, float farZ)
 {
-	Matrix4 mat;
+	Matrix4 result;
 
-	Matrix4 _a; 
-	_a[0][0] = 1 / aspect;
+	result[1][1] = 1 / tanf(fov / 2);
+	result[0][0] = result[1][1] / aspect;
+	result[2][2] = farZ / (farZ - nearZ);
+	result[3][2] = (farZ * -nearZ) / (farZ - nearZ);
+	result[2][3] = 1;
+	result[3][3] = 0;
 
-	Matrix4 _b; 
-	_b[0][0] = 1 / tanf(fov / 2);
-	_b[1][1] = 1 / tanf(fov / 2);
-
-	Matrix4 _c; 
-	_c[2][2] = farZ * (1 / (farZ - nearZ));
-	_c[3][2] = farZ * (-nearZ / (farZ - nearZ));
-
-	mat = _a * _b * _c;
-	mat[2][3] = 1;
-	mat[3][3] = 0;
-
-	return mat;
+	return result;
 }
 
 Matrix4 Matrix4::OrthoGraphicProjection(float left, float right, float top, float bottom, float nearZ, float farZ)
 {
-	return Matrix4();
+	Matrix4 mat;
+
+	float width = 1.0f / (right - left);
+	float height = 1.0f / (top - bottom);
+	float range = 1.0f / (farZ - nearZ);
+
+	mat[0][0] = width * 2;
+	mat[1][1] = height * 2;
+	mat[2][2] = range;
+
+	mat[3][0] = -(left + right) * width;
+	mat[3][1] = -(top + bottom) * height;
+	mat[3][2] = -range * nearZ;
+	mat[3][3] = 1.0f;
+
+	return mat;
 }
 
 Matrix4 Matrix4::Viewport(float x, float y, float width, float height, float minDepth, float maxDepth)

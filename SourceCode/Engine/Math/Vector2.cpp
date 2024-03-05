@@ -7,10 +7,9 @@ Vector2::Vector2()
 {
 }
 
-Vector2::Vector2(float x, float y)
-	: x(x), y(y)
-{
-}
+Vector2::Vector2(int32_t x, int32_t y):x(static_cast<float>(x)),y(static_cast<float>(y)) {}
+
+Vector2::Vector2(float x, float y): x(x), y(y){}
 
 float Vector2::length() const
 {
@@ -22,11 +21,12 @@ Vector2& Vector2::normalize()
 	float len = length();
 	if (len != 0)
 	{
-		return *this /= len;
+		x = x / len;
+		y = y / len;
 	}
 	else {
-		this->x = 0;
-		this->y = 0;
+		x = 0;
+		y = 0;
 	}
 	return *this;
 }
@@ -38,8 +38,8 @@ Vector2 Vector2::getnormalize() const
 	float ny = 0;
 	if (len != 0)
 	{
-		nx = this->x / len;
-		ny = this->y / len;
+		nx = x / len;
+		ny = y / len;
 	}
 	return Vector2(nx, ny);
 }
@@ -62,12 +62,12 @@ Vector2 Vector2::operator-() const
 
 bool Vector2::operator==(const Vector2& v) const
 {
-	return this->x == v.x && this->y == v.y;
+	return x == v.x && y == v.y;
 }
 
 bool Vector2::operator!=(const Vector2& v) const
 {
-	return this->x != v.x || this->y != v.y;
+	return x != v.x || y != v.y;
 }
 
 Vector2& Vector2::operator+=(const Vector2& v)
@@ -100,22 +100,22 @@ Vector2& Vector2::operator/=(float s)
 
 Vector2 Vector2::operator+(const Vector2& v) const
 {
-	return Vector2(this->x + v.x, this->y + v.y);
+	return Vector2(x + v.x,y + v.y);
 }
 
 Vector2 Vector2::operator-(const Vector2& v) const
 {
-	return Vector2(this->x - v.x, this->y - v.y);
+	return Vector2(x - v.x, y - v.y);
 }
 
 Vector2 Vector2::operator*(const float s) const
 {
-	return Vector2(this->x * s, this->y * s);
+	return Vector2(x * s, y * s);
 }
 
 Vector2 Vector2::operator/(const float s) const
 {
-	return Vector2(this->x / s, this->y / s);
+	return Vector2(x / s, y / s);
 }
 
 Vector2::operator Vector3() const

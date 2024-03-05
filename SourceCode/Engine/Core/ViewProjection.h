@@ -38,8 +38,10 @@ private:
 	Vector3 up;
 
 	float aspect = 0.0f;
-	std::float_t nearClip = 0.1f;
-	std::float_t farClip = 2000.0f;
+	float nearClip = 0.1f;
+	//std::float_t nearClip = 0.1f;
+	float farClip = 2000.0f;
+	//std::float_t farClip = 2000.0f;
 	float angle = 0.0f;
 	float distance = 50.0f;
 

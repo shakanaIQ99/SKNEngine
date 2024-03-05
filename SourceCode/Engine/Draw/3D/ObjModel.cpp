@@ -73,7 +73,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 		}
 		if (key == "v")
 		{
-			Vector3 position{};
+			Vector3 position;
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
@@ -81,7 +81,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 		}
 		if (key == "vt")
 		{
-			Vector2 texcoord{};
+			Vector2 texcoord;
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
 
@@ -91,7 +91,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 		}
 		if (key == "vn")
 		{
-			Vector3 normal{};
+			Vector3 normal;
 			line_stream >> normal.x;
 			line_stream >> normal.y;
 			line_stream >> normal.z;
