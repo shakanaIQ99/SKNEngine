@@ -288,8 +288,8 @@ void Player::Move()
 
 	playerPredictionPoint = St->Wt.translation_;
 	
-	//Flont.normalize();
-	Vector2 inputnum = Input::GetLStick(true, false);
+	
+	Vector2 inputnum = Input::GetLStick(true, true);
 
 	moveVec.x += (float)inputnum.x / SHRT_MAX;
 	moveVec.z += (float)inputnum.y / SHRT_MAX;

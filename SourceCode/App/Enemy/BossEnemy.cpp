@@ -456,7 +456,7 @@ void BossEnemy::SimpleShot()
 		AimMode = false;
 		if (CriticalAim)
 		{
-			BulletVec = LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), 3.0f) - St->Wt.translation_;
+			BulletVec = LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), 2.0f) - St->Wt.translation_;
 		}
 		else
 		{
