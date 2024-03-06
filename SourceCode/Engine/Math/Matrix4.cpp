@@ -305,7 +305,7 @@ Vector3 Matrix4::GetTranslation()
 
 Matrix4 Matrix4::Translation(float x, float y, float z)
 {
-	Matrix4 mat;
+	Matrix4 mat= Matrix4();
 	mat[3][0] = x;
 	mat[3][1] = y;
 	mat[3][2] = z;
@@ -314,7 +314,7 @@ Matrix4 Matrix4::Translation(float x, float y, float z)
 
 Matrix4 Matrix4::Scaling(float x, float y, float z)
 {
-	Matrix4 mat;
+	Matrix4 mat= Matrix4();
 	mat[0][0] = x;
 	mat[1][1] = y;
 	mat[2][2] = z;
@@ -323,7 +323,7 @@ Matrix4 Matrix4::Scaling(float x, float y, float z)
 
 Matrix4 Matrix4::RotationX(float radian)
 {
-	Matrix4 mat;
+	Matrix4 mat= Matrix4();
 	mat[1][1] = cosf(radian);
 	mat[1][2] = sinf(radian);
 	mat[2][1] = -sinf(radian);
@@ -333,7 +333,7 @@ Matrix4 Matrix4::RotationX(float radian)
 
 Matrix4 Matrix4::RotationY(float radian)
 {
-	Matrix4 mat;
+	Matrix4 mat= Matrix4();
 	mat[0][0] = cosf(radian);
 	mat[0][2] = -sinf(radian);
 	mat[2][0] = sinf(radian);
@@ -343,7 +343,7 @@ Matrix4 Matrix4::RotationY(float radian)
 
 Matrix4 Matrix4::RotationZ(float radian)
 {
-	Matrix4 mat;
+	Matrix4 mat= Matrix4();
 	mat[0][0] = cosf(radian);
 	mat[0][1] = sinf(radian);
 	mat[1][0] = -sinf(radian);
@@ -353,7 +353,7 @@ Matrix4 Matrix4::RotationZ(float radian)
 
 Matrix4 Matrix4::RotationZXY(float radianX, float radianY, float radianZ)
 {
-	Matrix4 mat;
+	Matrix4 mat=Matrix4();
 	mat *= RotationZ(radianZ);
 	mat *= RotationX(radianX);
 	mat *= RotationY(radianY);
@@ -385,14 +385,14 @@ Matrix4 Matrix4::View(Vector3 eye, Vector3 target, Vector3 up)
 	mat[3][1] = eye.y;
 	mat[3][2] = eye.z;
 
-	mat = -mat;
-	return mat;
+	//mat = -mat;
+	return -mat;
 }
 
 
 Matrix4 Matrix4::PerspectiveProjection(float fov, float aspect, float nearZ, float farZ)
 {
-	Matrix4 result;
+	Matrix4 result = Matrix4();
 
 	result[1][1] = 1 / tanf(fov / 2);
 	result[0][0] = result[1][1] / aspect;
@@ -406,7 +406,7 @@ Matrix4 Matrix4::PerspectiveProjection(float fov, float aspect, float nearZ, flo
 
 Matrix4 Matrix4::OrthoGraphicProjection(float left, float right, float top, float bottom, float nearZ, float farZ)
 {
-	Matrix4 mat;
+	Matrix4 mat=Matrix4();
 
 	float width = 1.0f / (right - left);
 	float height = 1.0f / (top - bottom);
@@ -426,7 +426,7 @@ Matrix4 Matrix4::OrthoGraphicProjection(float left, float right, float top, floa
 
 Matrix4 Matrix4::Viewport(float x, float y, float width, float height, float minDepth, float maxDepth)
 {
-	Matrix4 result;
+	Matrix4 result=Matrix4();
 	result[0][0] = width / 2.0f;
 	result[1][1] = -height / 2.0f;
 	result[2][2] = maxDepth - minDepth;

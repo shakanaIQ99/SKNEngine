@@ -15,11 +15,11 @@ public:
 
 	void UpdateMatProjection();
 
-	const Matrix4& GetMAtView();
-	const Matrix4& GetMatProjection();
-	const Vector3& Geteye();
-	const Vector3& Gettarget();
-	const Vector3& Getup();
+	const Matrix4 GetMAtView();
+	const Matrix4 GetMatProjection();
+	const Vector3 Geteye();
+	const Vector3 Gettarget();
+	const Vector3 Getup();
 	
 	void SetEye(const Vector3& eye_);
 	void SetTarget(const Vector3& target_);

@@ -330,7 +330,6 @@ void GameScene::TitleUpdate()
 
 void GameScene::GameUpdate()
 {
-	static XMVECTOR lightDir = { 0,1,5,0 };
 
 
 	ALLCol();

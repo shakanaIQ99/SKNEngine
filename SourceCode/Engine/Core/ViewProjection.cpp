@@ -31,27 +31,27 @@ void ViewProjection::UpdateMatProjection()
 	matProjection = Matrix4::PerspectiveProjection(myMath::AngleToRadian(45.0f), (float)DxWindow::window_width / DxWindow::window_height, nearClip, farClip);
 }
 
-const Matrix4& ViewProjection::GetMAtView()
+const Matrix4 ViewProjection::GetMAtView()
 {
 	return matView;
 }
 
-const Matrix4& ViewProjection::GetMatProjection()
+const Matrix4 ViewProjection::GetMatProjection()
 {
 	return matProjection;
 }
 
-const Vector3& ViewProjection::Geteye()
+const Vector3 ViewProjection::Geteye()
 {
 	return eye;
 }
 
-const Vector3& ViewProjection::Gettarget()
+const Vector3 ViewProjection::Gettarget()
 {
 	return target;
 }
 
-const Vector3& ViewProjection::Getup()
+const Vector3 ViewProjection::Getup()
 {
 	return up;
 }

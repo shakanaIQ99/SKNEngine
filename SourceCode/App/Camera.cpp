@@ -57,36 +57,36 @@ void Camera::Update()
 
 	if (targetWT)
 	{
-		Vector3 offset = { -20.0f,20.0f,-20.0f };
+		Vector3 offset = { 0,0,-20.0f };
 
 
-
-		Vector2 inputnum = Input::GetRStick(true, true);
+		//viewProjection_.SetEye(targetWT->translation_+offset);
+		/*Vector2 inputnum = Input::GetRStick(true, true);
 		cameraRotateY += (float)inputnum.x * cameraDPI;
 		rotateY += (float)inputnum.x * cameraDPI;
 		if ((cameraRotateX < 0.27f && (float)inputnum.y / SHRT_MAX>0) || (cameraRotateX > -0.6f && (float)inputnum.y / SHRT_MAX < 0))
 		{
 			cameraRotateX += (float)inputnum.y * cameraDPI;
 			rotateX -= (float)inputnum.y * cameraDPI;
-		}
+		}*/
 
 		Vector3 cameraPoint = targetWT->translation_;
 
 		cameraPoint.y += 5.0f;
 		
 
-		offset.x = offset.x * sinf(cameraRotateY);
-		offset.z = offset.z * cosf(cameraRotateY);
-		offset.y = offset.y * sinf(-cameraRotateX);
+		//offset.x = offset.x * sinf(myMath::c(cameraRotateY);
+		//offset.z = offset.z * cosf(cameraRotateY);
+		//offset.y = offset.y * sinf(-cameraRotateX);
 
 
 
-		setRotate({ rotateX,rotateY,0 });
+		//setRotate({ rotateX,rotateY,0 });
 		viewProjection_.SetEye(cameraPoint + offset);
 		
 		viewProjection_.SetTarget(cameraPoint + forward);
 
-
+		//viewProjection_.SetTarget(targetWT->translation_);
 
 	}
 
