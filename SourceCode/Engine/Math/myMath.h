@@ -11,9 +11,13 @@ constexpr float PI = 3.1415926535897932384f;
 
 namespace myMath
 {
+	template <typename t>
 
-
-	Vector3 lerp(Vector3 vector, Vector3 vector2, float t);
+	//正負を返す
+	t sign(t A) 
+	{
+		return static_cast<t>((A > 0) - (A < 0));
+	}
 
 	//double 
 

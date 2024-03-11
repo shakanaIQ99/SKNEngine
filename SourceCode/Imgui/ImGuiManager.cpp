@@ -3,8 +3,6 @@ using namespace SKNEngine;
 
 DirectXCommon* ImGuiManager::dxCommon = nullptr;
 ComPtr<ID3D12DescriptorHeap> ImGuiManager::srvheap;
-DescriptorHeap::DescriptorHeapViewHandle ImGuiManager::handle_;
-
 void ImGuiManager::Initialize(HWND hwnd, DirectXCommon* dxcommon)
 {
 	assert(dxcommon);
@@ -17,13 +15,13 @@ void ImGuiManager::Initialize(HWND hwnd, DirectXCommon* dxcommon)
 
 	ImGui::StyleColorsDark();
 
-	handle_ = dxCommon->GetDescriptorHeap()->AddSRV();
+	//handle_ = dxCommon->GetDescriptorHeap()->CreateSRV();
 
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX12_Init(dxCommon->GetDevice(), static_cast<int>(dxCommon->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, srvheap.Get(),
-		handle_.cpuHandle,
-		handle_.gpuHandle);
+		srvheap.Get()->GetCPUDescriptorHandleForHeapStart(),
+		srvheap.Get()->GetGPUDescriptorHandleForHeapStart());
 	ImGuiIO& io = ImGui::GetIO();
 
 	io.Fonts->AddFontDefault();

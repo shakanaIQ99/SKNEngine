@@ -30,6 +30,9 @@ public:
 	//外積
 	Vector3 cross(const Vector3& v)const;
 
+	//xz軸の2Dベクトル
+	Vector2 GetXZ()const;
+
 	//逆ベク
 	Vector3 operator-()const;
 
@@ -62,3 +65,5 @@ public:
 };
 
 Vector3 operator*(const float s, const Vector3& v);
+
+const Vector3 lerp(const Vector3& start, const Vector3& end, const float t);

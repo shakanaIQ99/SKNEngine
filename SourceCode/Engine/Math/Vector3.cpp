@@ -58,6 +58,11 @@ Vector3 Vector3::cross(const Vector3& v) const
 	return Vector3(this->y * v.z - this->z * v.y, this->z * v.x - this->x * v.z, this->x * v.y - this->y * v.x);
 }
 
+Vector2 Vector3::GetXZ() const
+{
+	return Vector2(x, z);
+}
+
 bool Vector3::operator==(const Vector3& a) const
 {
 	return this->x == a.x && this->y == a.y && this->z == a.z;
@@ -142,5 +147,10 @@ Vector3 operator*(const float s, const Vector3& v)
 	temp.z = v.z * s;
 
 	return temp;
+}
+
+const Vector3 lerp(const Vector3& start, const Vector3& end, const float t)
+{
+	return start + (end - start) * t;
 }
 

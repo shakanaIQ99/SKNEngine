@@ -28,6 +28,7 @@ UINT64 DescriptorHeap::CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Re
 	}
 	//SRVヒープの先頭ハンドルを取得
 	DescriptorHeapViewHandle handle{};
+	SRVCount++;
 
 	//ハンドルのポインタずらし
 	handle.cpuHandle.ptr = startCpuHandle.ptr + (static_cast<SIZE_T>(SRVCount) * incrementSize);

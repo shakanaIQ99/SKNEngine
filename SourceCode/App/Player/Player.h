@@ -240,6 +240,8 @@ private:
 
 	bool InfEN = false;
 
+	bool Muteki = false;
+
 
 
 	//--------
@@ -256,7 +258,7 @@ private:
 
 	bool endFlag = false;
 
-
+	
 	float diff = 0;
 
 	//ノックバック

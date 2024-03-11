@@ -121,6 +121,7 @@ void Player::Reset()
 	scale = 1.0f;
 	hpBarShakeNum = 0;
 	diff = 0;
+	
 }
 
 void Player::Update()
@@ -128,7 +129,7 @@ void Player::Update()
 	prePlayer.rotation_ = St->Wt.rotation_;
 	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
 	sprite_HPbar->Wt.scale_.x = (10.0f * HP / MaxHP);
-	prePlayer.translation_ = myMath::lerp(prePlayer.translation_, St->Wt.translation_, 0.3f);
+	prePlayer.translation_ =lerp(prePlayer.translation_, St->Wt.translation_, 0.3f);
 
 	sprite_ENGauge->Wt.scale_.x = ENGaugeSize * static_cast<float>(ENGauge) / static_cast<float>(ENMAXGauge);
 	if (HP > MaxHP)
@@ -218,7 +219,7 @@ void Player::Update()
 
 void Player::Damege(float dmg)
 {
-	HP -= dmg;
+	HP -= dmg * static_cast<float>(1 - Muteki);
 
 }
 
@@ -226,7 +227,7 @@ void Player::HitParticle(Vector3 vec)
 {
 	if (!Death())
 	{
-		for (size_t i = 0; i < 10; i++)
+		for (size_t i = 0; i < 4; i++)
 		{
 			std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
 			newBullet->CreateHitParticle(St->Wt.translation_, St->Wt.rotation_, vec, 0.5f, { 0,0.3f,1.0f,1.0f });
@@ -609,6 +610,7 @@ void Player::ImGuiSet()
 	ImGui::NewLine();
 	ImGui::Text("BoostMode::%d", BoostMode);
 	ImGui::Checkbox("InfEN", &InfEN);
+	ImGui::Checkbox("Muteki", &Muteki);
 	ImGui::Checkbox("colLock", &colLock);
 
 

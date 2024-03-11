@@ -99,6 +99,8 @@ void BossEnemy::Reset()
 	rotaVec = { 0,0,1.0f };
 	DpRate = 0;
 	scale = 4.0f;
+	criAimTimer = 0;
+	crossLine = 0;
 	//St->Wt.scale_ = { scale,scale,scale };
 }
 
@@ -168,6 +170,7 @@ void BossEnemy::Update(bool flag)
 
 	if (!flag && !Death())
 	{
+		aiming();
 		//攻撃state
 		switch (BossAtk)
 		{
@@ -456,7 +459,7 @@ void BossEnemy::SimpleShot()
 		AimMode = false;
 		if (CriticalAim)
 		{
-			BulletVec = LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), 2.0f) - St->Wt.translation_;
+			BulletVec = aimingTargetPos - St->Wt.translation_;
 		}
 		else
 		{
@@ -464,7 +467,7 @@ void BossEnemy::SimpleShot()
 		}
 		BulletVec.normalize();
 
-		BulletVec *= 2.0f;
+		BulletVec *= nBulletSpeed;
 		
 		
 
@@ -512,7 +515,7 @@ void BossEnemy::HardShot()
 	{
 		if (TargetTimer > 10)
 		{
-			TargetPos = player->GetPos();
+			TargetPos = aimingTargetPos;
 
 		}
 		TargetTimer--;
@@ -538,7 +541,7 @@ void BossEnemy::HardShot()
 		{
 			Vector3 HardBullet = BulletVec * matRot[i];
 			HardBullet.normalize();
-			HardBullet *= 5.0f;
+			HardBullet *= hBulletSpeed;
 
 			std::unique_ptr <EnemyNormalBullet> newBullet = std::make_unique<EnemyNormalBullet>();
 			newBullet->Initlize(St->Wt.translation_, St->Wt.rotation_, HardBullet);
@@ -704,11 +707,26 @@ void BossEnemy::ImGuiSet()
 
 void BossEnemy::aiming()
 {
-	
+	Vector3 criticalAimPos = LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), nBulletSpeed);
 
+	float judgeLine = crossLine;
 
+	aimingTargetPos = player->GetPos();
 
+	aimingTargetPos = lerp(player->GetPos(), criticalAimPos, static_cast<float>(criAimTimer / criAimTime));
 
+	criAimTimer++;
+	/*LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), nBulletSpeed)*/
+	if (criAimTimer > criAimTime)criAimTimer = criAimTime;
+
+	Vector2 a = (player->GetPos() - St->Wt.translation_).GetXZ();
+	Vector2 b = (criticalAimPos - St->Wt.translation_).GetXZ();
+
+	a.normalize();
+	b.normalize();
+
+	crossLine = a.cross(b);
+	if (myMath::sign(crossLine) != myMath::sign(judgeLine))criAimTimer = 0;
 
 }
 

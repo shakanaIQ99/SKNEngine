@@ -268,6 +268,9 @@ private:
 
 	std::list<std::unique_ptr<EnemyMine>> Mines_;
 
+	const float nBulletSpeed = 2.0f;
+	const float hBulletSpeed = 5.0f;
+
 	//照準周り
 	Vector3 TargetPos = { 0,0,0 };
 
@@ -284,6 +287,13 @@ private:
 	int BurstTime = BurstNum * BurstRate;
 
 	bool CriticalAim = true;
+
+	//予測撃ち関係
+	const size_t criAimTime = 30;
+	size_t criAimTimer = 0;
+
+	float crossLine = 0;
+
 
 	//突進攻撃
 	Vector3 TargetVec = { 0,0,0 };

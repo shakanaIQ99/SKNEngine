@@ -2,18 +2,6 @@
 
 
 
-Vector3 myMath::lerp(const Vector3 vector, Vector3 vector2, float t)
-{
-	Vector3 temp(vector);
-	temp.x = temp.x + t * (vector2.x - temp.x);
-	temp.y = temp.y + t * (vector2.y - temp.y);
-	temp.z = temp.z + t * (vector2.z - temp.z);
-
-
-
-	return temp;
-}
-
 float myMath::LerpShortAngle(float a, float b, float t)
 {
 
