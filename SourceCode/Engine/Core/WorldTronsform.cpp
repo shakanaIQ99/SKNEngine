@@ -43,7 +43,7 @@ void WorldTransform::UpdateMatrix(ViewProjection* camera)
 
 	// ワールド行列の合成
 	matWorld_ *= Matrix4::Scaling(scale_.x, scale_.y, scale_.z);						// ワールド行列にスケーリングを反映
-	matWorld_ *= Matrix4::RotationZXY(rotation_.z, rotation_.x, rotation_.y);           // ワールド行列に回転を反映
+	matWorld_ *= Matrix4::RotationZXY(rotation_.x, rotation_.y, rotation_.z);           // ワールド行列に回転を反映
 	matWorld_ *= Matrix4::Translation(translation_.x, translation_.y, translation_.z);          // ワールド行列に平行移動を反映
 
 	//// 親行列の指定がある場合は、掛け算する

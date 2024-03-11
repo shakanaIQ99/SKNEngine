@@ -295,9 +295,8 @@ void Player::Move()
 	moveVec.z += (float)inputnum.y / SHRT_MAX;
 
 
-	/*float p_pos = atan2(moveVec.x, moveVec.z);
+	float p_pos = atan2(moveVec.x, moveVec.z);
 	float c_vec = atan2(Flont.x, Flont.z);
-*/
 
 
 
@@ -307,10 +306,10 @@ void Player::Move()
 	if ((moveVec.x != 0 || moveVec.z != 0))
 	{
 		mae = { 0,0,1.0f };
-		//diff = p_pos+c_vec;
-		//St->Wt.rotation_.y = (p_pos + c_vec);	
+		diff = p_pos+c_vec;
+		/*St->Wt.rotation_.y = (p_pos + c_vec);*/	
 	}
-	St->Wt.rotation_.y = myMath::LerpShortAngle(St->Wt.rotation_.y, diff, 0.6f);
+	St->Wt.rotation_.y = myMath::LerpShortAngle(St->Wt.rotation_.y, diff, 0.5f);
 
 	mae *= St->Wt.matWorld_;
 
@@ -334,7 +333,7 @@ void Player::Move()
 
 	if (!DashFlag&& (moveVec.x != 0 || moveVec.z != 0))
 	{
-		St->Wt.translation_ += moveVec.getnormalize() * (move_speed + (move_speed * BoostMode));
+		St->Wt.translation_ += mae * (move_speed + (move_speed * BoostMode));
 		/*playerPredictionPoint = St->Wt.translation_ + mae * (move_speed + (move_speed * BoostMode));
 		playerPredictionPoint.y = 1.5f;*/
 	}
