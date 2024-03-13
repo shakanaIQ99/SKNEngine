@@ -17,7 +17,7 @@ void Sprite2D::Update()
 	Wt.UpdateSpriteMatrix(spritecommon->Getmat());
 }
 
-void Sprite2D::Draw(float x, float y, float x2, float y2, Vector2 anchor, bool flipX, bool flipY)
+void Sprite2D::Draw(float x, float y, float x2, float y2,bool flipX, bool flipY)
 {
 	int isFlipX, isFlipY;
 	if (flipX == false)isFlipX = 1;

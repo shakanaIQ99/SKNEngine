@@ -29,12 +29,12 @@ LRESULT DxWindow::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-void DxWindow::CreateGameWindow(const char* title, UINT windowStyle, int32_t clientWidth, int32_t clientHeight)
+void DxWindow::CreateGameWindow(const wchar_t* title, UINT windowStyle, int32_t clientWidth, int32_t clientHeight)
 {
 	winStyle_ = windowStyle;
 	winClass.cbSize = sizeof(WNDCLASSEX);
 	winClass.lpfnWndProc = (WNDPROC)WindowProc;	//ウィンドウプロシージャを設定
-	winClass.lpszClassName = L"Mecha Core";		//ウィンドウクラス名
+	winClass.lpszClassName = title;		//ウィンドウクラス名
 	winClass.hInstance = GetModuleHandle(nullptr);	//ウィンドウハンドル
 	winClass.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
 	//ウィンドウクラスをOSに登録する

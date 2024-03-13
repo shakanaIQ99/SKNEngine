@@ -28,7 +28,7 @@ public:
 
     void Update();
 
-    void Draw(float x, float y, float x2, float y2, Vector2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
+    void Draw(float x, float y, float x2, float y2, bool flipX = false, bool flipY = false);
 
     void Draw(Vector2 anchor = { 0.5f,0.5f }, bool flipX = false, bool flipY = false);
 

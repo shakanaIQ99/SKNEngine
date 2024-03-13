@@ -70,7 +70,7 @@ bool Vector3::operator==(const Vector3& a) const
 
 bool Vector3::operator!=(const Vector3& a) const
 {
-	return false;
+	return x != a.x || y != a.y || z != a.z;
 }
 
 
