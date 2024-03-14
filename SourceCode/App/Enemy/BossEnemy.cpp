@@ -82,7 +82,7 @@ void BossEnemy::Reset()
 		});
 
 	//各パラメータ初期化
-	BossAtk = AtkPattern::MISSILE;
+	BossAtk = AtkPattern::NONE;
 	BossMove = MovePattern::NONE;
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
@@ -533,9 +533,9 @@ void BossEnemy::HardShot()
 		
 
 		// スケール、回転、平行移動行列の計算
-		matRot[0] *= Matrix4::RotationX(5.0f);
-		matRot[1] *= Matrix4::RotationX(-5.0f);;
-		matRot[2] *= Matrix4::RotationX(0);
+		matRot[0] *= Matrix4::RotationY(5.0f);
+		matRot[1] *= Matrix4::RotationY(-5.0f);;
+		matRot[2] *= Matrix4::RotationY(0);
 
 		for (size_t i = 0; i < 3; i++)
 		{

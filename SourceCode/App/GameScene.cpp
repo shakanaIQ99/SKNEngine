@@ -207,8 +207,10 @@ void GameScene::Update()
 	SceneAlpha = easeOutSine(0, 255.0f, static_cast<float>(SceneChangeTimer), static_cast<float>(SceneChangeTime));
 	SceneCha->Wt.color = { SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f };
 	SceneCha->Update();
-
+#ifdef _DEBUG
 	ImGuiView();
+#endif
+	
 
 }
 
