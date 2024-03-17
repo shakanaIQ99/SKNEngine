@@ -207,11 +207,8 @@
     <ClCompile Include="SourceCode\App\Player\Player.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\App\Player\NormalBullet.cpp">
+    <ClCompile Include="SourceCode\App\Bullet\NormalBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\App\Enemy\EnemyNormalBullet.cpp">
-      <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Engine\Draw\PostEffect.cpp">
       <Filter>ソース ファイル\cppファイル\Draw</Filter>
@@ -246,13 +243,13 @@
     <ClCompile Include="SourceCode\App\Enemy\EnemyMine.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\App\BulletManager.cpp">
+    <ClCompile Include="SourceCode\App\Bullet\BulletManager.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\App\UI.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\App\Enemy\HomingBullet.cpp">
+    <ClCompile Include="SourceCode\App\Bullet\HomingBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
     </ClCompile>
   </ItemGroup>
@@ -383,11 +380,8 @@
     <ClInclude Include="SourceCode\App\Player\Player.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\Player\NormalBullet.h">
+    <ClInclude Include="SourceCode\App\Bullet\NormalBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\App\Enemy\EnemyNormalBullet.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Math\myMath.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Math</Filter>
@@ -419,16 +413,16 @@
     <ClInclude Include="SourceCode\App\Enemy\EnemyMine.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\BulletManager.h">
+    <ClInclude Include="SourceCode\App\Bullet\BulletManager.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\App\UI.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\Enemy\HomingBullet.h">
+    <ClInclude Include="SourceCode\App\Bullet\HomingBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\Bullet.h">
+    <ClInclude Include="SourceCode\App\Bullet\Bullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
   </ItemGroup>
