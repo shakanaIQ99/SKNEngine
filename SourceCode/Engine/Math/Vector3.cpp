@@ -94,9 +94,9 @@ Vector3& Vector3::operator+=(const Vector3& v)
 
 Vector3& Vector3::operator-=(const Vector3& v)
 {
-	this->x += v.x;
-	this->y += v.y;
-	this->z += v.z;
+	this->x -= v.x;
+	this->y -= v.y;
+	this->z -= v.z;
 
 	return *this;
 }

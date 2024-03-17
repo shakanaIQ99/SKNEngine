@@ -13,7 +13,7 @@ public:
 
 	static BulletManager* GetInstance();
 	
-	static void CreateHomingBullet(ObjModel* model, const Vector3& position, const Vector3& Target, float size, float BulletSpeed, const Tag& _tag);
+	static void CreateHomingBullet(ObjModel* model, const Vector3& position, const Vector3& velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag);
 	static void CreateNormalBullet(ObjModel* model,const Vector3& position, const Vector3& velocity, float size, float BulletSpeed, const Tag& _tag);
 
 	

@@ -4,7 +4,7 @@ class HomingBullet :public Bullet
 {
 public:
 
-	HomingBullet(ObjModel* model, const Vector3& position, const Vector3& Target, float size, float BulletSpeed, const Tag& _tag);
+	HomingBullet(ObjModel* model, const Vector3& position, const Vector3& velocity,Vector3* Target, float size, float BulletSpeed, const Tag& _tag);
 	
 	void Update() override;
 
@@ -14,12 +14,16 @@ public:
 private:
 
 	//速度
-	Vector3 TargetPos;
+	Vector3* TargetPos;
+
+	Vector3 firstPos;
 	//弾速
 	float bulletspeed = 0;
 
+	float HomingPower = 0;
+
 	//寿命<frm>
-	static const int32_t LifeTime = 60 * 5;
+	static const int32_t LifeTime = 60 * 10;
 
 	//デスタイマー
 	int32_t deathTimer_ = LifeTime;

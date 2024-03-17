@@ -19,7 +19,7 @@ void NormalBullet::Update()
 	//デスタイマーをひいて0以下になったらフラグを立てる
 	if (--deathTimer_ <= 0)
 	{
-		isDead_ = true;
+		onDead();
 	}
 }
 

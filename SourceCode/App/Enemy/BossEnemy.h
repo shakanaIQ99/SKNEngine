@@ -202,6 +202,7 @@ private:
 
 private:
 	std::unique_ptr<ObjModel> bulletModel;
+	std::unique_ptr<ObjModel> hbulletModel;
 
 	std::unique_ptr<OBJ3D> colBox;
 	bool colLock = false;
@@ -269,7 +270,7 @@ private:
 	std::list<std::unique_ptr<EnemyMine>> Mines_;
 
 	const float nBulletSpeed = 2.0f;
-	const float hBulletSpeed = 5.0f;
+	const float hBulletSpeed = 0.05f;
 
 	//照準周り
 	Vector3 TargetPos = { 0,0,0 };
@@ -307,8 +308,9 @@ private:
 
 	//認知範囲
 	float Lange = 0;
-	float LangeMax = 50;
-	float LangeMin = 10;
+	float LangeMax = 5.0f;
+	float LangeLong = 150.0f;
+	float LangeMin = 10.0f;
 
 	//地雷
 	const size_t mineNum = 6;

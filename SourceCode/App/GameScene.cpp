@@ -277,14 +277,21 @@ void GameScene::ALLCol()
 			
 			player.Damege(1.0f);
 			player.HitParticle(bullet->GetVec());
-			bullet->isDead_ = true;
+			bullet->onDead();
+		}
+		if (Collision::CheckSphereToSphere(playerSp, BulletSp) && bullet->tag == Tag::ENEMYHARD)
+		{
+
+			player.Damege(5.0f);
+			player.HitParticle(bullet->GetVec());
+			bullet->onDead();
 		}
 		if (Collision::CheckSphereToSphere(bossSp, BulletSp) && bullet->tag == Tag::PLAYER)
 		{
 
 			boss.Damege(2.0f);
 			boss.HitParticle(bullet->GetVec());
-			bullet->isDead_ = true;
+			bullet->onDead();
 		}
 		
 	}

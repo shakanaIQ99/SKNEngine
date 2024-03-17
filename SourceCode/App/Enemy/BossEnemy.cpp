@@ -18,6 +18,7 @@ void BossEnemy::Init()
 {
 	ModelInit("enemy");
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
+	hbulletModel.reset(ObjModel::LoadFromOBJ("bit"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
 	//St->Wt.scale_ = { 20.0f,20.0f,20.0f };
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -313,6 +314,32 @@ void BossEnemy::AtkTable()
 			
 
 		}
+
+		if (Lange > LangeLong)
+		{
+			mt19937 mt{ random_device{}() };
+
+			uniform_int_distribution<int> dist(1, 6);
+
+			int aktmode = dist(mt);
+
+			if (aktmode >= 4)
+			{
+				TargetTimer = TargetTime;
+				BossAtk = AtkPattern::SIMPLESHOT;
+				BurstTime = BurstNum * BurstRate;
+			}
+			else
+			{
+				TargetTimer = TargetTime;
+				BossAtk = AtkPattern::HARDSHOT;
+				BurstTime = BurstNum * BurstRate;
+			}
+
+
+
+
+		}
 		//突進攻撃範囲内
 		if (Lange < LangeMax)
 		{
@@ -515,17 +542,16 @@ void BossEnemy::HardShot()
 		
 
 		// スケール、回転、平行移動行列の計算
-		matRot[0] *= Matrix4::RotationY(5.0f);
-		matRot[1] *= Matrix4::RotationY(-5.0f);;
+		matRot[0] *= Matrix4::RotationY(10.0f);
+		matRot[1] *= Matrix4::RotationY(-10.0f);;
 		matRot[2] *= Matrix4::RotationY(0);
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			Vector3 HardBullet = BulletVec * matRot[i];
 			HardBullet.normalize();
-			HardBullet *= hBulletSpeed;
-
-			BulletManager::CreateNormalBullet(bulletModel.get(), St->Wt.translation_, HardBullet, 0.5f, hBulletSpeed, Tag::ENEMYNORMAL);
+			
+			BulletManager::CreateHomingBullet(hbulletModel.get(), St->Wt.translation_, HardBullet, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
 
 		}
 		

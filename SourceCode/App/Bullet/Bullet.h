@@ -20,13 +20,16 @@ public:
 
 	Vector3 GetVec() { return Velocity_.getnormalize(); }
 
-	//デスフラグ
-	bool isDead_ = false;
+	const bool isdead() { return isDead_; }
+
+	void onDead() { isDead_ = true; }
 
 	//速度
 	Vector3 Velocity_;
 
 	Tag tag = Tag::NONE;
-
+private:
+	//デスフラグ
+	bool isDead_ = false;
 };
 
