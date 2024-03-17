@@ -10,11 +10,13 @@ void Player::Init()
 {
 
 	ModelInit("Player");
+
+
 	
 
 	prePP.reset(OBJ3D::Create());
 	prePP->SetModel(model.get());
-	PlayerBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
+	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
 	
 	colBox.reset(OBJ3D::Create());
 	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
@@ -86,13 +88,7 @@ void Player::Reset()
 	HP = MaxHP;
 	St->Wt.translation_ = { 0,50.0f,0 };
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
-	const std::list<std::unique_ptr<BulletManager>>& Bullets = GetBullets();
-	for (const std::unique_ptr<BulletManager>& p_bullet : Bullets)
-	{
-		
-		p_bullet->OnCollision();
-		
-	}
+
 	const std::list<std::unique_ptr<DeathParticle>>& Dps = GetDps();
 	for (const std::unique_ptr<DeathParticle>& Dp : Dps)
 	{
@@ -100,11 +96,7 @@ void Player::Reset()
 		Dp->Death();
 
 	}
-	bullets_.remove_if([](std::unique_ptr<BulletManager>& bullet)
-		{
-			return bullet->IsDead();
-		});
-
+	
 	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
 		{
 			return dp->IsDead();
@@ -136,14 +128,6 @@ void Player::Update()
 	{
 		HP = MaxHP;
 	}
-
-	
-
-	bullets_.remove_if([](std::unique_ptr<BulletManager>& bullet)
-		{
-			return bullet->IsDead();
-		});
-
 
 	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
 		{
@@ -185,10 +169,6 @@ void Player::Update()
 
 	latetime--;
 
-	for (std::unique_ptr<BulletManager>& bullet : bullets_)
-	{
-		bullet->Update();
-	}
 
 	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
 	{
@@ -264,14 +244,7 @@ void Player::Attack(Vector3 flont)
 	/*velocity = VectorMat(velocity,player->Wt->matWorld_);
 	normalize(velocity);*/
 
-	Vector3 BulletStart = St->Wt.translation_ ;
-	velocity *= kBulletSpeed;
-
-
-	std::unique_ptr <BulletManager> newBullet = std::make_unique<PlayerBullet>();
-	newBullet->Initlize(BulletStart, St->Wt.rotation_, velocity);
-
-	bullets_.push_back(std::move(newBullet));
+	BulletManager::CreateNormalBullet(bulletModel.get(), St->Wt.translation_, velocity, 0.5f, kBulletSpeed, Tag::PLAYER);
 
 	
 }
@@ -620,10 +593,6 @@ void Player::ImGuiSet()
 
 void Player::Draw()
 {
-	for (std::unique_ptr<BulletManager>& bullet : bullets_)
-	{
-		bullet->Draw();
-	}
 	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
 	{
 		dp->Draw();

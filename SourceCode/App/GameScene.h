@@ -20,6 +20,7 @@
 #include"Draw3DLine.h"
 #include"Field.h"
 #include"DeathParticle.h"
+#include "BulletManager.h"
 
 enum struct SceneType
 {
@@ -92,7 +93,6 @@ private:
 	Player player;
 	BossEnemy boss;
 	Field field;
-
 
 	float cameraX = 0;
 	float cameraZ = 0;

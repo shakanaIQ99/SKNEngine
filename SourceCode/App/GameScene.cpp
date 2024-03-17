@@ -102,6 +102,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	player.Reset();
 	boss.Reset();
 	camera.Reset();
+	BulletManager::clear();
 }
 
 void GameScene::Update()
@@ -123,6 +124,7 @@ void GameScene::Update()
 			{
 				player.Reset();
 				boss.Reset();
+				BulletManager::clear();
 				camera.Reset();
 				GameUpdate();
 				//camera.setPos(boss.GetPos());
@@ -243,9 +245,7 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 
 void GameScene::ALLCol()
 {
-	const std::list<std::unique_ptr<BulletManager>>& playerBullets = player.GetBullets();
-
-	const std::list<std::unique_ptr<EnemyNormalBullet>>& enemyBullets = boss.GetBullets();
+	const std::list<std::unique_ptr<Bullet>>& Bullets = BulletManager::GetBulletList();
 
 	const std::list<std::unique_ptr<EnemyMine>>& enemyMines = boss.GetMines();
 
@@ -267,17 +267,24 @@ void GameScene::ALLCol()
 			player.HitParticle(player.GetPos() - boss.GetPos());
 		}
 	}
-	for (const std::unique_ptr<EnemyNormalBullet>& bullet : enemyBullets)
+	for (const std::unique_ptr<Bullet>& bullet : Bullets)
 	{
-		Sphere bossBulletSp;
-		bossBulletSp.center = bullet->GetWorldPosition();
-		bossBulletSp.radius = bullet->GetScale().x;
-		if (Collision::CheckSphereToSphere(playerSp, bossBulletSp))
+		Sphere BulletSp;
+		BulletSp.center = bullet->St->Wt.translation_;
+		BulletSp.radius = bullet->St->Wt.scale_.x;
+		if (Collision::CheckSphereToSphere(playerSp, BulletSp)&&bullet->tag==Tag::ENEMYNORMAL)
 		{
 			
 			player.Damege(1.0f);
 			player.HitParticle(bullet->GetVec());
-			bullet->OnCollision();
+			bullet->isDead_ = true;
+		}
+		if (Collision::CheckSphereToSphere(bossSp, BulletSp) && bullet->tag == Tag::PLAYER)
+		{
+
+			boss.Damege(2.0f);
+			boss.HitParticle(bullet->GetVec());
+			bullet->isDead_ = true;
 		}
 		
 	}
@@ -297,7 +304,7 @@ void GameScene::ALLCol()
 		}
 
 	}
-	for (const std::unique_ptr<BulletManager>& p_bullet : playerBullets)
+	/*for (const std::unique_ptr<BulletManager>& p_bullet : playerBullets)
 	{
 		Sphere playerBulletSp;
 		playerBulletSp.center =p_bullet->GetWorldPosition();
@@ -308,7 +315,7 @@ void GameScene::ALLCol()
 			boss.HitParticle(p_bullet->GetVec());
 			p_bullet->OnCollision();
 		}
-	}
+	}*/
 
 }
 
@@ -366,6 +373,8 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 
 	skydome->Draw();
 	field.Draw();
+
+	BulletManager::ManageBulletUpdate();
 
 	player.Draw();
 	boss.Draw();

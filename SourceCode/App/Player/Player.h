@@ -1,6 +1,5 @@
 #pragma once
 #include"Input.h"
-#include"PlayerBullet.h"
 #include"BulletManager.h"
 #include"StuructTransform.h"
 #include"ParticleManager.h"
@@ -78,8 +77,6 @@ public:
 
 	Vector3 GetPredictionPoint() { return playerPredictionPoint; }
 
-	const std::list<std::unique_ptr<BulletManager>>& GetBullets() { return bullets_; };
-
 	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
 
 	WorldTransform prePlayer;
@@ -116,6 +113,8 @@ private:
 	WorldTransform* boss;
 
 	std::unique_ptr<OBJ3D> prePP;
+
+	std::unique_ptr<ObjModel> bulletModel;
 
 	std::unique_ptr<OBJ3D> colBox;
 	bool colLock = false;
@@ -159,9 +158,6 @@ private:
 	float scale = 1.0f;
 	int DpRate = 0;
 	const int DpRateNum = 1;
-
-	//弾関連
-	std::list<std::unique_ptr<BulletManager>> bullets_;
 
 	std::list<std::unique_ptr<DeathParticle>> deathPaticles;
 

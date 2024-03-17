@@ -11,6 +11,7 @@
 #include"FPS.h"
 //#include"FbxLoader.h"
 #include"ParticleManager.h"
+#include"BulletManager.h"
 #include"PostEffect.h"
 #include"SpriteCommon.h"
 #include"Draw3DLine.h"
@@ -52,7 +53,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 	Input::Init(window->GetHInstance(), window->GetHwnd());
-
 	OBJ3D::StaticInitialize(dxCommon->GetDevice());
 	/*Object3D::SetDevice(dxCommon->GetDevice());
 	Object3D::CreateGraphicsPipeline();*/

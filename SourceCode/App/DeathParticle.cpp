@@ -56,7 +56,6 @@ void DeathParticle::CreateHitParticle(const Vector3& position, const Vector3& ro
 	St->color = color;
 	Velocity_ = velocity;
 	Velocity_.y = 0;
-	Velocity_.normalize();
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());

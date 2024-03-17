@@ -1,62 +1,30 @@
 #pragma once
-#include "StuructTransform.h"
-using namespace DirectX;
+#include"HomingBullet.h"
+#include"NormalBullet.h"
+#include"ObjModel.h"
+#include"Bullet.h"
 
-class BulletManager:public StuructTransform
+class BulletManager
 {
 public:
 
 
 	BulletManager();
-	virtual ~BulletManager();
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <param name="model">モデル</param>
-	/// <param name="position">初期座標</param>
-	/// <param name="velocity">速度</param>
-	virtual void Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity);
+	static BulletManager* GetInstance();
+	
+	static void CreateHomingBullet(ObjModel* model, const Vector3& position, const Vector3& Target, float size, float BulletSpeed, const Tag& _tag);
+	static void CreateNormalBullet(ObjModel* model,const Vector3& position, const Vector3& velocity, float size, float BulletSpeed, const Tag& _tag);
 
-	/// <summary>
-	/// 更新
-	/// </summary>
-	virtual void Update();
-
-	/// <summary>
-	/// 描画
-	/// </summary>
-	/// <param name="viewProjection">ビュープロジェクション</param>
-	virtual void Draw();
-
-	virtual bool IsDead()const { return isDead_; }
-
-	//衝突を検出したら呼び出されるコールバック関数
-	virtual void OnCollision();
-
-	Vector3 GetWorldPosition();
-	Vector3 GetScale();
-	Vector3 GetVec() { return Velocity_; }
+	
+	static void ManageBulletUpdate();
+	static void clear();
+	
+	static const std::list<std::unique_ptr<Bullet>>& GetBulletList() { return GetInstance()->manageBulletList; };
 
 private:
-
-
-	//モデル
-	//StuructTransform bullet;
-
-
-	//テクスチャハンドル
-
-
-	//速度
-	Vector3 Velocity_;
-
-
-	//デスフラグ
-	bool isDead_ = false;
-
-
-
+	void Initialize();
+	std::list<std::unique_ptr<Bullet>> manageBulletList;
 
 
 };

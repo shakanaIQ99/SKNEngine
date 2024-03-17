@@ -11,6 +11,10 @@ Vector3::Vector3(float x, float y, float z) : x(x), y(y), z(z)
 {
 }
 
+Vector3::Vector3(Vector3* vec):x(vec->x),y(vec->y),z(vec->z)
+{
+}
+
 
 float Vector3::length() const
 {
@@ -152,5 +156,19 @@ Vector3 operator*(const float s, const Vector3& v)
 const Vector3 lerp(const Vector3& start, const Vector3& end, const float t)
 {
 	return start + (end - start) * t;
+}
+
+const Vector3 slerp(const Vector3& start, const Vector3& end, const float t)
+{
+	float angle = std::acosf(start.getnormalize().dot(end.getnormalize()));
+
+	float sinTheta = std::sinf(angle);
+
+	float interStart = std::sinf(angle * (1.0f - t));
+	float interEnd = std::sinf(angle * t);
+
+	Vector3 slerpVec = (interStart * start.getnormalize() + interEnd * end.getnormalize()) / sinTheta;
+	
+	return slerpVec.getnormalize();
 }
 

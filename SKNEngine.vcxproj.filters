@@ -207,7 +207,7 @@
     <ClCompile Include="SourceCode\App\Player\Player.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\App\Player\PlayerBullet.cpp">
+    <ClCompile Include="SourceCode\App\Player\NormalBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Player</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\App\Enemy\EnemyNormalBullet.cpp">
@@ -251,6 +251,9 @@
     </ClCompile>
     <ClCompile Include="SourceCode\App\UI.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\Enemy\HomingBullet.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -380,7 +383,7 @@
     <ClInclude Include="SourceCode\App\Player\Player.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\Player\PlayerBullet.h">
+    <ClInclude Include="SourceCode\App\Player\NormalBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\App\Enemy\EnemyNormalBullet.h">
@@ -420,6 +423,12 @@
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\App\UI.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\Enemy\HomingBullet.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\Bullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
   </ItemGroup>

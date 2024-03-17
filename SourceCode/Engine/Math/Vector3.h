@@ -15,6 +15,8 @@ public:
 	//任意ベクトル
 	Vector3(float x, float y, float z);
 
+	Vector3(Vector3* vec);
+
 	Vector3(const float* floatArray) :Vector3(floatArray[0], floatArray[1], floatArray[2]){}
 
 	//関数
@@ -62,8 +64,12 @@ public:
 	Vector3 operator/(const float s) const;
 
 	operator Vector2() const;
+
+	
 };
 
 Vector3 operator*(const float s, const Vector3& v);
 
 const Vector3 lerp(const Vector3& start, const Vector3& end, const float t);
+
+const Vector3 slerp(const Vector3& start, const Vector3& end, const float t);

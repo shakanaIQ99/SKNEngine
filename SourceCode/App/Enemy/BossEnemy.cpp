@@ -17,7 +17,7 @@ BossEnemy::BossEnemy()
 void BossEnemy::Init()
 {
 	ModelInit("enemy");
-	EnemyNormalBullet::SetModel(ObjModel::LoadFromOBJ("maru"));
+	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
 	//St->Wt.scale_ = { 20.0f,20.0f,20.0f };
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -51,13 +51,7 @@ void BossEnemy::Reset()
 	St->Wt.translation_ = { 0,0.0f,20.0f };
 	HP = MaxHP;
 	//エフェクトや弾周りの初期化
-	const std::list<std::unique_ptr<EnemyNormalBullet>>& Bullets = GetBullets();
-	for (const std::unique_ptr<EnemyNormalBullet>& bullet : Bullets)
-	{
 
-		bullet->OnCollision();
-
-	}
 	const std::list<std::unique_ptr<EnemyMine>>& Mines = GetMines();
 	for (const std::unique_ptr<EnemyMine>& mine : Mines)
 	{
@@ -82,7 +76,7 @@ void BossEnemy::Reset()
 		});
 
 	//各パラメータ初期化
-	BossAtk = AtkPattern::NONE;
+	BossAtk = AtkPattern::MISSILE;
 	BossMove = MovePattern::NONE;
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
@@ -203,11 +197,6 @@ void BossEnemy::Update(bool flag)
 		}
 	}
 
-	//弾更新
-	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
-	{
-		bullet->Update();
-	}
 
 	for (std::unique_ptr<EnemyMine>& mine : Mines_)
 	{
@@ -250,10 +239,7 @@ void BossEnemy::Damege(float dmg)
 
 void BossEnemy::Draw()
 {
-	for (std::unique_ptr<EnemyNormalBullet>& bullet : Normalbullets_)
-	{
-		bullet->Draw();
-	}
+
 	for (std::unique_ptr<EnemyMine>& mine : Mines_)
 	{
 		mine->Draw();
@@ -401,7 +387,7 @@ void BossEnemy::MoveTable()
 		}
 	}
 
-	stopTimer--;
+	//stopTimer--;
 
 }
 
@@ -466,18 +452,14 @@ void BossEnemy::SimpleShot()
 			BulletVec = player->GetPos() - St->Wt.translation_;
 		}
 		BulletVec.normalize();
-
-		BulletVec *= nBulletSpeed;
 		
 		
 
 		//発射レート
 		if (BurstTime % BurstRate == 0)
 		{
-			std::unique_ptr <EnemyNormalBullet> newBullet = std::make_unique<EnemyNormalBullet>();
-			newBullet->Initlize(St->Wt.translation_, St->Wt.rotation_, BulletVec);
 
-			Normalbullets_.push_back(std::move(newBullet));
+			BulletManager::CreateNormalBullet(bulletModel.get(), St->Wt.translation_, BulletVec, 0.5f, nBulletSpeed, Tag::ENEMYNORMAL);
 
 		}
 		BurstTime--;
@@ -543,10 +525,7 @@ void BossEnemy::HardShot()
 			HardBullet.normalize();
 			HardBullet *= hBulletSpeed;
 
-			std::unique_ptr <EnemyNormalBullet> newBullet = std::make_unique<EnemyNormalBullet>();
-			newBullet->Initlize(St->Wt.translation_, St->Wt.rotation_, HardBullet);
-
-			Normalbullets_.push_back(std::move(newBullet));
+			BulletManager::CreateNormalBullet(bulletModel.get(), St->Wt.translation_, HardBullet, 0.5f, hBulletSpeed, Tag::ENEMYNORMAL);
 
 		}
 		
@@ -805,10 +784,7 @@ Vector3 BossEnemy::LinePrediction2(Vector3 shotPosition, Vector3 targetPosition,
 
 void BossEnemy::Bulletremove()
 {
-	Normalbullets_.remove_if([](std::unique_ptr<EnemyNormalBullet>& bullet)
-		{
-			return bullet->IsDead();
-		});
+
 	Mines_.remove_if([](std::unique_ptr<EnemyMine>& mine)
 		{
 			return mine->IsDead();

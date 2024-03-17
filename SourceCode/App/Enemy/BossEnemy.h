@@ -2,6 +2,8 @@
 //敵
 #include"StuructTransform.h"
 #include"EnemyNormalBullet.h"
+#include"BulletManager.h"
+#include"HomingBullet.h"
 #include"EnemyMine.h"
 #include"Draw3DLine.h"
 #include"Player.h"
@@ -87,7 +89,6 @@ public:
 	/// 弾削除
 	/// </summary>
 	void Bulletremove();
-	const std::list<std::unique_ptr<EnemyNormalBullet>>& GetBullets() { return Normalbullets_; }
 	const std::list<std::unique_ptr<EnemyMine>>& GetMines() { return Mines_; };
 
 	/// <summary>
@@ -201,6 +202,7 @@ private:
 	}
 
 private:
+	std::unique_ptr<ObjModel> bulletModel;
 
 	std::unique_ptr<OBJ3D> colBox;
 	bool colLock = false;
@@ -264,7 +266,6 @@ private:
 	const int WaitTime = 180;
 
 	//弾関連
-	std::list<std::unique_ptr<EnemyNormalBullet>> Normalbullets_;
 
 	std::list<std::unique_ptr<EnemyMine>> Mines_;
 

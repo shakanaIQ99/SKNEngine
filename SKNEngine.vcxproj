@@ -101,6 +101,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\App\Enemy\HomingBullet.cpp" />
     <ClCompile Include="SourceCode\App\BulletManager.cpp" />
     <ClCompile Include="SourceCode\App\Enemy\EnemyMine.cpp" />
     <ClCompile Include="SourceCode\App\DeathParticle.cpp" />
@@ -110,7 +111,7 @@
     <ClCompile Include="SourceCode\Engine\Draw\PostEffect.cpp" />
     <ClCompile Include="SourceCode\App\Enemy\EnemyNormalBullet.cpp" />
     <ClCompile Include="SourceCode\Engine\Draw\3D\Draw3DLine.cpp" />
-    <ClCompile Include="SourceCode\App\Player\PlayerBullet.cpp" />
+    <ClCompile Include="SourceCode\App\Player\NormalBullet.cpp" />
     <ClCompile Include="SourceCode\App\Camera.cpp" />
     <ClCompile Include="SourceCode\Engine\Math\Float4.cpp" />
     <ClCompile Include="SourceCode\Engine\Math\Matrix4.cpp" />
@@ -172,6 +173,8 @@
     <ClCompile Include="SourceCode\App\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\App\Bullet.h" />
+    <ClInclude Include="SourceCode\App\Enemy\HomingBullet.h" />
     <ClInclude Include="SourceCode\App\BulletManager.h" />
     <ClInclude Include="SourceCode\App\Enemy\EnemyMine.h" />
     <ClInclude Include="SourceCode\App\DeathParticle.h" />
@@ -180,7 +183,7 @@
     <ClInclude Include="SourceCode\Engine\Math\myMath.h" />
     <ClInclude Include="SourceCode\App\Enemy\EnemyNormalBullet.h" />
     <ClInclude Include="SourceCode\Engine\Draw\3D\Draw3DLine.h" />
-    <ClInclude Include="SourceCode\App\Player\PlayerBullet.h" />
+    <ClInclude Include="SourceCode\App\Player\NormalBullet.h" />
     <ClInclude Include="SourceCode\App\Camera.h" />
     <ClInclude Include="SourceCode\Engine\Math\Float4.h" />
     <ClInclude Include="SourceCode\Engine\Math\Matrix4.h" />
