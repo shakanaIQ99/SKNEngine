@@ -11,6 +11,7 @@ HomingBullet::HomingBullet(ObjModel* model, const Vector3& position, const Vecto
 	bulletspeed = BulletSpeed;
 	tag = _tag;
 	deathTimer_ = LifeTime;
+	St->color = { 1.0f,0,0,1.0f };
 
 	HomingPower = 0.4f;
 }

@@ -202,7 +202,7 @@ private:
 
 private:
 	std::unique_ptr<ObjModel> bulletModel;
-	std::unique_ptr<ObjModel> hbulletModel;
+	//std::unique_ptr<ObjModel> hbulletModel;
 
 	std::unique_ptr<OBJ3D> colBox;
 	bool colLock = false;
@@ -308,8 +308,8 @@ private:
 
 	//認知範囲
 	float Lange = 0;
-	float LangeMax = 5.0f;
-	float LangeLong = 150.0f;
+	float LangeMax = 50.0f;
+	float LangeLong = 80.0f;
 	float LangeMin = 10.0f;
 
 	//地雷

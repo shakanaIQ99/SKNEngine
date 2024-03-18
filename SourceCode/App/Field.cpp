@@ -2,6 +2,7 @@
 
 #include"ImGuiManager.h"
 const float Field::AreaLimit = 250.0f;	//半径
+const float Field::LimitLine = 125.0f;	//半径
 
 void Field::Init(Camera* _camera)
 {
@@ -57,7 +58,7 @@ void Field::Draw()
 
 float Field::GetArea()
 {
-	return AreaLimit;
+	return LimitLine;
 }
 
 float Field::GetUpArea()

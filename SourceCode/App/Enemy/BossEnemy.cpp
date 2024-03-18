@@ -18,7 +18,7 @@ void BossEnemy::Init()
 {
 	ModelInit("enemy");
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
-	hbulletModel.reset(ObjModel::LoadFromOBJ("bit"));
+	//hbulletModel.reset(ObjModel::LoadFromOBJ("bit"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
 	//St->Wt.scale_ = { 20.0f,20.0f,20.0f };
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -77,7 +77,7 @@ void BossEnemy::Reset()
 		});
 
 	//各パラメータ初期化
-	BossAtk = AtkPattern::MISSILE;
+	BossAtk = AtkPattern::NONE;
 	BossMove = MovePattern::NONE;
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
@@ -414,7 +414,7 @@ void BossEnemy::MoveTable()
 		}
 	}
 
-	//stopTimer--;
+	stopTimer--;
 
 }
 
@@ -551,7 +551,7 @@ void BossEnemy::HardShot()
 			Vector3 HardBullet = BulletVec * matRot[i];
 			HardBullet.normalize();
 			
-			BulletManager::CreateHomingBullet(hbulletModel.get(), St->Wt.translation_, HardBullet, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
+			BulletManager::CreateHomingBullet(bulletModel.get(), St->Wt.translation_, HardBullet, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
 
 		}
 		

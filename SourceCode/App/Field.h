@@ -31,6 +31,8 @@ private:
 
 	const float UpAreaLimit = 100.0f;
 
+	static const float LimitLine;
+
 	static const float AreaLimit;
 
 	const size_t LaneTileNum = 10;
