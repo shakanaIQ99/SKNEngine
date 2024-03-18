@@ -329,13 +329,15 @@ void Player::Move()
 		OnGround = false;
 	}
 
+
+
 	if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
 	{
-		St->Wt.translation_.x = Field::GetArea() - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
+		St->Wt.translation_.x = Field::GetArea() * (abs(St->Wt.translation_.x) / St->Wt.translation_.x) - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
 	}
 	if (St->Wt.translation_.z + St->Wt.scale_.z >= Field::GetArea() || St->Wt.translation_.z - St->Wt.scale_.z <= -Field::GetArea())
 	{
-		St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
+		St->Wt.translation_.z = Field::GetArea() * (abs(St->Wt.translation_.z) / St->Wt.translation_.z) - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
 	}
 	
 	prePP->Wt.translation_ = prePlayer.translation_;
