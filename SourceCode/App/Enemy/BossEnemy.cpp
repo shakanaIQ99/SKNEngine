@@ -96,7 +96,7 @@ void BossEnemy::Reset()
 	scale = 4.0f;
 	criAimTimer = 0;
 	crossLine = 0;
-	//St->Wt.scale_ = { scale,scale,scale };
+	St->Wt.scale_ = { scale,scale,scale };
 }
 
 void BossEnemy::Update(bool flag)
