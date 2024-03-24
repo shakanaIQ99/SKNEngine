@@ -3,7 +3,7 @@
 #include "Math/Easing.h"
 #include"Field.h"
 #include"myMath.h"
-
+#include"AudioManager.h"
 
 
 void Player::Init()
@@ -200,7 +200,7 @@ void Player::Update()
 void Player::Damege(float dmg)
 {
 	HP -= dmg * static_cast<float>(1 - Muteki);
-
+	AudioManager::Play("hit");
 }
 
 void Player::HitParticle(Vector3 vec)

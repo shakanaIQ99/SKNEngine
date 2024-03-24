@@ -5,6 +5,7 @@
 #include"Collision.h"
 #include"Easing.h"
 #include"DeathParticle.h"
+#include"AudioManager.h"
 
 using namespace SKNEngine;
 
@@ -33,6 +34,8 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	SceneChaHandle = texturemanager->LoadTexture("Resources/scene.png");
 	clearScHandle = texturemanager->LoadTexture("Resources/clear.png");
 	GameOverScHandle = texturemanager->LoadTexture("Resources/GameOver.png");
+
+	AudioManager::Load("Resources/Sound/aa.wav", "hit");
 	
 
 	//3Dモデル周り

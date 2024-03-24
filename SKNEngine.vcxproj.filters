@@ -258,6 +258,9 @@
     <ClCompile Include="SourceCode\App\Bullet\NormalBullet.cpp">
       <Filter>ソース ファイル\cppファイル\Application\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Engine\Core\AudioManager.cpp">
+      <Filter>ソース ファイル\cppファイル\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -430,6 +433,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\App\Bullet\NormalBullet.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Core\AudioManager.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

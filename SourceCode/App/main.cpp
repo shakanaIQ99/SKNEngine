@@ -15,6 +15,7 @@
 #include"PostEffect.h"
 #include"SpriteCommon.h"
 #include"Draw3DLine.h"
+#include "AudioManager.h"
 
 #include "GameScene.h"
 
@@ -61,6 +62,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 	PostEffect::SetDXCommon(dxCommon);
 	PostEffect::CreateGraphicsPipeline();
+	AudioManager::StaticInitialize();
 
 	
 
@@ -108,6 +110,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//FbxLoader::GetInstance()->Finalize();
 	complete_type_safe_delete(gameScene);
 	complete_type_safe_delete(postEffect);
+	AudioManager::StaticFinalize();
 	ImGuiManager::Finalize();
 	complete_type_safe_delete(dxCommon);
 	window->TerminateGameWindow();
