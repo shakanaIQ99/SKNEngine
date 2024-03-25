@@ -20,7 +20,7 @@ void BossEnemy::Init()
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
 	//hbulletModel.reset(ObjModel::LoadFromOBJ("bit"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
-	//St->Wt.scale_ = { 20.0f,20.0f,20.0f };
+	
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
 	LeserPoint.Init();
 	HP = MaxHP;
@@ -77,24 +77,33 @@ void BossEnemy::Reset()
 		});
 
 	//各パラメータ初期化
+	//パターン
 	BossAtk = AtkPattern::NONE;
 	BossMove = MovePattern::NONE;
+	//突撃攻撃関係
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
+	//地雷関係
 	mineCool = 0;
+
+	//射撃関係
 	TargetTimer = 0;
-	MoveTimer = 0;
+	aimingTargetPos = { 0,0,0 };
+	criAimTimer = 0;
+	//行動時間関係
+	moveTimer = 0;
 	stopTimer = 0;
 	WaitTimer = 0;
 	endFlag = false;
+	stepMoveTimer = 0;
+	//死亡時間
 	DeathTimer = 0;
 
-	aimingTargetPos = { 0,0,0 };
-
+	prePos = { 0,0,0 };
 	rotaVec = { 0,0,1.0f };
+	preVec = { 0,0,0 };
 	DpRate = 0;
-	scale = 4.0f;
-	criAimTimer = 0;
+	scale = 10.0f;
 	crossLine = 0;
 	St->Wt.scale_ = { scale,scale,scale };
 }
@@ -113,6 +122,9 @@ void BossEnemy::Update(bool flag)
 	{
 		DeathAnimetion();
 	}
+
+	/*preVec = { 0,0,0 };
+	prePos = { 0,0,0 };*/
 
 	//平面上の距離
 	Vector3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
@@ -150,8 +162,6 @@ void BossEnemy::Update(bool flag)
 		switch (BossMove)
 		{
 		case MovePattern::NONE:
-
-			//stopTimer = stopTime;
 			MoveTable();
 			break;
 		case MovePattern::BACK:
@@ -159,6 +169,12 @@ void BossEnemy::Update(bool flag)
 			break;
 		case MovePattern::CLOSEMOVE:
 			CloseMove();
+			break;
+		case MovePattern::FANSHAPE:
+			FanShapeMove();
+			break;
+		case MovePattern::SIDESTEP:
+			SideStepMove();
 			break;
 		}
 	}
@@ -345,40 +361,18 @@ void BossEnemy::AtkTable()
 		{
 			if (chargeCool < 0)
 			{
-				
-
-				
 				BossAtk = AtkPattern::CHARGE;
-				prePos = St->Wt.translation_;
-				prePos.y = 0;
-				TargetVec = player->GetPos() - St->Wt.translation_;
-				TargetVec.y = 0;
-				chargeLenge = TargetVec.length();
-				TargetVec.normalize();
-				chargeCool = chargeCoolTime;
-				chargeMoveAniTimer = chargeMoveAniTime;
-				
-
-				
+				ChargeAtkReset();
 			}
 			else if(mineCool<0)
 			{
 				BossAtk = AtkPattern::MINE;
-				TargetVec = player->GetPos() - St->Wt.translation_;
-				TargetVec.y = 0;
-				TargetVec.normalize();
-				mineThrowTimer = 0;
-				mineThrowDeg = 0;
-				mineCool = mineCoolTime;
-
-				
-
+				MineAttackReset();
 			}
 			else if(mineCool>0&& chargeCool>0)
 			{
-				TargetTimer = TargetTime;
 				BossAtk = AtkPattern::SIMPLESHOT;
-				BurstTime = BurstNum * BurstRate;
+				SimpleShotReset();
 			}
 
 
@@ -406,11 +400,11 @@ void BossEnemy::MoveTable()
 
 		if (TimeRand)
 		{
-			MoveTimer = LongMoveTime;
+			moveTimer = longMoveTime;
 		}
 		else
 		{
-			MoveTimer = MidMoveTime;
+			moveTimer = midMoveTime;
 		}
 	}
 
@@ -429,8 +423,12 @@ void BossEnemy::BackMove()
 
 	St->Wt.translation_ += moveVec;
 
-	MoveTimer--;
-	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
+	moveTimer--;
+	if (moveTimer < 0) { BossMove = MovePattern::NONE; }
+}
+
+void BossEnemy::BackMoveReset()
+{
 }
 
 void BossEnemy::CloseMove()
@@ -445,10 +443,69 @@ void BossEnemy::CloseMove()
 	St->Wt.translation_ += moveVec;
 
 
-	MoveTimer--;
-	if (MoveTimer < 0) { BossMove = MovePattern::NONE; }
+	moveTimer--;
+	if (moveTimer < 0) { BossMove = MovePattern::NONE; }
 }
 
+void BossEnemy::CloseMoveReset()
+{
+}
+
+void BossEnemy::SideStepMove()
+{
+	
+	Vector3 stepToPos = prePos + (Vector3(verticalVec.x, 0, verticalVec.y) * static_cast<float>(rightVec - leftVec));
+
+	St->Wt.translation_ = easeOutQuint(prePos, stepToPos, static_cast<float>(stepMoveTimer), static_cast<float>(stepMoveTime));
+
+	if (++stepMoveTimer > stepMoveTime|| !leftVec && !rightVec)
+	{
+		BossMove = MovePattern::NONE;
+		
+	}
+
+
+}
+
+void BossEnemy::SideStepMoveReset()
+{
+	preVec = player->GetPos() - St->Wt.translation_;
+	prePos = St->Wt.translation_;
+	stepMoveTimer = 0;
+	rightVec = false;
+	leftVec = false;
+
+	verticalVec = Vector2(preVec.GetXZ()).GetVerticalR();
+	verticalVec.normalize();
+	verticalVec *= stepDistance;
+
+	if (!Field::OutOfArea(verticalVec + (St->Wt.translation_).GetXZ(), scale))
+	{
+		rightVec = true;
+	}
+	if (!Field::OutOfArea(-verticalVec + (St->Wt.translation_).GetXZ(), scale))
+	{
+		//leftVec = true;
+	}
+
+	if (leftVec && rightVec)
+	{
+
+	}
+
+
+
+
+}
+
+
+void BossEnemy::FanShapeMove()
+{
+}
+
+void BossEnemy::FanShapeMoveReset()
+{
+}
 
 void BossEnemy::SimpleShot()
 {
@@ -500,6 +557,12 @@ void BossEnemy::SimpleShot()
 
 }
 
+void BossEnemy::SimpleShotReset()
+{
+	TargetTimer = TargetTime;
+	BurstTime = BurstNum * BurstRate;
+}
+
 void BossEnemy::ChargeAtk()
 {
 
@@ -515,6 +578,18 @@ void BossEnemy::ChargeAtk()
 	}
 
 
+}
+
+void BossEnemy::ChargeAtkReset()
+{
+	prePos = St->Wt.translation_;
+	prePos.y = 0;
+	TargetVec = player->GetPos() - St->Wt.translation_;
+	TargetVec.y = 0;
+	chargeLenge = TargetVec.length();
+	TargetVec.normalize();
+	chargeCool = chargeCoolTime;
+	chargeMoveAniTimer = chargeMoveAniTime;
 }
 
 void BossEnemy::HardShot()
@@ -559,6 +634,10 @@ void BossEnemy::HardShot()
 
 		
 	}
+}
+
+void BossEnemy::HardShotReset()
+{
 }
 
 void BossEnemy::MissileShot()
@@ -619,6 +698,16 @@ void BossEnemy::MineAttack()
 
 }
 
+void BossEnemy::MineAttackReset()
+{
+	TargetVec = player->GetPos() - St->Wt.translation_;
+	TargetVec.y = 0;
+	TargetVec.normalize();
+	mineThrowTimer = 0;
+	mineThrowDeg = 0;
+	mineCool = mineCoolTime;
+}
+
 void BossEnemy::ImGuiSet()
 {
 	//ImguI
@@ -646,13 +735,98 @@ void BossEnemy::ImGuiSet()
 	ImGui::DragFloat("Min", &LangeMin, 0.5f);
 	ImGui::DragFloat("Max", &LangeMax, 0.5f);
 	ImGui::NewLine();
-	static int AtkmodeNum = 0;
-	const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","HARDSHOT","MISSILE","MINE"};
-	ImGui::Combo("##AtkmodeNumCombo", &AtkmodeNum, AtkModes, IM_ARRAYSIZE(AtkModes));
+	
+	static int MovemodeNum = 0;
+	const char* MoveModes[] = { "NONE", "BACK", "CLOSEMOVE","FANSHAPE","SIDESTEP" };
+	ImGui::Combo("##MovemodeNumCombo", &MovemodeNum, MoveModes, IM_ARRAYSIZE(MoveModes));
 	ImGui::SameLine();
 	if (ImGui::Button("Change"))
 	{
-		switch (AtkmodeNum)
+		switch (MovemodeNum)
+		{
+		case 0:
+			BossMove = MovePattern::NONE;
+			break;
+		case 1:
+			BossMove = MovePattern::BACK;
+			BackMoveReset();
+			break;
+		case 2:
+			BossMove = MovePattern::CLOSEMOVE;
+			CloseMoveReset();
+			break;
+		case 3:
+			BossMove = MovePattern::FANSHAPE;
+			FanShapeMoveReset();
+			break;
+		case 4:
+			BossMove = MovePattern::SIDESTEP;
+			SideStepMoveReset();
+			break;
+		}
+
+	}
+	ImGui::Text("BossMoveMode::%s", MoveModes[static_cast<int>(BossMove)]);
+	//ImGui::NewLine();
+	//static int AtkmodeNum = 0;
+	//const char* AtkModes[] = { "NONE", "SIMPLESHOT", "CHARGE","HARDSHOT","MISSILE","MINE" };
+	//ImGui::Combo("##AtkmodeNumCombo", &AtkmodeNum, AtkModes, IM_ARRAYSIZE(AtkModes));
+	//ImGui::SameLine();
+	//if (ImGui::Button("Change"))
+	//{
+	//	switch (AtkmodeNum)
+	//	{
+	//	case 0:
+	//		BossAtk = AtkPattern::NONE;
+	//		break;
+	//	case 1:
+	//		TargetTimer = TargetTime;
+	//		BossAtk = AtkPattern::SIMPLESHOT;
+	//		BurstTime = BurstNum * BurstRate;
+	//		break;
+	//	case 2:
+	//		BossAtk = AtkPattern::CHARGE;
+	//		break;
+	//	case 3:
+	//		BossAtk = AtkPattern::HARDSHOT;
+	//		break;
+	//	case 4:
+	//		BossAtk = AtkPattern::MISSILE;
+	//		break;
+	//	case 5:
+	//		BossAtk = AtkPattern::MINE;
+	//		break;
+	//	}
+
+	//}
+	//ImGui::Text("BossAtkPattern::%s", AtkModes[static_cast<int>(BossAtk)]);
+
+	const char* items[] = { "NONE", "SIMPLESHOT", "CHARGE","HARDSHOT","MISSILE","MINE" };
+	static const char* current_item = items[0];
+	static int* aaaaas = 0;
+	if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
+	{
+		for (int n = 0; n < IM_ARRAYSIZE(items); n++)
+		{
+			bool is_selected = (current_item == items[n]); // You can store your selection however you want, outside or inside your objects
+			if (ImGui::Selectable(items[n],is_selected, ImGuiSelectableFlags_DontClosePopups))
+			{
+				current_item = items[n];
+				BossAtk= static_cast<AtkPattern>(n);
+			}
+			if (is_selected)
+			{
+				ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+			}
+
+			
+					
+		}
+		ImGui::EndCombo();
+	}
+	/*if (ImGui::Button("Change"))
+	{
+		switch (aaaaas)
 		{
 		case 0:
 			BossAtk = AtkPattern::NONE;
@@ -676,31 +850,9 @@ void BossEnemy::ImGuiSet()
 			break;
 		}
 
-	}
-	ImGui::Text("BossAtkPattern::%s", AtkModes[static_cast<int>(BossAtk)]);
+	}*/
+	ImGui::Text("aaa::%s", current_item);
 
-	ImGui::NewLine();
-	static int MovemodeNum = 0;
-	const char* MoveModes[] = { "NONE", "BACK", "CLOSEMOVE" };
-	ImGui::Combo("##MovemodeNumCombo", &MovemodeNum, MoveModes, IM_ARRAYSIZE(MoveModes));
-	ImGui::SameLine();
-	if (ImGui::Button("Change"))
-	{
-		switch (MovemodeNum)
-		{
-		case 0:
-			BossMove = MovePattern::NONE;
-			break;
-		case 1:
-			BossMove = MovePattern::BACK;
-			break;
-		case 2:
-			BossMove = MovePattern::CLOSEMOVE;
-			break;
-		}
-
-	}
-	ImGui::Text("BossMoveMode::%s", MoveModes[static_cast<int>(BossMove)]);
 	ImGui::NewLine();
 	ImGui::Text("HP::%5.2f", HP);
 	ImGui::DragFloat("HP", &HP, 0.2f);

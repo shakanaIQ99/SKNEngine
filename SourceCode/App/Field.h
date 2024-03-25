@@ -15,6 +15,8 @@ public:
 
 	static float GetArea();
 
+	static bool OutOfArea(const Vector2& pos,const float scale=0.0f);
+
 	float GetUpArea();
 
 	/// <summary>

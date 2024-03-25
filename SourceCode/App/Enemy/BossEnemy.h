@@ -23,6 +23,8 @@ enum struct MovePattern
 	NONE,
 	BACK,
 	CLOSEMOVE,
+	FANSHAPE,
+	SIDESTEP,
 };
 
 class BossEnemy : public StuructTransform
@@ -147,26 +149,43 @@ private:
 	/// 後退
 	/// </summary>
 	void BackMove();
+	void BackMoveReset();
 
 	/// <summary>
 	/// 接近
 	/// </summary>
 	void CloseMove();
+	void CloseMoveReset();
+
+	/// <summary>
+	/// 横移動
+	/// </summary>
+	void SideStepMove();
+	void SideStepMoveReset();
+
+	/// <summary>
+	/// 横移動(扇状に)
+	/// </summary>
+	void FanShapeMove();
+	void FanShapeMoveReset();
 
 	/// <summary>
 	/// 通常射撃
 	/// </summary>
 	void SimpleShot();
+	void SimpleShotReset();
 
 	/// <summary>
 	/// 突進攻撃
 	/// </summary>
 	void ChargeAtk();
+	void ChargeAtkReset();
 
 	/// <summary>
 	/// 強射撃
 	/// </summary>
 	void HardShot();
+	void HardShotReset();
 
 	/// <summary>
 	/// ミサイル
@@ -177,6 +196,7 @@ private:
 	/// 地雷
 	/// </summary>
 	void MineAttack();
+	void MineAttackReset();
 
 	/// <summary>
 	/// ImGui関係
@@ -215,7 +235,7 @@ private:
 
 	Vector3 rotaVec = { 0,0,0 };
 
-	float scale = 4.0f;
+	float scale = 10.0f;
 	int DpRate = 0;
 	const int DpRateNum = 1;
 
@@ -233,6 +253,7 @@ private:
 
 	//汎用
 	Vector3 prePos = { 0,0,0 };
+	Vector3 preVec = { 0,0,0 };
 	Player* player;
 
 	Vector3 aimingTargetPos = { 0,0,0 };
@@ -249,11 +270,19 @@ private:
 	//行動パターン
 	MovePattern BossMove = MovePattern::NONE;
 
-	const int LongMoveTime = 60 * 6;
+	const int longMoveTime = 60 * 6;
 
-	const int MidMoveTime = 60 * 3;
+	const int midMoveTime = 60 * 3;
 
-	int MoveTimer = 0;
+	int moveTimer = 0;
+
+	const float stepDistance = 20.0f;
+	bool rightVec = false;
+	bool leftVec = false;
+	Vector2 verticalVec;
+
+	const size_t stepMoveTime = 30;
+	size_t stepMoveTimer = 0;
 
 	float Angle = 0;
 

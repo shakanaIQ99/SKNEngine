@@ -31,6 +31,8 @@ public:
 	float dot(const Vector2& v)const;	
 	//外積
 	float cross(const Vector2& v)const;	
+	//垂直ベクトル(右側)
+	Vector2 GetVerticalR(bool left=false) const;
 
 	//逆ベク
 	Vector2 operator-()const;

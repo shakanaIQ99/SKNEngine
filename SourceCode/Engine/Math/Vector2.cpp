@@ -54,6 +54,13 @@ float Vector2::cross(const Vector2& v) const
 	return x * v.y - y * v.x;
 }
 
+Vector2 Vector2::GetVerticalR(bool left) const
+{
+	if(left)return Vector2(y, -x);
+	return Vector2(-y, x);
+}
+
+
 
 Vector2 Vector2::operator-() const
 {

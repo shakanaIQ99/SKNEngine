@@ -355,6 +355,7 @@ void Player::Jump(Vector3 front)
 			JumpVec = front;
 			UseEN = true;
 			ENGauge -= JumpUseGauge;
+			AudioManager::Play("aaaa");
 		}
 		if (Input::GetPadButton(XINPUT_GAMEPAD_A) && !DashFlag && !JumpFlag)
 		{

@@ -25,6 +25,16 @@ float easeOutQuint(float start, float end, float movetime, float endtime)
 	return start + (1 - static_cast<float>(pow(1 - time, 5))) * (end - start);
 }
 
+Vector3 easeOutQuint(Vector3 start, Vector3 end, float movetime, float endtime)
+{
+	Vector3 vec;
+	vec.x = easeOutQuint(start.x, end.x, movetime, endtime);
+	vec.y = easeOutQuint(start.y, end.y, movetime, endtime);
+	vec.z = easeOutQuint(start.z, end.z, movetime, endtime);
+
+	return vec;
+}
+
 double EaseInBack(float t, int start, int end, int num, double p1)
 {
 	const double c1 = p1;

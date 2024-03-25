@@ -64,6 +64,15 @@ public:
 		return St->Wt.translation_;
 	}
 
+	Vector3 GetMoveVec(bool norm = false)
+	{
+		if (norm)
+		{
+			return (mae - St->Wt.translation_).getnormalize();
+		}
+		return mae - St->Wt.translation_;
+	}
+
 	WorldTransform GetPre() 
 	{
 		return prePlayer;

@@ -36,6 +36,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	GameOverScHandle = texturemanager->LoadTexture("Resources/GameOver.png");
 
 	AudioManager::Load("Resources/Sound/aa.wav", "hit");
+	AudioManager::Load("Resources/Sound/SE_spark.wav", "aaaa");
 	
 
 	//3Dモデル周り

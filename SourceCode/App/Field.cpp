@@ -61,6 +61,16 @@ float Field::GetArea()
 	return LimitLine;
 }
 
+bool Field::OutOfArea(const Vector2& pos, const float scale)
+{
+	if (pos.x + scale > LimitLine || pos.x - scale < -LimitLine || pos.y + scale>LimitLine || pos.y - scale < -LimitLine)
+	{
+		return true;
+	}
+	return false;
+}
+
+
 float Field::GetUpArea()
 {
 	return UpAreaLimit;
