@@ -79,7 +79,7 @@ void BossEnemy::Reset()
 	//各パラメータ初期化
 	//パターン
 	BossAtk = AtkPattern::NONE;
-	BossMove = MovePattern::FANSHAPE;
+	BossMove = MovePattern::NONE;
 	//突撃攻撃関係
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
@@ -469,10 +469,57 @@ void BossEnemy::SideStepMoveReset()
 
 void BossEnemy::FanShapeMove()
 {
+	float length = preVec2.length();
+	// 中心座標に角度と長さを使用した円の位置を加算する
+		// 度数法の角度を弧度法に変換
+	
+
+	// 三角関数を使用し、円の位置を割り出す。
+	float add_x = sinf(fanMoveAngle) * length;
+	float add_z = cosf(fanMoveAngle) * length;
+
+	// 結果ででた位置を中心位置に加算し、それを描画位置とする
+	St->Wt.translation_.x = prePos.x + add_x;
+	St->Wt.translation_.z = prePos.z + add_z;
+
+	fanMoveAngle += myMath::AngleToRadian(1.0f);
+
+	if (abs(fanMoveAngle) > myMath::AngleToRadian(360.0f))
+	{
+		fanMoveAngle = abs(static_cast<float>(std::fmod(static_cast<double>(fanMoveAngle), static_cast<double>(myMath::AngleToRadian(360.0f)))));
+	}
+
 }
 
 void BossEnemy::FanShapeMoveReset()
 {
+	preVec2 = St->Wt.translation_.GetXZ() - player->GetPos().GetXZ();
+	prePos = player->GetPos();
+
+	Vector2 frontZ(0.0f, 1.0f);
+
+	//ベクトルAとBの長さを計算する
+	float length_B = preVec2.getnormalize().length();
+	float length_A = frontZ.getnormalize().length();
+
+	//内積とベクトル長さを使ってcosθを求める
+	float cos_sita = frontZ.getnormalize().dot(preVec2.getnormalize()) / (length_A * length_B);
+
+	
+
+	//cosθからθを求める
+	if (frontZ.getnormalize().cross(preVec2.getnormalize()) < 0)
+	{
+		fanMoveAngle = acos(cos_sita);
+	}
+	else
+	{
+		fanMoveAngle = myMath::AngleToRadian(360.0f) - acos(cos_sita);
+	}
+	
+
+	
+
 }
 
 void BossEnemy::SimpleShot()
@@ -687,6 +734,8 @@ void BossEnemy::ImGuiSet()
 	ImGui::Text("Lange::%5.2f", Lange);
 	ImGui::DragFloat("Min", &LangeMin, 0.5f);
 	ImGui::DragFloat("Max", &LangeMax, 0.5f);
+	ImGui::Text("fanMoveAngle::%5.2f", myMath::RadianToAngle(fanMoveAngle));
+	
 	ImGui::NewLine();
 	
 	static int MovemodeNum = 0;

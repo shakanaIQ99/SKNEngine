@@ -183,11 +183,7 @@ const Vector3 slerp(const Vector3& start, const Vector3& end, const float t)
 		slerpVec = (interStart * start.getnormalize() + interEnd * end.getnormalize()) / sinTheta;
 	}
 
-	/*float lenStart = start.length();
-	float lenEnd = end.length();
-
-	float length = lenStart + (lenEnd - lenStart) * t;*/
-
-	return slerpVec.getnormalize() /** length*/;
+	
+	return slerpVec.getnormalize() ;
 }
 

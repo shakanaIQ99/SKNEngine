@@ -253,6 +253,7 @@ private:
 
 	//汎用
 	Vector3 prePos = { 0,0,0 };
+	Vector2 preVec2 = { 0,0 };
 	Vector3 preVec = { 0,0,0 };
 	Player* player;
 
@@ -293,6 +294,9 @@ private:
 
 	int WaitTimer = 0;
 	const int WaitTime = 180;
+
+	//扇移動
+	float fanMoveAngle = 0;
 
 	//弾関連
 

@@ -7,7 +7,7 @@
 
 
 
-constexpr float PI = 3.1415926535897932384f;
+constexpr float MY_PI = 3.1415926535897932384f;
 constexpr float F_Max = 1.000000f;
 constexpr float F_Min = -1.000000f;
 

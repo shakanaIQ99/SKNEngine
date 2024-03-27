@@ -35,11 +35,11 @@ float myMath::LerpShortAngle(float a, float b, float t)
 
 float myMath::AngleToRadian(float angle)
 {
-	return angle * (PI / 180.0f);
+	return angle * (MY_PI / 180.0f);
 }
 
 float myMath::RadianToAngle(float radian)
 {
-	return radian * (180 / PI);
+	return radian * (180 / MY_PI);
 }
 
