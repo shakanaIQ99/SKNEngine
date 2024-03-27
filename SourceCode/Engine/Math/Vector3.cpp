@@ -1,6 +1,7 @@
 #include "Vector3.h"
 #include "Vector2.h"
 #include<cmath>	//sqrt
+#include"myMath.h"
 
 Vector3::Vector3() : x(0), y(0), z(0)
 {
@@ -160,15 +161,33 @@ const Vector3 lerp(const Vector3& start, const Vector3& end, const float t)
 
 const Vector3 slerp(const Vector3& start, const Vector3& end, const float t)
 {
-	float angle = std::acosf(start.getnormalize().dot(end.getnormalize()));
+	float dot = start.getnormalize().dot(end.getnormalize());
+
+	if (dot > F_Max)dot = F_Max;
+	if (dot < F_Min)dot = F_Min;
+
+	float angle = std::acosf(dot);
 
 	float sinTheta = std::sinf(angle);
 
 	float interStart = std::sinf(angle * (1.0f - t));
 	float interEnd = std::sinf(angle * t);
 
-	Vector3 slerpVec = (interStart * start.getnormalize() + interEnd * end.getnormalize()) / sinTheta;
-	
-	return slerpVec.getnormalize();
+	Vector3 slerpVec;
+	if (sinTheta < 1.0e-5)
+	{
+		slerpVec = start.getnormalize();
+	}
+	else
+	{
+		slerpVec = (interStart * start.getnormalize() + interEnd * end.getnormalize()) / sinTheta;
+	}
+
+	/*float lenStart = start.length();
+	float lenEnd = end.length();
+
+	float length = lenStart + (lenEnd - lenStart) * t;*/
+
+	return slerpVec.getnormalize() /** length*/;
 }
 

@@ -79,7 +79,7 @@ void BossEnemy::Reset()
 	//各パラメータ初期化
 	//パターン
 	BossAtk = AtkPattern::NONE;
-	BossMove = MovePattern::NONE;
+	BossMove = MovePattern::FANSHAPE;
 	//突撃攻撃関係
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
@@ -122,10 +122,6 @@ void BossEnemy::Update(bool flag)
 	{
 		DeathAnimetion();
 	}
-
-	/*preVec = { 0,0,0 };
-	prePos = { 0,0,0 };*/
-
 	//平面上の距離
 	Vector3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
 	Lange = plUnderPos.length();
@@ -146,12 +142,9 @@ void BossEnemy::Update(bool flag)
 	//突進してないときの基本的な行動テーブル
 	if (BossAtk != AtkPattern::CHARGE&&!flag&&!Death())
 	{
-		
-		
 		Vector3 Flont = { 0,0,1.0f };
 		Flont.normalize();
 		plUnderPos.normalize();
-		
 
 		float p_pos = atan2(plUnderPos.x, plUnderPos.z);
 		float c_vec = atan2(Flont.x, Flont.z);
@@ -256,7 +249,6 @@ void BossEnemy::Damege(float dmg)
 
 void BossEnemy::Draw()
 {
-
 	for (std::unique_ptr<EnemyMine>& mine : Mines_)
 	{
 		mine->Draw();
@@ -272,7 +264,6 @@ void BossEnemy::Draw()
 
 		colBox->Draw();
 	}
-	
 	//白線描画
 	if (AimMode)
 	{
@@ -304,80 +295,57 @@ void BossEnemy::AtkTable()
 	//攻撃間のクールタイム参照
 	if (WaitTimer < 0)
 	{
+		mt19937 mt{ random_device{}() };
+
+		uniform_int_distribution<int> dist(1, 6);
+
+		int aktmode = dist(mt);
 		//突進攻撃のレンジにいないとき
 		if (Lange > LangeMax)
 		{
-			mt19937 mt{ random_device{}() };
-
-			uniform_int_distribution<int> dist(1, 6);
-
-			int aktmode = dist(mt);
-
 			if (aktmode >=2)
 			{
-				TargetTimer = TargetTime;
+				SimpleShotReset();
 				BossAtk = AtkPattern::SIMPLESHOT;
-				BurstTime = BurstNum * BurstRate;
 			}
 			else
 			{
-				TargetTimer = TargetTime;
+				HardShotReset();
 				BossAtk = AtkPattern::HARDSHOT;
-				BurstTime = BurstNum * BurstRate;
 			}
-
-
-			
-
 		}
-
 		if (Lange > LangeLong)
 		{
-			mt19937 mt{ random_device{}() };
-
-			uniform_int_distribution<int> dist(1, 6);
-
-			int aktmode = dist(mt);
-
 			if (aktmode >= 4)
 			{
-				TargetTimer = TargetTime;
+				SimpleShotReset();
 				BossAtk = AtkPattern::SIMPLESHOT;
-				BurstTime = BurstNum * BurstRate;
 			}
 			else
 			{
-				TargetTimer = TargetTime;
+				HardShotReset();
 				BossAtk = AtkPattern::HARDSHOT;
-				BurstTime = BurstNum * BurstRate;
 			}
-
-
-
-
 		}
 		//突進攻撃範囲内
 		if (Lange < LangeMax)
 		{
 			if (chargeCool < 0)
 			{
-				BossAtk = AtkPattern::CHARGE;
 				ChargeAtkReset();
+				BossAtk = AtkPattern::CHARGE;
 			}
 			else if(mineCool<0)
 			{
-				BossAtk = AtkPattern::MINE;
 				MineAttackReset();
+				BossAtk = AtkPattern::MINE;
 			}
 			else if(mineCool>0&& chargeCool>0)
 			{
-				BossAtk = AtkPattern::SIMPLESHOT;
 				SimpleShotReset();
+				BossAtk = AtkPattern::SIMPLESHOT;
 			}
-
-
 		}
-
 	}
 	//攻撃間のクールタイムカウントダウン
 	WaitTimer--;
@@ -485,7 +453,7 @@ void BossEnemy::SideStepMoveReset()
 	}
 	if (!Field::OutOfArea(-verticalVec + (St->Wt.translation_).GetXZ(), scale))
 	{
-		//leftVec = true;
+		leftVec = true;
 	}
 
 	if (leftVec && rightVec)
@@ -524,8 +492,6 @@ void BossEnemy::SimpleShot()
 	}
 	else//照準終わり時の攻撃
 	{
-		
-
 		AimMode = false;
 		if (CriticalAim)
 		{
@@ -536,19 +502,13 @@ void BossEnemy::SimpleShot()
 			BulletVec = player->GetPos() - St->Wt.translation_;
 		}
 		BulletVec.normalize();
-		
-		
-
 		//発射レート
-		if (BurstTime % BurstRate == 0)
+		if (BurstTime % nBurstRate == 0)
 		{
-
 			BulletManager::CreateNormalBullet(bulletModel.get(), St->Wt.translation_, BulletVec, 0.5f, nBulletSpeed, Tag::ENEMYNORMAL);
-
 		}
-		BurstTime--;
 		//射撃時間終わったら
-		if (BurstTime <= 0)
+		if (--BurstTime <= 0)
 		{
 			BossAtk = AtkPattern::NONE;
 
@@ -560,7 +520,7 @@ void BossEnemy::SimpleShot()
 void BossEnemy::SimpleShotReset()
 {
 	TargetTimer = TargetTime;
-	BurstTime = BurstNum * BurstRate;
+	BurstTime = nBurstNum * nBurstRate;
 }
 
 void BossEnemy::ChargeAtk()
@@ -612,32 +572,25 @@ void BossEnemy::HardShot()
 		Vector3 BulletVec = player->GetPos() - St->Wt.translation_;
 		BulletVec.normalize();
 
-		Matrix4 matRot[3];
-
-		
-
-		// スケール、回転、平行移動行列の計算
-		matRot[0] *= Matrix4::RotationY(10.0f);
-		matRot[1] *= Matrix4::RotationY(-10.0f);;
-		matRot[2] *= Matrix4::RotationY(0);
-
-		for (size_t i = 0; i < 3; i++)
+		if (BurstTime % hBurstRate == 0)
 		{
-			Vector3 HardBullet = BulletVec * matRot[i];
-			HardBullet.normalize();
-			
-			BulletManager::CreateHomingBullet(bulletModel.get(), St->Wt.translation_, HardBullet, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
-
+			BulletManager::CreateHomingBullet(bulletModel.get(), St->Wt.translation_, BulletVec, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
 		}
 		
-		BossAtk = AtkPattern::NONE;
 
+		if (--BurstTime <= 0)
+		{
+			BossAtk = AtkPattern::NONE;
+
+		}
 		
 	}
 }
 
 void BossEnemy::HardShotReset()
 {
+	TargetTimer = TargetTime;
+	BurstTime = hBurstNum * hBurstRate;
 }
 
 void BossEnemy::MissileShot()
@@ -804,6 +757,7 @@ void BossEnemy::ImGuiSet()
 	const char* items[] = { "NONE", "SIMPLESHOT", "CHARGE","HARDSHOT","MISSILE","MINE" };
 	static const char* current_item = items[0];
 	static int* aaaaas = 0;
+	ImGui::Text("AtkMode::%s", items[static_cast<int>(BossAtk)]);
 	if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
 	{
 		for (int n = 0; n < IM_ARRAYSIZE(items); n++)
@@ -813,9 +767,35 @@ void BossEnemy::ImGuiSet()
 			{
 				current_item = items[n];
 				BossAtk= static_cast<AtkPattern>(n);
+				switch (n)
+				{
+				case 0:
+					BossAtk = AtkPattern::NONE;
+					break;
+				case 1:
+					SimpleShotReset();
+					BossAtk = AtkPattern::SIMPLESHOT;
+					break;
+				case 2:
+					ChargeAtkReset();
+					BossAtk = AtkPattern::CHARGE;
+					break;
+				case 3:
+					HardShotReset();
+					BossAtk = AtkPattern::HARDSHOT;
+					break;
+				case 4:
+					BossAtk = AtkPattern::MISSILE;
+					break;
+				case 5:
+					MineAttackReset();
+					BossAtk = AtkPattern::MINE;
+					break;
+				}
 			}
 			if (is_selected)
 			{
+				
 				ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
 			}
 
@@ -824,34 +804,7 @@ void BossEnemy::ImGuiSet()
 		}
 		ImGui::EndCombo();
 	}
-	/*if (ImGui::Button("Change"))
-	{
-		switch (aaaaas)
-		{
-		case 0:
-			BossAtk = AtkPattern::NONE;
-			break;
-		case 1:
-			TargetTimer = TargetTime;
-			BossAtk = AtkPattern::SIMPLESHOT;
-			BurstTime = BurstNum * BurstRate;
-			break;
-		case 2:
-			BossAtk = AtkPattern::CHARGE;
-			break;
-		case 3:
-			BossAtk = AtkPattern::HARDSHOT;
-			break;
-		case 4:
-			BossAtk = AtkPattern::MISSILE;
-			break;
-		case 5:
-			BossAtk = AtkPattern::MINE;
-			break;
-		}
-
-	}*/
-	ImGui::Text("aaa::%s", current_item);
+	
 
 	ImGui::NewLine();
 	ImGui::Text("HP::%5.2f", HP);

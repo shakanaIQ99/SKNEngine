@@ -1,6 +1,6 @@
 #include "NormalBullet.h"
 
-NormalBullet::NormalBullet(ObjModel* model, const Vector3& position, const Vector3& velocity, float size, float BulletSpeed, const Tag& _tag)
+NormalBullet::NormalBullet(ObjModel* model, Vector3 position, Vector3 velocity, float size, float BulletSpeed, const Tag& _tag)
 {
 	ModelInit(model);
 	St->Wt.translation_ = position;

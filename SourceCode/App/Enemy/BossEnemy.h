@@ -312,9 +312,14 @@ private:
 
 	//通常射撃
 
-	const int BurstRate = 3;
-	const int BurstNum = 40;
-	int BurstTime = BurstNum * BurstRate;
+	const int nBurstRate = 3;
+	const int nBurstNum = 40;
+	int BurstTime = nBurstNum * nBurstRate;
+
+	//追尾射撃
+	const int hBurstRate = 30;
+	const int hBurstNum = 3;
+
 
 	bool CriticalAim = true;
 

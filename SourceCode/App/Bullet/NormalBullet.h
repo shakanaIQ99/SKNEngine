@@ -4,7 +4,7 @@
 class NormalBullet :public Bullet
 {
 public:
-	NormalBullet(ObjModel* model, const Vector3& position, const Vector3& velocity, float size, float BulletSpeed, const Tag& _tag);
+	NormalBullet(ObjModel* model, Vector3 position, Vector3 velocity, float size, float BulletSpeed, const Tag& _tag);
 
 	/// <summary>
 	/// 更新

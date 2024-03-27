@@ -4,7 +4,7 @@ class HomingBullet :public Bullet
 {
 public:
 
-	HomingBullet(ObjModel* model, const Vector3& position, const Vector3& velocity,Vector3* Target, float size, float BulletSpeed, const Tag& _tag);
+	HomingBullet(ObjModel* model, Vector3 position, Vector3 velocity,Vector3* Target, float size, float BulletSpeed, const Tag& _tag);
 	
 	void Update() override;
 

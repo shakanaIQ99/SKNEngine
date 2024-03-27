@@ -1,4 +1,5 @@
 #include "BulletManager.h"
+std::list<std::unique_ptr<Bullet>> BulletManager::manageBulletList;
 
 BulletManager::BulletManager()
 {
@@ -10,12 +11,12 @@ BulletManager* BulletManager::GetInstance()
 	return &instance;
 }
 
-void BulletManager::CreateHomingBullet(ObjModel* model, const Vector3& position, const Vector3& velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag)
+void BulletManager::CreateHomingBullet(ObjModel* model, Vector3 position, Vector3 velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag)
 {
 	GetInstance()->manageBulletList.emplace_back(std::make_unique<HomingBullet>(model, position,velocity, Target, size, BulletSpeed, _tag));
 }
 
-void BulletManager::CreateNormalBullet(ObjModel* model, const Vector3& position, const Vector3& velocity, float size, float BulletSpeed, const Tag& _tag)
+void BulletManager::CreateNormalBullet(ObjModel* model, Vector3 position, Vector3 velocity, float size, float BulletSpeed, const Tag& _tag)
 {
 	GetInstance()->manageBulletList.emplace_back(std::make_unique<NormalBullet>(model, position, velocity, size, BulletSpeed, _tag));
 }

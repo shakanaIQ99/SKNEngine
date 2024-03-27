@@ -1,7 +1,7 @@
 #pragma once
 #include "StuructTransform.h"
 
-enum Tag
+enum struct Tag
 {
 	NONE,
 	PLAYER,

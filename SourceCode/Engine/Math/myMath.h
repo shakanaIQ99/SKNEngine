@@ -8,6 +8,9 @@
 
 
 constexpr float PI = 3.1415926535897932384f;
+constexpr float F_Max = 1.000000f;
+constexpr float F_Min = -1.000000f;
+
 
 namespace myMath
 {
@@ -18,6 +21,7 @@ namespace myMath
 	{
 		return static_cast<t>((A > 0) - (A < 0));
 	}
+
 
 	//double 
 

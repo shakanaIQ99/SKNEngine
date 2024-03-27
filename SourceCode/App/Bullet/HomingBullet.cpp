@@ -1,6 +1,6 @@
 #include "HomingBullet.h"
 
-HomingBullet::HomingBullet(ObjModel* model, const Vector3& position, const Vector3& velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag)
+HomingBullet::HomingBullet(ObjModel* model, Vector3 position, Vector3 velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag)
 {
 	ModelInit(model);
 	St->Wt.translation_ = position;
