@@ -37,5 +37,7 @@ namespace myMath
 	//RadianからDegreeへ変換する
 	float RadianToAngle(float radian);
 
+	float Clamp(float f, float min, float max);
+
 }
 

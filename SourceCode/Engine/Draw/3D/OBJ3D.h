@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
-#include <DirectXMath.h>
 #include"WorldTronsform.h"
 #include<vector>
 #include<string>
@@ -12,8 +11,6 @@
 #include"ViewProjection.h"
 #include"LightGroup.h"
 
-
-using namespace DirectX;
 
 using namespace Microsoft::WRL;
 

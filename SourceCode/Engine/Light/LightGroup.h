@@ -20,7 +20,6 @@ public:
 	{
 		
 		Vector3 ambientColor;
-		float pad1;
 		DirectionLight::ConstBufferData dirLights[DirLightNum];
 		PointLight::ConstBufferData pointLights[PointLightNum];
 	};
@@ -72,7 +71,7 @@ private:
 	ComPtr<ID3D12Resource> constBuff;
 
 	
-	Vector3 ambientColor = { 1,1,1 };
+	Vector3 ambientColor = { 0.5f,0.5f,0.5f };
 
 	
 	DirectionLight dirLights[DirLightNum];

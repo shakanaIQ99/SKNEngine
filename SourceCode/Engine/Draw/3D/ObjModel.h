@@ -12,8 +12,6 @@
 #include"Vector2.h"
 
 
-using namespace DirectX;
-
 using namespace Microsoft::WRL;
 
 using namespace std;

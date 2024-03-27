@@ -14,7 +14,7 @@ cbuffer ConstBufferDataMaterial1:register(b1)
 	float m_alpha : packoffset(c2.w);
 };
 
-static const uint DIR_LIGHT_NUM = 3;
+static const uint DIR_LIGHT_NUM = 1;
 
 struct DirLight
 {
@@ -22,7 +22,7 @@ struct DirLight
     float3 lightcolor;
     uint active;
 };
-static const uint POINT_LIGHT_NUM = 3;
+static const uint POINT_LIGHT_NUM = 1;
 
 struct PointLight
 {

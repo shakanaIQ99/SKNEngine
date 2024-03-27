@@ -88,7 +88,7 @@ void DirectionLight::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamInde
 
 void DirectionLight::SetLightDir(const Vector3& _lightdir)
 {
-	lightdir = _lightdir;
+	lightdir = _lightdir.getnormalize();
 	dirty = true;
 }
 

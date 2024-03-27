@@ -26,7 +26,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);
 
 	//テクスチャ読み込み
-	skydome_model = ObjModel::LoadFromOBJ("skydome");
+	skydome_model = ObjModel::LoadFromOBJ("skydome",true);
 	DeathParticle::SetModel(ObjModel::LoadFromOBJ("boxobj"));
 	
 	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
@@ -78,27 +78,16 @@ void GameScene::Init(DirectXCommon* dxcommon)
 
 	//パーティクル周り
 
-	float ambientColor[3] = { 1,1,1 };
 
-	float lightDir0[3] = { 0,0,-1 };
-	float lightColor0[3] = { 1,0,0 };
 
-	float litX = 0.0f;
-	float litY = 0.0f;
-	float litZ = 0.0f;
-
-	float pointLightPos[3] = { litX,litY,litZ };
-	float pointLightColor[3] = { 1,1,1 };
-
-	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
 
 	light->SetDirLightActive(0, true);
-	light->SetPointLightActive(0, false);
 
+	
 
-	light->SetPointLightPos(0, Vector3(pointLightPos));
-	light->SetPointLightColor(0, Vector3(pointLightColor));
-	light->SetPointLightAtten(0, Vector3(pointLightAtten));
+	//light->SetDirLightColor(0, lightColor0);
+
+	
 
 	//float a = 0.2f;
 
@@ -111,6 +100,8 @@ void GameScene::Init(DirectXCommon* dxcommon)
 
 void GameScene::Update()
 {
+	Vector3 lightDir0 = { 0,0,-1 };
+	light->SetDirLightDir(0, lightDir0);
 	
 	switch (scene)
 	{

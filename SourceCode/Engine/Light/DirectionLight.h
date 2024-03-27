@@ -42,7 +42,7 @@ public:
 
 	Vector3 GetLightColor() { return lightcolor; }
 
-	inline void SetActive(bool Active) { this->active = Active; }
+	inline void SetActive(bool Active) { active = Active; }
 	inline bool IsActive() { return active; }
 
 private:
