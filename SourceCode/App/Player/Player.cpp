@@ -28,7 +28,6 @@ void Player::Init()
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
-	LockHandle = texMana->LoadTexture("Resources/Lock.png");
 	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
 	St->Wt.translation_.y = 50.0f;
@@ -69,11 +68,6 @@ void Player::Init()
 
 	sprite_Reticle = std::make_unique<Sprite2D>();
 	sprite_Reticle->Initialize(spCommon, reticleHandle);
-	sprite_Reticle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
-	sprite_Reticle->Wt.scale_={ 1.0f,1.0f,1.0f };
-
-	sprite_Lock= std::make_unique<Sprite2D>();
-	sprite_Lock->Initialize(spCommon, LockHandle);
 
 	move_speed = 0.4f;
 
@@ -175,7 +169,6 @@ void Player::Update()
 		dp->Update();
 	}
 	
-	sprite_Lock->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y,0.0f };
 
 #ifdef _DEBUG
 	ImGuiSet();
@@ -186,7 +179,6 @@ void Player::Update()
 	St->Update(camera->getView());
 	prePlayer.UpdateMatrix(camera->getView());
 	prePP->Update(camera->getView());
-	sprite_Reticle->Update();
 	colBox->Wt.translation_ = St->Wt.translation_;
 	colBox->Wt.scale_ = St->Wt.scale_;
 	colBox->Update(camera->getView());
@@ -194,7 +186,6 @@ void Player::Update()
 	sprite_ENGauge->Update();
 	sprite_CoverENGaugebar->Update();
 	sprite_CoverHPbar->Update();
-	sprite_Lock->Update();
 }
 
 void Player::Damege(float dmg)
@@ -485,13 +476,11 @@ void Player::LockOn()
 	{
 
 		Lock2DPos = WorldToMonitor(boss->translation_);
-		sprite_Reticle->Wt.translation_ = { Lock2DPos.x,Lock2DPos.y ,0.0f };
 		Locked = true;
 	}
 	else
 	{
 		Lock2DPos = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f };
-		sprite_Reticle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f ,0.0f };
 		Locked = false;
 	}
 }
@@ -620,8 +609,7 @@ void Player::DrawUI()
 		sprite_ENGauge->Wt.color = { 0.0f, 0.15f, 0.75f, 1.0f };
 	}
 
-	sprite_Reticle->Draw();
-	sprite_Lock->Draw();
+	sprite_Reticle->Draw(Lock2DPos.x - 64.0f, Lock2DPos.y - 64.0f, Lock2DPos.x + 64.0f, Lock2DPos.y + 64.0f);
 	sprite_CoverHPbar->Draw();
 	sprite_CoverENGaugebar->Draw();
 	KeyUI->Draw(1280.0f-64.0f, 720.0f-128.0f, 1280.0f, 720.0f);
