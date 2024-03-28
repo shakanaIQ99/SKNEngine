@@ -158,6 +158,7 @@ void Player::Update()
 		if (latetime <= 0)
 		{
 			Attack(camera->getForwardVec());
+			AudioManager::Play("shot");
 
 			latetime = firelate;
 		}
@@ -294,6 +295,7 @@ void Player::Move()
 	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B))
 	{
 		BoostMode = !BoostMode;
+		AudioManager::Play("dash");
 	}
 
 
@@ -347,7 +349,7 @@ void Player::Jump(Vector3 front)
 			JumpVec = front;
 			UseEN = true;
 			ENGauge -= JumpUseGauge;
-			AudioManager::Play("aaaa");
+			AudioManager::Play("jump");
 		}
 		if (Input::GetPadButton(XINPUT_GAMEPAD_A) && !DashFlag && !JumpFlag)
 		{

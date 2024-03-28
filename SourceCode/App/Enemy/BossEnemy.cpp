@@ -5,6 +5,7 @@
 #include"myMath.h"
 #include <random>
 #include<cmath>
+#include"AudioManager.h"
 
 #include <iostream>     // cout
 #include <ctime>        // time
@@ -637,6 +638,7 @@ void BossEnemy::SimpleShot()
 		//発射レート
 		if (BurstTime % nBurstRate == 0)
 		{
+			AudioManager::Play("shot", 0.5f);
 			BulletManager::CreateNormalBullet(bulletModel.get(), St->Wt.translation_, BulletVec, 0.5f, nBulletSpeed, Tag::ENEMYNORMAL);
 		}
 		//射撃時間終わったら
@@ -708,6 +710,7 @@ void BossEnemy::HardShot()
 
 		if (BurstTime % hBurstRate == 0)
 		{
+			AudioManager::Play("homing");
 			BulletManager::CreateHomingBullet(bulletModel.get(), St->Wt.translation_, BulletVec, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
 		}
 		

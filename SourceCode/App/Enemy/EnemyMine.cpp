@@ -2,7 +2,7 @@
 #include <random>
 #include "Field.h"
 #include"Easing.h"
-
+#include"AudioManager.h"
 
 std::unique_ptr<ObjModel> EnemyMine::Premodel;
 
@@ -65,12 +65,14 @@ void EnemyMine::Update()
 			{
 				state = mineState::EXPLOSION;
 				explode = true;
+				AudioManager::Play("mine");
 			}
 			break;
 		case EXPLOSION:
 			explodeTimer++;
 			scale = easeOutQuint(1.0f, 4.0f, static_cast<float>(explodeTimer), static_cast<float>(explodeTime));
 
+			
 			if (explodeTimer >= explodeTime)state = mineState::STOPEXPLOSION;
 			break;
 		case STOPEXPLOSION:

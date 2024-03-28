@@ -35,8 +35,16 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	clearScHandle = texturemanager->LoadTexture("Resources/clear.png");
 	GameOverScHandle = texturemanager->LoadTexture("Resources/GameOver.png");
 
-	AudioManager::Load("Resources/Sound/aa.wav", "hit");
-	AudioManager::Load("Resources/Sound/SE_spark.wav", "aaaa");
+	AudioManager::Load("Resources/Sound/wallhit.wav", "hit");//
+	AudioManager::Load("Resources/Sound/shot.wav", "shot");//
+	AudioManager::Load("Resources/Sound/enemyshot.wav", "Eshot");
+	AudioManager::Load("Resources/Sound/mine.wav", "mine");//
+	AudioManager::Load("Resources/Sound/charge.wav", "charge");//
+	AudioManager::Load("Resources/Sound/jump.wav", "jump");//
+	AudioManager::Load("Resources/Sound/dash.wav", "dash");//
+	AudioManager::Load("Resources/Sound/homing.wav", "homing");
+	AudioManager::Load("Resources/Sound/BGM.wav", "bgm");//
+
 	
 
 	//3Dモデル周り
@@ -142,6 +150,7 @@ void GameScene::Update()
 		else
 		{
 			GameUpdate();
+			
 		}
 		if (player.GameEnd() || boss.GameEnd())
 		{
@@ -167,6 +176,7 @@ void GameScene::Update()
 				player.Reset();
 				camera.Reset();
 				endSceneChaflag = false;
+				AudioManager::Stop("bgm");
 			}
 		}
 		break;
@@ -261,6 +271,8 @@ void GameScene::ALLCol()
 			player.Damege(0.2f);
 			player.HitParticle(player.GetPos() - boss.GetPos());
 			player.KnockBack(player.GetPos()-boss.GetPos());
+			AudioManager::Play("charge");
+
 		}
 	}
 	for (const std::unique_ptr<Bullet>& bullet : Bullets)
