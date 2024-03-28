@@ -49,7 +49,7 @@ void BossEnemy::Reset()
 
 	
 	LeserPoint.Init();
-	St->Wt.translation_ = { 0,0.0f,20.0f };
+	St->Wt.translation_ = { 0,0.0f,80.0f };
 	HP = MaxHP;
 	//エフェクトや弾周りの初期化
 
@@ -303,20 +303,14 @@ void BossEnemy::AtkTable()
 		//突進攻撃のレンジにいないとき
 		if (Lange > LangeMax)
 		{
-			if (aktmode >=2)
-			{
-				SimpleShotReset();
-				BossAtk = AtkPattern::SIMPLESHOT;
-			}
-			else
-			{
-				HardShotReset();
-				BossAtk = AtkPattern::HARDSHOT;
-			}
+			
+			SimpleShotReset();
+			BossAtk = AtkPattern::SIMPLESHOT;
+			
 		}
 		if (Lange > LangeLong)
 		{
-			if (aktmode >= 4)
+			if (aktmode >= 5)
 			{
 				SimpleShotReset();
 				BossAtk = AtkPattern::SIMPLESHOT;
@@ -355,25 +349,19 @@ void BossEnemy::MoveTable()
 {
 	if (stopTimer < 0)
 	{
-		bool TimeRand = rand() % 1;
-		if (Lange > LangeMax)
+		if (Lange > LangeLong&&Lange>crossLange)
 		{
+			CloseMoveReset();
 			BossMove = MovePattern::CLOSEMOVE;
 			
 		}
 		else
 		{
+			BackMoveReset();
 			BossMove = MovePattern::BACK;
 		}
 
-		if (TimeRand)
-		{
-			moveTimer = longMoveTime;
-		}
-		else
-		{
-			moveTimer = midMoveTime;
-		}
+		
 	}
 
 	stopTimer--;
@@ -392,11 +380,25 @@ void BossEnemy::BackMove()
 	St->Wt.translation_ += moveVec;
 
 	moveTimer--;
-	if (moveTimer < 0) { BossMove = MovePattern::NONE; }
+	if (moveTimer < 0||Field::OutOfArea((St->Wt.translation_).GetXZ(), scale))
+	{
+		FanShapeMoveReset();
+		BossMove = MovePattern::FANSHAPE; 
+		stopTimer = 30;
+	}
 }
 
 void BossEnemy::BackMoveReset()
 {
+	bool TimeRand = rand() % 1;
+	if (TimeRand)
+	{
+		moveTimer = longMoveTime;
+	}
+	else
+	{
+		moveTimer = midMoveTime;
+	}
 }
 
 void BossEnemy::CloseMove()
@@ -412,11 +414,24 @@ void BossEnemy::CloseMove()
 
 
 	moveTimer--;
-	if (moveTimer < 0) { BossMove = MovePattern::NONE; }
+	if (moveTimer < 0||Lange<crossLange) 
+	{
+		BossMove = MovePattern::FANSHAPE;
+		FanShapeMoveReset();
+	}
 }
 
 void BossEnemy::CloseMoveReset()
 {
+	bool TimeRand = rand() % 1;
+	if (TimeRand)
+	{
+		moveTimer = longMoveTime;
+	}
+	else
+	{
+		moveTimer = midMoveTime;
+	}
 }
 
 void BossEnemy::SideStepMove()
@@ -440,30 +455,23 @@ void BossEnemy::SideStepMoveReset()
 	preVec = player->GetPos() - St->Wt.translation_;
 	prePos = St->Wt.translation_;
 	stepMoveTimer = 0;
-	rightVec = false;
-	leftVec = false;
+	rightVec = !rightVec;
+	leftVec = !leftVec;
+
 
 	verticalVec = Vector2(preVec.GetXZ()).GetVerticalR();
 	verticalVec.normalize();
 	verticalVec *= stepDistance;
 
-	if (!Field::OutOfArea(verticalVec + (St->Wt.translation_).GetXZ(), scale))
+	if (Field::OutOfArea(verticalVec + (St->Wt.translation_).GetXZ(), scale))
 	{
-		rightVec = true;
+		rightVec = false;
 	}
-	if (!Field::OutOfArea(-verticalVec + (St->Wt.translation_).GetXZ(), scale))
+	if (Field::OutOfArea(-verticalVec + (St->Wt.translation_).GetXZ(), scale))
 	{
-		leftVec = true;
+		leftVec = false;
 	}
-
-	if (leftVec && rightVec)
-	{
-
-	}
-
-
-
-
+	
 }
 
 
@@ -478,11 +486,18 @@ void BossEnemy::FanShapeMove()
 	St->Wt.translation_.x = prePos.x + add_x;
 	St->Wt.translation_.z = prePos.z + add_z;
 
-	fanMoveAngle += myMath::AngleToRadian(0.1f * (50.0f - myMath::Clamp(length, 0.0f, 45.0f)));
+	fanMoveAngle += myMath::AngleToRadian(0.1f * (50.0f - myMath::Clamp(length, 0.0f, 45.0f)))*static_cast<float>(leftVec -rightVec);
+	moveDigree += 0.1f * (50.0f - myMath::Clamp(length, 0.0f, 45.0f)) * static_cast<float>(leftVec - rightVec);
 
 	if (abs(fanMoveAngle) > myMath::AngleToRadian(360.0f))
 	{
 		fanMoveAngle = abs(static_cast<float>(std::fmod(static_cast<double>(fanMoveAngle), static_cast<double>(myMath::AngleToRadian(360.0f)))));
+	}
+
+	if (abs(moveDigree) > MaxMoveDigree||Field::OutOfArea((St->Wt.translation_).GetXZ(), scale))
+	{
+		SideStepMoveReset();
+		BossMove = MovePattern::SIDESTEP;
 	}
 
 }
@@ -491,7 +506,84 @@ void BossEnemy::FanShapeMoveReset()
 {
 	//XZ軸
 	preVec2 = St->Wt.translation_.GetXZ() - player->GetPos().GetXZ();
+	preVec = player->GetPos() - St->Wt.translation_;
 	prePos = player->GetPos();
+	moveDigree = 0;
+
+	std::random_device rd;
+	std::default_random_engine eng(rd());
+	std::uniform_real_distribution<float> distr(70.0f, 140.0f);
+
+	MaxMoveDigree = distr(eng);
+
+	rightVec = false;
+	leftVec = false;
+
+	verticalVec = Vector2(preVec.GetXZ()).GetVerticalR();
+
+	Vector2 preLengh = verticalVec;
+
+	verticalVec.normalize();
+	verticalVec *= stepDistance;
+
+	if (!Field::OutOfArea(verticalVec + (St->Wt.translation_).GetXZ(), scale))
+	{
+		rightVec = true;
+	}
+	if (!Field::OutOfArea(-verticalVec + (St->Wt.translation_).GetXZ(), scale))
+	{
+		leftVec = true;
+	}
+	
+	if (leftVec && rightVec)
+	{
+		Vector2 bosspos = St->Wt.translation_.GetXZ();
+		if (bosspos.x > 0 && bosspos.y > 0)
+		{
+			if (abs(preLengh.x) > abs(preLengh.y))
+			{
+				leftVec = preLengh.x < 0 ? true : false;
+			}
+			else
+			{
+				leftVec = preLengh.y < 0 ? true : false;
+			}
+		}
+		if (bosspos.x < 0 && bosspos.y > 0)
+		{
+			if (abs(preLengh.x) > abs(preLengh.y))
+			{
+				leftVec = preLengh.x > 0 ? true : false;
+			}
+			else
+			{
+				leftVec = preLengh.y < 0 ? true : false;
+			}
+		}
+		if (bosspos.x > 0 && bosspos.y < 0)
+		{
+			if (abs(preLengh.x) > abs(preLengh.y))
+			{
+				leftVec = preLengh.x < 0 ? true : false;
+			}
+			else
+			{
+				leftVec = preLengh.y > 0 ? true : false;
+			}
+		}
+		if (bosspos.x <= 0 && bosspos.y <= 0)
+		{
+			if (abs(preLengh.x) > abs(preLengh.y))
+			{
+				leftVec = preLengh.x > 0 ? true : false;
+			}
+			else
+			{
+				leftVec = preLengh.y > 0 ? true : false;
+			}
+		}
+		rightVec = !leftVec;
+	}
 
 	Vector2 frontZ(0.0f, 1.0f);
 
@@ -575,6 +667,8 @@ void BossEnemy::ChargeAtk()
 	if (chargeLenge + 5.0f < chargeMoved.length())
 	{
 		BossAtk = AtkPattern::NONE;
+		BossMove = MovePattern::NONE;
+		stopTimer = 10;
 	}
 
 

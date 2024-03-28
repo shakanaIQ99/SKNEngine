@@ -298,6 +298,10 @@ private:
 	//扇移動
 	float fanMoveAngle = 0;
 
+	float moveDigree = 0;
+
+	float MaxMoveDigree = 0;
+
 	//弾関連
 
 	std::list<std::unique_ptr<EnemyMine>> Mines_;
@@ -346,6 +350,7 @@ private:
 
 	//認知範囲
 	float Lange = 0;
+	float crossLange = 25.0f;
 	float LangeMax = 50.0f;
 	float LangeLong = 80.0f;
 	float LangeMin = 10.0f;

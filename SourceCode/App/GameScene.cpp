@@ -50,7 +50,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	boss.Init();
 	player.Init();
 
-	camera.setTarget(&player.prePlayer);
+	camera.setTarget(&player.St->Wt.translation_);
 	//camera.setTarget(&player.St->Wt);
 
 	boss.SetPlayer(&player);
@@ -260,6 +260,7 @@ void GameScene::ALLCol()
 		{
 			player.Damege(0.2f);
 			player.HitParticle(player.GetPos() - boss.GetPos());
+			player.KnockBack(player.GetPos()-boss.GetPos());
 		}
 	}
 	for (const std::unique_ptr<Bullet>& bullet : Bullets)

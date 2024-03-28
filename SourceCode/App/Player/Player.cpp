@@ -19,7 +19,7 @@ void Player::Init()
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
 	
 	colBox.reset(OBJ3D::Create());
-	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
+	colBox->SetModel(ObjModel::LoadFromOBJ("Player"));
 
 
 	colBox->Wt.scale_ = St->Wt.scale_;
@@ -82,6 +82,8 @@ void Player::Reset()
 	HP = MaxHP;
 	St->Wt.translation_ = { 0,50.0f,0 };
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
+
+	colBox->Wt = St->Wt;
 
 	const std::list<std::unique_ptr<DeathParticle>>& Dps = GetDps();
 	for (const std::unique_ptr<DeathParticle>& Dp : Dps)
@@ -179,8 +181,7 @@ void Player::Update()
 	St->Update(camera->getView());
 	prePlayer.UpdateMatrix(camera->getView());
 	prePP->Update(camera->getView());
-	colBox->Wt.translation_ = St->Wt.translation_;
-	colBox->Wt.scale_ = St->Wt.scale_;
+	colBox->Wt= St->Wt;
 	colBox->Update(camera->getView());
 	sprite_HPbar->Update();
 	sprite_ENGauge->Update();
@@ -331,7 +332,7 @@ void Player::Move()
 		St->Wt.translation_.z = Field::GetArea() * (abs(St->Wt.translation_.z) / St->Wt.translation_.z) - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
 	}
 	
-	prePP->Wt.translation_ = prePlayer.translation_;
+	//prePP->Wt.translation_ = prePlayer.translation_;
 
 }
 
@@ -590,10 +591,10 @@ void Player::Draw()
 		dp->Draw();
 	}
 
-	St->Draw();
+	colBox->Draw();
 	if (colLock)
 	{
-		colBox->Draw();
+		St->Draw();
 	}
 	//prePP->Draw();
 }
@@ -629,7 +630,7 @@ void Player::DrawUI()
 void Player::TitleUpdate()
 {
 
-	St->Wt.rotation_.y += 0.05f;
+
 
 #ifdef _DEBUG
 	ImGuiSet();
