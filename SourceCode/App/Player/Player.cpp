@@ -295,7 +295,7 @@ void Player::Move()
 	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B))
 	{
 		BoostMode = !BoostMode;
-		AudioManager::Play("dash");
+		
 	}
 
 
@@ -405,6 +405,7 @@ void Player::Dash(Vector3 front)
 		JumpFlag = false;
 		Upspeed = 0;
 		BoostMode = true;
+		AudioManager::Play("dash");
 	}
 
 	if (DashFlag)
