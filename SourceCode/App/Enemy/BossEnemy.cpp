@@ -79,8 +79,8 @@ void BossEnemy::Reset()
 
 	//各パラメータ初期化
 	//パターン
-	BossAtk = AtkPattern::NONE;
-	BossMove = MovePattern::NONE;
+	BossAtk = AtkPattern::MISSILE;
+	BossMove = MovePattern::STOP;
 	//突撃攻撃関係
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
@@ -227,13 +227,21 @@ void BossEnemy::Update(bool flag)
 #endif
 
 	//エリア外行かないように
+	//if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
+	//{
+	//	St->Wt.translation_.x = Field::GetArea() - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
+	//}
+	//if (St->Wt.translation_.z + St->Wt.scale_.z >= Field::GetArea() || St->Wt.translation_.z - St->Wt.scale_.z <= -Field::GetArea())
+	//{
+	//	St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
+	//}
 	if (St->Wt.translation_.x + St->Wt.scale_.x > Field::GetArea() || St->Wt.translation_.x - St->Wt.scale_.x < -Field::GetArea())
 	{
-		St->Wt.translation_.x = Field::GetArea() - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
+		St->Wt.translation_.x = Field::GetArea() * (abs(St->Wt.translation_.x) / St->Wt.translation_.x) - St->Wt.scale_.x * (abs(St->Wt.translation_.x) / St->Wt.translation_.x);
 	}
 	if (St->Wt.translation_.z + St->Wt.scale_.z >= Field::GetArea() || St->Wt.translation_.z - St->Wt.scale_.z <= -Field::GetArea())
 	{
-		St->Wt.translation_.z = Field::GetArea() - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
+		St->Wt.translation_.z = Field::GetArea() * (abs(St->Wt.translation_.z) / St->Wt.translation_.z) - St->Wt.scale_.z * (abs(St->Wt.translation_.z) / St->Wt.translation_.z);
 	}
 
 	colBox->Wt = St->Wt;
@@ -495,7 +503,7 @@ void BossEnemy::FanShapeMove()
 		fanMoveAngle = abs(static_cast<float>(std::fmod(static_cast<double>(fanMoveAngle), static_cast<double>(myMath::AngleToRadian(360.0f)))));
 	}
 
-	if (abs(moveDigree) > MaxMoveDigree||Field::OutOfArea((St->Wt.translation_).GetXZ(), scale))
+	if (abs(moveDigree) > MaxMoveDigree||Field::OutOfArea((St->Wt.translation_).GetXZ(), scale*2.0f))
 	{
 		SideStepMoveReset();
 		BossMove = MovePattern::SIDESTEP;
@@ -829,7 +837,7 @@ void BossEnemy::ImGuiSet()
 	ImGui::NewLine();
 	
 	static int MovemodeNum = 0;
-	const char* MoveModes[] = { "NONE", "BACK", "CLOSEMOVE","FANSHAPE","SIDESTEP" };
+	const char* MoveModes[] = { "NONE", "BACK", "CLOSEMOVE","FANSHAPE","SIDESTEP","STOP" };
 	ImGui::Combo("##MovemodeNumCombo", &MovemodeNum, MoveModes, IM_ARRAYSIZE(MoveModes));
 	ImGui::SameLine();
 	if (ImGui::Button("Change"))

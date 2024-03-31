@@ -25,6 +25,7 @@ enum struct MovePattern
 	CLOSEMOVE,
 	FANSHAPE,
 	SIDESTEP,
+	STOP
 };
 
 class BossEnemy : public StuructTransform
