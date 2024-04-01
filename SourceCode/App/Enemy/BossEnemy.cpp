@@ -79,8 +79,16 @@ void BossEnemy::Reset()
 
 	//各パラメータ初期化
 	//パターン
+
+	BossAtk = AtkPattern::NONE;
+	BossMove = MovePattern::NONE;
+
+#ifdef _DEBUG
 	BossAtk = AtkPattern::MISSILE;
 	BossMove = MovePattern::STOP;
+#endif
+
+	
 	//突撃攻撃関係
 	chargeMoveAniTimer = 0;
 	chargeCool = 0;
