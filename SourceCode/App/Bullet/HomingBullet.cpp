@@ -13,7 +13,7 @@ HomingBullet::HomingBullet(ObjModel* model, Vector3 position, Vector3 velocity, 
 	deathTimer_ = LifeTime;
 	St->color = { 1.0f,0,0,1.0f };
 
-	HomingPower = 0.4f;
+	HomingPower = 0.3f;
 }
 
 void HomingBullet::Update()

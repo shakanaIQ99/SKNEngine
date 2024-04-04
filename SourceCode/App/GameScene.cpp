@@ -290,7 +290,7 @@ void GameScene::ALLCol()
 		if (Collision::CheckSphereToSphere(playerSp, BulletSp) && bullet->tag == Tag::ENEMYHARD)
 		{
 
-			player.Damege(3.0f);
+			player.Damege(2.0f);
 			player.HitParticle(bullet->GetVec());
 			bullet->onDead();
 		}
