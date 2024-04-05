@@ -311,7 +311,7 @@ private:
 	const float hBulletSpeed = 0.05f;
 
 	//照準周り
-	Vector3 TargetPos = { 0,0,0 };
+	Vector3 targetPos = { 0,0,0 };
 
 	const int TargetTime = 60 * 2;
 

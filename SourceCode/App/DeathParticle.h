@@ -16,7 +16,7 @@ public:
 	DeathParticle();
 	~DeathParticle();
 
-	static void SetModel(ObjModel* model);
+	static void SetModel(ObjModel* Model);
 
 	/// <summary>
 	/// 初期化
@@ -24,7 +24,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void CreateDeathParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity,float _scale,Float4 color);
+	void CreateDeathParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity,float Scale,Float4 Color);
 
 	/// <summary>
 	/// 初期化
@@ -32,7 +32,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void CreateHitParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity, float _scale, Float4 color);
+	void CreateHitParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity, float Scale, Float4 Color);
 
 	/// <summary>
 	/// 更新
@@ -52,7 +52,7 @@ public:
 
 private:
 
-	static std::unique_ptr<ObjModel> Premodel;
+	static std::unique_ptr<ObjModel> preModel;
 
 	Vector3 romdom = { 0,0,0 };
 
@@ -70,7 +70,7 @@ private:
 
 
 	//速度
-	Vector3 Velocity_;
+	Vector3 velocity;
 
 	//寿命<frm>
 	int32_t lifeTime = 60;

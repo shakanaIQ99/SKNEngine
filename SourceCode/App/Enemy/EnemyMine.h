@@ -26,7 +26,7 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
-	void Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity);
+	void Initlize(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity);
 
 	/// <summary>
 	/// 更新
@@ -39,7 +39,7 @@ public:
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Draw();
 
-	bool IsDead()const { return isDead_; }
+	bool IsDead()const { return isDead; }
 
 	bool IsHit()const;
 
@@ -52,14 +52,14 @@ public:
 
 	Vector3 GetWorldPosition() { return St->Wt.translation_; }
 	Vector3 GetScale() { return St->Wt.scale_; }
-	Vector3 GetVec() { return Velocity_; }
+	Vector3 GetVec() { return velocity; }
 
 
 
 
 private:
 
-	static std::unique_ptr<ObjModel> Premodel;
+	static std::unique_ptr<ObjModel> preModel;
 
 	//モデル
 	//StuructTransform bullet;
@@ -69,10 +69,10 @@ private:
 
 
 	//速度
-	Vector3 Velocity_;
+	Vector3 velocity;
 
 	//デスフラグ
-	bool isDead_ = false;
+	bool isDead = false;
 
 	size_t mineTimer = 0;
 	const size_t mineTime = 60;

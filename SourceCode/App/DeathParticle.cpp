@@ -4,31 +4,31 @@
 #include"Easing.h"
 #include"Player.h"
 #include"myMath.h"
-std::unique_ptr<ObjModel> DeathParticle::Premodel;
+std::unique_ptr<ObjModel> DeathParticle::preModel;
 
 DeathParticle::DeathParticle()
 {
-	ModelInit(Premodel.get());
-	Velocity_ = { 0,0,0 };
+	ModelInit(preModel.get());
+	velocity = { 0,0,0 };
 }
 
 DeathParticle::~DeathParticle()
 {
 }
 
-void DeathParticle::SetModel(ObjModel* model)
+void DeathParticle::SetModel(ObjModel* Model)
 {
-	Premodel.reset(model);
+	preModel.reset(Model);
 }
 
-void DeathParticle::CreateDeathParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity, float _scale, Float4 color)
+void DeathParticle::CreateDeathParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity, float Scale, Float4 Color)
 {
-	St->Wt.translation_ = position;
-	St->Wt.rotation_ = rota;
-	startScale = _scale;
+	St->Wt.translation_ = Position;
+	St->Wt.rotation_ = Rota;
+	startScale = Scale;
 	scale = 0;
 	St->Wt.scale_ = { startScale,startScale,startScale };
-	St->color =color;
+	St->color = Color;
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -43,19 +43,19 @@ void DeathParticle::CreateDeathParticle(const Vector3& position, const Vector3& 
 
 	mode = Pattern::SCATTER;
 
-	Velocity_ = velocity;
+	velocity = Velocity;
 }
 
-void DeathParticle::CreateHitParticle(const Vector3& position, const Vector3& rota, const Vector3& velocity, float _scale, Float4 color)
+void DeathParticle::CreateHitParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity, float Scale, Float4 Color)
 {
-	St->Wt.translation_ = position;
-	St->Wt.rotation_ = rota;
-	startScale = _scale;
+	St->Wt.translation_ = Position;
+	St->Wt.rotation_ = Rota;
+	startScale = Scale;
 	scale = 0;
 	St->Wt.scale_ = { startScale,startScale,startScale };
-	St->color = color;
-	Velocity_ = velocity;
-	Velocity_.y = 0;
+	St->color = Color;
+	velocity = Velocity;
+	velocity.y = 0;
 
 	std::random_device rd;
 	std::default_random_engine eng(rd());
@@ -76,11 +76,11 @@ void DeathParticle::CreateHitParticle(const Vector3& position, const Vector3& ro
 	lifeTime = 30;
 	deathTimer = lifeTime;
 
-	Velocity_ = Velocity_ * rotaMat;
+	velocity = velocity * rotaMat;
 
-	Velocity_.Normalize();
+	velocity.Normalize();
 	romdom *= spead;
-	Velocity_ *= (spead*2);
+	velocity *= (spead*2);
 }
 
 void DeathParticle::Update()
@@ -95,7 +95,7 @@ void DeathParticle::Update()
 	case Pattern::HIT:
 		scale = EaseInSine(0, startScale, static_cast<float>(deathTimer), static_cast<float>(lifeTime));
 		//St->color.z = easeInSine(0, 1.0f, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
-		St->Wt.translation_ = St->Wt.translation_ + Velocity_;
+		St->Wt.translation_ = St->Wt.translation_ + velocity;
 		St->Wt.rotation_ = St->Wt.rotation_ + romdom;
 		St->Wt.scale_ = { scale,scale,scale };
 

@@ -11,14 +11,14 @@ BulletManager* BulletManager::GetInstance()
 	return &instance;
 }
 
-void BulletManager::CreateHomingBullet(ObjModel* model, Vector3 position, Vector3 velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag)
+void BulletManager::CreateHomingBullet(ObjModel* Model, Vector3 Position, Vector3 Velocity, Vector3* Target, float Size, float BulletSpeed, const Tag& Tag)
 {
-	GetInstance()->manageBulletList.emplace_back(std::make_unique<HomingBullet>(model, position,velocity, Target, size, BulletSpeed, _tag));
+	GetInstance()->manageBulletList.emplace_back(std::make_unique<HomingBullet>(Model, Position, Velocity, Target, Size, BulletSpeed, Tag));
 }
 
-void BulletManager::CreateNormalBullet(ObjModel* model, Vector3 position, Vector3 velocity, float size, float BulletSpeed, const Tag& _tag)
+void BulletManager::CreateNormalBullet(ObjModel* Model, Vector3 Position, Vector3 Velocity, float Size, float BulletSpeed, const Tag& Tag)
 {
-	GetInstance()->manageBulletList.emplace_back(std::make_unique<NormalBullet>(model, position, velocity, size, BulletSpeed, _tag));
+	GetInstance()->manageBulletList.emplace_back(std::make_unique<NormalBullet>(Model, Position, Velocity, Size, BulletSpeed, Tag));
 }
 
 void BulletManager::ManageBulletUpdate()
@@ -39,7 +39,7 @@ void BulletManager::ManageBulletUpdate()
 	
 }
 
-void BulletManager::clear()
+void BulletManager::Clear()
 {
 	GetInstance()->manageBulletList.clear();
 }

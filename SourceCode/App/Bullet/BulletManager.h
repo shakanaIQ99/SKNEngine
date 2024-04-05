@@ -13,12 +13,12 @@ public:
 
 	static BulletManager* GetInstance();
 	
-	static void CreateHomingBullet(ObjModel* model, Vector3 position, Vector3 velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag);
-	static void CreateNormalBullet(ObjModel* model,Vector3 position, Vector3 velocity, float size, float BulletSpeed, const Tag& _tag);
+	static void CreateHomingBullet(ObjModel* Model, Vector3 Position, Vector3 Velocity, Vector3* Target, float Size, float BulletSpeed, const Tag& Tag);
+	static void CreateNormalBullet(ObjModel* Model,Vector3 Position, Vector3 Velocity, float Size, float BulletSpeed, const Tag& Tag);
 
 	
 	static void ManageBulletUpdate();
-	static void clear();
+	static void Clear();
 	
 	static const std::list<std::unique_ptr<Bullet>>& GetBulletList() { return GetInstance()->manageBulletList; };
 

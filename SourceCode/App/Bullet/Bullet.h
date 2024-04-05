@@ -18,18 +18,18 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
-	Vector3 GetVec() { return Velocity_.GetNormalize(); }
+	Vector3 GetVec() { return velocity.GetNormalize(); }
 
-	const bool isdead() { return isDead_; }
+	const bool isdead() { return isDead; }
 
-	void onDead() { isDead_ = true; }
+	void onDead() { isDead = true; }
 
 	//速度
-	Vector3 Velocity_;
+	Vector3 velocity;
 
 	Tag tag = Tag::NONE;
 private:
 	//デスフラグ
-	bool isDead_ = false;
+	bool isDead = false;
 };
 

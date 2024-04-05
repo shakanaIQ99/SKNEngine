@@ -1,31 +1,31 @@
 #include "HomingBullet.h"
 
-HomingBullet::HomingBullet(ObjModel* model, Vector3 position, Vector3 velocity, Vector3* Target, float size, float BulletSpeed, const Tag& _tag)
+HomingBullet::HomingBullet(ObjModel* Model, Vector3 Position, Vector3 Velocity, Vector3* Target, float Size, float BulletSpeed, const Tag& Tag)
 {
-	ModelInit(model);
-	St->Wt.translation_ = position;
-	firstPos = position;
-	St->Wt.scale_ = { size,size,size };
-	Velocity_ = velocity;
-	TargetPos = Target;
-	bulletspeed = BulletSpeed;
-	tag = _tag;
-	deathTimer_ = LifeTime;
+	ModelInit(Model);
+	St->Wt.translation_ = Position;
+	firstPos = Position;
+	St->Wt.scale_ = { Size,Size,Size };
+	velocity = Velocity;
+	targetPos = Target;
+	bulletSpeed = BulletSpeed;
+	tag = Tag;
+	deathTimer = lifeTime;
 	St->color = { 1.0f,0,0,1.0f };
 
-	HomingPower = 0.3f;
+	homingPower = 0.3f;
 }
 
 void HomingBullet::Update()
 {
-	Vector3 toTarget(TargetPos->x - St->Wt.translation_.x, TargetPos->y - St->Wt.translation_.y, TargetPos->z - St->Wt.translation_.z);
+	Vector3 toTarget(targetPos->x - St->Wt.translation_.x, targetPos->y - St->Wt.translation_.y, targetPos->z - St->Wt.translation_.z);
 
-	Velocity_ = Slerp(Velocity_, toTarget, HomingPower) * 2.0f;
+	velocity = Slerp(velocity, toTarget, homingPower) * 2.0f;
 
-	St->Wt.translation_ = St->Wt.translation_ + Velocity_;
+	St->Wt.translation_ = St->Wt.translation_ + velocity;
 
 
-	Vector3 a = Vector3(TargetPos->x - firstPos.x, TargetPos->y - firstPos.y, TargetPos->z - firstPos.z);
+	Vector3 a = Vector3(targetPos->x - firstPos.x, targetPos->y - firstPos.y, targetPos->z - firstPos.z);
 
 	Vector3 b = St->Wt.translation_ - firstPos;
 
@@ -35,7 +35,7 @@ void HomingBullet::Update()
 
 	if (lenA < lenB)
 	{
-		HomingPower = 0;
+		homingPower = 0;
 	}
 
 	Vector3 Flont = { 0,0,1.0f };
@@ -49,7 +49,7 @@ void HomingBullet::Update()
 	St->Wt.rotation_.y = (p_pos + c_vec);
 
 	St->Update(camera->GetView());
-	if (--deathTimer_ <= 0 )
+	if (--deathTimer <= 0 )
 	{
 		onDead();
 	}

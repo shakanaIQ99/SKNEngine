@@ -32,7 +32,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	preTitleHandle = textureManager->LoadTexture("Resources/title.png");
 	preTitleHandle2 = textureManager->LoadTexture("Resources/title2.png");
 	SceneChaHandle = textureManager->LoadTexture("Resources/scene.png");
-	clearScHandle = textureManager->LoadTexture("Resources/clear.png");
+	clearScHandle = textureManager->LoadTexture("Resources/Clear.png");
 	GameOverScHandle = textureManager->LoadTexture("Resources/GameOver.png");
 
 	AudioManager::Load("Resources/Sound/wallhit.wav", "hit");//
@@ -103,7 +103,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	player.Reset();
 	boss.Reset();
 	camera.Reset();
-	BulletManager::clear();
+	BulletManager::Clear();
 }
 
 void GameScene::Update()
@@ -127,7 +127,7 @@ void GameScene::Update()
 			{
 				player.Reset();
 				boss.Reset();
-				BulletManager::clear();
+				BulletManager::Clear();
 				camera.Reset();
 				GameUpdate();
 				//camera.setPos(boss.GetPos());

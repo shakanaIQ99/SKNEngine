@@ -1,23 +1,23 @@
 #include "NormalBullet.h"
 
-NormalBullet::NormalBullet(ObjModel* model, Vector3 position, Vector3 velocity, float size, float BulletSpeed, const Tag& _tag)
+NormalBullet::NormalBullet(ObjModel* Model, Vector3 Position, Vector3 Velocity, float Size, float BulletSpeed, const Tag& Tag)
 {
-	ModelInit(model);
-	St->Wt.translation_ = position;
-	St->Wt.scale_ = { size,size,size };
-	Velocity_ = velocity;
-	bulletspeed = BulletSpeed;
-	tag = _tag;
+	ModelInit(Model);
+	St->Wt.translation_ = Position;
+	St->Wt.scale_ = { Size,Size,Size };
+	velocity = Velocity;
+	bulletSpeed = BulletSpeed;
+	tag = Tag;
 }
 
 void NormalBullet::Update()
 {
-	St->Wt.translation_ += Velocity_ * bulletspeed;
+	St->Wt.translation_ += velocity * bulletSpeed;
 
 	St->Update(camera->GetView());
 
 	//デスタイマーをひいて0以下になったらフラグを立てる
-	if (--deathTimer_ <= 0)
+	if (--deathTimer <= 0)
 	{
 		onDead();
 	}

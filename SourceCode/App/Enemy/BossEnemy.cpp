@@ -284,7 +284,7 @@ void BossEnemy::Draw()
 	//白線描画
 	if (AimMode)
 	{
-		LeserPoint.Draw(St->Wt.translation_, TargetPos);
+		LeserPoint.Draw(St->Wt.translation_, targetPos);
 	}
 }
 
@@ -633,7 +633,7 @@ void BossEnemy::SimpleShot()
 	{
 		if (TargetTimer > 10)
 		{
-			TargetPos = player->GetPos();
+			targetPos = player->GetPos();
 
 		}
 		TargetTimer--;
@@ -711,7 +711,7 @@ void BossEnemy::HardShot()
 	{
 		if (TargetTimer > 10)
 		{
-			TargetPos = aimingTargetPos;
+			targetPos = aimingTargetPos;
 
 		}
 		TargetTimer--;

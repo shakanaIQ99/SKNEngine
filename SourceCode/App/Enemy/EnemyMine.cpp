@@ -4,14 +4,14 @@
 #include"Easing.h"
 #include"AudioManager.h"
 
-std::unique_ptr<ObjModel> EnemyMine::Premodel;
+std::unique_ptr<ObjModel> EnemyMine::preModel;
 
 
 EnemyMine::EnemyMine()
 {
 
-	ModelInit(Premodel.get());
-	Velocity_ = { 0,0,0 };
+	ModelInit(preModel.get());
+	velocity = { 0,0,0 };
 }
 
 EnemyMine::~EnemyMine()
@@ -20,22 +20,22 @@ EnemyMine::~EnemyMine()
 
 void EnemyMine::SetModel(ObjModel* _model)
 {
-	Premodel.reset(_model);
+	preModel.reset(_model);
 }
 
-void EnemyMine::Initlize(const Vector3& position, const Vector3& rota, const Vector3& velocity)
+void EnemyMine::Initlize(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity)
 {
-	St->Wt.translation_ = position;
-	St->Wt.rotation_ = rota;
+	St->Wt.translation_ = Position;
+	St->Wt.rotation_ = Rota;
 	St->Wt.scale_ = { scale,scale,scale };
 	St->color = { 1.0f,0.6f,0.0f,1.0f };
 
 	mineTimer = mineTime;
 	stopCounter = stopCount;
 	explodeTimer = 0;
-	Velocity_ = velocity;
+	velocity = Velocity;
 
-	Velocity_.y = -0.2f;
+	velocity.y = -0.2f;
 }
 
 void EnemyMine::Update()
@@ -52,7 +52,7 @@ void EnemyMine::Update()
 	
 	if(!onField)
 	{
-		St->Wt.translation_ = St->Wt.translation_ + Velocity_;
+		St->Wt.translation_ = St->Wt.translation_ + velocity;
 	}
 	
 	if (onField)
@@ -87,7 +87,7 @@ void EnemyMine::Update()
 			explodeTimer++;
 			scale = EaseInQuint(4.0f, 0.0f, static_cast<float>(explodeTimer), static_cast<float>(explodeTime));
 
-			if (explodeTimer >= explodeTime)isDead_ = true;
+			if (explodeTimer >= explodeTime)isDead = true;
 			break;
 		}
 		
@@ -117,7 +117,7 @@ bool EnemyMine::IsHit() const
 
 void EnemyMine::Destoroy()
 {
-	isDead_ = true;
+	isDead = true;
 }
 
 void EnemyMine::OnCol()
