@@ -21,25 +21,25 @@ public:
 	/// </summary>
 	void Update();
 
-	ViewProjection* getView();
+	ViewProjection* GetView();
 
-	Matrix4 getMatWorld();
+	Matrix4 GetMatWorld();
 
-	Vector3 getForwardVec();
+	Vector3 GetForwardVec();
 
 
 
-	void setPos(Vector3 pos);
+	void SetPos(Vector3 pos);
 
-	void setTarget(Vector3 Target);
+	void SetTarget(Vector3 Target);
 	/// <summary>
 	/// カメラに追従先のトランスフォームを渡す
 	/// </summary>
-	void setTarget(WorldTransform* target) { targetWT = target; }
+	void SetTarget(WorldTransform* target) { targetWT = target; }
 
-	void setRotate(Vector3 rotate);
+	void SetRotate(Vector3 rotate);
 
-	void setWorldMat(Matrix4 woeldMat);
+	void SetWorldMat(Matrix4 woeldMat);
 
 private:
 

@@ -64,11 +64,11 @@ private:
 
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 
-	static vector<string>FilePaths;
+	static vector<string>filePaths;
 
 	static unordered_map<string, unique_ptr<TextureData>> texDatas;
 
-	uint32_t TextureSize;
+	uint32_t textureSize;
 
 };
 

@@ -1,6 +1,6 @@
 #include "TextureManager.h"
 TextureManager* TextureManager::texManager = nullptr;
-vector<string>TextureManager::FilePaths;
+vector<string>TextureManager::filePaths;
 unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 
 using namespace SKNEngine;
@@ -14,12 +14,12 @@ void TextureManager::StaticInitialize(DirectXCommon* dxcommon)
 	texHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 
-	FilePaths.resize(2056);
+	filePaths.resize(2056);
 }
 
 uint32_t TextureManager::LoadTexture(const string& path)
 {
-	if (TextureSize > 2056)
+	if (textureSize > 2056)
 	{
 		assert(0);
 	}
@@ -34,13 +34,13 @@ uint32_t TextureManager::LoadTexture(const string& path)
 		unique_ptr<TextureData> data;
 
 		data.reset(LoadFromTextureData(path));
-		data->texHandle = TextureSize;
+		data->texHandle = textureSize;
 		data->path = path;
 
 		texDatas[path] = move(data);
-		FilePaths[TextureSize] = path;
-		uint32_t handl = TextureSize;
-		TextureSize++;
+		filePaths[textureSize] = path;
+		uint32_t handl = textureSize;
+		textureSize++;
 
 
 		return handl;
@@ -61,7 +61,7 @@ uint32_t TextureManager::Load(const string& path)
 
 TextureData* TextureManager::GetTextureData(uint32_t handle)
 {
-	return texDatas[FilePaths[handle]].get();
+	return texDatas[filePaths[handle]].get();
 }
 
 TextureManager* TextureManager::GetInstance()

@@ -48,7 +48,7 @@ public:
 
 private:
 
-    static const float clearcolor[4];
+    static const float clearColor[4];
 
     struct VertexPos
     {
@@ -66,7 +66,7 @@ private:
     static SKNEngine::DirectXCommon* dxCommon;
    
 
-    ComPtr<ID3D12Resource> TexBuff;
+    ComPtr<ID3D12Resource> texBuff;
     ComPtr <ID3D12DescriptorHeap> srvHeap;
     D3D12_HEAP_PROPERTIES texHeapProp{};
 

@@ -3503,7 +3503,7 @@ void ImGui::Shutdown()
     ImGuiContext& g = *GImGui;
     if (g.IO.Fonts && g.FontAtlasOwnedByContext)
     {
-        g.IO.Fonts->Locked = false;
+        g.IO.Fonts->locked = false;
         IM_DELETE(g.IO.Fonts);
     }
     g.IO.Fonts = NULL;
@@ -4355,7 +4355,7 @@ void ImGui::NewFrame()
     UpdateViewportsNewFrame();
 
     // Setup current font and draw list shared data
-    g.IO.Fonts->Locked = true;
+    g.IO.Fonts->locked = true;
     SetCurrentFont(GetDefaultFont());
     IM_ASSERT(g.Font->IsLoaded());
     ImRect virtual_space(FLT_MAX, FLT_MAX, -FLT_MAX, -FLT_MAX);
@@ -4869,7 +4869,7 @@ void ImGui::EndFrame()
     g.IO.MetricsActiveWindows = g.WindowsActiveCount;
 
     // Unlock font atlas
-    g.IO.Fonts->Locked = false;
+    g.IO.Fonts->locked = false;
 
     // Clear Input data for next frame
     g.IO.AppFocusLost = false;

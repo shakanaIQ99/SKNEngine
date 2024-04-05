@@ -1,8 +1,8 @@
 #include "Field.h"
 
 #include"ImGuiManager.h"
-const float Field::AreaLimit = 250.0f;	//半径
-const float Field::LimitLine = 125.0f;	//半径
+const float Field::areaLimit = 250.0f;	//半径
+const float Field::limitLine = 125.0f;	//半径
 
 void Field::Init(Camera* _camera)
 {
@@ -10,7 +10,7 @@ void Field::Init(Camera* _camera)
 	ground.clear();
 	ground_model.reset(ObjModel::LoadFromOBJ("555"));
 
-	for (size_t i = 0; i < TileNum; i++)
+	for (size_t i = 0; i < tileNum; i++)
 	{
 		std::unique_ptr<OBJ3D > g = std::make_unique<OBJ3D>();
 
@@ -21,14 +21,14 @@ void Field::Init(Camera* _camera)
 	{
 		Ground.reset(OBJ3D::Create());
 		Ground->SetModel(ground_model.get());
-		Ground->Wt.scale_ = { TileSize / 2.0f,0.0f,TileSize / 2.0f };
+		Ground->Wt.scale_ = { tileSize / 2.0f,0.0f,tileSize / 2.0f };
 	}
 
 	for (size_t i = 0; i < ground.size(); i++)
 	{
-		ground[i]->Wt.translation_.x = -((AreaLimit / 2.0f) - (TileSize / 2.0f)) + ((TileSize) * static_cast<float>(i % 10));
+		ground[i]->Wt.translation_.x = -((areaLimit / 2.0f) - (tileSize / 2.0f)) + ((tileSize) * static_cast<float>(i % 10));
 		ground[i]->Wt.translation_.y = 0;
-		ground[i]->Wt.translation_.z = ((AreaLimit / 2.0f) - (TileSize / 2.0f)) - ((TileSize) * static_cast<float>(i / 10));
+		ground[i]->Wt.translation_.z = ((areaLimit / 2.0f) - (tileSize / 2.0f)) - ((tileSize) * static_cast<float>(i / 10));
 	}
 
 	camera = _camera;
@@ -38,7 +38,7 @@ void Field::Update()
 {
 	for (auto& Ground : ground)
 	{
-		Ground->Update(camera->getView());
+		Ground->Update(camera->GetView());
 	}
 #ifdef _DEBUG
 	ImGuiSet();
@@ -58,12 +58,12 @@ void Field::Draw()
 
 float Field::GetArea()
 {
-	return LimitLine;
+	return limitLine;
 }
 
 bool Field::OutOfArea(const Vector2& pos, const float scale)
 {
-	if (pos.x + scale > LimitLine || pos.x - scale < -LimitLine || pos.y + scale>LimitLine || pos.y - scale < -LimitLine)
+	if (pos.x + scale > limitLine || pos.x - scale < -limitLine || pos.y + scale>limitLine || pos.y - scale < -limitLine)
 	{
 		return true;
 	}
@@ -73,7 +73,7 @@ bool Field::OutOfArea(const Vector2& pos, const float scale)
 
 float Field::GetUpArea()
 {
-	return UpAreaLimit;
+	return upAreaLimit;
 }
 
 void Field::ImGuiSet()

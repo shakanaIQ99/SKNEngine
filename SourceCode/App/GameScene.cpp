@@ -11,11 +11,11 @@ using namespace SKNEngine;
 
 void GameScene::Init(DirectXCommon* dxcommon)
 {
-	spritecommon = new SpriteCommon();
-	spritecommon->Initialize(dxcommon);
+	spriteCommon = new SpriteCommon();
+	spriteCommon->Initialize(dxcommon);
 
-	texturemanager = TextureManager::GetInstance();
-	texturemanager->StaticInitialize(dxcommon);
+	textureManager = TextureManager::GetInstance();
+	textureManager->StaticInitialize(dxcommon);
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
 	
@@ -23,17 +23,17 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
-	StuructTransform::SetStruct(&camera, spritecommon, texturemanager);
+	StuructTransform::SetStruct(&camera, spriteCommon, textureManager);
 
 	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome",true);
 	DeathParticle::SetModel(ObjModel::LoadFromOBJ("boxobj"));
 	
-	preTitleHandle = texturemanager->LoadTexture("Resources/title.png");
-	preTitleHandle2 = texturemanager->LoadTexture("Resources/title2.png");
-	SceneChaHandle = texturemanager->LoadTexture("Resources/scene.png");
-	clearScHandle = texturemanager->LoadTexture("Resources/clear.png");
-	GameOverScHandle = texturemanager->LoadTexture("Resources/GameOver.png");
+	preTitleHandle = textureManager->LoadTexture("Resources/title.png");
+	preTitleHandle2 = textureManager->LoadTexture("Resources/title2.png");
+	SceneChaHandle = textureManager->LoadTexture("Resources/scene.png");
+	clearScHandle = textureManager->LoadTexture("Resources/clear.png");
+	GameOverScHandle = textureManager->LoadTexture("Resources/GameOver.png");
 
 	AudioManager::Load("Resources/Sound/wallhit.wav", "hit");//
 	AudioManager::Load("Resources/Sound/shot.wav", "shot");//
@@ -58,7 +58,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	boss.Init();
 	player.Init();
 
-	camera.setTarget(&player.St->Wt.translation_);
+	camera.SetTarget(&player.St->Wt.translation_);
 	//camera.setTarget(&player.St->Wt);
 
 	boss.SetPlayer(&player);
@@ -68,19 +68,19 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//スプライト周り
 
 	preTitle = std::make_unique<Sprite2D>();
-	preTitle->Initialize(spritecommon, preTitleHandle);
+	preTitle->Initialize(spriteCommon, preTitleHandle);
 	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 4.5f ,0.0f };
 
 	preTitle2 = std::make_unique<Sprite2D>();
-	preTitle2->Initialize(spritecommon, preTitleHandle2);
+	preTitle2->Initialize(spriteCommon, preTitleHandle2);
 	preTitle2->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) + 60.0f ,0.0f };
 
 	SceneCha = std::make_unique<Sprite2D>();
-	SceneCha->Initialize(spritecommon, SceneChaHandle);
+	SceneCha->Initialize(spriteCommon, SceneChaHandle);
 	SceneCha->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 	clearSc = std::make_unique<Sprite2D>();
-	clearSc->Initialize(spritecommon, clearScHandle);
+	clearSc->Initialize(spriteCommon, clearScHandle);
 	clearSc->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 
@@ -122,8 +122,8 @@ void GameScene::Update()
 
 		if (sceneChaflag)
 		{
-			SceneChangeTimer++;
-			if (SceneChangeTimer >= SceneChangeTime)
+			sceneChangeTimer++;
+			if (sceneChangeTimer >= sceneChangeTime)
 			{
 				player.Reset();
 				boss.Reset();
@@ -131,14 +131,14 @@ void GameScene::Update()
 				camera.Reset();
 				GameUpdate();
 				//camera.setPos(boss.GetPos());
-				camera.setTarget(&player.prePlayer);
+				camera.SetTarget(&player.prePlayer);
 				scene = SceneType::GAMESCENE;
 				
 			}
 		}
 		else
 		{
-			SceneChangeTimer = 0;
+			sceneChangeTimer = 0;
 		}
 		break;
 	case SceneType::GAMESCENE:
@@ -159,8 +159,8 @@ void GameScene::Update()
 		}
 		if (endSceneChaflag)
 		{
-			SceneChangeTimer++;
-			if (SceneChangeTimer >= SceneChangeTime)
+			sceneChangeTimer++;
+			if (sceneChangeTimer >= sceneChangeTime)
 			{
 				if (player.GameEnd())
 				{
@@ -183,11 +183,11 @@ void GameScene::Update()
 
 	case SceneType::CLEARSCENE:
 		
-		SceneChangeTimer--;
+		sceneChangeTimer--;
 
-		if (SceneChangeTimer <= 0)
+		if (sceneChangeTimer <= 0)
 		{
-			SceneChangeTimer = 0;
+			sceneChangeTimer = 0;
 			scene = SceneType::TITLE;
 			player.Reset();
 			camera.Reset();
@@ -197,11 +197,11 @@ void GameScene::Update()
 
 	case SceneType::GAMEOVER:
 
-		SceneChangeTimer--;
+		sceneChangeTimer--;
 
-		if (SceneChangeTimer <= 0)
+		if (sceneChangeTimer <= 0)
 		{
-			SceneChangeTimer = 0;
+			sceneChangeTimer = 0;
 			scene = SceneType::TITLE;
 			player.Reset();
 			camera.Reset();
@@ -211,8 +211,8 @@ void GameScene::Update()
 		break;
 	}
 
-	SceneAlpha = easeOutSine(0, 255.0f, static_cast<float>(SceneChangeTimer), static_cast<float>(SceneChangeTime));
-	SceneCha->Wt.color = { SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f ,SceneAlpha / 255.0f };
+	sceneAlpha = EaseOutSine(0, 255.0f, static_cast<float>(sceneChangeTimer), static_cast<float>(sceneChangeTime));
+	SceneCha->Wt.color = { sceneAlpha / 255.0f ,sceneAlpha / 255.0f ,sceneAlpha / 255.0f ,sceneAlpha / 255.0f };
 	SceneCha->Update();
 #ifdef _DEBUG
 	ImGuiView();
@@ -232,16 +232,16 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 		GameDraw(dxcommon);
 		break;
 	case SceneType::CLEARSCENE:
-		spritecommon->PreDraw();
+		spriteCommon->PreDraw();
 		clearSc->Draw();
 		break;
 	case SceneType::GAMEOVER:
-		spritecommon->PreDraw();
+		spriteCommon->PreDraw();
 		clearSc->Draw();
 		break;
 	}
 	
-	spritecommon->PreDraw();
+	spriteCommon->PreDraw();
 	SceneCha->Draw();
 
 	
@@ -361,7 +361,7 @@ void GameScene::GameUpdate()
 	light->Update();
 
 	camera.Update();
-	skydome->Update(camera.getView());
+	skydome->Update(camera.GetView());
 	field.Update();
 	player.Update();
 	boss.Update();
@@ -373,12 +373,12 @@ void GameScene::TitleDraw(DirectXCommon* dxcommon)
 	/*skydome->Draw();
 	field.Draw();*/
 	player.Draw();
-	spritecommon->PreDraw();
+	spriteCommon->PreDraw();
 
 	preTitle->Draw();
 	preTitle2->Draw();
 
-	spritecommon->PostDraw();
+	spriteCommon->PostDraw();
 
 }
 
@@ -406,7 +406,7 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 	// 3Dオブジェクト描画後処理
 	//ParticleManager::PostDraw();
 
-	spritecommon->PreDraw();
+	spriteCommon->PreDraw();
 	if (!sceneChaflag)
 	{
 		player.DrawUI();
@@ -416,34 +416,34 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 	//sprite->Draw({ 0,0 });
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
 
-	spritecommon->PostDraw();
+	spriteCommon->PostDraw();
 
 }
 
 void GameScene::StartUpdate()
 {
-	SceneChangeTimer--;
+	sceneChangeTimer--;
 	//SceneCameraTimer++;
 
 	
 
-	if (SceneChangeTimer <= 0)
+	if (sceneChangeTimer <= 0)
 	{
-		SceneChangeTimer = 0;
+		sceneChangeTimer = 0;
 		//sceneChaflag = false;
 	}
 	//sceneCamera=
 
 	//camera.setPos();
-	if (SceneCameraTimer >= SceneCameraTime)
+	if (sceneCameraTimer >= sceneCameraTime)
 	{
-		SceneCameraTimer = SceneCameraTime;
+		sceneCameraTimer = sceneCameraTime;
 		//camera.setTarget(&player.St->Wt);
 		
 	}
 	//camera.Update();
 	camera.Update();
-	skydome->Update(camera.getView());
+	skydome->Update(camera.GetView());
 	field.Update();
 	player.StartUpdate();
 	boss.Update(sceneChaflag);

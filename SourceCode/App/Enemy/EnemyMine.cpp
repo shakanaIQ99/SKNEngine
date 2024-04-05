@@ -70,7 +70,7 @@ void EnemyMine::Update()
 			break;
 		case EXPLOSION:
 			explodeTimer++;
-			scale = easeOutQuint(1.0f, 4.0f, static_cast<float>(explodeTimer), static_cast<float>(explodeTime));
+			scale = EaseOutQuint(1.0f, 4.0f, static_cast<float>(explodeTimer), static_cast<float>(explodeTime));
 
 			
 			if (explodeTimer >= explodeTime)state = mineState::STOPEXPLOSION;
@@ -85,7 +85,7 @@ void EnemyMine::Update()
 			break;
 		case END:
 			explodeTimer++;
-			scale = easeInQuint(4.0f, 0.0f, static_cast<float>(explodeTimer), static_cast<float>(explodeTime));
+			scale = EaseInQuint(4.0f, 0.0f, static_cast<float>(explodeTimer), static_cast<float>(explodeTime));
 
 			if (explodeTimer >= explodeTime)isDead_ = true;
 			break;
@@ -96,7 +96,7 @@ void EnemyMine::Update()
 	St->Wt.scale_ = { scale,scale,scale };
 
 
-	St->Update(camera->getView());
+	St->Update(camera->GetView());
 
 	
 }

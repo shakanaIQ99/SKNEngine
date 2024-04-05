@@ -78,7 +78,7 @@ private:
 
 	static ID3D12GraphicsCommandList* commandList;
 
-	static PipelineSet ParPipeline;
+	static PipelineSet parPipeline;
 
 	static const int vertexCount = 1024;
 

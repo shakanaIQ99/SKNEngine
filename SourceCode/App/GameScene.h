@@ -34,8 +34,8 @@ class GameScene
 {
 
 private:
-	SpriteCommon* spritecommon = nullptr;
-	TextureManager* texturemanager;
+	SpriteCommon* spriteCommon = nullptr;
+	TextureManager* textureManager;
 
 
 public:
@@ -50,8 +50,8 @@ public:
 
 	void Finalize()
 	{
-		delete spritecommon;
-		texturemanager->DeleteInstance();
+		delete spriteCommon;
+		textureManager->DeleteInstance();
 		delete light;
 
 		delete skydome_model;
@@ -132,15 +132,15 @@ private:
 	bool sceneChaflag = false;
 	bool endSceneChaflag = false;
 
-	int SceneChangeTimer = 0;
+	int sceneChangeTimer = 0;
 
-	const int SceneChangeTime = 60;
+	const int sceneChangeTime = 60;
 
 	float tenmetu = 255.0f;
 
-	float SceneAlpha = 255.0f;
+	float sceneAlpha = 255.0f;
 
-	float SceneAlpha2 = 255.0f;
+	float sceneAlpha2 = 255.0f;
 
 	float decri = 3.0f;
 
@@ -149,9 +149,9 @@ private:
 
 	Vector3 sceneCamera = { 0,0,0 };
 
-	int SceneCameraTimer = 0;
+	int sceneCameraTimer = 0;
 
-	const int SceneCameraTime = 120;
+	const int sceneCameraTime = 120;
 
 	int clearSceneTimer = 0;
 

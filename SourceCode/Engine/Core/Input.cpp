@@ -217,7 +217,7 @@ Vector2 Input::GetLStick(bool useWASD, bool useArrow)
 	}
 
 	Vector2 result = pad + wasd + arrow;
-	result.normalize();
+	result.Normalize();
 	return result;
 }
 
@@ -240,7 +240,7 @@ Vector2 Input::GetRStick(bool useWASD, bool useArrow)
 	}
 
 	Vector2 result = pad + wasd + arrow;
-	result.normalize();
+	result.Normalize();
 	return result;
 }
 

@@ -14,7 +14,7 @@ void NormalBullet::Update()
 {
 	St->Wt.translation_ += Velocity_ * bulletspeed;
 
-	St->Update(camera->getView());
+	St->Update(camera->GetView());
 
 	//デスタイマーをひいて0以下になったらフラグを立てる
 	if (--deathTimer_ <= 0)

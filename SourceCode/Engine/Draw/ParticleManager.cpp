@@ -1,7 +1,7 @@
 #include "ParticleManager.h"
 ID3D12Device* ParticleManager::device = nullptr;
 ID3D12GraphicsCommandList* ParticleManager::commandList;
-PipelineSet ParticleManager::ParPipeline;
+PipelineSet ParticleManager::parPipeline;
 ComPtr<ID3D12Resource> ParticleManager::vertBuff;
 D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
 ParticleManager::VertexPos ParticleManager::vertices[vertexCount];
@@ -17,7 +17,7 @@ void ParticleManager::StaticInitialize(ID3D12Device* _device)
 {
 	assert(_device);
 	ParticleManager::device = _device;
-	ParPipeline = Pipeline::CreateParticlePipline(device);
+	parPipeline = Pipeline::CreateParticlePipline(device);
 	CreateModel();
 
 }
@@ -26,8 +26,8 @@ void ParticleManager::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	commandList = cmdList;
 
-	commandList->SetPipelineState(ParPipeline.pipelineState.Get());
-	commandList->SetGraphicsRootSignature(ParPipeline.rootSignature.Get());
+	commandList->SetPipelineState(parPipeline.pipelineState.Get());
+	commandList->SetGraphicsRootSignature(parPipeline.rootSignature.Get());
 	// プリミティブ形状の設定コマンド
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }

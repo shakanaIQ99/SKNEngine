@@ -24,13 +24,13 @@ void BossEnemy::Init()
 	
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
 	LeserPoint.Init();
-	HP = MaxHP;
+	hp = maxhp;
 
 	colBox.reset(OBJ3D::Create());
 	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
 
 
-	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
+	hpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 
 
 	colBox->Wt.scale_ = St->Wt.scale_;
@@ -38,7 +38,7 @@ void BossEnemy::Init()
 
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
-	sprite_HPbar->Initialize(spCommon, HpBarHandle);
+	sprite_HPbar->Initialize(spCommon, hpBarHandle);
 	sprite_HPbar->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 22.5f ,0.0f };
 	sprite_HPbar->Wt.scale_.x = 30.0f;
 	sprite_HPbar->Wt.color = { 1.0f,0.0f,0.0f,1.0f };
@@ -51,7 +51,7 @@ void BossEnemy::Reset()
 	
 	LeserPoint.Init();
 	St->Wt.translation_ = { 0,0.0f,80.0f };
-	HP = MaxHP;
+	hp = maxhp;
 	//エフェクトや弾周りの初期化
 
 	const std::list<std::unique_ptr<EnemyMine>>& Mines = GetMines();
@@ -106,12 +106,12 @@ void BossEnemy::Reset()
 	endFlag = false;
 	stepMoveTimer = 0;
 	//死亡時間
-	DeathTimer = 0;
+	deathTimer = 0;
 
 	prePos = { 0,0,0 };
 	rotaVec = { 0,0,1.0f };
 	preVec = { 0,0,0 };
-	DpRate = 0;
+	dpRate = 0;
 	scale = 10.0f;
 	crossLine = 0;
 	St->Wt.scale_ = { scale,scale,scale };
@@ -133,9 +133,9 @@ void BossEnemy::Update(bool flag)
 	}
 	//平面上の距離
 	Vector3 plUnderPos = player->GetUnderPos() - St->Wt.translation_;
-	Lange = plUnderPos.length();
+	Lange = plUnderPos.Length();
 
-	sprite_HPbar->Wt.scale_.x = (30.0f * HP / MaxHP);
+	sprite_HPbar->Wt.scale_.x = (30.0f * hp / maxhp);
 
 	St->Wt.translation_.y -= 0.5f;
 
@@ -152,8 +152,8 @@ void BossEnemy::Update(bool flag)
 	if (BossAtk != AtkPattern::CHARGE&&!flag&&!Death())
 	{
 		Vector3 Flont = { 0,0,1.0f };
-		Flont.normalize();
-		plUnderPos.normalize();
+		Flont.Normalize();
+		plUnderPos.Normalize();
 
 		float p_pos = atan2(plUnderPos.x, plUnderPos.z);
 		float c_vec = atan2(Flont.x, Flont.z);
@@ -254,14 +254,14 @@ void BossEnemy::Update(bool flag)
 
 	colBox->Wt = St->Wt;
 
-	St->Update(camera->getView());
-	colBox->Update(camera->getView());
+	St->Update(camera->GetView());
+	colBox->Update(camera->GetView());
 	sprite_HPbar->Update();
 }
 
 void BossEnemy::Damege(float dmg)
 {
-	HP -= dmg;
+	hp -= dmg;
 }
 
 void BossEnemy::Draw()
@@ -290,7 +290,7 @@ void BossEnemy::Draw()
 
 void BossEnemy::DrawUI()
 {
-	if (HP > 0)
+	if (hp > 0)
 	{
 		sprite_HPbar->Draw();
 	}
@@ -390,7 +390,7 @@ void BossEnemy::BackMove()
 	Vector3 moveVec = St->Wt.translation_ - player->GetPos();
 	moveVec.y = 0;
 
-	moveVec.normalize();
+	moveVec.Normalize();
 
 	moveVec *= 0.4f;
 
@@ -423,7 +423,7 @@ void BossEnemy::CloseMove()
 	Vector3 moveVec = player->GetPos() - St->Wt.translation_;
 	moveVec.y = 0;
 
-	moveVec.normalize();
+	moveVec.Normalize();
 
 	moveVec *= 0.4f;
 
@@ -456,7 +456,7 @@ void BossEnemy::SideStepMove()
 	
 	Vector3 stepToPos = prePos + (Vector3(verticalVec.x, 0, verticalVec.y) * static_cast<float>(rightVec - leftVec));
 
-	St->Wt.translation_ = easeOutQuint(prePos, stepToPos, static_cast<float>(stepMoveTimer), static_cast<float>(stepMoveTime));
+	St->Wt.translation_ = EaseOutQuint(prePos, stepToPos, static_cast<float>(stepMoveTimer), static_cast<float>(stepMoveTime));
 
 	if (++stepMoveTimer > stepMoveTime|| !leftVec && !rightVec)
 	{
@@ -477,7 +477,7 @@ void BossEnemy::SideStepMoveReset()
 
 
 	verticalVec = Vector2(preVec.GetXZ()).GetVerticalR();
-	verticalVec.normalize();
+	verticalVec.Normalize();
 	verticalVec *= stepDistance;
 
 	if (Field::OutOfArea(verticalVec + (St->Wt.translation_).GetXZ(), scale))
@@ -494,7 +494,7 @@ void BossEnemy::SideStepMoveReset()
 
 void BossEnemy::FanShapeMove()
 {
-	float length = preVec2.length();
+	float length = preVec2.Length();
 	
 	float add_x = sinf(fanMoveAngle) * length;
 	float add_z = cosf(fanMoveAngle) * length;
@@ -540,7 +540,7 @@ void BossEnemy::FanShapeMoveReset()
 
 	Vector2 preLengh = verticalVec;
 
-	verticalVec.normalize();
+	verticalVec.Normalize();
 	verticalVec *= stepDistance;
 
 	if (!Field::OutOfArea(verticalVec + (St->Wt.translation_).GetXZ(), scale))
@@ -605,16 +605,16 @@ void BossEnemy::FanShapeMoveReset()
 	Vector2 frontZ(0.0f, 1.0f);
 
 	
-	float length_B = preVec2.getnormalize().length();
-	float length_A = frontZ.getnormalize().length();
+	float length_B = preVec2.GetNormalize().Length();
+	float length_A = frontZ.GetNormalize().Length();
 
 	//内積とベクトル長さを使ってcosθ
-	float cos_sita = frontZ.getnormalize().dot(preVec2.getnormalize()) / (length_A * length_B);
+	float cos_sita = frontZ.GetNormalize().Dot(preVec2.GetNormalize()) / (length_A * length_B);
 
 	
 
 	//cosθからθ
-	if (frontZ.getnormalize().cross(preVec2.getnormalize()) < 0)
+	if (frontZ.GetNormalize().Cross(preVec2.GetNormalize()) < 0)
 	{
 		fanMoveAngle = acos(cos_sita);
 	}
@@ -650,7 +650,7 @@ void BossEnemy::SimpleShot()
 		{
 			BulletVec = player->GetPos() - St->Wt.translation_;
 		}
-		BulletVec.normalize();
+		BulletVec.Normalize();
 		//発射レート
 		if (BurstTime % nBurstRate == 0)
 		{
@@ -682,7 +682,7 @@ void BossEnemy::ChargeAtk()
 
 	St->Wt.translation_ += TargetVec * 1.5f;
 
-	if (chargeLenge + 5.0f < chargeMoved.length())
+	if (chargeLenge + 5.0f < chargeMoved.Length())
 	{
 		BossAtk = AtkPattern::NONE;
 		BossMove = MovePattern::NONE;
@@ -698,8 +698,8 @@ void BossEnemy::ChargeAtkReset()
 	prePos.y = 0;
 	TargetVec = player->GetPos() - St->Wt.translation_;
 	TargetVec.y = 0;
-	chargeLenge = TargetVec.length();
-	TargetVec.normalize();
+	chargeLenge = TargetVec.Length();
+	TargetVec.Normalize();
 	chargeCool = chargeCoolTime;
 	chargeMoveAniTimer = chargeMoveAniTime;
 }
@@ -722,7 +722,7 @@ void BossEnemy::HardShot()
 		
 		AimMode = false;
 		Vector3 BulletVec = player->GetPos() - St->Wt.translation_;
-		BulletVec.normalize();
+		BulletVec.Normalize();
 
 		if (BurstTime % hBurstRate == 0)
 		{
@@ -773,7 +773,7 @@ void BossEnemy::MineAttack()
 
 			throwVec.z = TargetVec.x * sinf(deg) + TargetVec.z * cosf(deg);
 
-			throwVec.normalize();
+			throwVec.Normalize();
 			throwVec *= 1.0f;
 
 			std::unique_ptr <EnemyMine> newMine = std::make_unique<EnemyMine>();
@@ -786,7 +786,7 @@ void BossEnemy::MineAttack()
 
 	mineThrowTimer++;
 	
-	mineThrowDeg = easeOutQuint(0.0, 360.0f, static_cast<float>(mineThrowTimer), static_cast<float>(mineThrowTime));
+	mineThrowDeg = EaseOutQuint(0.0, 360.0f, static_cast<float>(mineThrowTimer), static_cast<float>(mineThrowTime));
 
 	St->Wt.rotation_.y += XMConvertToRadians(mineThrowDeg);
 
@@ -808,7 +808,7 @@ void BossEnemy::MineAttackReset()
 {
 	TargetVec = player->GetPos() - St->Wt.translation_;
 	TargetVec.y = 0;
-	TargetVec.normalize();
+	TargetVec.Normalize();
 	mineThrowTimer = 0;
 	mineThrowDeg = 0;
 	mineCool = mineCoolTime;
@@ -962,8 +962,8 @@ void BossEnemy::ImGuiSet()
 	
 
 	ImGui::NewLine();
-	ImGui::Text("HP::%5.2f", HP);
-	ImGui::DragFloat("HP", &HP, 0.2f);
+	ImGui::Text("HP::%5.2f", hp);
+	ImGui::DragFloat("HP", &hp, 0.2f);
 	ImGui::Checkbox("CriticalAim", &CriticalAim);
 	ImGui::Checkbox("colLock", &colLock);
 
@@ -978,7 +978,7 @@ void BossEnemy::aiming()
 
 	aimingTargetPos = player->GetPos();
 
-	aimingTargetPos = lerp(player->GetPos(), criticalAimPos, static_cast<float>(criAimTimer / criAimTime));
+	aimingTargetPos = Lerp(player->GetPos(), criticalAimPos, static_cast<float>(criAimTimer / criAimTime));
 
 	criAimTimer++;
 	/*LinePrediction2(St->Wt.translation_, player->GetPos(), player->GetPredictionPoint(), nBulletSpeed)*/
@@ -987,37 +987,37 @@ void BossEnemy::aiming()
 	Vector2 a = (player->GetPos() - St->Wt.translation_).GetXZ();
 	Vector2 b = (criticalAimPos - St->Wt.translation_).GetXZ();
 
-	a.normalize();
-	b.normalize();
+	a.Normalize();
+	b.Normalize();
 
-	crossLine = a.cross(b);
-	if (myMath::sign(crossLine) != myMath::sign(judgeLine))criAimTimer = 0;
+	crossLine = a.Cross(b);
+	if (myMath::Sign(crossLine) != myMath::Sign(judgeLine))criAimTimer = 0;
 
 }
 
 void BossEnemy::DeathAnimetion()
 {
 
-	DpRate++;
-	DeathTimer++;
+	dpRate++;
+	deathTimer++;
 
-	scale = easeInSine(4.0f, 0, static_cast<float>(DeathTimer), static_cast<float>(DeathTime));
+	scale = EaseInSine(4.0f, 0, static_cast<float>(deathTimer), static_cast<float>(deathTime));
 
 	St->Wt.scale_ = { scale,scale,scale };
 
-	if (DpRate >= DpRateNum)
+	if (dpRate >= dpRateNum)
 	{
 
 		std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
 		newBullet->CreateDeathParticle(St->Wt.translation_, St->Wt.rotation_, -rotaVec,scale/3.0f, { 1.0f,0.0f,0.0f,1.0f });
 
 		deathPaticles.push_back(std::move(newBullet));
-		DpRate = 0;
+		dpRate = 0;
 	}
-	if (DeathTimer >= DeathTime)
+	if (deathTimer >= deathTime)
 	{
 		endFlag = true;
-		DeathTimer = DeathTime;
+		deathTimer = deathTime;
 	}
 
 	

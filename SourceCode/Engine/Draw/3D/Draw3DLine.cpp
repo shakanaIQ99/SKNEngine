@@ -23,7 +23,7 @@ void Draw3DLine::Draw(Vector3 startpos, Vector3 endpos)
 
 	TransferColor();
 	
-	wt.UpdateMatrix(camera->getView());
+	wt.UpdateMatrix(camera->GetView());
 
 	vertexBuffer->Update(vertices);
 

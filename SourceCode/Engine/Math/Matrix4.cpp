@@ -365,12 +365,12 @@ Matrix4 Matrix4::View(Vector3 eye, Vector3 target, Vector3 up)
 	Matrix4 mat;
 
 	Vector3 direction = target - eye;
-	direction.normalize();
+	direction.Normalize();
 
-	Vector3 xVec = up.cross(direction);
-	xVec.normalize();
-	Vector3 yVec = direction.cross(xVec);
-	yVec.normalize();
+	Vector3 xVec = up.Cross(direction);
+	xVec.Normalize();
+	Vector3 yVec = direction.Cross(xVec);
+	yVec.Normalize();
 
 	mat[0][0] = xVec.x;
 	mat[0][1] = xVec.y;

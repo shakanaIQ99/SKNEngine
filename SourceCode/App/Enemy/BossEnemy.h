@@ -99,7 +99,7 @@ public:
 	/// <returns></returns>
 	bool Death()
 	{
-		if (HP <= 0)
+		if (hp <= 0)
 		{
 			return true;
 		}
@@ -237,16 +237,16 @@ private:
 	Vector3 rotaVec = { 0,0,0 };
 
 	float scale = 10.0f;
-	int DpRate = 0;
-	const int DpRateNum = 1;
+	int dpRate = 0;
+	const int dpRateNum = 1;
 
-	int DeathTimer = 0;
+	int deathTimer = 0;
 
-	const int DeathTime = 120;
+	const int deathTime = 120;
 
-	int SceneCameraTimer = 0;
+	int sceneCameraTimer = 0;
 
-	const int SceneCameraTime = 120;
+	const int sceneCameraTime = 120;
 
 	bool startFlag = false;
 
@@ -265,9 +265,9 @@ private:
 	//HP
 	std::unique_ptr<Sprite2D> sprite_HPbar;
 
-	uint32_t HpBarHandle;
-	const float MaxHP = 100.0f;
-	float HP = 0.0f;
+	uint32_t hpBarHandle;
+	const float maxhp = 100.0f;
+	float hp = 0.0f;
 
 	//行動パターン
 	MovePattern BossMove = MovePattern::NONE;

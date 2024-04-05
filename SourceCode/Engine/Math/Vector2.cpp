@@ -11,14 +11,14 @@ Vector2::Vector2(int32_t x, int32_t y):x(static_cast<float>(x)),y(static_cast<fl
 
 Vector2::Vector2(float x, float y): x(x), y(y){}
 
-float Vector2::length() const
+float Vector2::Length() const
 {
 	return sqrtf((x * x) + (y * y));
 }
 
-Vector2& Vector2::normalize()
+Vector2& Vector2::Normalize()
 {
-	float len = length();
+	float len = Length();
 	if (len != 0)
 	{
 		x = x / len;
@@ -31,9 +31,9 @@ Vector2& Vector2::normalize()
 	return *this;
 }
 
-Vector2 Vector2::getnormalize() const
+Vector2 Vector2::GetNormalize() const
 {
-	float len = length();
+	float len = Length();
 	float nx = 0;
 	float ny = 0;
 	if (len != 0)
@@ -44,12 +44,12 @@ Vector2 Vector2::getnormalize() const
 	return Vector2(nx, ny);
 }
 
-float Vector2::dot(const Vector2& v) const
+float Vector2::Dot(const Vector2& v) const
 {
 	return x * v.x + y * v.y;
 }
 
-float Vector2::cross(const Vector2& v) const
+float Vector2::Cross(const Vector2& v) const
 {
 	return x * v.y - y * v.x;
 }

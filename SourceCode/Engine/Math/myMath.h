@@ -17,7 +17,7 @@ namespace myMath
 	template <typename t>
 
 	//正負を返す
-	t sign(t A) 
+	t Sign(t A) 
 	{
 		return static_cast<t>((A > 0) - (A < 0));
 	}

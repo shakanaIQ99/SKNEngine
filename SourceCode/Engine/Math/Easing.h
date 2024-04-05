@@ -5,11 +5,11 @@
 
 
 
-float easeInSine(float start, float end, float movetime, float endtime);
-float easeInQuint(float start, float end, float movetime, float endtime);
-float easeOutSine(float start, float end, float movetime, float endtime);
-float easeOutQuint(float start, float end, float movetime, float endtime);
+float EaseInSine(float start, float end, float movetime, float endtime);
+float EaseInQuint(float start, float end, float movetime, float endtime);
+float EaseOutSine(float start, float end, float movetime, float endtime);
+float EaseOutQuint(float start, float end, float movetime, float endtime);
 
-Vector3 easeOutQuint(Vector3 start, Vector3 end, float movetime, float endtime);
+Vector3 EaseOutQuint(Vector3 start, Vector3 end, float movetime, float endtime);
 
 double EaseInBack(float t, int start, int end, int num = 1, double p1 = 1.70158);

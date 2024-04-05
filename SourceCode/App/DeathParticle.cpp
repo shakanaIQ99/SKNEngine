@@ -38,7 +38,7 @@ void DeathParticle::CreateDeathParticle(const Vector3& position, const Vector3& 
 
 	romdom = { distr(eng),distr(eng2),distr(eng3) };
 
-	romdom.normalize();
+	romdom.Normalize();
 	romdom *= spead;
 
 	mode = Pattern::SCATTER;
@@ -73,12 +73,12 @@ void DeathParticle::CreateHitParticle(const Vector3& position, const Vector3& ro
 	rotaMat *= Matrix4::RotationX(distr(eng2));
 
 	mode = Pattern::HIT;
-	kLifeTime = 30;
-	deathTimer_ = kLifeTime;
+	lifeTime = 30;
+	deathTimer = lifeTime;
 
 	Velocity_ = Velocity_ * rotaMat;
 
-	Velocity_.normalize();
+	Velocity_.Normalize();
 	romdom *= spead;
 	Velocity_ *= (spead*2);
 }
@@ -93,7 +93,7 @@ void DeathParticle::Update()
 		break;
 
 	case Pattern::HIT:
-		scale = easeInSine(0, startScale, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
+		scale = EaseInSine(0, startScale, static_cast<float>(deathTimer), static_cast<float>(lifeTime));
 		//St->color.z = easeInSine(0, 1.0f, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
 		St->Wt.translation_ = St->Wt.translation_ + Velocity_;
 		St->Wt.rotation_ = St->Wt.rotation_ + romdom;
@@ -102,24 +102,24 @@ void DeathParticle::Update()
 		break;
 	case Pattern::SCATTER:
 
-		scale = easeInSine(0, startScale, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
-		St->color.z= easeInSine(0, 1.0f, static_cast<float>(deathTimer_), static_cast<float>(kLifeTime));
+		scale = EaseInSine(0, startScale, static_cast<float>(deathTimer), static_cast<float>(lifeTime));
+		St->color.z= EaseInSine(0, 1.0f, static_cast<float>(deathTimer), static_cast<float>(lifeTime));
 		St->Wt.translation_ = St->Wt.translation_ + romdom;
 		St->Wt.rotation_ = St->Wt.rotation_ + romdom;
 		St->Wt.scale_ = { scale,scale,scale };
 		break;
 	}
 
-	St->Update(camera->getView());
-	if (deathTimer_ <= 0)
+	St->Update(camera->GetView());
+	if (deathTimer <= 0)
 	{
-		deathTimer_ = 0;
+		deathTimer = 0;
 	}
 
 	//デスタイマーをひいて0以下になったらフラグを立てる
-	if (--deathTimer_ <= 0)
+	if (--deathTimer <= 0)
 	{
-		isDead_ = true;
+		isDead = true;
 	}
 
 }
@@ -131,5 +131,5 @@ void DeathParticle::Draw()
 
 void DeathParticle::Death()
 {
-	isDead_ = true;
+	isDead = true;
 }

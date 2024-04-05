@@ -28,41 +28,41 @@ void Player::Init()
 	
 	
 	reticleHandle = texMana->LoadTexture("Resources/Reticle.png");
-	HpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
+	hpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
 	St->Wt.translation_.y = 50.0f;
 
 	prePP->Wt.scale_ = St->Wt.scale_;
 	prePP->Wt.color = { 0,1.0f,0,1.0f };
 
-	HP = MaxHP;
+	hp = maxhp;
 
-	KeyUI = std::make_unique<Sprite2D>();
-	KeyUI->Initialize(spCommon, texMana->LoadTexture("Resources/preKeyUI.png"));
+	keyUI = std::make_unique<Sprite2D>();
+	keyUI->Initialize(spCommon, texMana->LoadTexture("Resources/preKeyUI.png"));
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
-	sprite_HPbar->Initialize(spCommon, HpBarHandle);
+	sprite_HPbar->Initialize(spCommon, hpBarHandle);
 	sprite_HPbar->Wt.translation_ = { 200.0f,680.0f,0.0f };
 	sprite_HPbar->Wt.scale_.x = 10.0f;
 	sprite_HPbar->Wt.color = { 0.0f,1.0f,0.0f,1.0f };
 
 	sprite_CoverHPbar = std::make_unique<Sprite2D>();
-	sprite_CoverHPbar->Initialize(spCommon,  HpBarHandle);
+	sprite_CoverHPbar->Initialize(spCommon,  hpBarHandle);
 	sprite_CoverHPbar->Wt.translation_ = { 200.0f,680.0f,0.0f };
 	sprite_CoverHPbar->Wt.scale_.x = 10.0f;
 	sprite_CoverHPbar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
 
 	sprite_ENGauge = std::make_unique<Sprite2D>();
-	sprite_ENGauge->Initialize(spCommon, HpBarHandle);
+	sprite_ENGauge->Initialize(spCommon, hpBarHandle);
 	sprite_ENGauge->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f)*20.0f ,0.0f };
-	sprite_ENGauge->Wt.scale_.x = ENGaugeSize * static_cast<float>(ENGauge) / static_cast<float>(ENMAXGauge);
+	sprite_ENGauge->Wt.scale_.x = enGaugeSize * static_cast<float>(gaugeEN) / static_cast<float>(maxGaugeEN);
 	sprite_ENGauge->Wt.scale_.y *= 0.5f;
 	sprite_ENGauge->Wt.color = { 0.0f,0.15f,0.75f,1.0f };
 
 	sprite_CoverENGaugebar = std::make_unique<Sprite2D>();
-	sprite_CoverENGaugebar->Initialize(spCommon, HpBarHandle);
+	sprite_CoverENGaugebar->Initialize(spCommon, hpBarHandle);
 	sprite_CoverENGaugebar->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f) * 20.0f ,0.0f };
-	sprite_CoverENGaugebar->Wt.scale_.x = ENGaugeSize;
+	sprite_CoverENGaugebar->Wt.scale_.x = enGaugeSize;
 	sprite_CoverENGaugebar->Wt.scale_.y *= 0.5f;
 	sprite_CoverENGaugebar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
 
@@ -71,7 +71,7 @@ void Player::Init()
 
 	move_speed = 0.4f;
 
-	ENGauge = ENMAXGauge;
+	gaugeEN = maxGaugeEN;
 
 
 	prePlayer = St->Wt;
@@ -79,7 +79,7 @@ void Player::Init()
 
 void Player::Reset()
 {
-	HP = MaxHP;
+	hp = maxhp;
 	St->Wt.translation_ = { 0,50.0f,0 };
 	St->Wt.scale_ = { 1.0f,1.0f,1.0f };
 
@@ -99,13 +99,13 @@ void Player::Reset()
 		});
 
 	startFlag = false;
-	SceneCameraTimer = 0;
+	sceneCameraTimer = 0;
 	endFlag = false;
-	DeathTimer = 0;
+	deathTimer = 0;
 
 	rotaVec = { 0,0,1.0f };
 	mae = { 0,0,0 };
-	DpRate = 0;
+	dpRate = 0;
 	scale = 1.0f;
 	hpBarShakeNum = 0;
 	diff = 0;
@@ -115,14 +115,14 @@ void Player::Reset()
 void Player::Update()
 {
 	prePlayer.rotation_ = St->Wt.rotation_;
-	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (MaxHP-HP));
-	sprite_HPbar->Wt.scale_.x = (10.0f * HP / MaxHP);
-	prePlayer.translation_ =lerp(prePlayer.translation_, St->Wt.translation_, 0.3f);
+	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (maxhp-hp));
+	sprite_HPbar->Wt.scale_.x = (10.0f * hp / maxhp);
+	prePlayer.translation_ =Lerp(prePlayer.translation_, St->Wt.translation_, 0.3f);
 
-	sprite_ENGauge->Wt.scale_.x = ENGaugeSize * static_cast<float>(ENGauge) / static_cast<float>(ENMAXGauge);
-	if (HP > MaxHP)
+	sprite_ENGauge->Wt.scale_.x = enGaugeSize * static_cast<float>(gaugeEN) / static_cast<float>(maxGaugeEN);
+	if (hp > maxhp)
 	{
-		HP = MaxHP;
+		hp = maxhp;
 	}
 
 	deathPaticles.remove_if([](std::unique_ptr<DeathParticle>& dp)
@@ -155,16 +155,16 @@ void Player::Update()
 	
 	if (Input::GetRTrigger()&& !Death())
 	{
-		if (latetime <= 0)
+		if (lateTime <= 0)
 		{
-			Attack(camera->getForwardVec());
+			Attack(camera->GetForwardVec());
 			AudioManager::Play("shot");
 
-			latetime = firelate;
+			lateTime = fireLate;
 		}
 	}
 
-	latetime--;
+	lateTime--;
 
 
 	for (std::unique_ptr<DeathParticle>& dp : deathPaticles)
@@ -179,11 +179,11 @@ void Player::Update()
 
 	LockOn();
 
-	St->Update(camera->getView());
-	prePlayer.UpdateMatrix(camera->getView());
-	prePP->Update(camera->getView());
+	St->Update(camera->GetView());
+	prePlayer.UpdateMatrix(camera->GetView());
+	prePP->Update(camera->GetView());
 	colBox->Wt= St->Wt;
-	colBox->Update(camera->getView());
+	colBox->Update(camera->GetView());
 	sprite_HPbar->Update();
 	sprite_ENGauge->Update();
 	sprite_CoverENGaugebar->Update();
@@ -192,7 +192,7 @@ void Player::Update()
 
 void Player::Damege(float dmg)
 {
-	HP -= dmg * static_cast<float>(1 - Muteki);
+	hp -= dmg * static_cast<float>(1 - muteki);
 	AudioManager::Play("hit");
 }
 
@@ -216,7 +216,7 @@ void Player::KnockBack(Vector3 vec)
 	knockBack = true;
 	knockVec = vec;
 	knockVec.y = 0;
-	knockVec.normalize();
+	knockVec.Normalize();
 	knockSpeed = knockSpeedNum;
 
 }
@@ -227,12 +227,12 @@ void Player::Attack(Vector3 flont)
 	
 	Vector3 velocity = flont;
 
-	if (Locked)
+	if (locked)
 	{
 		velocity = boss->translation_ - GetPos();
 	}
 
-	velocity.normalize();
+	velocity.Normalize();
 
 	/*velocity = VectorMat(velocity,player->Wt->matWorld_);
 	normalize(velocity);*/
@@ -250,7 +250,7 @@ void Player::Move()
 
 	rotaVec = mae;
 	moveVec = { 0,0,0 };
-	Vector3 Flont = camera->getForwardVec();
+	Vector3 Flont = camera->GetForwardVec();
 	Flont.y = 0;
 
 	playerPredictionPoint = St->Wt.translation_;
@@ -280,7 +280,7 @@ void Player::Move()
 
 	mae *= St->Wt.matWorld_;
 
-	mae.normalize();
+	mae.Normalize();
 
 	
 	
@@ -294,21 +294,21 @@ void Player::Move()
 
 	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_B))
 	{
-		BoostMode = !BoostMode;
+		boostMode = !boostMode;
 		
 	}
 
 
-	if (!DashFlag&& (moveVec.x != 0 || moveVec.z != 0))
+	if (!dashFlag&& (moveVec.x != 0 || moveVec.z != 0))
 	{
-		St->Wt.translation_ += mae * (move_speed + (move_speed * BoostMode));
+		St->Wt.translation_ += mae * (move_speed + (move_speed * boostMode));
 		/*playerPredictionPoint = St->Wt.translation_ + mae * (move_speed + (move_speed * BoostMode));
 		playerPredictionPoint.y = 1.5f;*/
 	}
 	
 	if ((moveVec.x == 0 && moveVec.z == 0))
 	{
-		BoostMode = false;
+		boostMode = false;
 	}
 
 	//St->Wt.translation_.y -= 0.5f;
@@ -316,11 +316,11 @@ void Player::Move()
 	if (St->Wt.translation_.y - (St->Wt.scale_.y * 1.5f) < 0.0f)
 	{
 		St->Wt.translation_.y = (St->Wt.scale_.y * 1.5f);
-		OnGround = true;
+		onGround = true;
 	}
 	else
 	{
-		OnGround = false;
+		onGround = false;
 	}
 
 
@@ -340,133 +340,133 @@ void Player::Move()
 
 void Player::Jump(Vector3 front)
 {
-	if (!OverHeat)
+	if (!overHeat)
 	{
-		if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A) && !DashFlag && OnGround)
+		if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A) && !dashFlag && onGround)
 		{
-			JumpFlag = true;
-			JumpTimer = 0;
-			JumpVec = front;
-			UseEN = true;
-			ENGauge -= JumpUseGauge;
+			jumpFlag = true;
+			jumpTimer = 0;
+			jumpVec = front;
+			useEN = true;
+			gaugeEN -= jumpUseGauge;
 			AudioManager::Play("jump");
 		}
-		if (Input::GetPadButton(XINPUT_GAMEPAD_A) && !DashFlag && !JumpFlag)
+		if (Input::GetPadButton(XINPUT_GAMEPAD_A) && !dashFlag && !jumpFlag)
 		{
-			JumpTimer = 0;
-			St->Wt.translation_.y += AirUpSpead;
-			ENGauge -= AirUseGauge;
+			jumpTimer = 0;
+			St->Wt.translation_.y += airUpSpead;
+			gaugeEN -= airUseGauge;
 		}
 	}
 
 	
 
-	if (JumpFlag)
+	if (jumpFlag)
 	{
-		JumpTimer++;
+		jumpTimer++;
 
-		Upspeed = easeInSine(UpSpeadNum, 0.0f, static_cast<float>(JumpTimer), static_cast<float>(JumpTime));
+		upSpeed = EaseInSine(upSpeadNum, 0.0f, static_cast<float>(jumpTimer), static_cast<float>(jumpTime));
 
-		St->Wt.translation_ += JumpVec * Upspeed;
+		St->Wt.translation_ += jumpVec * upSpeed;
 
-		if (JumpTimer >= JumpTime)
+		if (jumpTimer >= jumpTime)
 		{
-			JumpFlag = false;
-			JumpTimer = 0;
+			jumpFlag = false;
+			jumpTimer = 0;
 		}
 	}
 	else
 	{
-		if (!DashFlag)
+		if (!dashFlag)
 		{
-			JumpTimer++;
-			Upspeed = easeOutSine(0.0f, -UpSpeadNum, static_cast<float>(JumpTimer), static_cast<float>(JumpTime));
+			jumpTimer++;
+			upSpeed = EaseOutSine(0.0f, -upSpeadNum, static_cast<float>(jumpTimer), static_cast<float>(jumpTime));
 		}
-		if (JumpTimer >= JumpTime)
+		if (jumpTimer >= jumpTime)
 		{
-			JumpTimer = JumpTime;
+			jumpTimer = jumpTime;
 		}
 	}
 
-	St->Wt.translation_.y += Upspeed;
+	St->Wt.translation_.y += upSpeed;
 
 }
 
 void Player::Dash(Vector3 front)
 {
-	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_X) && !DashFlag&&!OverHeat)
+	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_X) && !dashFlag&&!overHeat)
 	{
-		DashFlag = true;
-		DashVec = front;
-		DashTimer = 0;
-		ENGauge -= DashUseGauge;
-		UseEN = true;
-		JumpTimer = 0;
-		JumpFlag = false;
-		Upspeed = 0;
-		BoostMode = true;
+		dashFlag = true;
+		dashVec = front;
+		dashTimer = 0;
+		gaugeEN -= dashUseGauge;
+		useEN = true;
+		jumpTimer = 0;
+		jumpFlag = false;
+		upSpeed = 0;
+		boostMode = true;
 		AudioManager::Play("dash");
 	}
 
-	if (DashFlag)
+	if (dashFlag)
 	{
-		DashTimer++;
+		dashTimer++;
 
-		dashspeed = easeInQuint(DashSpeadNum, 0.0f, static_cast<float>(DashTimer), static_cast<float>(DashTime));
+		dashSpeed = EaseInQuint(dashSpeadNum, 0.0f, static_cast<float>(dashTimer), static_cast<float>(dashTime));
 
-		St->Wt.translation_ += DashVec * dashspeed;
+		St->Wt.translation_ += dashVec * dashSpeed;
 
-		if (DashTimer >= DashTime)
+		if (dashTimer >= dashTime)
 		{
-			DashFlag = false;
-			BoostMode = true;
+			dashFlag = false;
+			boostMode = true;
 		}
 	}
 }
 
 void Player::EN()
 {
-	if (InfEN)
+	if (infEN)
 	{
-		ENGauge = ENMAXGauge;
+		gaugeEN = maxGaugeEN;
 	}
 
-	if (UseEN)
+	if (useEN)
 	{
-		RegenENCoolTimer = RegenENCoolTime;
-		UseEN = false;
+		regenENCoolTimer = regenENCoolTime;
+		useEN = false;
 	}
 
-	if (ENGauge <= 0&&!OverHeat)
+	if (gaugeEN <= 0&&!overHeat)
 	{
-		OverHeat = true;
-		OverHeatENCoolTimer = OverHeatENCoolTime;
+		overHeat = true;
+		overHeatENCoolTimer = overHeatENCoolTime;
 	}
 
-	if (OverHeat)
+	if (overHeat)
 	{
-		OverHeatENCoolTimer--;
-		RegenENCoolTimer = 0;
-		ENGauge += RecoveryENGauge;
-		if (OverHeatENCoolTimer <= 0)
+		overHeatENCoolTimer--;
+		regenENCoolTimer = 0;
+		gaugeEN += recoveryENGauge;
+		if (overHeatENCoolTimer <= 0)
 		{
-			OverHeat = false;
+			overHeat = false;
 		}
 	}
 	
 
-	if (RegenENCoolTimer > 0)
+	if (regenENCoolTimer > 0)
 	{
-		RegenENCoolTimer--;
+		regenENCoolTimer--;
 	}
 	else
 	{
-		ENGauge+=RegenEN;
+		gaugeEN+=regenEN;
 	}
 
-	if (ENGauge >= ENMAXGauge)
+	if (gaugeEN >= maxGaugeEN)
 	{
-		ENGauge = ENMAXGauge;
+		gaugeEN = maxGaugeEN;
 	}
 
 	
@@ -480,20 +480,20 @@ void Player::LockOn()
 	{
 
 		Lock2DPos = WorldToMonitor(boss->translation_);
-		Locked = true;
+		locked = true;
 	}
 	else
 	{
 		Lock2DPos = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f };
-		Locked = false;
+		locked = false;
 	}
 }
 
 bool Player::ScLock(WorldTransform* prewt)
 {
 	Matrix4 Pos = prewt->matWorld_;
-	Pos *= camera->getView()->GetMAtView();
-	Pos *= camera->getView()->GetMatProjection();
+	Pos *= camera->GetView()->GetMAtView();
+	Pos *= camera->GetView()->GetMatProjection();
 
 	float objZ = Pos.GetTranslation().z;
 
@@ -513,26 +513,26 @@ bool Player::ScLock(WorldTransform* prewt)
 
 void Player::DeathAnimetion()
 {
-	DpRate++;
-	DeathTimer++;
+	dpRate++;
+	deathTimer++;
 
-	scale = easeInSine(1.0f, 0, static_cast<float>(DeathTimer), static_cast<float>(DeathTime));
+	scale = EaseInSine(1.0f, 0, static_cast<float>(deathTimer), static_cast<float>(deathTime));
 
 	St->Wt.scale_ = { scale,scale,scale };
 
-	if (DpRate >= DpRateNum)
+	if (dpRate >= dpRateNum)
 	{
 
 		std::unique_ptr <DeathParticle> newBullet = std::make_unique<DeathParticle>();
 		newBullet->CreateDeathParticle(St->Wt.translation_, St->Wt.rotation_, -rotaVec,scale/3.0f, { 0,0.3f,1.0f,1.0f });
 
 		deathPaticles.push_back(std::move(newBullet));
-		DpRate = 0;
+		dpRate = 0;
 	}
-	if (DeathTimer >= DeathTime)
+	if (deathTimer >= deathTime)
 	{
 		endFlag = true;
-		DeathTimer = DeathTime;
+		deathTimer = deathTime;
 	}
 	
 }
@@ -544,7 +544,7 @@ Vector2 Player::WorldToMonitor(Vector3 pos)
 	Matrix4 matViewport = Matrix4::Viewport(0, 0, static_cast<float>(DxWindow::window_width), static_cast<float>(DxWindow::window_height), 0, 1.0f);
 
 	//ビュー行列とプロジェクション行列、ビューポート行列を合成する
-	Matrix4 matViewProjectionViewport = camera->getView()->GetMAtView() * camera->getView()->GetMatProjection() * matViewport;
+	Matrix4 matViewProjectionViewport = camera->GetView()->GetMAtView() * camera->GetView()->GetMatProjection() * matViewport;
 	//ワールド→スクリーン座標変換(ここで3Dから2Dになる)
 	positionReticle = Matrix4::ProjectionDivW(positionReticle,matViewProjectionViewport);
 
@@ -567,19 +567,19 @@ void Player::ImGuiSet()
 	ImGui::DragFloat("Y", &prePP->Wt.translation_.y, 0.5f);
 	ImGui::DragFloat("Z", &St->Wt.translation_.z, 0.5f);
 	ImGui::NewLine();
-	ImGui::Text("HP::%5.2f", HP);
-	ImGui::DragFloat("HP", &HP, 0.2f);
+	ImGui::Text("HP::%5.2f", hp);
+	ImGui::DragFloat("HP", &hp, 0.2f);
 	ImGui::DragFloat("HPposX", &sprite_HPbar->Wt.translation_.x, 0.5f);
 	ImGui::DragFloat("HPposY", &sprite_HPbar->Wt.translation_.y, 0.5f);
 	ImGui::DragFloat("HPSizeX", &sprite_HPbar->Wt.scale_.x, 0.5f);
 	ImGui::DragFloat("HPSizeY", &sprite_HPbar->Wt.scale_.y, 0.5f);
 	ImGui::NewLine();
-	ImGui::Text("ENGauge::%d", ENGauge);
-	ImGui::Text("OverHeat::%d", OverHeat);
+	ImGui::Text("ENGauge::%d", gaugeEN);
+	ImGui::Text("OverHeat::%d", overHeat);
 	ImGui::NewLine();
-	ImGui::Text("BoostMode::%d", BoostMode);
-	ImGui::Checkbox("InfEN", &InfEN);
-	ImGui::Checkbox("Muteki", &Muteki);
+	ImGui::Text("BoostMode::%d", boostMode);
+	ImGui::Checkbox("InfEN", &infEN);
+	ImGui::Checkbox("muteki", &muteki);
 	ImGui::Checkbox("colLock", &colLock);
 
 
@@ -604,7 +604,7 @@ void Player::Draw()
 
 void Player::DrawUI()
 {
-	if (OverHeat)
+	if (overHeat)
 	{
 		sprite_ENGauge->Wt.color = { 1.0f,0,0,1.0f };
 	}
@@ -616,12 +616,12 @@ void Player::DrawUI()
 	sprite_Reticle->Draw(Lock2DPos.x - 64.0f, Lock2DPos.y - 64.0f, Lock2DPos.x + 64.0f, Lock2DPos.y + 64.0f);
 	sprite_CoverHPbar->Draw();
 	sprite_CoverENGaugebar->Draw();
-	KeyUI->Draw(1280.0f-64.0f, 720.0f-128.0f, 1280.0f, 720.0f);
-	if (ENGauge > 0)
+	keyUI->Draw(1280.0f-64.0f, 720.0f-128.0f, 1280.0f, 720.0f);
+	if (gaugeEN > 0)
 	{
 		sprite_ENGauge->Draw();
 	}
-	if (HP > 0)
+	if (hp > 0)
 	{
 		sprite_HPbar->Draw();
 	}
@@ -638,24 +638,24 @@ void Player::TitleUpdate()
 #ifdef _DEBUG
 	ImGuiSet();
 #endif
-	St->Update(camera->getView());
+	St->Update(camera->GetView());
 }
 
 void Player::StartUpdate()
 {
-	SceneCameraTimer++;
-	St->Wt.translation_.y = easeOutQuint(50.0f, 1.5f, static_cast<float>(SceneCameraTimer), static_cast<float>(SceneCameraTime));
+	sceneCameraTimer++;
+	St->Wt.translation_.y = EaseOutQuint(50.0f, 1.5f, static_cast<float>(sceneCameraTimer), static_cast<float>(sceneCameraTime));
 
-	if (SceneCameraTimer >= SceneCameraTime)
+	if (sceneCameraTimer >= sceneCameraTime)
 	{
-		SceneCameraTimer = SceneCameraTime;
+		sceneCameraTimer = sceneCameraTime;
 		startFlag = true;
 	}
 	prePlayer.translation_ = St->Wt.translation_;
 #ifdef _DEBUG
 	ImGuiSet();
 #endif
-	St->Update(camera->getView());
+	St->Update(camera->GetView());
 }
 
 

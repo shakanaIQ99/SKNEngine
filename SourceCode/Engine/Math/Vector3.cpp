@@ -17,14 +17,14 @@ Vector3::Vector3(Vector3* vec):x(vec->x),y(vec->y),z(vec->z)
 }
 
 
-float Vector3::length() const
+float Vector3::Length() const
 {
 	return sqrtf((this->x * this->x) + (this->y * this->y) + (this->z * this->z));
 }
 
-Vector3& Vector3::normalize()
+Vector3& Vector3::Normalize()
 {
-	float len = length();
+	float len = Length();
 	if (len != 0)
 	{
 		return *this /= len;
@@ -38,9 +38,9 @@ Vector3& Vector3::normalize()
 	return *this;
 }
 
-Vector3 Vector3::getnormalize() const
+Vector3 Vector3::GetNormalize() const
 {
-	float len = length();
+	float len = Length();
 	float nx = 0;
 	float ny = 0;
 	float nz = 0;
@@ -53,12 +53,12 @@ Vector3 Vector3::getnormalize() const
 	return Vector3(nx, ny, nz);
 }
 
-float Vector3::dot(const Vector3& v) const
+float Vector3::Dot(const Vector3& v) const
 {
 	return this->x * v.x + this->y * v.y + this->z * v.z;
 }
 
-Vector3 Vector3::cross(const Vector3& v) const
+Vector3 Vector3::Cross(const Vector3& v) const
 {
 	return Vector3(this->y * v.z - this->z * v.y, this->z * v.x - this->x * v.z, this->x * v.y - this->y * v.x);
 }
@@ -154,14 +154,14 @@ Vector3 operator*(const float s, const Vector3& v)
 	return temp;
 }
 
-const Vector3 lerp(const Vector3& start, const Vector3& end, const float t)
+const Vector3 Lerp(const Vector3& start, const Vector3& end, const float t)
 {
 	return start + (end - start) * t;
 }
 
-const Vector3 slerp(const Vector3& start, const Vector3& end, const float t)
+const Vector3 Slerp(const Vector3& start, const Vector3& end, const float t)
 {
-	float dot = start.getnormalize().dot(end.getnormalize());
+	float dot = start.GetNormalize().Dot(end.GetNormalize());
 
 	if (dot > F_Max)dot = F_Max;
 	if (dot < F_Min)dot = F_Min;
@@ -176,14 +176,14 @@ const Vector3 slerp(const Vector3& start, const Vector3& end, const float t)
 	Vector3 slerpVec;
 	if (sinTheta < 1.0e-5)
 	{
-		slerpVec = start.getnormalize();
+		slerpVec = start.GetNormalize();
 	}
 	else
 	{
-		slerpVec = (interStart * start.getnormalize() + interEnd * end.getnormalize()) / sinTheta;
+		slerpVec = (interStart * start.GetNormalize() + interEnd * end.GetNormalize()) / sinTheta;
 	}
 
 	
-	return slerpVec.getnormalize() ;
+	return slerpVec.GetNormalize() ;
 }
 

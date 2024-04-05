@@ -18,7 +18,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
-	Vector3 GetVec() { return Velocity_.getnormalize(); }
+	Vector3 GetVec() { return Velocity_.GetNormalize(); }
 
 	const bool isdead() { return isDead_; }
 

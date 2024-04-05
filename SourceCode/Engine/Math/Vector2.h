@@ -22,15 +22,15 @@ public:
 	//関数
 	
 	//長さ
-	float length()const;				
+	float Length()const;				
 	//正規化
-	Vector2& normalize();		
+	Vector2& Normalize();		
 	//正規化を入手
-	Vector2 getnormalize() const;
+	Vector2 GetNormalize() const;
 	//内積
-	float dot(const Vector2& v)const;	
+	float Dot(const Vector2& v)const;	
 	//外積
-	float cross(const Vector2& v)const;	
+	float Cross(const Vector2& v)const;	
 	//垂直ベクトル(右側)
 	Vector2 GetVerticalR(bool left=false) const;
 

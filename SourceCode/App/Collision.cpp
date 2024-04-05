@@ -2,7 +2,7 @@
 
 bool Collision::CheckSphere2Plane(const Sphere& sphere, const Plane& plane, Vector3* inter)
 {
-	float distV = sphere.center.dot(plane.normal);
+	float distV = sphere.center.Dot(plane.normal);
 
 	float dist = distV - plane.distance;
 
@@ -25,8 +25,8 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	Vector3 p0_p2 = triangle.p2 - triangle.p0;
 	Vector3 p0_pt = point - triangle.p0;
 
-	float d1 = p0_p1.dot(p0_pt);
-	float d2 = p0_p2.dot(p0_pt);
+	float d1 = p0_p1.Dot(p0_pt);
+	float d2 = p0_p2.Dot(p0_pt);
 
 	if (d1 <= 0.0f && d2 <= 0.0f)
 	{
@@ -39,8 +39,8 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 
 	Vector3 p1_pt = point - triangle.p1;
 
-	float d3 = p1_p0.dot(p1_pt);
-	float d4 = p1_p2.dot(p1_pt);
+	float d3 = p1_p0.Dot(p1_pt);
+	float d4 = p1_p2.Dot(p1_pt);
 
 	if (d3>= 0.0f && d4<= d3)
 	{
@@ -61,8 +61,8 @@ void Collision::ClosestPtPoint2Triangle(const Vector3& point, const Triangle& tr
 	
 	Vector3 p2_pt = point - triangle.p2;
 
-	float d5 = p2_p0.dot(p2_pt);
-	float d6 = p2_p1.dot(p2_pt);
+	float d5 = p2_p0.Dot(p2_pt);
+	float d6 = p2_p1.Dot(p2_pt);
 	if (d6>= 0.0f && d5<= d6)
 	{
 		*closest = triangle.p2;
@@ -99,7 +99,7 @@ bool Collision::CheckSphere2Triangle(const Sphere& sphere, const Triangle& trian
 
 	Vector3 v = p - sphere.center;
 
-	float vf = v.dot(v);
+	float vf = v.Dot(v);
 
 	if (vf > sphere.radius * sphere.radius)
 	{
@@ -118,14 +118,14 @@ bool Collision::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distan
 {
 	const float epslion = 1.0e-5f;
 
-	float d1 = plane.normal.dot(ray.dir);
+	float d1 = plane.normal.Dot(ray.dir);
 
 	if (d1 > -epslion)
 	{
 		return false;
 	}
 
-	float d2 =plane.normal.dot(ray.start);
+	float d2 =plane.normal.Dot(ray.start);
 
 	float dist = d2 - plane.distance;
 
@@ -156,7 +156,7 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 
 	plane.normal = triangle.normal;
 
-	plane.distance = triangle.normal.dot(triangle.p0);
+	plane.distance = triangle.normal.Dot(triangle.p0);
 
 	if (!CheckRay2Plane(ray, plane, distance, &interPlane))
 	{
@@ -168,22 +168,22 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 
 	Vector3 pt_p0 = triangle.p0 - interPlane;
 	Vector3 p0_p1 = triangle.p1 - triangle.p0;
-	m = pt_p0.cross(p0_p1);
-	if (m.dot(triangle.normal) < -epsilon)
+	m = pt_p0.Cross(p0_p1);
+	if (m.Dot(triangle.normal) < -epsilon)
 	{
 		return false;
 	}
 	Vector3 pt_p1 = triangle.p1 - interPlane;
 	Vector3 p1_p2 = triangle.p2 - triangle.p1;
-	m = pt_p1.cross(p1_p2);
-	if (m.dot(triangle.normal) < -epsilon)
+	m = pt_p1.Cross(p1_p2);
+	if (m.Dot(triangle.normal) < -epsilon)
 	{
 		return false;
 	}
 	Vector3 pt_p2 = triangle.p2 - interPlane;
 	Vector3 p2_p0 = triangle.p0 - triangle.p2;
-	m = pt_p2.cross(p2_p0);
-	if (m.dot(triangle.normal) < -epsilon)
+	m = pt_p2.Cross(p2_p0);
+	if (m.Dot(triangle.normal) < -epsilon)
 	{
 		return false;
 	}
@@ -200,8 +200,8 @@ bool Collision::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, floa
 bool Collision::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, Vector3* inter)
 {
 	Vector3 m = ray.start - sphere.center;
-	float b = m.dot( ray.dir);
-	float c = m.dot( m) - sphere.radius * sphere.radius;
+	float b = m.Dot( ray.dir);
+	float c = m.Dot( m) - sphere.radius * sphere.radius;
 
 	if (c > 0.0f && b > 0.0f)
 	{
@@ -243,7 +243,7 @@ bool Collision::CheckSphereToSphere(const Sphere& sphere, const Sphere& sphere2)
 	
 
 
-	if (a.length() < sphere.radius + sphere2.radius)
+	if (a.Length() < sphere.radius + sphere2.radius)
 	{
 		return true;
 	}

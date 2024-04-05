@@ -31,17 +31,17 @@ private:
 	vector<std::unique_ptr<OBJ3D>> ground;
 	std::unique_ptr<ObjModel> ground_model;
 
-	const float UpAreaLimit = 100.0f;
+	const float upAreaLimit = 100.0f;
 
-	static const float LimitLine;
+	static const float limitLine;
 
-	static const float AreaLimit;
+	static const float areaLimit;
 
-	const size_t LaneTileNum = 10;
+	const size_t laneTileNum = 10;
 
-	const float TileSize = AreaLimit / static_cast<float>(LaneTileNum);
+	const float tileSize = areaLimit / static_cast<float>(laneTileNum);
 
-	const size_t TileNum = LaneTileNum * LaneTileNum;
+	const size_t tileNum = laneTileNum * laneTileNum;
 
 };
 

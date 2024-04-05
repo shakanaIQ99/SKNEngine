@@ -6,7 +6,7 @@
 using namespace SKNEngine;
 using namespace DirectX;
 
-const float PostEffect::clearcolor[4] = { 0.0f,0.0f,0.0f,0.0f };
+const float PostEffect::clearColor[4] = { 0.0f,0.0f,0.0f,0.0f };
 PipelineSet PostEffect::pipeline;
 DirectXCommon* PostEffect::dxCommon = nullptr;
 
@@ -40,7 +40,7 @@ void PostEffect::Initialize()
 
 void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdlist)
 {
-	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff.Get(),
+	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
@@ -60,7 +60,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdlist)
 
 	cmdlist->RSSetScissorRects(1, &scissorRects);
 
-	cmdlist->ClearRenderTargetView(rtvH, clearcolor, 0, nullptr);
+	cmdlist->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 
 	cmdlist->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
@@ -69,7 +69,7 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdlist)
 
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdlist)
 {
-	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(TexBuff.Get(),
+	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -141,7 +141,7 @@ void PostEffect::CreateRTV()
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	dxCommon->GetDevice()->CreateRenderTargetView(TexBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	dxCommon->GetDevice()->CreateRenderTargetView(texBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
 
 }
 
@@ -182,7 +182,7 @@ void PostEffect::CreateTexBuff()
 	rsDesc.SampleDesc.Count = 1;
 	rsDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 
-	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearcolor);
+	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor);
 
 	result = dxCommon->GetDevice()->CreateCommittedResource(
 		&texHeapProp,		//ヒープ設定
@@ -190,7 +190,7 @@ void PostEffect::CreateTexBuff()
 		&rsDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		&clearValue,
-		IID_PPV_ARGS(TexBuff.ReleaseAndGetAddressOf())
+		IID_PPV_ARGS(texBuff.ReleaseAndGetAddressOf())
 	);
 
 	const UINT pixelCount = DxWindow::window_width * DxWindow::window_height;
@@ -205,7 +205,7 @@ void PostEffect::CreateTexBuff()
 		img[i] = 0xff0000ff;
 	}
 
-	result = TexBuff->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
+	result = texBuff->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
 	assert(SUCCEEDED(result));
 	delete[] img;
 }
@@ -218,7 +218,7 @@ void PostEffect::CreateSRV()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	gpuHandle.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, TexBuff.Get());
+	gpuHandle.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff.Get());
 }
 
 void PostEffect::CreateDepth()

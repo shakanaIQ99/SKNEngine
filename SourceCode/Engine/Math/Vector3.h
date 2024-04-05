@@ -22,15 +22,15 @@ public:
 	//関数
 
 	//長さ
-	float length()const;
+	float Length()const;
 	//正規化
-	Vector3& normalize();
+	Vector3& Normalize();
 	//正規化を入手
-	Vector3 getnormalize() const;
+	Vector3 GetNormalize() const;
 	//内積
-	float dot(const Vector3& v)const;
+	float Dot(const Vector3& v)const;
 	//外積
-	Vector3 cross(const Vector3& v)const;
+	Vector3 Cross(const Vector3& v)const;
 
 	//xz軸の2Dベクトル
 	Vector2 GetXZ()const;
@@ -70,6 +70,6 @@ public:
 
 Vector3 operator*(const float s, const Vector3& v);
 
-const Vector3 lerp(const Vector3& start, const Vector3& end, const float t);
+const Vector3 Lerp(const Vector3& start, const Vector3& end, const float t);
 
-const Vector3 slerp(const Vector3& start, const Vector3& end, const float t);
+const Vector3 Slerp(const Vector3& start, const Vector3& end, const float t);

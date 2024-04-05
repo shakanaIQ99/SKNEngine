@@ -44,7 +44,7 @@ public:
 
 	bool Death()
 	{
-		if (HP <= 0)
+		if (hp <= 0)
 		{
 			return true;
 		}
@@ -68,7 +68,7 @@ public:
 	{
 		if (norm)
 		{
-			return (mae - St->Wt.translation_).getnormalize();
+			return (mae - St->Wt.translation_).GetNormalize();
 		}
 		return mae - St->Wt.translation_;
 	}
@@ -131,7 +131,7 @@ private:
 	
 	float move_speed;
 
-	bool BoostMode = false;
+	bool boostMode = false;
 
 	Vector3 moveVec;
 
@@ -149,11 +149,10 @@ private:
 	std::unique_ptr<Sprite2D> sprite_ENGauge;
 	std::unique_ptr<Sprite2D> sprite_CoverENGaugebar;
 
-	std::unique_ptr<Sprite2D> KeyUI;
+	std::unique_ptr<Sprite2D> keyUI;
 
 	uint32_t reticleHandle;
-	uint32_t LockHandle;
-	uint32_t HpBarHandle;
+	uint32_t hpBarHandle;
 
 
 	Vector2 hpBarShakePos = {0,0};
@@ -165,99 +164,99 @@ private:
 	Vector2 Lock2DPos = { 0,0 };
 
 	float scale = 1.0f;
-	int DpRate = 0;
-	const int DpRateNum = 1;
+	int dpRate = 0;
+	const int dpRateNum = 1;
 
 	std::list<std::unique_ptr<DeathParticle>> deathPaticles;
 
-	const float MaxHP = 20.0f;
-	float HP = 0.0f;
+	const float maxhp = 20.0f;
+	float hp = 0.0f;
 
 
 	int bulletCT = 0;
 
-	const int MAXBulletCT = 5;
+	const int maxBulletCT = 5;
 
-	const int firelate = 15;
+	const int fireLate = 15;
 
-	int latetime;
+	int lateTime;
 
-	bool Locked = false;
+	bool locked = false;
 
 	//クイックダッシュ周り
 
-	float dashspeed = 0.0f;
+	float dashSpeed = 0.0f;
 
-	const float DashSpeadNum = 5.0f;
+	const float dashSpeadNum = 5.0f;
 
-	Vector3 DashVec = { 0,0,0 };
+	Vector3 dashVec = { 0,0,0 };
 
-	bool DashFlag = false;
+	bool dashFlag = false;
 
-	int DashTimer = 0;
-	const int DashTime = 20;
+	int dashTimer = 0;
+	const int dashTime = 20;
 
 	//ジャンプand空中周り
 
-	bool OnGround = false;
+	bool onGround = false;
 
-	float Upspeed = 0.0f;
+	float upSpeed = 0.0f;
 
-	Vector3 JumpVec = { 0,0,0 };
+	Vector3 jumpVec = { 0,0,0 };
 
-	const float AirUpSpead = 0.5f;
+	const float airUpSpead = 0.5f;
 
-	const float UpSpeadNum = 2.0f;
+	const float upSpeadNum = 2.0f;
 
-	bool JumpFlag = false;
+	bool jumpFlag = false;
 
-	int JumpTimer = 0;
-	const int JumpTime = 20;
+	int jumpTimer = 0;
+	const int jumpTime = 20;
 
 	//ブーストゲージ的な何か-------
-	const float ENGaugeSize = 15.0f;
+	const float enGaugeSize = 15.0f;
 
-	int ENGauge = 0;
+	int gaugeEN = 0;
 
-	const int ENMAXGauge = 1000;
+	const int maxGaugeEN = 1000;
 
-	const int DashUseGauge = 200;
+	const int dashUseGauge = 200;
 
-	const int JumpUseGauge = 100;
+	const int jumpUseGauge = 100;
 
-	const int AirUseGauge = 7;
+	const int airUseGauge = 7;
 
-	bool UseEN = false;
+	bool useEN = false;
 
-	int RegenENCoolTimer = 0;
+	int regenENCoolTimer = 0;
 
-	const int RegenENCoolTime = 60;
+	const int regenENCoolTime = 60;
 
-	const int RegenEN = 3;
+	const int regenEN = 3;
 
-	const int RecoveryENGauge = 1;
+	const int recoveryENGauge = 1;
 
-	bool OverHeat = false;
+	bool overHeat = false;
 
-	int OverHeatENCoolTimer = 0;
+	int overHeatENCoolTimer = 0;
 
-	const int OverHeatENCoolTime = 250;
+	const int overHeatENCoolTime = 250;
 
-	bool InfEN = false;
+	bool infEN = false;
 
-	bool Muteki = false;
+	bool muteki = false;
 
 
 
 	//--------
 
-	int DeathTimer = 0;
+	int deathTimer = 0;
 
-	const int DeathTime = 120;
+	const int deathTime = 120;
 
-	int SceneCameraTimer = 0;
+	int sceneCameraTimer = 0;
 
-	const int SceneCameraTime = 120;
+	const int sceneCameraTime = 120;
 
 	bool startFlag = false;
 

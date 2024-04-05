@@ -45,7 +45,7 @@ public:
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Draw();
 
-	bool IsDead()const { return isDead_; }
+	bool IsDead()const { return isDead; }
 
 	//衝突を検出したら呼び出されるコールバック関数
 	void Death();
@@ -73,13 +73,13 @@ private:
 	Vector3 Velocity_;
 
 	//寿命<frm>
-	int32_t kLifeTime = 60;
+	int32_t lifeTime = 60;
 
 	//デスタイマー
-	int32_t deathTimer_ = kLifeTime;
+	int32_t deathTimer = lifeTime;
 
 	//デスフラグ
-	bool isDead_ = false;
+	bool isDead = false;
 
 	Pattern mode = Pattern::SCATTER;
 

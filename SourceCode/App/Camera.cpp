@@ -15,7 +15,7 @@ void Camera::Reset()
 	wt.translation_ = { 0.0f,0.0f,0.0f };
 	wt.rotation_ = { 0.0f,0.0f,0.0f };
 	wt.scale_ = { 1.0f,1.0f,1.0f };
-	setRotate({ 0,0,0 });
+	SetRotate({ 0,0,0 });
 	viewProjection_.Initialize();
 
 	cameraRotateX = 0;
@@ -93,41 +93,41 @@ void Camera::Update()
 
 }
 
-ViewProjection* Camera::getView()
+ViewProjection* Camera::GetView()
 {
 	return &viewProjection_;
 }
 
-Matrix4 Camera::getMatWorld()
+Matrix4 Camera::GetMatWorld()
 {
 	return wt.matWorld_;
 }
 
-Vector3 Camera::getForwardVec()
+Vector3 Camera::GetForwardVec()
 {
 
-	return forward.getnormalize();
+	return forward.GetNormalize();
 }
 
 
-void Camera::setPos(Vector3 pos)
+void Camera::SetPos(Vector3 pos)
 {
 	wt.translation_ = pos;
 	wt.UpdateMatrix(&viewProjection_);
 }
 
-void Camera::setTarget(Vector3 Target)
+void Camera::SetTarget(Vector3 Target)
 {
 	viewProjection_.SetTarget(Target);
 }
 
-void Camera::setRotate(Vector3 rotate)
+void Camera::SetRotate(Vector3 rotate)
 {
 	wt.rotation_ = rotate;
 	wt.UpdateMatrix(&viewProjection_);
 }
 
-void Camera::setWorldMat(Matrix4 woeldMat)
+void Camera::SetWorldMat(Matrix4 woeldMat)
 {
 	wt.matWorld_ = woeldMat;
 }

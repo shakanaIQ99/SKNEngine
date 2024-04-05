@@ -81,17 +81,17 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 
 	Vector3 cameraAxisZ = targetPosition-eyePosition;
 
-	cameraAxisZ.normalize();
+	cameraAxisZ.Normalize();
 
 	Vector3 cameraAxisX;
 
-	cameraAxisX = upVector.cross(cameraAxisZ);
+	cameraAxisX = upVector.Cross(cameraAxisZ);
 
-	cameraAxisX.normalize();
+	cameraAxisX.Normalize();
 
 	Vector3 cameraAxisY;
 
-	cameraAxisY = cameraAxisZ.cross(cameraAxisX);
+	cameraAxisY = cameraAxisZ.Cross(cameraAxisX);
 
 	Matrix4 matCameraRot = { Float4(cameraAxisX, 0), Float4(cameraAxisY, 0), Float4(cameraAxisZ, 0), Float4(0,0,0,1) };
 
@@ -100,9 +100,9 @@ void WorldTransform::UpdateMatrixBill(ViewProjection* camera)
 
 	Vector3 reverseEyePosition = -eyePosition;
 
-	float tX = cameraAxisX.dot(reverseEyePosition);
-	float tY = cameraAxisY.dot(reverseEyePosition);
-	float tZ = cameraAxisZ.dot(reverseEyePosition);
+	float tX = cameraAxisX.Dot(reverseEyePosition);
+	float tY = cameraAxisY.Dot(reverseEyePosition);
+	float tZ = cameraAxisZ.Dot(reverseEyePosition);
 
 	Vector3 translation = { tX,tY,tZ };
 

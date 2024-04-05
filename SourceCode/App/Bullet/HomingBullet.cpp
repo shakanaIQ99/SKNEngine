@@ -20,7 +20,7 @@ void HomingBullet::Update()
 {
 	Vector3 toTarget(TargetPos->x - St->Wt.translation_.x, TargetPos->y - St->Wt.translation_.y, TargetPos->z - St->Wt.translation_.z);
 
-	Velocity_ = slerp(Velocity_, toTarget, HomingPower) * 2.0f;
+	Velocity_ = Slerp(Velocity_, toTarget, HomingPower) * 2.0f;
 
 	St->Wt.translation_ = St->Wt.translation_ + Velocity_;
 
@@ -29,9 +29,9 @@ void HomingBullet::Update()
 
 	Vector3 b = St->Wt.translation_ - firstPos;
 
-	float lenA = a.length();
+	float lenA = a.Length();
 
-	float lenB = b.length();
+	float lenB = b.Length();
 
 	if (lenA < lenB)
 	{
@@ -39,8 +39,8 @@ void HomingBullet::Update()
 	}
 
 	Vector3 Flont = { 0,0,1.0f };
-	b.normalize();
-	a.normalize();
+	b.Normalize();
+	a.Normalize();
 
 
 	float p_pos = atan2(a.x, a.z);
@@ -48,7 +48,7 @@ void HomingBullet::Update()
 
 	St->Wt.rotation_.y = (p_pos + c_vec);
 
-	St->Update(camera->getView());
+	St->Update(camera->GetView());
 	if (--deathTimer_ <= 0 )
 	{
 		onDead();
