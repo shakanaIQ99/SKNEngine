@@ -101,6 +101,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Engine\MyGame.cpp" />
+    <ClCompile Include="SourceCode\Engine\Framework.cpp" />
     <ClCompile Include="SourceCode\Engine\Core\AudioManager.cpp" />
     <ClCompile Include="SourceCode\App\Bullet\HomingBullet.cpp" />
     <ClCompile Include="SourceCode\App\Bullet\BulletManager.cpp" />
@@ -173,6 +175,8 @@
     <ClCompile Include="SourceCode\App\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Engine\MyGame.h" />
+    <ClInclude Include="SourceCode\Engine\Framework.h" />
     <ClInclude Include="SourceCode\Engine\Core\AudioManager.h" />
     <ClInclude Include="SourceCode\App\Bullet\Bullet.h" />
     <ClInclude Include="SourceCode\App\Bullet\HomingBullet.h" />

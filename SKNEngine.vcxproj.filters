@@ -261,6 +261,12 @@
     <ClCompile Include="SourceCode\Engine\Core\AudioManager.cpp">
       <Filter>ソース ファイル\cppファイル\Core</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Engine\Framework.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\MyGame.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -436,6 +442,12 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\Core\AudioManager.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\Framework.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\MyGame.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
