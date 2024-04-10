@@ -267,6 +267,21 @@
     <ClCompile Include="SourceCode\Engine\MyGame.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\App\ResultScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\TitleScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\TutorialScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\SceneFactory.cpp">
+      <Filter>ソース ファイル\cppファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -447,6 +462,27 @@
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\MyGame.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BaseScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\AbstractSceneFactory.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\SceneFactory.h">
+      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\ResultScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\TitleScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\TutorialScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

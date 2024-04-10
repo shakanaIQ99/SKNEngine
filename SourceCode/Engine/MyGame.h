@@ -1,5 +1,9 @@
 #pragma once
-class MyGame
+#include"PostEffect.h"
+#include"Framework.h"
+class MyGame :public Framework
 {
+
+
 };
 
