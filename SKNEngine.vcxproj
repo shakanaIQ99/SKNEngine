@@ -101,7 +101,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SourceCode\Engine\SceneManager.cpp" />
     <ClCompile Include="SourceCode\App\ResultScene.cpp" />
     <ClCompile Include="SourceCode\Engine\SceneFactory.cpp" />
     <ClCompile Include="SourceCode\Engine\MyGame.cpp" />
@@ -180,7 +180,7 @@
     <ClCompile Include="SourceCode\App\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SourceCode\Engine\SceneManager.h" />
     <ClInclude Include="SourceCode\Engine\AbstractSceneFactory.h" />
     <ClInclude Include="SourceCode\App\ResultScene.h" />
     <ClInclude Include="SourceCode\Engine\SceneFactory.h" />

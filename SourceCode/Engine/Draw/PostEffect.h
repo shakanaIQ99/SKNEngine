@@ -24,11 +24,11 @@ public:
 
     void Initialize();
 
-    void PreDrawScene(ID3D12GraphicsCommandList* cmdlist);
+    void PreDrawScene();
 
-    void PostDrawScene(ID3D12GraphicsCommandList* cmdlist);
+    void PostDrawScene();
 
-    void Draw(ID3D12GraphicsCommandList* cmdlist);
+    void Draw();
 
     void CreateRTV();
 

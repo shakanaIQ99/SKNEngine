@@ -9,7 +9,7 @@ public:
 	virtual void Initialize() = 0;
 
 	//終了処理
-	virtual void Destroy() = 0;
+	virtual void Finalize() = 0;
 
 	//更新処理
 	virtual void Update() = 0;

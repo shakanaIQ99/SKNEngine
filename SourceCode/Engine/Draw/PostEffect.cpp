@@ -17,11 +17,8 @@ void PostEffect::CreateGraphicsPipeline()
 
 void PostEffect::Initialize()
 {
-	//Sprite2D::Initialize(spritecommon, wt, a);
 
 	CreateBuffer();
-
-	//Wt->CreateConstBuffer(dxCommon->GetDevice());
 
 	CreateTexBuff();
 
@@ -38,45 +35,45 @@ void PostEffect::Initialize()
 
 }
 
-void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdlist)
+void PostEffect::PreDrawScene()
 {
 	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	cmdlist->ResourceBarrier(1, &barrier);
+	DirectXCommon::GetInstance()->GetCommandList()->ResourceBarrier(1, &barrier);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvH = rtvHeap->GetCPUDescriptorHandleForHeapStart();
 
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvH = dsvHeap->GetCPUDescriptorHandleForHeapStart();
 
-	cmdlist->OMSetRenderTargets(1, &rtvH, false, &dsvH);
+	DirectXCommon::GetInstance()->GetCommandList()->OMSetRenderTargets(1, &rtvH, false, &dsvH);
 
 	auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, DxWindow::window_width, DxWindow::window_height);
 
-	cmdlist->RSSetViewports(1, &viewport);
+	DirectXCommon::GetInstance()->GetCommandList()->RSSetViewports(1, &viewport);
 
 	auto scissorRects = CD3DX12_RECT(0, 0, DxWindow::window_width, DxWindow::window_height);
 
-	cmdlist->RSSetScissorRects(1, &scissorRects);
+	DirectXCommon::GetInstance()->GetCommandList()->RSSetScissorRects(1, &scissorRects);
 
-	cmdlist->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
+	DirectXCommon::GetInstance()->GetCommandList()->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 
-	cmdlist->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	DirectXCommon::GetInstance()->GetCommandList()->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 
 }
 
-void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdlist)
+void PostEffect::PostDrawScene()
 {
 	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
-	cmdlist->ResourceBarrier(1, &barrier);
+	DirectXCommon::GetInstance()->GetCommandList()->ResourceBarrier(1, &barrier);
 }
 
-void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
+void PostEffect::Draw()
 {
 	
 	VertexPos vertices[] =
@@ -101,27 +98,27 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdlist)
 
 	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
 
-	cmdlist->SetPipelineState(pipeline.pipelineState.Get());
-	cmdlist->SetGraphicsRootSignature(pipeline.rootSignature.Get());
+	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(pipeline.pipelineState.Get());
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(pipeline.rootSignature.Get());
 
 	//spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), Wt);
 
 	// 頂点バッファビューの設定コマンド
-	cmdlist->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 
-	cmdlist->IASetIndexBuffer(&ibView);
+	DirectXCommon::GetInstance()->GetCommandList()->IASetIndexBuffer(&ibView);
 	//プリミティブ形状の設定コマンド
-	cmdlist->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	//cmdlist->SetDescriptorHeaps(1, dxCommon->GetDescriptorHeap()->GetHeap().GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = gpuHandle;
 
-	cmdlist->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
-	cmdlist->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuff->GetGPUVirtualAddress());
 
 	// 描画コマンド
-	cmdlist->DrawIndexedInstanced(6, 1, 0, 0, 0); // 全ての頂点を使って描画
+	DirectXCommon::GetInstance()->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0); // 全ての頂点を使って描画
 }
 
 void PostEffect::CreateRTV()
