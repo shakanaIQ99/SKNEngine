@@ -16,7 +16,7 @@ public:
 
 	void SetColor(Float4 _color){color = _color;}
 
-	static void SetDevice(ID3D12Device* _device, ID3D12GraphicsCommandList* _cmdList);
+	static void SetDevice();
 
 	static void CreateGraphicsPipeline(){pipeline = Pipeline::Create3DLinePipeline(device);}
 
@@ -38,8 +38,6 @@ private:
 		Float4 color;
 	};
 
-	static ID3D12Device* device;
-	static ID3D12GraphicsCommandList* cmdList;
 	static PipelineSet pipeline;
 	static Camera* camera;
 

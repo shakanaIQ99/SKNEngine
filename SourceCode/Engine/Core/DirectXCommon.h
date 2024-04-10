@@ -6,6 +6,7 @@
 #include<vector>
 #include"DescriptorHeap.h"
 #include<memory>
+#include"myMath.h"
 
 using namespace Microsoft::WRL;
 using namespace std;
@@ -14,18 +15,29 @@ namespace SKNEngine
 {
 	class DirectXCommon
 	{
+
+	private:
+
+		DirectXCommon() = default;
+		~DirectXCommon() = default;
+
+		//コピーコンストラクタ・代入演算子削除
+		DirectXCommon& operator=(const DirectXCommon&) = delete;
+		DirectXCommon(const DirectXCommon&) = delete;
 	public:
 
-		DirectXCommon();
 
-		void Initialize(DxWindow* win, int32_t BackBufferWidth = DxWindow::window_width, int32_t BackBufferHeight = DxWindow::window_height);
 
-		void PreDraw();
+		void Initialize(DxWindow* win);
+
+		void PreDraw(DxWindow* win);
 
 		void PostDraw();
 
+		void Finalize();
+
 		/// <returns>デバイス</returns>
-		ID3D12Device* GetDevice() const { return device.Get(); }
+		ComPtr<ID3D12Device> GetDevice() { return device.Get(); }
 
 		/// <summary>
 		/// 描画コマンドリストの取得
@@ -37,11 +49,16 @@ namespace SKNEngine
 
 		size_t GetBackBufferCount()const { return backBuffers.size(); }
 
-		//DescriptorHeap* GetDescriptorHeap()const { return descHeap.get(); }
+		/// <summary>
+		/// 背景の色をセット
+		/// </summary>
+		/// <param name="color">RGBA(初期値 { 0.1f , 0.25f , 0.5f , 0.0f } )</param>
+		void SetClearColor(Float4 color = { 0.1f,0.25f,0.5f,0.0f });
+
+		//シングルトン
+		static DirectXCommon* GetInstance();
 
 	private:
-
-		DxWindow* dxWin;
 
 		ComPtr<ID3D12Device> device;
 		ComPtr<IDXGIFactory7> dxgiFactory;
@@ -62,22 +79,20 @@ namespace SKNEngine
 
 		unique_ptr<DescriptorHeap> descHeap;
 
-		UINT backBufferWidth = 0;
-		UINT backBufferHeight = 0;
-
 		UINT64 fenceVal = 0;
 
+		FLOAT clearColor[4] = { 0.1f,0.25f,0.5f,0.0f };	//色の指定はRGBAの0.0f～1.0f
 	private:
 
 		void InitializeDXGIdevice();
 
-		void InitializeSwapChain();
+		void InitializeSwapChain(DxWindow* win);
 
 		void InitializeCommand();
 
 		void InitializeRenserTargetView();
 
-		void InitializeDepthBuffer();
+		void InitializeDepthBuffer(DxWindow* win);
 
 		void InitializeFence();
 

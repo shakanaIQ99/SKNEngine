@@ -11,9 +11,9 @@ Input* Input::GetInstance()
 	return &instance;
 }
 
-void Input::Init(HINSTANCE hinstance, HWND hwnd)
+void Input::Init(DxWindow* win)
 {
-	GetInstance()->Initialize(hinstance, hwnd);
+	GetInstance()->Initialize(win->GetHInstance(),win->GetHwnd());
 }
 
 void Input::Initialize(HINSTANCE hinstance, HWND hwnd)

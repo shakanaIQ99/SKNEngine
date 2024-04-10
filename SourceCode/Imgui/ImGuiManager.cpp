@@ -1,15 +1,12 @@
 #include "ImGuiManager.h"
+#include"DirectXCommon.h"
 using namespace SKNEngine;
 
-DirectXCommon* ImGuiManager::dxCommon = nullptr;
 ComPtr<ID3D12DescriptorHeap> ImGuiManager::srvheap;
-void ImGuiManager::Initialize(HWND hwnd, DirectXCommon* dxcommon)
+void ImGuiManager::Initialize(DxWindow* win)
 {
-	assert(dxcommon);
-
-	dxCommon = dxcommon;
-
-	srvheap = dxCommon->GetDescriptorHeap()->GetHeap();
+	
+	srvheap = DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap();
 
 	ImGui::CreateContext();
 
@@ -17,8 +14,8 @@ void ImGuiManager::Initialize(HWND hwnd, DirectXCommon* dxcommon)
 
 	//handle_ = dxCommon->GetDescriptorHeap()->CreateSRV();
 
-	ImGui_ImplWin32_Init(hwnd);
-	ImGui_ImplDX12_Init(dxCommon->GetDevice(), static_cast<int>(dxCommon->GetBackBufferCount()),
+	ImGui_ImplWin32_Init(win->GetHwnd());
+	ImGui_ImplDX12_Init(DirectXCommon::GetInstance()->GetDevice().Get(), static_cast<int>(DirectXCommon::GetInstance()->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, srvheap.Get(),
 		srvheap.Get()->GetCPUDescriptorHandleForHeapStart(),
 		srvheap.Get()->GetGPUDescriptorHandleForHeapStart());
@@ -48,12 +45,11 @@ void ImGuiManager::Begin()
 
 void ImGuiManager::Draw()
 {
-	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 	ImGui::Render();
 
-	cmdList->SetDescriptorHeaps(1, srvheap.GetAddressOf());
+	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, srvheap.GetAddressOf());
 
 
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), cmdList);
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DirectXCommon::GetInstance()->GetCommandList());
 
 }

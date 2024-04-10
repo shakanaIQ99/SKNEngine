@@ -1,6 +1,5 @@
 #pragma once
 #include<Windows.h>
-#include"DirectXCommon.h"
 #include <imgui.h>
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx12.h>
@@ -11,7 +10,7 @@ class ImGuiManager
 
 public:
 
-	static void Initialize(HWND hwnd, SKNEngine::DirectXCommon* dxcommon);
+	static void Initialize(DxWindow* win);
 
 	static void Finalize();
 
@@ -23,13 +22,6 @@ public:
 
 private:
 
-	static SKNEngine::DirectXCommon* dxCommon;
-
 	static ComPtr<ID3D12DescriptorHeap>srvheap;
-
-	
-
-
-	
 
 };

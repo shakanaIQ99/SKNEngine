@@ -1,5 +1,6 @@
 #include "OBJ3D.h"
 #include"DxWindow.h"
+#include "DirectXCommon.h"
 #include<string>
 #include <DirectXTex.h>
 #include <d3dcompiler.h>
@@ -8,15 +9,11 @@
 #include<vector>
 
 using namespace std;
+using namespace SKNEngine;
 
 #pragma comment(lib, "d3dcompiler.lib")
-
-ID3D12Device* OBJ3D::device = nullptr;
-ID3D12GraphicsCommandList* OBJ3D::commandList;
 PipelineSet OBJ3D::ObjPipeline;
 LightGroup* OBJ3D::lightGroup = nullptr;
-
-
 
 OBJ3D::OBJ3D()
 {
@@ -32,21 +29,12 @@ OBJ3D::OBJ3D()
 	matWorld =Matrix4();
 }
 
-void OBJ3D::StaticInitialize(ID3D12Device* _device)
+void OBJ3D::StaticInitialize()
 {
-	assert(_device);
-
-	OBJ3D::device = _device;
-	ObjModel::SetDevice(device);
-
-	ObjPipeline = Pipeline::CreateModelPipline(device);
-}
-
-void OBJ3D::PreDraw(ID3D12GraphicsCommandList* cmdList)
-{
-	commandList = cmdList;
-
 	
+	ObjModel::SetDevice(DirectXCommon::GetInstance()->GetDevice().Get());
+
+	ObjPipeline = Pipeline::CreateModelPipline(DirectXCommon::GetInstance()->GetDevice().Get());
 }
 
 
@@ -72,7 +60,7 @@ OBJ3D* OBJ3D::Create()
 
 bool OBJ3D::Initialize()
 {
-	Wt.CreateConstBuffer(device);
+	Wt.CreateConstBuffer(DirectXCommon::GetInstance()->GetDevice().Get());
 	
 	return true;
 }
@@ -89,15 +77,15 @@ void OBJ3D::Update(ViewProjection* camera)
 
 void OBJ3D::Draw()
 {
-	commandList->SetPipelineState(ObjPipeline.pipelineState.Get());
-	commandList->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
+	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(ObjPipeline.pipelineState.Get());
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
 	// プリミティブ形状の設定コマンド
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 	
 	if (model == nullptr) return;
 
-	commandList->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
-	lightGroup->Draw(commandList, 3);
-	model->Draw(commandList, 1);
+	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
+	lightGroup->Draw(DirectXCommon::GetInstance()->GetCommandList(), 3);
+	model->Draw(DirectXCommon::GetInstance()->GetCommandList(), 1);
 }
 

@@ -1,11 +1,12 @@
 #pragma once
 
+
 #define DIRECTINPUT_VERSION	0x0800
 #include<dinput.h>
 #include<Xinput.h>
 
 #include<wrl.h>
-
+#include"DxWindow.h"
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 #pragma comment (lib, "xinput.lib")
@@ -22,7 +23,7 @@ public:
 
 	static Input* GetInstance();
 
-	static void Init(HINSTANCE hinstance, HWND hwnd);
+	static void Init(DxWindow* win);
 
 	static void InputUpdate();
 

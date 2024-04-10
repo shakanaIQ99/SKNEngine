@@ -7,31 +7,19 @@
 using namespace SKNEngine;
 
 
-DirectXCommon::DirectXCommon()
+DirectXCommon* directX = nullptr;
+
+void DirectXCommon::Initialize(DxWindow* win)
 {
-	backBufferWidth = 0;
-	backBufferHeight = 0;
-
-	fenceVal = 0;
-}
-
-void DirectXCommon::Initialize(DxWindow* win, int32_t BackBufferWidth, int32_t BackBufferHeight)
-{
-	assert(win);
-
-	dxWin = win;
-	this->backBufferWidth = BackBufferWidth;
-	this->backBufferHeight = BackBufferHeight;
-
 	InitializeDXGIdevice();
 
 	InitializeCommand();
 
-	InitializeSwapChain();
+	InitializeSwapChain(win);
 
 	InitializeRenserTargetView();
 
-	InitializeDepthBuffer();
+	InitializeDepthBuffer(win);
 
 	InitializeFence();
 
@@ -39,7 +27,7 @@ void DirectXCommon::Initialize(DxWindow* win, int32_t BackBufferWidth, int32_t B
 	descHeap->Initialize(device.Get());
 }
 
-void DirectXCommon::PreDraw()
+void DirectXCommon::PreDraw(DxWindow* win)
 {
 	//HRESULT result;
 	//バックバッファの番号を取得(2つなので0番か1番)
@@ -60,14 +48,14 @@ void DirectXCommon::PreDraw()
 	commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
 	//3. 画面クリア
-	FLOAT clearColor[] = { 0.1f,0.25f,0.5f,0.0f };	//色の指定はRGBAの0.0f～1.0f
+	
 
 	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	D3D12_VIEWPORT viewport{};
-	viewport.Width = float(backBufferWidth);
-	viewport.Height = float(backBufferHeight);
+	viewport.Width = static_cast<FLOAT>(win->window_width);
+	viewport.Height = static_cast<FLOAT>(win->window_height);
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
 	viewport.MinDepth = 0.0f;
@@ -76,10 +64,10 @@ void DirectXCommon::PreDraw()
 	commandList->RSSetViewports(1, &viewport);
 
 	D3D12_RECT scissorRect{};
-	scissorRect.left = 0;										//切り抜き座標左
-	scissorRect.right = scissorRect.left + backBufferWidth;		//切り抜き座標右
-	scissorRect.top = 0;										//切り抜き座標上
-	scissorRect.bottom = scissorRect.top + backBufferHeight;		//切り抜き座標下
+	scissorRect.left = 0;																//切り抜き座標左
+	scissorRect.right = static_cast<LONG>(scissorRect.left + win->window_width);		//切り抜き座標右
+	scissorRect.top = 0;																//切り抜き座標上
+	scissorRect.bottom = static_cast<LONG>(scissorRect.left + win->window_height);		//切り抜き座標下
 
 	//シザー矩形設定コマンドを、コマンドリストに積む
 	commandList->RSSetScissorRects(1, &scissorRect);
@@ -126,6 +114,25 @@ void DirectXCommon::PostDraw()
 	result = commandList->Reset(commandAllocator.Get(), nullptr);
 	assert(SUCCEEDED(result));
 
+}
+
+void SKNEngine::DirectXCommon::Finalize()
+{
+	directX = nullptr;
+}
+
+void SKNEngine::DirectXCommon::SetClearColor(Float4 color)
+{
+	clearColor[0] = color.x;
+	clearColor[1] = color.y;
+	clearColor[2] = color.z;
+	clearColor[3] = color.w;
+}
+
+DirectXCommon* SKNEngine::DirectXCommon::GetInstance()
+{
+	static DirectXCommon instance;
+	return &instance;
 }
 
 void DirectXCommon::InitializeDXGIdevice()
@@ -187,15 +194,15 @@ void DirectXCommon::InitializeDXGIdevice()
 }
 
 
-void DirectXCommon::InitializeSwapChain()
+void DirectXCommon::InitializeSwapChain(DxWindow* win)
 {
 	HRESULT result = S_FALSE;
 
 	//スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 
-	swapChainDesc.Width = backBufferWidth;
-	swapChainDesc.Height = backBufferHeight;
+	swapChainDesc.Width = static_cast<UINT64>(win->window_width);
+	swapChainDesc.Height = static_cast<UINT64>(win->window_height);
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;				//色情報の書式
 	swapChainDesc.SampleDesc.Count = 1;								//マルチサンプルをしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER;				//バックバッファ用
@@ -205,7 +212,7 @@ void DirectXCommon::InitializeSwapChain()
 
 	ComPtr<IDXGISwapChain1> swapchain1;
 
-	HWND hwnd = dxWin->GetHwnd();
+	HWND hwnd = win->GetHwnd();
 	result = dxgiFactory->CreateSwapChainForHwnd(commandQueue.Get(), hwnd, &swapChainDesc, nullptr, nullptr, &swapchain1);
 	assert(SUCCEEDED(result));
 
@@ -253,7 +260,7 @@ void DirectXCommon::InitializeRenserTargetView()
 
 }
 
-void DirectXCommon::InitializeDepthBuffer()
+void DirectXCommon::InitializeDepthBuffer(DxWindow* win)
 {
 	HRESULT result = S_FALSE;
 

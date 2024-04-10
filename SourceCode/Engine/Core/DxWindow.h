@@ -25,7 +25,7 @@ public:
 
 public:
 
-	void CreateGameWindow(const wchar_t* title = L"Mecha Core", UINT windowStyle = WS_OVERLAPPEDWINDOW, int32_t clientWidth = window_width, int32_t clientHeight = window_height);
+	void CreateGameWindow(const wchar_t* title = L"DirectXGame",int32_t clientWidth = window_width, int32_t clientHeight = window_height);
 
 	void TerminateGameWindow();
 
@@ -38,7 +38,6 @@ private:
 
 	HWND hwnd = nullptr;
 	WNDCLASSEX winClass{};
-	UINT winStyle_;
 	RECT winRect;
 
 

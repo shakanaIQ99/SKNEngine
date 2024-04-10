@@ -61,7 +61,7 @@ public:
 	/// <param name="title">タイトルバーの名前</param>
 	/// <param name="width">ウィンドウの横幅</param>
 	/// <param name="height">ウィンドウの縦幅</param>
-	void SetWindowData(const std::string& title = "DirectXGame", const float width = 1280.0f, const float height = 720.0f);
+	void SetWindowData(const std::string& Title = "DirectXGame", const float Width = 1280.0f, const float Height = 720.0f);
 
 	/// <summary>
 	/// ウィンドウの色を変更
