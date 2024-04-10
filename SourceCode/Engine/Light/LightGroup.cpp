@@ -1,16 +1,7 @@
 #include "LightGroup.h"
 #include<cassert>
-ID3D12Device* LightGroup::device = nullptr;
+#include"DirectXCommon.h"
 
-
-void LightGroup::StaticInitialize(ID3D12Device* _device)
-{
-	assert(!LightGroup::device);
-
-	assert(_device);
-
-	LightGroup::device = _device;
-}
 
 LightGroup* LightGroup::Create()
 {
@@ -43,7 +34,7 @@ void LightGroup::Initialize()
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = SKNEngine::DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定

@@ -20,15 +20,7 @@
 #include "GameScene.h"
 
 using namespace SKNEngine;
-template <class T>
-inline void complete_type_safe_delete(T * &p) {
-	//  不完全な型のポインタをdeleteしようとした時にコンパイルエラーにする
-	typedef char type_must_be_complete[sizeof(T) ? 1 : -1];
-	(void)sizeof(type_must_be_complete);
 
-	delete p;
-	p = nullptr;
-}
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

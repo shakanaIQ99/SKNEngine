@@ -1,5 +1,6 @@
 #pragma once
 #include<Windows.h>
+#include"DxWindow.h"
 #include <imgui.h>
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx12.h>
@@ -10,18 +11,27 @@ class ImGuiManager
 
 public:
 
-	static void Initialize(DxWindow* win);
+	void Initialize(DxWindow* win);
 
-	static void Finalize();
+	void Finalize();
 
-	static void Begin();
+	void Begin();
 
-	//static void End();
+	void End();
 
-	static void Draw();
+	void Draw();
+
+	static ImGuiManager* GetInstance();
 
 private:
 
-	static ComPtr<ID3D12DescriptorHeap>srvheap;
+	ComPtr<ID3D12DescriptorHeap>srvheap;
+
+	ImGuiManager() = default;
+	~ImGuiManager() = default;
+
+	//コピーコンストラクタ・代入演算子削除
+	ImGuiManager& operator=(const ImGuiManager&) = delete;
+	ImGuiManager(const ImGuiManager&) = delete;
 
 };

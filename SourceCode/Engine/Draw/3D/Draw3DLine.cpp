@@ -42,10 +42,6 @@ void Draw3DLine::Draw(Vector3 startpos, Vector3 endpos)
 	DirectXCommon::GetInstance()->GetCommandList()->DrawInstanced(_countof(vertices), 1, 0, 0);
 }
 
-void Draw3DLine::SetDevice()
-{
-	CreateGraphicsPipeline();
-}
 
 void Draw3DLine::CreateColorBuff()
 {

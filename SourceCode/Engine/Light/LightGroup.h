@@ -25,13 +25,8 @@ public:
 	};
 
 public: 
-	static void StaticInitialize(ID3D12Device* device);
 
-	
 	static LightGroup* Create();
-
-private: 
-	static ID3D12Device* device;
 
 public: 
 	void Initialize();

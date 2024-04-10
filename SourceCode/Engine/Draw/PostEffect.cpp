@@ -8,11 +8,11 @@ using namespace DirectX;
 
 const float PostEffect::clearColor[4] = { 0.0f,0.0f,0.0f,0.0f };
 PipelineSet PostEffect::pipeline;
-DirectXCommon* PostEffect::dxCommon = nullptr;
+
 
 void PostEffect::CreateGraphicsPipeline()
 {
-	pipeline = Pipeline::CreatePostEffectPipeline(dxCommon->GetDevice());
+	pipeline = Pipeline::CreatePostEffectPipeline(DirectXCommon::GetInstance()->GetDevice().Get());
 }
 
 void PostEffect::Initialize()
@@ -133,7 +133,7 @@ void PostEffect::CreateRTV()
 	rtvDescHeapDesc.NumDescriptors = 1;
 
 	HRESULT result;
-	result = dxCommon->GetDevice()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap));
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateDescriptorHeap(&rtvDescHeapDesc, IID_PPV_ARGS(&rtvHeap));
 	assert(SUCCEEDED(result));
 
 	D3D12_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
@@ -141,7 +141,7 @@ void PostEffect::CreateRTV()
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	dxCommon->GetDevice()->CreateRenderTargetView(texBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	DirectXCommon::GetInstance()->GetDevice().Get()->CreateRenderTargetView(texBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
 
 }
 
@@ -153,14 +153,14 @@ void PostEffect::CreateDSV()
 
 	HRESULT result;
 
-	result = dxCommon->GetDevice()->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&dsvHeap));
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
 	assert(SUCCEEDED(result));
 
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	dxCommon->GetDevice()->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, dsvHeap->GetCPUDescriptorHandleForHeapStart());
+	DirectXCommon::GetInstance()->GetDevice().Get()->CreateDepthStencilView(depthBuff.Get(), &dsvDesc, dsvHeap->GetCPUDescriptorHandleForHeapStart());
 
 
 }
@@ -184,7 +184,7 @@ void PostEffect::CreateTexBuff()
 
 	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor);
 
-	result = dxCommon->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&texHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&rsDesc,	//リソース設定
@@ -218,7 +218,7 @@ void PostEffect::CreateSRV()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	gpuHandle.ptr = dxCommon->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff.Get());
+	gpuHandle.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff.Get());
 }
 
 void PostEffect::CreateDepth()
@@ -239,7 +239,7 @@ void PostEffect::CreateDepth()
 
 	auto clearValue = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0);
 
-	result = dxCommon->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&heapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&depthDesc,	//リソース設定
@@ -255,10 +255,10 @@ void PostEffect::CreateDepth()
 void PostEffect::CreateBuffer()
 {
 	vertexBuffer = make_unique<VertexBuffer>();
-	vertexBuffer->Create(dxCommon->GetDevice(), 4, sizeof(VertexPos));
+	vertexBuffer->Create(DirectXCommon::GetInstance()->GetDevice().Get(), 4, sizeof(VertexPos));
 
 	indexBuffer = make_unique<IndexBuffer>();
-	indexBuffer->Create(dxCommon->GetDevice(), 6);
+	indexBuffer->Create(DirectXCommon::GetInstance()->GetDevice().Get(), 6);
 	HRESULT result;
 
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -268,7 +268,7 @@ void PostEffect::CreateBuffer()
 	auto rsDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataMaterial) + 0xff) & ~0xff);
 
 	//定数バッファの生成
-	result = dxCommon->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&rsDesc,	//リソース設定

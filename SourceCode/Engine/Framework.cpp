@@ -1,5 +1,14 @@
 #include "Framework.h"
 
+template <class T>
+inline void complete_type_safe_delete(T*& p) {
+	//  不完全な型のポインタをdeleteしようとした時にコンパイルエラーにする
+	typedef char type_must_be_complete[sizeof(T) ? 1 : -1];
+	(void)sizeof(type_must_be_complete);
+
+	delete p;
+	p = nullptr;
+}
 void Framework::Initialize()
 {
 	dxWindow = std::make_unique<DxWindow>();
@@ -10,12 +19,10 @@ void Framework::Initialize()
 
 	SKNEngine::DirectXCommon::GetInstance()->Initialize(dxWindow.get());
 	Input::Init(dxWindow.get());
-	ImGuiManager::Initialize(dxWindow.get());
+	ImGuiManager::GetInstance()->Initialize(dxWindow.get());
 	OBJ3D::StaticInitialize();
-	Draw3DLine::SetDevice(dxCommon->GetDevice(), dxCommon->GetCommandList());
-	ParticleManager::StaticInitialize(dxCommon->GetDevice());
-	LightGroup::StaticInitialize(dxCommon->GetDevice());
-	PostEffect::SetDXCommon(dxCommon);
+	Draw3DLine::CreateGraphicsPipeline();
+	ParticleManager::StaticInitialize();
 	PostEffect::CreateGraphicsPipeline();
 	AudioManager::StaticInitialize();
 
@@ -35,17 +42,29 @@ void Framework::Initialize()
 
 }
 
-void Framework::Destroy()
+void Framework::Finalize()
 {
+	
+	AudioManager::StaticFinalize();
+	ImGuiManager::GetInstance()->Finalize();
+	SKNEngine::DirectXCommon::GetInstance()->Finalize();
+	dxWindow->TerminateGameWindow();
 }
 
 void Framework::Update()
 {
-}
+	if (!dxWindow->ProcessMessage())
+	{
+		endRequest = true;
+	}
 
+	Input::InputUpdate();
+
+	SKNEngine::DirectXCommon::GetInstance()->SetClearColor();
+}
 bool& Framework::GetEndRequest()
 {
-	// TODO: return ステートメントをここに挿入します
+	return endRequest;
 }
 
 void Framework::SetWindowData(const std::string& Title, const float Width, const float Height)
@@ -61,8 +80,52 @@ void Framework::SetWindowData(const std::string& Title, const float Width, const
 
 void Framework::SetWindowColor(const Float4& color)
 {
+	SKNEngine::DirectXCommon::GetInstance()->SetClearColor(color);
 }
 
 void Framework::Run()
 {
+	Initialize();
+
+	while (true)
+	{
+#ifdef _DEBUG
+		//更新処理
+		ImGuiManager::GetInstance()->Begin();
+#endif _DEBUG
+
+		Update();
+
+		SceneDraw();
+
+#ifdef _DEBUG
+		ImGuiManager::GetInstance()->End();
+#endif _DEBUG
+
+		SKNEngine::DirectXCommon::GetInstance()->PreDraw(dxWindow.get());
+
+		if (GetEndRequest())
+		{
+			break;
+		}
+
+		//描画処理
+		PostEffectDraw();
+
+#ifdef _DEBUG
+
+		ImGuiManager::GetInstance()->Draw();
+
+#endif _DEBUG
+
+		SKNEngine::DirectXCommon::GetInstance()->PostDraw();
+
+		//FPS制御
+		fps->Update();
+
+
+
+	}
+	Finalize();
+
 }

@@ -16,9 +16,8 @@ public:
 
 	void SetColor(Float4 _color){color = _color;}
 
-	static void SetDevice();
 
-	static void CreateGraphicsPipeline(){pipeline = Pipeline::Create3DLinePipeline(device);}
+	static void CreateGraphicsPipeline(){pipeline = Pipeline::Create3DLinePipeline(DirectXCommon::GetInstance()->GetDevice().Get());}
 
 	static void SetCamera(Camera* _camera){camera = _camera;}
 

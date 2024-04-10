@@ -27,7 +27,7 @@ protected:
 
 	Float4 windowColor = { 0.0f ,0.0f ,0.0f ,0.0f };
 
-	bool endRequest_ = false;
+	bool endRequest = false;
 
 	std::unique_ptr<DxWindow> dxWindow;
 	std::unique_ptr<FPS>fps;
@@ -40,7 +40,7 @@ public:
 	virtual void Initialize();
 
 	//終了処理
-	virtual void Destroy();
+	virtual void Finalize();
 
 	//更新処理
 	virtual void Update();

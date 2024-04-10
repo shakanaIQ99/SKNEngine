@@ -1,8 +1,8 @@
 #include "ImGuiManager.h"
 #include"DirectXCommon.h"
+
 using namespace SKNEngine;
 
-ComPtr<ID3D12DescriptorHeap> ImGuiManager::srvheap;
 void ImGuiManager::Initialize(DxWindow* win)
 {
 	
@@ -11,8 +11,6 @@ void ImGuiManager::Initialize(DxWindow* win)
 	ImGui::CreateContext();
 
 	ImGui::StyleColorsDark();
-
-	//handle_ = dxCommon->GetDescriptorHeap()->CreateSRV();
 
 	ImGui_ImplWin32_Init(win->GetHwnd());
 	ImGui_ImplDX12_Init(DirectXCommon::GetInstance()->GetDevice().Get(), static_cast<int>(DirectXCommon::GetInstance()->GetBackBufferCount()),
@@ -38,18 +36,23 @@ void ImGuiManager::Begin()
 	ImGui::NewFrame();
 }
 
-//void ImGuiManager::End()
-//{
-//	ImGui::Render();
-//}
+void ImGuiManager::End()
+{
+	ImGui::Render();
+}
 
 void ImGuiManager::Draw()
 {
-	ImGui::Render();
 
 	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, srvheap.GetAddressOf());
 
 
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DirectXCommon::GetInstance()->GetCommandList());
 
+}
+
+ImGuiManager* ImGuiManager::GetInstance()
+{
+	static ImGuiManager instance;
+	return &instance;
 }

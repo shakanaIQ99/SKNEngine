@@ -21,7 +21,6 @@ public:
     //void SetDevice();
 
     static void CreateGraphicsPipeline();
-    static void SetDXCommon(SKNEngine::DirectXCommon* dxcommon) { PostEffect::dxCommon = dxcommon; }
 
     void Initialize();
 
@@ -63,7 +62,6 @@ private:
     };
 
     static PipelineSet pipeline;
-    static SKNEngine::DirectXCommon* dxCommon;
    
 
     ComPtr<ID3D12Resource> texBuff;
