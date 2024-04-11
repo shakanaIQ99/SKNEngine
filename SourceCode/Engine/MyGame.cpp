@@ -15,7 +15,6 @@ void MyGame::Initialize()
 	//シーンマネージャーに最初のシーンをセット
 	SceneManager::GetInstance()->ChangeScene("TITLE");
 
-	
 }
 
 void MyGame::Finalize()
