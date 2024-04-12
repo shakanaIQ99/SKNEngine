@@ -56,7 +56,7 @@ public:
 
 	static const string baseDirectory;
 	//ディレクリを含んだファイルパスからファイル名を抽出する
-	string ExtractFileName(const string& path);
+	string ExtractFileName(const string& filePath);
 
 	static void ConvertMatrixFromFbx(Matrix4* dst, const FbxAMatrix& src);
 

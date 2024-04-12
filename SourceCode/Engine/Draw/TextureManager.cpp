@@ -6,38 +6,42 @@ unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 using namespace SKNEngine;
 
 
-void TextureManager::StaticInitialize()
+TextureHandle TextureManager::LoadTexture(const string& filePath)
 {
-	
-	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	texHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	std::unique_lock<std::recursive_mutex> lock(mutex);
+	HRESULT result;
 
-	filePaths.resize(2056);
-}
-
-uint32_t TextureManager::LoadTexture(const string& path)
-{
-	if (textureSize > 2056)
-	{
-		assert(0);
+	//一回読み込んだことがあるファイルはそのまま返す
+	auto itr = find_if(textureMap.begin(), textureMap.end(), [&](const std::pair<TextureHandle, TextureData>& p) {
+		return p.second.filePath == filePath;
+		});
+	if (itr != textureMap.end()) {
+		return itr->first;
 	}
+	lock.unlock();
+
+
+	/// <summary>
+	/// ////////
+	/// </summary>
+	/// <param name="filePath"></param>
+	/// <returns></returns>
 
 	auto itreter = find_if(texDatas.begin(), texDatas.end(), [&](pair<const string, unique_ptr<TextureData, default_delete<TextureData>>>& ptr)
 		{
-			return ptr.second->path == path;
+			return ptr.second->filePath == filePath;
 		});
 
 	if (itreter == texDatas.end())
 	{
 		unique_ptr<TextureData> data;
 
-		data.reset(LoadFromTextureData(path));
+		data.reset(LoadFromTextureData(filePath));
 		data->texHandle = textureSize;
-		data->path = path;
+		data->filePath = filePath;
 
-		texDatas[path] = move(data);
-		filePaths[textureSize] = path;
+		texDatas[filePath] = move(data);
+		filePaths[textureSize] = filePath;
 		uint32_t handl = textureSize;
 		textureSize++;
 
@@ -47,15 +51,16 @@ uint32_t TextureManager::LoadTexture(const string& path)
 	else
 	{
 
-		uint32_t modelHandle = texDatas[path]->texHandle;
+		uint32_t modelHandle = texDatas[filePath]->texHandle;
 
 		return modelHandle;
 	}
 }
 
-uint32_t TextureManager::Load(const string& path)
+
+TextureHandle TextureManager::Load(const std::string filePath, const std::string handle)
 {
-	return TextureManager::GetInstance()->LoadTexture(path);
+	return TextureManager::GetInstance()->LoadTexture(filePath);
 }
 
 TextureData* TextureManager::GetTextureData(uint32_t handle)
@@ -78,12 +83,12 @@ void TextureManager::DeleteInstance()
 	delete texManager;
 }
 
-void TextureManager::FileLoad(const string& path, TexMetadata& metadata, ScratchImage& scratchImg)
+void TextureManager::FileLoad(const string& filePath, TexMetadata& metadata, ScratchImage& scratchImg)
 {
 	wchar_t Filepath[256];
 	HRESULT result;
 
-	MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, Filepath, _countof(Filepath));
+	MultiByteToWideChar(CP_ACP, 0, filePath.c_str(), -1, Filepath, _countof(Filepath));
 	
 	result = LoadFromWICFile(
 		Filepath,
@@ -94,7 +99,7 @@ void TextureManager::FileLoad(const string& path, TexMetadata& metadata, Scratch
 
 }
 
-TextureData* TextureManager::LoadFromTextureData(const string& path)
+TextureData* TextureManager::LoadFromTextureData(const string& filePath)
 {
 	TextureData* texdata = new TextureData();
 	HRESULT result;
@@ -105,7 +110,7 @@ TextureData* TextureManager::LoadFromTextureData(const string& path)
 
 	texdata->srvHeap = DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap();
 
-	FileLoad(path, metadata, scratchImg);
+	FileLoad(filePath, metadata, scratchImg);
 
 	
 	result = GenerateMipMaps(
@@ -119,9 +124,9 @@ TextureData* TextureManager::LoadFromTextureData(const string& path)
 	//読み込んだディフューズテクスチャをSRGBとして扱う
 	metadata.format =MakeSRGB(metadata.format);
 
-	texdata->texBuff = CreateTexBuff(metadata, scratchImg);
+	texdata->texResource = CreateTexBuff(metadata, scratchImg);
 
-	texdata->gpuHandle = CreateSRV(texdata->texBuff.Get(), metadata);
+	texdata->gpuHandle = CreateSRV(texdata->texResource.Get(), metadata);
 
 	texdata->width = metadata.width;
 	texdata->height = metadata.height;
@@ -167,7 +172,7 @@ ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(TexMetadata& metadata, Scra
 	return texbuff;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::CreateSRV(ID3D12Resource* texBuff, TexMetadata& metadata)
+D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::CreateSRV(ID3D12Resource* texResource, TexMetadata& metadata)
 {
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = metadata.format;
@@ -177,7 +182,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::CreateSRV(ID3D12Resource* texBuff, T
 
 	D3D12_GPU_DESCRIPTOR_HANDLE srvgpudesc;
 
-	srvgpudesc.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff);
+	srvgpudesc.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, texResource);
 
 	return srvgpudesc;
 }

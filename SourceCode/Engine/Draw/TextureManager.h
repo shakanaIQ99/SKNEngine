@@ -1,9 +1,10 @@
 #pragma once
-#include"DirectXCommon.h"
-#include<memory>
-#include<DirectXTex.h>
-#include<string>
-#include <unordered_map>
+#include "DirectXCommon.h"
+#include <memory>
+#include <DirectXTex.h>
+#include <string>
+#include <map>
+#include <mutex>
 #include "Float4.h"
 
 using namespace std;
@@ -12,23 +13,20 @@ using namespace Microsoft::WRL;
 
 using namespace DirectX;
 
+typedef string TextureHandle;
+
 struct TextureData
 {
-	ComPtr<ID3D12Resource> texBuff;
+	ComPtr<ID3D12Resource> texResource;
 
 	ComPtr <ID3D12DescriptorHeap> srvHeap;
 
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
+	UINT heapIndex = -1;
 
-	size_t width = 0;
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = D3D12_GPU_DESCRIPTOR_HANDLE();
+	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = D3D12_CPU_DESCRIPTOR_HANDLE();
 
-	size_t height = 0;
-
-	Float4 color = { 1.0f,1.0f,1.0f,1.0f };
-
-	string path;
-
-	uint32_t texHandle;
+	string filePath;
 };
 
 class TextureManager
@@ -36,11 +34,14 @@ class TextureManager
 
 public:
 
-	void StaticInitialize();
+public:
+	//TextureManagerを取得する
+	static TextureManager* GetInstance() {
+		static TextureManager instance;
+		return &instance;
+	}
 	
-	uint32_t LoadTexture(const string& path);
-
-	static uint32_t Load(const string& path);
+	static TextureHandle Load(const std::string filePath, const std::string handle = "");
 
 	static TextureData* GetTextureData(uint32_t handle);
 
@@ -50,16 +51,21 @@ public:
 
 private:
 
-	void FileLoad(const string& path, TexMetadata& metadata, ScratchImage& scratchImg);
+	TextureHandle LoadTexture(const string& filePath);
 
-	TextureData* LoadFromTextureData(const string& path);
+	void FileLoad(const string& filePath, TexMetadata& metadata, ScratchImage& scratchImg);
+
+	TextureData* LoadFromTextureData(const string& filePath);
 
 	ComPtr<ID3D12Resource>CreateTexBuff(TexMetadata& metadata, ScratchImage& scratchImg);
 
-	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12Resource* texBuff, TexMetadata& metadata);
+	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12Resource* texResource, TexMetadata& metadata);
 
 	
 	static TextureManager* texManager;
+
+	recursive_mutex mutex;
+	map<TextureHandle, TextureData> textureMap;
 
 	D3D12_HEAP_PROPERTIES texHeapProp{};
 

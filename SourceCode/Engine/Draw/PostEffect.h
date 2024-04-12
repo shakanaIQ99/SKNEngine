@@ -64,7 +64,7 @@ private:
     static PipelineSet pipeline;
    
 
-    ComPtr<ID3D12Resource> texBuff;
+    ComPtr<ID3D12Resource> texResource;
     ComPtr <ID3D12DescriptorHeap> srvHeap;
     D3D12_HEAP_PROPERTIES texHeapProp{};
 

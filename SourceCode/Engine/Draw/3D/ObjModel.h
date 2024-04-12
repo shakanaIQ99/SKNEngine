@@ -93,7 +93,7 @@ private:
 
 	ComPtr<ID3D12Resource> indexBuff;
 
-	ComPtr<ID3D12Resource> texBuff;
+	ComPtr<ID3D12Resource> texResource;
 
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	D3D12_INDEX_BUFFER_VIEW ibView;

@@ -38,36 +38,36 @@ void Player::Init()
 	hp = maxhp;
 
 	keyUI = std::make_unique<Sprite2D>();
-	keyUI->Initialize(spCommon, texMana->LoadTexture("Resources/preKeyUI.png"));
+	keyUI->Initialize(texMana->LoadTexture("Resources/preKeyUI.png"));
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
-	sprite_HPbar->Initialize(spCommon, hpBarHandle);
+	sprite_HPbar->Initialize(hpBarHandle);
 	sprite_HPbar->Wt.translation_ = { 200.0f,680.0f,0.0f };
 	sprite_HPbar->Wt.scale_.x = 10.0f;
 	sprite_HPbar->Wt.color = { 0.0f,1.0f,0.0f,1.0f };
 
 	sprite_CoverHPbar = std::make_unique<Sprite2D>();
-	sprite_CoverHPbar->Initialize(spCommon,  hpBarHandle);
+	sprite_CoverHPbar->Initialize(hpBarHandle);
 	sprite_CoverHPbar->Wt.translation_ = { 200.0f,680.0f,0.0f };
 	sprite_CoverHPbar->Wt.scale_.x = 10.0f;
 	sprite_CoverHPbar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
 
 	sprite_ENGauge = std::make_unique<Sprite2D>();
-	sprite_ENGauge->Initialize(spCommon, hpBarHandle);
+	sprite_ENGauge->Initialize(hpBarHandle);
 	sprite_ENGauge->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f)*20.0f ,0.0f };
 	sprite_ENGauge->Wt.scale_.x = enGaugeSize * static_cast<float>(gaugeEN) / static_cast<float>(maxGaugeEN);
 	sprite_ENGauge->Wt.scale_.y *= 0.5f;
 	sprite_ENGauge->Wt.color = { 0.0f,0.15f,0.75f,1.0f };
 
 	sprite_CoverENGaugebar = std::make_unique<Sprite2D>();
-	sprite_CoverENGaugebar->Initialize(spCommon, hpBarHandle);
+	sprite_CoverENGaugebar->Initialize(hpBarHandle);
 	sprite_CoverENGaugebar->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 22.5f) * 20.0f ,0.0f };
 	sprite_CoverENGaugebar->Wt.scale_.x = enGaugeSize;
 	sprite_CoverENGaugebar->Wt.scale_.y *= 0.5f;
 	sprite_CoverENGaugebar->Wt.color = { 0.15f,0.15f,0.15f,1.0f };
 
 	sprite_Reticle = std::make_unique<Sprite2D>();
-	sprite_Reticle->Initialize(spCommon, reticleHandle);
+	sprite_Reticle->Initialize(reticleHandle);
 
 	move_speed = 0.4f;
 

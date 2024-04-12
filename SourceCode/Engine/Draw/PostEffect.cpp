@@ -37,7 +37,7 @@ void PostEffect::Initialize()
 
 void PostEffect::PreDrawScene()
 {
-	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
+	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texResource.Get(),
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		D3D12_RESOURCE_STATE_RENDER_TARGET);
 
@@ -66,7 +66,7 @@ void PostEffect::PreDrawScene()
 
 void PostEffect::PostDrawScene()
 {
-	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texBuff.Get(),
+	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(texResource.Get(),
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -138,7 +138,7 @@ void PostEffect::CreateRTV()
 	renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderTargetViewDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	DirectXCommon::GetInstance()->GetDevice().Get()->CreateRenderTargetView(texBuff.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
+	DirectXCommon::GetInstance()->GetDevice().Get()->CreateRenderTargetView(texResource.Get(), &renderTargetViewDesc, rtvHeap->GetCPUDescriptorHandleForHeapStart());
 
 }
 
@@ -187,7 +187,7 @@ void PostEffect::CreateTexBuff()
 		&rsDesc,	//リソース設定
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		&clearValue,
-		IID_PPV_ARGS(texBuff.ReleaseAndGetAddressOf())
+		IID_PPV_ARGS(texResource.ReleaseAndGetAddressOf())
 	);
 
 	const UINT pixelCount = DxWindow::window_width * DxWindow::window_height;
@@ -202,7 +202,7 @@ void PostEffect::CreateTexBuff()
 		img[i] = 0xff0000ff;
 	}
 
-	result = texBuff->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
+	result = texResource->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
 	assert(SUCCEEDED(result));
 	delete[] img;
 }
@@ -215,7 +215,7 @@ void PostEffect::CreateSRV()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	gpuHandle.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, texBuff.Get());
+	gpuHandle.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, texResource.Get());
 }
 
 void PostEffect::CreateDepth()
@@ -252,10 +252,10 @@ void PostEffect::CreateDepth()
 void PostEffect::CreateBuffer()
 {
 	vertexBuffer = make_unique<VertexBuffer>();
-	vertexBuffer->Create(DirectXCommon::GetInstance()->GetDevice().Get(), 4, sizeof(VertexPos));
+	vertexBuffer->Create(4, sizeof(VertexPos));
 
 	indexBuffer = make_unique<IndexBuffer>();
-	indexBuffer->Create(DirectXCommon::GetInstance()->GetDevice().Get(), 6);
+	indexBuffer->Create(6);
 	HRESULT result;
 
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
