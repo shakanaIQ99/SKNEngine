@@ -2,7 +2,6 @@
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
-#include <DirectXMath.h>
 #include"DirectXCommon.h"
 #include"WorldTronsform.h"
 #include"Pipeline.h"
@@ -16,27 +15,17 @@ class SpriteCommon
 {
 
 public:
-    void Initialize(SKNEngine::DirectXCommon* _dxcommon);
 
-    //void InitializeGraphicsPipeline();
+    static ComPtr<ID3D12Device>device;
+    static ComPtr<ID3D12GraphicsCommandList>cmdList;
 
-    void PreDraw();
+    static void Initialize();
 
-    void PostDraw();
+    static void PreDraw();
+    static void DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
 
-    void DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
-
-    SKNEngine::DirectXCommon* GetDirextXCommon() { return dxcommon; }
-
-    Matrix4 Getmat() { return matProjection; }
 
 private:
 
-    SKNEngine::DirectXCommon* dxcommon;
-
-    PipelineSet spritepipline;
-
-    ID3D12GraphicsCommandList* commandList;
-
-    Matrix4 matProjection{};
+    static PipelineSet spritepipline;
 };

@@ -1,20 +1,17 @@
 #include "Sprite2D.h"
+#include "SpriteCommon.h"
 
-void Sprite2D::Initialize(SpriteCommon* _spritecommon,uint32_t handle)
+void Sprite2D::Initialize(uint32_t handle)
 {
-	spritecommon = _spritecommon;
 	tex = TextureManager::GetTextureData(handle);
-
-	device = spritecommon->GetDirextXCommon()->GetDevice();
+	matProjection = Matrix4::OrthoGraphicProjection(0.0f, DxWindow::window_width, 0.0f, DxWindow::window_height, 0.0f, 1.0f);
 	CreateVertexIndexBuffer();
-	Wt.CreateConstBuffer(device);
-
-	
+	Wt.CreateConstBuffer();
 }
 
 void Sprite2D::Update()
 {
-	Wt.UpdateSpriteMatrix(spritecommon->Getmat());
+	Wt.UpdateSpriteMatrix(matProjection);
 }
 
 void Sprite2D::Draw(float x, float y, float x2, float y2,bool flipX, bool flipY)
@@ -53,7 +50,8 @@ void Sprite2D::Draw(float x, float y, float x2, float y2,bool flipX, bool flipY)
 
 	Update();
 
-	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	
+	SpriteCommon::DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 }
 
 void Sprite2D::Draw(Vector2 anchor, bool flipX, bool flipY)
@@ -90,7 +88,7 @@ void Sprite2D::Draw(Vector2 anchor, bool flipX, bool flipY)
 
 	Update();
 
-	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	SpriteCommon::DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 
@@ -128,7 +126,7 @@ void Sprite2D::DrawClip(Vector2 ClipPos, Vector2 ClipSize, bool flipX, bool flip
 
 	Update();
 
-	spritecommon->DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	SpriteCommon::DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 
@@ -142,9 +140,9 @@ void Sprite2D::SetTexture(uint32_t handle)
 void Sprite2D::CreateVertexIndexBuffer()
 {
 	vertexBuffer = make_unique<VertexBuffer>();
-	vertexBuffer->Create(device, 4, sizeof(VertexPos));
+	vertexBuffer->Create(4, sizeof(VertexPos));
 
 	indexBuffer = make_unique<IndexBuffer>();
-	indexBuffer->Create(device, 6);
+	indexBuffer->Create(6);
 }
 

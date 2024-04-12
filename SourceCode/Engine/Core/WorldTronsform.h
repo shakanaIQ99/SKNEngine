@@ -49,7 +49,7 @@ struct WorldTransform {
 	/// <summary>
 	/// 定数バッファ生成
 	/// </summary>
-	void CreateConstBuffer(ID3D12Device* device);
+	void CreateConstBuffer();
 	
 	/// <summary>
 	/// 行列を更新する

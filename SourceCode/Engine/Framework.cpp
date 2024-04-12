@@ -1,4 +1,15 @@
 #include "Framework.h"
+#include"OBJ3D.h"
+#include"Input.h"
+#include"ParticleManager.h"
+#include"BulletManager.h"
+#include"PostEffect.h"
+#include"SpriteCommon.h"
+#include"ImGuiManager.h"
+#include"FPS.h"
+#include"Draw3DLine.h"
+#include"AudioManager.h"
+#include"LightGroup.h"
 
 template <class T>
 inline void complete_type_safe_delete(T*& p) {
@@ -23,6 +34,7 @@ void Framework::Initialize()
 	OBJ3D::StaticInitialize();
 	Draw3DLine::CreateGraphicsPipeline();
 	ParticleManager::StaticInitialize();
+	SpriteCommon::Initialize();
 	PostEffect::CreateGraphicsPipeline();
 	AudioManager::StaticInitialize();
 

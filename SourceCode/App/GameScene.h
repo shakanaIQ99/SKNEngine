@@ -58,10 +58,6 @@ public:
 		delete skydome;
 	}
 
-	
-
-private:
-
 private:
 	/// <summary>
 	/// タイトル更新

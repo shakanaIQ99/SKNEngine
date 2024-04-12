@@ -1,5 +1,4 @@
 #pragma once
-#include"SpriteCommon.h"
 #include"WorldTronsform.h"
 #include <DirectXTex.h>
 #include"TextureManager.h"
@@ -24,7 +23,7 @@ public:
 
 
 
-    void Initialize(SpriteCommon* _spritecommon,uint32_t handle);
+    void Initialize(uint32_t handle);
 
     void Update();
 
@@ -41,13 +40,12 @@ protected:
 
     void CreateVertexIndexBuffer();
 
-    SpriteCommon* spritecommon = nullptr;
-    ID3D12Device* device = nullptr;
-
     std::unique_ptr<VertexBuffer> vertexBuffer = {};
 
     std::unique_ptr<IndexBuffer> indexBuffer = {};
 
     TextureData* tex;
+
+    Matrix4 matProjection;
    
 };

@@ -1,20 +1,9 @@
 #pragma once
 #include"DxWindow.h"
 #include"DirectXCommon.h"
-#include"OBJ3D.h"
-#include"Input.h"
 #include<wrl.h>
-#include"LightGroup.h"
 #include<sstream>
 #include<iomanip>
-#include"ImGuiManager.h"
-#include"FPS.h"
-#include"ParticleManager.h"
-#include"BulletManager.h"
-#include"PostEffect.h"
-#include"SpriteCommon.h"
-#include"Draw3DLine.h"
-#include"AudioManager.h"
 #include"myMath.h"
 
 class Framework

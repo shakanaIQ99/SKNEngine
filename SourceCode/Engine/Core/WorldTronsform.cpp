@@ -1,8 +1,9 @@
 #include "WorldTronsform.h"
 #include<cassert>
+#include "DirectXCommon.h"
 
 
-void WorldTransform::CreateConstBuffer(ID3D12Device* device)
+void WorldTransform::CreateConstBuffer()
 {
 	HRESULT result;
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -23,7 +24,7 @@ void WorldTransform::CreateConstBuffer(ID3D12Device* device)
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 	
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = SKNEngine::DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
