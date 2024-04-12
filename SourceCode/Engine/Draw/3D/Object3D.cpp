@@ -119,7 +119,7 @@ void Object3D::CreateGraphicsPipeline()
 void Object3D::Initilaize(WorldTransform* Wt)
 {
 	wt = Wt;
-	wt->CreateConstBuffer(device);
+	wt->CreateConstBuffer();
 
 	HRESULT result;
 

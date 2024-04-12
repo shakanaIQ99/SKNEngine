@@ -60,7 +60,7 @@ OBJ3D* OBJ3D::Create()
 
 bool OBJ3D::Initialize()
 {
-	Wt.CreateConstBuffer(DirectXCommon::GetInstance()->GetDevice().Get());
+	Wt.CreateConstBuffer();
 	
 	return true;
 }

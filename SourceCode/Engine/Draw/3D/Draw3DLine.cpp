@@ -8,10 +8,10 @@ PipelineSet Draw3DLine::pipeline;
 Camera* Draw3DLine::camera = nullptr;
 void Draw3DLine::Init()
 {
-	wt.CreateConstBuffer(DirectXCommon::GetInstance()->GetDevice().Get());
+	wt.CreateConstBuffer();
 	CreateColorBuff();
 	vertexBuffer = std::make_unique<VertexBuffer>();
-	vertexBuffer->Create(DirectXCommon::GetInstance()->GetDevice().Get(), 2, sizeof(VertexPos));
+	vertexBuffer->Create(2, sizeof(VertexPos));
 }
 
 void Draw3DLine::Draw(Vector3 startpos, Vector3 endpos)
