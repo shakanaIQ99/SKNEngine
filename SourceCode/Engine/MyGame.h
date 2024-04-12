@@ -16,6 +16,8 @@ public:
 	//初期化処理
 	void Initialize()override;
 
+	void LoadResource();
+
 	//終了処理
 	void Finalize()override;
 

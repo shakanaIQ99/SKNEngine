@@ -70,7 +70,7 @@ AudioHandle AudioManager::Load(const std::string filepath, std::string handle)
 	sound->bufferSize = data.size;
 
 	if (handle.empty()) {
-		handle = "NoNameHandle_" + filepath;
+		handle = "NoNameHandle" + filepath;
 	}
 
 	lock.lock();

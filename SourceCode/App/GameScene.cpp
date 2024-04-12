@@ -14,7 +14,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	
 
 	textureManager = TextureManager::GetInstance();
-	textureManager->StaticInitialize(dxcommon);
+	textureManager->StaticInitialize();
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
 	
@@ -34,15 +34,7 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	clearScHandle = textureManager->LoadTexture("Resources/Clear.png");
 	GameOverScHandle = textureManager->LoadTexture("Resources/GameOver.png");
 
-	AudioManager::Load("Resources/Sound/wallhit.wav", "hit");//
-	AudioManager::Load("Resources/Sound/shot.wav", "shot");//
-	AudioManager::Load("Resources/Sound/enemyshot.wav", "Eshot");
-	AudioManager::Load("Resources/Sound/mine.wav", "mine");//
-	AudioManager::Load("Resources/Sound/charge.wav", "charge");//
-	AudioManager::Load("Resources/Sound/jump.wav", "jump");//
-	AudioManager::Load("Resources/Sound/dash.wav", "dash");//
-	AudioManager::Load("Resources/Sound/homing.wav", "homing");
-	AudioManager::Load("Resources/Sound/BGM.wav", "bgm");//
+	
 
 	
 
