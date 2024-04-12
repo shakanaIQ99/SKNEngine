@@ -13,7 +13,7 @@ void MyGame::Initialize()
 	postEffect->Initialize();
 
 	//シーンマネージャーに最初のシーンをセット
-	SceneManager::GetInstance()->ChangeScene("TITLE");
+	SceneManager::GetInstance()->ChangeScene("GAME");
 
 }
 

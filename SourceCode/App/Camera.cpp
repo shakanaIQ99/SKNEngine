@@ -2,9 +2,9 @@
 #include <cmath>
 #include"Input.h"
 
-void Camera::Initialize(ID3D12Device* Device)
+void Camera::Initialize()
 {
-	wt.CreateConstBuffer(Device);
+	wt.CreateConstBuffer();
 	wt.translation_ = { 0.0f,0.0f,0.0f };
 	wt.rotation_ = { 0.0f,0.0f,0.0f };
 	wt.scale_ = { 1.0f,1.0f,1.0f };

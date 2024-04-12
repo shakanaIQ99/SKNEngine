@@ -1,5 +1,7 @@
 #pragma once
-class TutorialScene
+#include "BaseScene.h"
+class TutorialScene:public BaseScene
 {
+
 };
 

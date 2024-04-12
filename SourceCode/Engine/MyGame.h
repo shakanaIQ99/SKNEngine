@@ -5,7 +5,6 @@
 class MyGame :public Framework
 {
 private:
-
 	//シーンファクトリー
 	std::unique_ptr<AbstractSceneFactory>sceneFactory;
 

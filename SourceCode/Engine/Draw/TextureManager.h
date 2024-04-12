@@ -36,7 +36,7 @@ class TextureManager
 
 public:
 
-	void StaticInitialize(SKNEngine::DirectXCommon* dxcommon);
+	void StaticInitialize();
 	
 	uint32_t LoadTexture(const string& path);
 
@@ -58,8 +58,7 @@ private:
 
 	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12Resource* texBuff, TexMetadata& metadata);
 
-	SKNEngine::DirectXCommon* dxCommon;
-
+	
 	static TextureManager* texManager;
 
 	D3D12_HEAP_PROPERTIES texHeapProp{};

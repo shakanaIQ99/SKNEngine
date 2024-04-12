@@ -11,19 +11,18 @@ using namespace SKNEngine;
 
 void GameScene::Init(DirectXCommon* dxcommon)
 {
-	spriteCommon = new SpriteCommon();
-	spriteCommon->Initialize(dxcommon);
+	
 
 	textureManager = TextureManager::GetInstance();
 	textureManager->StaticInitialize(dxcommon);
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
 	
-	camera.Initialize(dxcommon->GetDevice());
+	camera.Initialize();
 	//Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
-	StuructTransform::SetStruct(&camera, spriteCommon, textureManager);
+	StuructTransform::SetStruct(&camera,textureManager);
 
 	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome",true);
@@ -68,19 +67,19 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//スプライト周り
 
 	preTitle = std::make_unique<Sprite2D>();
-	preTitle->Initialize(spriteCommon, preTitleHandle);
+	preTitle->Initialize(preTitleHandle);
 	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 4.5f ,0.0f };
 
 	preTitle2 = std::make_unique<Sprite2D>();
-	preTitle2->Initialize(spriteCommon, preTitleHandle2);
+	preTitle2->Initialize(preTitleHandle2);
 	preTitle2->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) + 60.0f ,0.0f };
 
 	SceneCha = std::make_unique<Sprite2D>();
-	SceneCha->Initialize(spriteCommon, SceneChaHandle);
+	SceneCha->Initialize(SceneChaHandle);
 	SceneCha->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 	clearSc = std::make_unique<Sprite2D>();
-	clearSc->Initialize(spriteCommon, clearScHandle);
+	clearSc->Initialize(clearScHandle);
 	clearSc->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 
@@ -232,16 +231,16 @@ void GameScene::Draw(DirectXCommon* dxcommon)
 		GameDraw(dxcommon);
 		break;
 	case SceneType::CLEARSCENE:
-		spriteCommon->PreDraw();
+		SpriteCommon::PreDraw();
 		clearSc->Draw();
 		break;
 	case SceneType::GAMEOVER:
-		spriteCommon->PreDraw();
+		SpriteCommon::PreDraw();
 		clearSc->Draw();
 		break;
 	}
 	
-	spriteCommon->PreDraw();
+	SpriteCommon::PreDraw();
 	SceneCha->Draw();
 
 	
@@ -369,23 +368,21 @@ void GameScene::GameUpdate()
 
 void GameScene::TitleDraw(DirectXCommon* dxcommon)
 {
-	OBJ3D::PreDraw(dxcommon->GetCommandList());
+	
 	/*skydome->Draw();
 	field.Draw();*/
 	player.Draw();
-	spriteCommon->PreDraw();
+	SpriteCommon::PreDraw();
 
 	preTitle->Draw();
 	preTitle2->Draw();
 
-	spriteCommon->PostDraw();
 
 }
 
 void GameScene::GameDraw(DirectXCommon* dxcommon)
 {
-	OBJ3D::PreDraw(dxcommon->GetCommandList());
-
+	
 	skydome->Draw();
 	field.Draw();
 
@@ -406,7 +403,7 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 	// 3Dオブジェクト描画後処理
 	//ParticleManager::PostDraw();
 
-	spriteCommon->PreDraw();
+	SpriteCommon::PreDraw();
 	if (!sceneChaflag)
 	{
 		player.DrawUI();
@@ -415,8 +412,6 @@ void GameScene::GameDraw(DirectXCommon* dxcommon)
 
 	//sprite->Draw({ 0,0 });
 	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
-
-	spriteCommon->PostDraw();
 
 }
 

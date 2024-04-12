@@ -12,7 +12,7 @@ public:
 	/// </summary>
 	/// <param name="worldTransform">ワールド座標</param>
 	/// <param name="Rot">回転角(ラジアン)</param>
-	void Initialize(ID3D12Device* Device);
+	void Initialize();
 
 	void Reset();
 

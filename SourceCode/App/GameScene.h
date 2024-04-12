@@ -34,7 +34,6 @@ class GameScene
 {
 
 private:
-	SpriteCommon* spriteCommon = nullptr;
 	TextureManager* textureManager;
 
 
@@ -50,7 +49,6 @@ public:
 
 	void Finalize()
 	{
-		delete spriteCommon;
 		textureManager->DeleteInstance();
 		delete light;
 

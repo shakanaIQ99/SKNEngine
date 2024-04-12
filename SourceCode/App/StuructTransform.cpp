@@ -1,13 +1,11 @@
 #include "StuructTransform.h"
 
 Camera* StuructTransform::camera = nullptr;
-SpriteCommon* StuructTransform::spCommon = nullptr;
 TextureManager* StuructTransform::texMana = nullptr;
 
-void StuructTransform::SetStruct(Camera* _camera, SpriteCommon* spcommon, TextureManager* texmana)
+void StuructTransform::SetStruct(Camera* _camera,TextureManager* texmana)
 {
 	camera = _camera;
-	spCommon = spcommon;
 	texMana = texmana;
 }
 
