@@ -19,6 +19,7 @@ struct TextureData
 {
 	ComPtr<ID3D12Resource> texResource;
 
+	int Index = -1;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = D3D12_GPU_DESCRIPTOR_HANDLE();
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = D3D12_CPU_DESCRIPTOR_HANDLE();
@@ -30,8 +31,6 @@ class TextureManager
 {
 
 public:
-
-public:
 	//TextureManagerを取得する
 	static TextureManager* GetInstance() {
 		static TextureManager instance;
@@ -39,32 +38,27 @@ public:
 	}
 	
 	static TextureHandle Load(const std::string FilePath, const std::string Handle = "");
+	static TextureData& GetTextureData(const TextureHandle& Handle);
 
-	static TextureData* GetTextureData(uint32_t handle);
-
-	static TextureManager* GetInstance();
-
-	void DeleteInstance();
+	static void StaticFinalize();
 
 private:
+
+	TextureManager();
+	~TextureManager() = default;
+	TextureManager(const TextureManager& a) {};
+	TextureManager& operator=(const TextureManager&) { return *this; }
+
 
 	TextureHandle LoadTexture(const string& FilePath, TextureHandle Handle);
 
 	TextureHandle CreateHandle(TextureData TexData,TextureHandle Handle);
 
-	
-	static TextureManager* texManager;
+	TextureData& Get(const TextureHandle& handle);
 
 	recursive_mutex mutex;
 	map<TextureHandle, TextureData> textureMap;
 
-
-
-	static vector<string>filePaths;
-
-	static unordered_map<string, unique_ptr<TextureData>> texDatas;
-
-	uint32_t textureSize;
 
 };
 

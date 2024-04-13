@@ -1,9 +1,12 @@
 #include "Sprite2D.h"
 #include "SpriteCommon.h"
+#include"TextureManager.h"
 
-void Sprite2D::Initialize(uint32_t handle)
+void Sprite2D::Initialize(TextureHandle Handle)
 {
-	tex = TextureManager::GetTextureData(handle);
+	handle = Handle;
+	size.x = (float)TextureManager::GetTextureData(Handle).texResource->GetDesc().Width;
+	size.y = (float)TextureManager::GetTextureData(Handle).texResource->GetDesc().Height;
 	matProjection = Matrix4::OrthoGraphicProjection(0.0f, DxWindow::window_width, 0.0f, DxWindow::window_height, 0.0f, 1.0f);
 	CreateVertexIndexBuffer();
 	Wt.CreateConstBuffer();
@@ -51,7 +54,7 @@ void Sprite2D::Draw(float x, float y, float x2, float y2,bool flipX, bool flipY)
 	Update();
 
 	
-	SpriteCommon::DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	SpriteCommon::DrawCommand(handle, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 }
 
 void Sprite2D::Draw(Vector2 anchor, bool flipX, bool flipY)
@@ -62,10 +65,10 @@ void Sprite2D::Draw(Vector2 anchor, bool flipX, bool flipY)
 	if (flipY == false)isFlipY = 1;
 	else isFlipY = -1;
 
-	float left = ((0.0f - anchor.x) * tex->width) * isFlipX;
-	float right = ((1.0f - anchor.x) * tex->width) * isFlipX;
-	float top = ((0.0f - anchor.y) * tex->height) * isFlipY;
-	float bottom = ((1.0f - anchor.y) * tex->height) * isFlipY;
+	float left = ((0.0f - anchor.x) * size.x) * isFlipX;
+	float right = ((1.0f - anchor.x) * size.x) * isFlipX;
+	float top = ((0.0f - anchor.y) * size.y) * isFlipY;
+	float bottom = ((1.0f - anchor.y) * size.y) * isFlipY;
 
 
 
@@ -88,7 +91,7 @@ void Sprite2D::Draw(Vector2 anchor, bool flipX, bool flipY)
 
 	Update();
 
-	SpriteCommon::DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	SpriteCommon::DrawCommand(handle, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 
@@ -109,10 +112,10 @@ void Sprite2D::DrawClip(Vector2 ClipPos, Vector2 ClipSize, bool flipX, bool flip
 
 	VertexPos vertices[] =
 	{
-		{{left,top,0.0f}	,{(ClipPos.x - ClipSize.x) / tex->width,(ClipPos.y - ClipSize.y) / tex->height}	},
-		{{left,bottom,0.0f}	,{(ClipPos.x - ClipSize.x) / tex->width,(ClipPos.y + ClipSize.y) / tex->height}	},
-		{{right,top,0.0f}	,{(ClipPos.x + ClipSize.x) / tex->width,(ClipPos.y - ClipSize.y) / tex->height}	},
-		{{right,bottom,0.0f},{(ClipPos.x + ClipSize.x) / tex->width,(ClipPos.y + ClipSize.y) / tex->height}}
+		{{left,top,0.0f}	,{(ClipPos.x - ClipSize.x) / size.x,(ClipPos.y - ClipSize.y) / size.y}	},
+		{{left,bottom,0.0f}	,{(ClipPos.x - ClipSize.x) / size.x,(ClipPos.y + ClipSize.y) / size.y}	},
+		{{right,top,0.0f}	,{(ClipPos.x + ClipSize.x) / size.x,(ClipPos.y - ClipSize.y) / size.y}	},
+		{{right,bottom,0.0f},{(ClipPos.x + ClipSize.x) / size.x,(ClipPos.y + ClipSize.y) / size.y}}
 	};
 	uint32_t indices[] =
 	{
@@ -126,13 +129,15 @@ void Sprite2D::DrawClip(Vector2 ClipPos, Vector2 ClipSize, bool flipX, bool flip
 
 	Update();
 
-	SpriteCommon::DrawCommand(tex, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
+	SpriteCommon::DrawCommand(handle, vertexBuffer->GetView(), indexBuffer->GetView(), &Wt);
 
 }
 
-void Sprite2D::SetTexture(uint32_t handle)
+void Sprite2D::SetTexture(TextureHandle Handle)
 {
-	tex = TextureManager::GetTextureData(handle);
+	handle = Handle;
+	size.x = (float)TextureManager::GetTextureData(Handle).texResource->GetDesc().Width;
+	size.y = (float)TextureManager::GetTextureData(Handle).texResource->GetDesc().Height;
 }
 
 

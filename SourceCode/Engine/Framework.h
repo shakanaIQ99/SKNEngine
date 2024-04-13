@@ -1,6 +1,7 @@
 #pragma once
 #include"DxWindow.h"
 #include"DirectXCommon.h"
+#include"FPS.h"
 #include<wrl.h>
 #include<sstream>
 #include<iomanip>

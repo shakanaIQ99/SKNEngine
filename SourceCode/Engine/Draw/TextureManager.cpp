@@ -1,10 +1,6 @@
 #include "TextureManager.h"
-TextureManager* TextureManager::texManager = nullptr;
-vector<string>TextureManager::filePaths;
-unordered_map<string, unique_ptr<TextureData>> TextureManager::texDatas;
 
 using namespace SKNEngine;
-
 
 TextureHandle TextureManager::LoadTexture(const string& FilePath, TextureHandle Handle)
 {
@@ -96,12 +92,44 @@ TextureHandle TextureManager::LoadTexture(const string& FilePath, TextureHandle 
 		}
 	}
 
-	return CreateHandle(texdata,Handle)
+	return CreateHandle(texdata, Handle);
 	
 }
 
 TextureHandle TextureManager::CreateHandle(TextureData TexData, TextureHandle Handle)
 {
+
+	std::unique_lock<std::recursive_mutex> lock(mutex);
+	int useIndex = -1;
+
+	auto itr = textureMap.find(Handle);
+	if (itr != textureMap.end()) {
+		useIndex = itr->second.Index;
+	}
+	else {
+		for (UINT i = 0; i < 2056; i++) {
+			bool ok = true;
+			for (std::pair<const TextureHandle, TextureData>& p : textureMap) {
+				if (p.second.Index == i) {
+					ok = false;
+					break;
+				}
+			}
+
+			if (ok) {
+				useIndex = i;
+				break;
+			}
+		}
+	}
+	lock.unlock();
+
+	if (useIndex == -1) 
+	{
+		return TextureHandle();
+	}
+
+
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = TexData.texResource->GetDesc().Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -109,32 +137,48 @@ TextureHandle TextureManager::CreateHandle(TextureData TexData, TextureHandle Ha
 	srvDesc.Texture2D.MipLevels = TexData.texResource->GetDesc().MipLevels;
 
 	TexData.gpuHandle.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, TexData.texResource.Get());
-	return TextureHandle();
+	TexData.Index = useIndex;
+
+	if (Handle.empty()) {
+		Handle = "NoNameHandle_" + to_string(useIndex);
+	}
+
+	lock.lock();
+	textureMap[Handle] = TexData;
+	return Handle;
+}
+
+TextureData& TextureManager::Get(const TextureHandle& Handle)
+{
+	std::lock_guard<std::recursive_mutex> lock(mutex);
+	if (Handle.empty()) {
+		return textureMap["EMPTYHANDOLE"];
+	}
+
+	auto itr = textureMap.find(Handle);
+	if (itr != textureMap.end()) {
+		return itr->second;
+	}
+
+	return textureMap["ERRORTEXTURE"];
 }
 
 
 TextureHandle TextureManager::Load(const std::string FilePath, const std::string Handle)
 {
-	return TextureManager::GetInstance()->LoadTexture(FilePath,Handle);
+	TextureManager* manager = TextureManager::GetInstance();
+	return manager->LoadTexture(FilePath,Handle);
 }
 
-TextureData* TextureManager::GetTextureData(uint32_t handle)
+TextureData& TextureManager::GetTextureData(const TextureHandle& Handle)
 {
-	return texDatas[filePaths[handle]].get();
+	TextureManager* manager = TextureManager::GetInstance();
+	return manager->Get(Handle);
 }
 
-TextureManager* TextureManager::GetInstance()
+void TextureManager::StaticFinalize()
 {
-	if (!texManager)
-	{
-		texManager = new TextureManager();
-	}
-
-	return texManager;
-}
-
-void TextureManager::DeleteInstance()
-{
-	delete texManager;
+	TextureManager* manager = TextureManager::GetInstance();
+	manager->textureMap.clear();
 }
 

@@ -23,7 +23,7 @@ public:
 
 
 
-    void Initialize(uint32_t handle);
+    void Initialize(TextureHandle Handle);
 
     void Update();
 
@@ -33,19 +33,20 @@ public:
 
     void DrawClip(Vector2 ClipPos, Vector2 ClipSize, bool flipX = false, bool flipY = false);
 
-    void SetTexture(uint32_t handle);
+    void SetTexture(TextureHandle Handle);
     
     WorldTransform Wt;
 protected:
 
     void CreateVertexIndexBuffer();
 
+    Vector2 size = { 0, 0 };
+
     std::unique_ptr<VertexBuffer> vertexBuffer = {};
 
     std::unique_ptr<IndexBuffer> indexBuffer = {};
 
-    TextureData* tex;
-
     Matrix4 matProjection;
    
+    TextureHandle handle;
 };

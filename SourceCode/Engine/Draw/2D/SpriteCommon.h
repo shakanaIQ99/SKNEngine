@@ -22,7 +22,7 @@ public:
     static void Initialize();
 
     static void PreDraw();
-    static void DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
+    static void DrawCommand(TextureHandle Handle,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView,WorldTransform* wt);
 
 
 private:

@@ -17,5 +17,5 @@ public:
 	//描画処理
 	virtual void Draw() = 0;
 };
-};
+
 

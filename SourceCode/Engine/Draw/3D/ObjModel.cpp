@@ -28,11 +28,11 @@ void ObjModel::Draw(ID3D12GraphicsCommandList* commandList, UINT rootParamIndexM
 
 	commandList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
 
-	commandList->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
+	commandList->SetDescriptorHeaps(1, SKNEngine::DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap().GetAddressOf());
 
 	if (material.textureFilename.size() > 0)
 	{
-		commandList->SetGraphicsRootDescriptorTable(2, tex->gpuHandle);
+		commandList->SetGraphicsRootDescriptorTable(2, TextureManager::GetTextureData(handle).gpuHandle);
 	}
 	//commandList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
 	commandList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
@@ -263,9 +263,9 @@ void ObjModel::LoadTexture(const string& directoryPath, const string& filename)
 {
 	string filepath = directoryPath + filename;
 
-	uint32_t handl = TextureManager::Load(filepath);
+	TextureManager::Load(filepath,filename);
 
-	tex = TextureManager::GetTextureData(handl);
+	handle = filename;
 }
 
 void ObjModel::CreateBuffers()

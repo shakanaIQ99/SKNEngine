@@ -6,6 +6,7 @@
 #include <d3dcompiler.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
+#include"TextureManager.h"
 
 using namespace SKNEngine;
 
@@ -29,7 +30,7 @@ void SpriteCommon::PreDraw()
 
 }
 
-void SpriteCommon::DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView, WorldTransform* wt)
+void SpriteCommon::DrawCommand(TextureHandle Handle,D3D12_VERTEX_BUFFER_VIEW vbView, D3D12_INDEX_BUFFER_VIEW ibView, WorldTransform* wt)
 {
 	// 頂点バッファビューの設定コマンド
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
@@ -38,8 +39,8 @@ void SpriteCommon::DrawCommand(TextureData* textureData,D3D12_VERTEX_BUFFER_VIEW
 	//プリミティブ形状の設定コマンド
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	cmdList->SetDescriptorHeaps(1, textureData->srvHeap.GetAddressOf());
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = textureData->gpuHandle;
+	cmdList->SetDescriptorHeaps(1, DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap().GetAddressOf());
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = TextureManager::GetTextureData(Handle).gpuHandle;
 
 	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 

@@ -10,6 +10,7 @@
 #include"Draw3DLine.h"
 #include"AudioManager.h"
 #include"LightGroup.h"
+#include"TextureManager.h"
 
 template <class T>
 inline void complete_type_safe_delete(T*& p) {
@@ -38,6 +39,8 @@ void Framework::Initialize()
 	PostEffect::CreateGraphicsPipeline();
 	AudioManager::StaticInitialize();
 
+	TextureManager::Load("Resources/Error.png", "ERRORTEXTURE");
+	TextureManager::Load("Resources/white1x1.png", "EMPTYHANDOLE");
 
 
 
@@ -58,6 +61,7 @@ void Framework::Finalize()
 {
 	
 	AudioManager::StaticFinalize();
+	TextureManager::StaticFinalize();
 	ImGuiManager::GetInstance()->Finalize();
 	SKNEngine::DirectXCommon::GetInstance()->Finalize();
 	dxWindow->TerminateGameWindow();
