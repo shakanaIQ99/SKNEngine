@@ -4,7 +4,7 @@
 #include"ViewProjection.h"
 //#include"Object3D.h"
 #include"ImGuiManager.h"
-#include"TextureManager.h"
+#include"BaseScene.h"
 #include"SpriteCommon.h"
 //#include"Model.h"
 #include"Sprite2D.h"
@@ -30,26 +30,21 @@ enum struct SceneType
 	GAMEOVER
 };
 
-class GameScene
+class GameScene:public BaseScene
 {
-
-private:
-	TextureManager* textureManager;
-
 
 public:
 
-	void Init(SKNEngine::DirectXCommon* dxcommon);
+	void Initialize()override;
 
-	void Update();
+	void Update()override;
 
-	void Draw(SKNEngine::DirectXCommon* dxcommon);
+	void Draw()override;
 
 	void ALLCol();
 
-	void Finalize()
+	void Finalize() override
 	{
-		textureManager->DeleteInstance();
 		delete light;
 
 		delete skydome_model;
@@ -70,12 +65,12 @@ private:
 	/// <summary>
 	/// タイトル描画
 	/// </summary>
-	void TitleDraw(SKNEngine::DirectXCommon* dxcommon);
+	void TitleDraw();
 
 	/// <summary>
 	/// メイン描画
 	/// </summary>
-	void GameDraw(SKNEngine::DirectXCommon* dxcommon);
+	void GameDraw();
 
 	void StartUpdate();
 
@@ -111,17 +106,12 @@ private:
 	float cameraDistance = 20.0f;
 
 	std::unique_ptr<Sprite2D> preTitle;
-	uint32_t preTitleHandle;
 
 	std::unique_ptr<Sprite2D> preTitle2;
-	uint32_t preTitleHandle2;
 
 	std::unique_ptr<Sprite2D> SceneCha;
-	uint32_t SceneChaHandle;
 
 	std::unique_ptr<Sprite2D> clearSc;
-	uint32_t clearScHandle;
-	uint32_t GameOverScHandle;
 
 	bool sceneChaflag = false;
 	bool endSceneChaflag = false;

@@ -39,9 +39,7 @@ void Framework::Initialize()
 	PostEffect::CreateGraphicsPipeline();
 	AudioManager::StaticInitialize();
 
-	TextureManager::Load("Resources/Error.png", "ERRORTEXTURE");
-	TextureManager::Load("Resources/white1x1.png", "EMPTYHANDOLE");
-
+	
 
 
 
@@ -90,8 +88,8 @@ void Framework::SetWindowData(const std::string& Title, const float Width, const
 	MultiByteToWideChar(CP_ACP, 0, Title.c_str(), -1, wtitle, _countof(wtitle));
 
 	title = wtitle;
-	windowWidth = Width;//横幅
-	windowHeight = Height;//縦幅
+	windowWidth = static_cast<int32_t>(Width);//横幅
+	windowHeight = static_cast<int32_t>(Height);//縦幅
 }
 
 void Framework::SetWindowColor(const Float4& color)

@@ -8,9 +8,9 @@ ParticleManager::VertexPos ParticleManager::vertices[vertexCount];
 using namespace SKNEngine;
 
 
-ParticleManager::ParticleManager(uint32_t handle)
+ParticleManager::ParticleManager(TextureHandle Handle)
 {
-	tex = TextureManager::GetTextureData(handle);
+	handle = Handle;
 }
 
 void ParticleManager::StaticInitialize()
@@ -84,7 +84,7 @@ void ParticleManager::CreateModel()
 	vbView.StrideInBytes = sizeof(vertices[0]);
 }
 
-ParticleManager* ParticleManager::Create(uint32_t Handle)
+ParticleManager* ParticleManager::Create(TextureHandle Handle)
 {
 	// Spriteのインスタンスを生成
 	ParticleManager* pat = new ParticleManager(Handle);
@@ -105,7 +105,7 @@ ParticleManager* ParticleManager::Create(uint32_t Handle)
 
 bool ParticleManager::Initialize()
 {
-	wt.CreateConstBuffer(DirectXCommon::GetInstance()->GetDevice().Get());
+	wt.CreateConstBuffer();
 	
 	return true;
 }
@@ -157,8 +157,8 @@ void ParticleManager::Draw()
 {
 	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, tex->srvHeap.GetAddressOf());
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = tex->gpuHandle;
+	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1,SKNEngine::DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap().GetAddressOf());
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = TextureManager::GetTextureData(handle).gpuHandle;
 
 	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 

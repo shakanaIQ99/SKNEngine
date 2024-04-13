@@ -92,7 +92,7 @@ namespace SKNEngine
 
 		void InitializeRenserTargetView();
 
-		void InitializeDepthBuffer(DxWindow* win);
+		void InitializeDepthBuffer();
 
 		void InitializeFence();
 

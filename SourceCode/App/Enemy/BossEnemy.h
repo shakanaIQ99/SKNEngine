@@ -264,8 +264,6 @@ private:
 
 	//HP
 	std::unique_ptr<Sprite2D> sprite_HPbar;
-
-	uint32_t hpBarHandle;
 	const float maxhp = 100.0f;
 	float hp = 0.0f;
 

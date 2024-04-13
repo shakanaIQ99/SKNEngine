@@ -151,10 +151,6 @@ private:
 
 	std::unique_ptr<Sprite2D> keyUI;
 
-	uint32_t reticleHandle;
-	uint32_t hpBarHandle;
-
-
 	Vector2 hpBarShakePos = {0,0};
 
 	float hpBarShakeNum = 0;

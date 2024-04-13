@@ -14,6 +14,10 @@ void MyGame::Initialize()
 	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
 
+	TextureManager::Load("Resources/Error.png", "ERRORTEXTURE");
+	TextureManager::Load("Resources/white1x1.png", "EMPTYHANDOLE");
+
+
 	//シーンマネージャーに最初のシーンをセット
 	SceneManager::GetInstance()->ChangeScene("GAME");
 
@@ -33,6 +37,14 @@ void MyGame::LoadResource()
 	AudioManager::Load("Resources/Sound/homing.wav", "homing");
 	AudioManager::Load("Resources/Sound/BGM.wav", "bgm");//
 
+	TextureManager::Load("Resources/title.png", "Title");
+	TextureManager::Load("Resources/title2.png", "Title2");
+	TextureManager::Load("Resources/scene.png", "Scene");
+	TextureManager::Load("Resources/Clear.png", "Clear");
+	TextureManager::Load("Resources/GameOver.png", "GameOver");
+	TextureManager::Load("Resources/HpBar.png", "HpBar");
+	TextureManager::Load("Resources/Reticle.png", "Reticle");
+	TextureManager::Load("Resources/preKeyUI.png", "KeyUI");
 
 
 }

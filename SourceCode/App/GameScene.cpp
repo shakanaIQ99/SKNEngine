@@ -6,15 +6,13 @@
 #include"Easing.h"
 #include"DeathParticle.h"
 #include"AudioManager.h"
+#include"TextureManager.h"
 
 using namespace SKNEngine;
 
-void GameScene::Init(DirectXCommon* dxcommon)
+void GameScene::Initialize()
 {
 	
-
-	textureManager = TextureManager::GetInstance();
-	textureManager->StaticInitialize();
 	light = LightGroup::Create();
 	OBJ3D::SetLight(light);
 	
@@ -22,20 +20,10 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//Object3D::SetCamera(camera.getView());
 	Draw3DLine::SetCamera(&camera);
 
-	StuructTransform::SetStruct(&camera,textureManager);
+	StuructTransform::SetStruct(&camera);
 
-	//テクスチャ読み込み
 	skydome_model = ObjModel::LoadFromOBJ("skydome",true);
 	DeathParticle::SetModel(ObjModel::LoadFromOBJ("boxobj"));
-	
-	preTitleHandle = textureManager->LoadTexture("Resources/title.png");
-	preTitleHandle2 = textureManager->LoadTexture("Resources/title2.png");
-	SceneChaHandle = textureManager->LoadTexture("Resources/scene.png");
-	clearScHandle = textureManager->LoadTexture("Resources/Clear.png");
-	GameOverScHandle = textureManager->LoadTexture("Resources/GameOver.png");
-
-	
-
 	
 
 	//3Dモデル周り
@@ -59,19 +47,19 @@ void GameScene::Init(DirectXCommon* dxcommon)
 	//スプライト周り
 
 	preTitle = std::make_unique<Sprite2D>();
-	preTitle->Initialize(preTitleHandle);
+	preTitle->Initialize("Title");
 	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 4.5f ,0.0f };
 
 	preTitle2 = std::make_unique<Sprite2D>();
-	preTitle2->Initialize(preTitleHandle2);
+	preTitle2->Initialize("Title2");
 	preTitle2->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) + 60.0f ,0.0f };
 
 	SceneCha = std::make_unique<Sprite2D>();
-	SceneCha->Initialize(SceneChaHandle);
+	SceneCha->Initialize("Scene");
 	SceneCha->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 	clearSc = std::make_unique<Sprite2D>();
-	clearSc->Initialize(clearScHandle);
+	clearSc->Initialize("Clear");
 	clearSc->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 
@@ -156,12 +144,12 @@ void GameScene::Update()
 				if (player.GameEnd())
 				{
 					scene = SceneType::GAMEOVER;
-					clearSc->SetTexture(GameOverScHandle);
+					clearSc->SetTexture("GameOver");
 				}
 				else if(boss.GameEnd())
 				{
 					scene = SceneType::CLEARSCENE;
-					clearSc->SetTexture(clearScHandle);
+					clearSc->SetTexture("Clear");
 				}
 				
 				player.Reset();
@@ -212,15 +200,15 @@ void GameScene::Update()
 
 }
 
-void GameScene::Draw(DirectXCommon* dxcommon)
+void GameScene::Draw()
 {
 	switch (scene)
 	{
 	case SceneType::TITLE:
-		TitleDraw(dxcommon);
+		TitleDraw();
 		break;
 	case SceneType::GAMESCENE:
-		GameDraw(dxcommon);
+		GameDraw();
 		break;
 	case SceneType::CLEARSCENE:
 		SpriteCommon::PreDraw();
@@ -358,7 +346,7 @@ void GameScene::GameUpdate()
 	boss.Update();
 }
 
-void GameScene::TitleDraw(DirectXCommon* dxcommon)
+void GameScene::TitleDraw()
 {
 	
 	/*skydome->Draw();
@@ -372,7 +360,7 @@ void GameScene::TitleDraw(DirectXCommon* dxcommon)
 
 }
 
-void GameScene::GameDraw(DirectXCommon* dxcommon)
+void GameScene::GameDraw()
 {
 	
 	skydome->Draw();

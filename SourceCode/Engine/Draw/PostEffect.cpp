@@ -252,7 +252,7 @@ void PostEffect::CreateDepth()
 void PostEffect::CreateBuffer()
 {
 	vertexBuffer = make_unique<VertexBuffer>();
-	vertexBuffer->Create(4, sizeof(VertexPos));
+	vertexBuffer->Create(4, static_cast<size_t>(sizeof(VertexPos)));
 
 	indexBuffer = make_unique<IndexBuffer>();
 	indexBuffer->Create(6);

@@ -31,11 +31,8 @@ class TextureManager
 {
 
 public:
-	//TextureManagerを取得する
-	static TextureManager* GetInstance() {
-		static TextureManager instance;
-		return &instance;
-	}
+
+	static TextureManager* GetInstance(); 
 	
 	static TextureHandle Load(const std::string FilePath, const std::string Handle = "");
 	static TextureData& GetTextureData(const TextureHandle& Handle);
@@ -44,9 +41,9 @@ public:
 
 private:
 
-	TextureManager();
+	TextureManager() {};
 	~TextureManager() = default;
-	TextureManager(const TextureManager& a) {};
+	TextureManager(const TextureManager&) {};
 	TextureManager& operator=(const TextureManager&) { return *this; }
 
 

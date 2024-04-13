@@ -9,7 +9,7 @@ class StuructTransform
 public:
 
 	//各シングルトーン化したら不要になるかも
-	static void SetStruct(Camera* _camera,TextureManager* texmana);
+	static void SetStruct(Camera* _camera);
 
 
 	/// <summary>
@@ -29,7 +29,6 @@ public:
 	std::unique_ptr<OBJ3D> St;
 	std::unique_ptr<ObjModel> model;
 protected:
-	static TextureManager* texMana;
 	static Camera* camera;
 
 };

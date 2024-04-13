@@ -12,8 +12,8 @@ class Framework
 protected:
 
 	std::wstring title = L"";
-	float windowWidth = 0.0f;//横幅
-	float windowHeight = 0.0f;//縦幅
+	int32_t windowWidth = 0;//横幅
+	int32_t windowHeight = 0;//縦幅
 
 	Float4 windowColor = { 0.0f ,0.0f ,0.0f ,0.0f };
 

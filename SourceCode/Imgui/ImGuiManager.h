@@ -1,6 +1,7 @@
 #pragma once
 #include<Windows.h>
 #include"DxWindow.h"
+#include<wrl.h>
 #include <imgui.h>
 #include <imgui_impl_win32.h>
 #include <imgui_impl_dx12.h>

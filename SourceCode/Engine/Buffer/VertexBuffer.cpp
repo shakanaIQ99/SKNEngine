@@ -29,7 +29,7 @@ void VertexBuffer::Create(size_t length, size_t singleSize, const void* data)
 		&resDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(vertBuff.ReleaseAndGetAddressOf()));
+		IID_PPV_ARGS(vertBuff.GetAddressOf()));
 
 	// 頂点バッファビューの設定
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();

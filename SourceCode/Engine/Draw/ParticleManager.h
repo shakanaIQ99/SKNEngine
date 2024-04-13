@@ -21,7 +21,7 @@ class ParticleManager
 {
 public:
 
-	ParticleManager(uint32_t handle);
+	ParticleManager(TextureHandle Handle);
 	struct VertexPos
 	{
 		Vector3 pos; // xyz座標
@@ -63,7 +63,7 @@ public:
 
 	static void CreateModel();
 
-	static ParticleManager* Create(uint32_t Handle);
+	static ParticleManager* Create(TextureHandle Handle);
 
 	bool Initialize();
 
@@ -84,7 +84,7 @@ private:
 	static ComPtr<ID3D12Resource> vertBuff;
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
 
-	TextureData* tex;
+	TextureHandle handle;
 
 	WorldTransform wt;
 	

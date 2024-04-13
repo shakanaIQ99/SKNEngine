@@ -19,7 +19,7 @@ void DirectXCommon::Initialize(DxWindow* win)
 
 	InitializeRenserTargetView();
 
-	InitializeDepthBuffer(win);
+	InitializeDepthBuffer();
 
 	InitializeFence();
 
@@ -260,7 +260,7 @@ void DirectXCommon::InitializeRenserTargetView()
 
 }
 
-void DirectXCommon::InitializeDepthBuffer(DxWindow* win)
+void DirectXCommon::InitializeDepthBuffer()
 {
 	HRESULT result = S_FALSE;
 

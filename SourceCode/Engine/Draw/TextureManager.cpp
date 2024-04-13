@@ -110,7 +110,7 @@ TextureHandle TextureManager::CreateHandle(TextureData TexData, TextureHandle Ha
 		for (UINT i = 0; i < 2056; i++) {
 			bool ok = true;
 			for (std::pair<const TextureHandle, TextureData>& p : textureMap) {
-				if (p.second.Index == i) {
+				if (p.second.Index == static_cast<int>(i)) {
 					ok = false;
 					break;
 				}
@@ -163,6 +163,14 @@ TextureData& TextureManager::Get(const TextureHandle& Handle)
 	return textureMap["ERRORTEXTURE"];
 }
 
+
+TextureManager* TextureManager::GetInstance()
+{
+	
+	static TextureManager instance;
+	return &instance;
+	
+}
 
 TextureHandle TextureManager::Load(const std::string FilePath, const std::string Handle)
 {

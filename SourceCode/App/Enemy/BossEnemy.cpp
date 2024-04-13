@@ -19,7 +19,6 @@ void BossEnemy::Init()
 {
 	ModelInit("enemy");
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
-	//hbulletModel.reset(ObjModel::LoadFromOBJ("bit"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -30,15 +29,12 @@ void BossEnemy::Init()
 	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
 
 
-	hpBarHandle = texMana->LoadTexture("Resources/HpBar.png");
-
-
 	colBox->Wt.scale_ = St->Wt.scale_;
 	colBox->color = { 1.0f,1.0f,1.0f,1.0f };
 
 
 	sprite_HPbar = std::make_unique<Sprite2D>();
-	sprite_HPbar->Initialize(spCommon, hpBarHandle);
+	sprite_HPbar->Initialize("HpBar");
 	sprite_HPbar->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 22.5f ,0.0f };
 	sprite_HPbar->Wt.scale_.x = 30.0f;
 	sprite_HPbar->Wt.color = { 1.0f,0.0f,0.0f,1.0f };

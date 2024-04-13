@@ -1,12 +1,9 @@
 #include "StuructTransform.h"
-
 Camera* StuructTransform::camera = nullptr;
-TextureManager* StuructTransform::texMana = nullptr;
 
-void StuructTransform::SetStruct(Camera* _camera,TextureManager* texmana)
+void StuructTransform::SetStruct(Camera* _camera)
 {
 	camera = _camera;
-	texMana = texmana;
 }
 
 void StuructTransform::ModelInit(const string& modelname, bool smooth)
