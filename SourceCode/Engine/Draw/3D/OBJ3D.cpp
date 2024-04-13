@@ -32,9 +32,9 @@ OBJ3D::OBJ3D()
 void OBJ3D::StaticInitialize()
 {
 	
-	ObjModel::SetDevice(DirectXCommon::GetInstance()->GetDevice().Get());
+	ObjModel::SetDevice(DirectXCommon::GetDevice().Get());
 
-	ObjPipeline = Pipeline::CreateModelPipline(DirectXCommon::GetInstance()->GetDevice().Get());
+	ObjPipeline = Pipeline::CreateModelPipline(DirectXCommon::GetDevice().Get());
 }
 
 
@@ -77,15 +77,15 @@ void OBJ3D::Update(ViewProjection* camera)
 
 void OBJ3D::Draw()
 {
-	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(ObjPipeline.pipelineState.Get());
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
+	DirectXCommon::GetCommandList()->SetPipelineState(ObjPipeline.pipelineState.Get());
+	DirectXCommon::GetCommandList()->SetGraphicsRootSignature(ObjPipeline.rootSignature.Get());
 	// プリミティブ形状の設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	DirectXCommon::GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 	
 	if (model == nullptr) return;
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
-	lightGroup->Draw(DirectXCommon::GetInstance()->GetCommandList(), 3);
-	model->Draw(DirectXCommon::GetInstance()->GetCommandList(), 1);
+	DirectXCommon::GetCommandList()->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
+	lightGroup->Draw(DirectXCommon::GetCommandList(), 3);
+	model->Draw(DirectXCommon::GetCommandList(), 1);
 }
 

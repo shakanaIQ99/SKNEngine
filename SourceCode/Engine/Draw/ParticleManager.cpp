@@ -15,7 +15,7 @@ ParticleManager::ParticleManager(TextureHandle Handle)
 
 void ParticleManager::StaticInitialize()
 {
-	parPipeline = Pipeline::CreateParticlePipline(DirectXCommon::GetInstance()->GetDevice().Get());
+	parPipeline = Pipeline::CreateParticlePipline(DirectXCommon::GetDevice().Get());
 	CreateModel();
 
 }
@@ -23,10 +23,10 @@ void ParticleManager::StaticInitialize()
 void ParticleManager::PreDraw()
 {
 	
-	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(parPipeline.pipelineState.Get());
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(parPipeline.rootSignature.Get());
+	DirectXCommon::GetCommandList()->SetPipelineState(parPipeline.pipelineState.Get());
+	DirectXCommon::GetCommandList()->SetGraphicsRootSignature(parPipeline.rootSignature.Get());
 	// プリミティブ形状の設定コマンド
-	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
+	DirectXCommon::GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 }
 
 
@@ -58,7 +58,7 @@ void ParticleManager::CreateModel()
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
+	result = DirectXCommon::GetDevice().Get()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,
@@ -155,16 +155,16 @@ void ParticleManager::Update(ViewProjection* camera)
 
 void ParticleManager::Draw()
 {
-	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1,SKNEngine::DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap().GetAddressOf());
+	DirectXCommon::GetCommandList()->SetDescriptorHeaps(1,SKNEngine::DirectXCommon::GetDescriptorHeap()->GetHeap().GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = TextureManager::GetTextureData(handle).gpuHandle;
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	DirectXCommon::GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
+	DirectXCommon::GetCommandList()->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
 
-	DirectXCommon::GetInstance()->GetCommandList()->DrawInstanced((UINT)std::distance(particle.begin(), particle.end()), 1, 0, 0);
+	DirectXCommon::GetCommandList()->DrawInstanced((UINT)std::distance(particle.begin(), particle.end()), 1, 0, 0);
 
 }
 

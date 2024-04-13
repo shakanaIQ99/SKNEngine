@@ -28,32 +28,30 @@ namespace SKNEngine
 
 
 
-		void Initialize(DxWindow* win);
+		static void Initialize(DxWindow* win);
 
-		void PreDraw(DxWindow* win);
+		static void PreDraw(DxWindow* win);
 
-		void PostDraw();
-
-		void Finalize();
+		static void PostDraw();
 
 		/// <returns>デバイス</returns>
-		ComPtr<ID3D12Device> GetDevice() { return device.Get(); }
+		static ComPtr<ID3D12Device> GetDevice();
 
 		/// <summary>
 		/// 描画コマンドリストの取得
 		/// </summary>
 		/// <returns>描画コマンドリスト</returns>
-		ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); }
+		static ID3D12GraphicsCommandList* GetCommandList();
 
-		DescriptorHeap* GetDescriptorHeap() { return descHeap.get(); }
+		static DescriptorHeap* GetDescriptorHeap();
 
-		size_t GetBackBufferCount()const { return backBuffers.size(); }
+		static size_t GetBackBufferCount();
 
 		/// <summary>
 		/// 背景の色をセット
 		/// </summary>
 		/// <param name="color">RGBA(初期値 { 0.1f , 0.25f , 0.5f , 0.0f } )</param>
-		void SetClearColor(Float4 color = { 0.1f,0.25f,0.5f,0.0f });
+		static void SetClearColor(Float4 color = { 0.1f,0.25f,0.5f,0.0f });
 
 		//シングルトン
 		static DirectXCommon* GetInstance();

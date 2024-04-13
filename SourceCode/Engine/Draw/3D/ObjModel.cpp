@@ -28,7 +28,7 @@ void ObjModel::Draw(ID3D12GraphicsCommandList* commandList, UINT rootParamIndexM
 
 	commandList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1->GetGPUVirtualAddress());
 
-	commandList->SetDescriptorHeaps(1, SKNEngine::DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap().GetAddressOf());
+	commandList->SetDescriptorHeaps(1, SKNEngine::DirectXCommon::GetDescriptorHeap()->GetHeap().GetAddressOf());
 
 	if (material.textureFilename.size() > 0)
 	{

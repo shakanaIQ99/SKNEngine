@@ -66,7 +66,7 @@ TextureHandle TextureManager::LoadTexture(const string& FilePath, TextureHandle 
 	rsDesc.MipLevels = (UINT16)metadata.mipLevels;
 	rsDesc.SampleDesc.Count = 1;
 
-	result = DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	result = DirectXCommon::GetDevice()->CreateCommittedResource(
 		&texHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&rsDesc,	//リソース設定
@@ -136,7 +136,7 @@ TextureHandle TextureManager::CreateHandle(TextureData TexData, TextureHandle Ha
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = TexData.texResource->GetDesc().MipLevels;
 
-	TexData.gpuHandle.ptr = DirectXCommon::GetInstance()->GetDescriptorHeap()->CreateSRV(srvDesc, TexData.texResource.Get());
+	TexData.gpuHandle.ptr = DirectXCommon::GetDescriptorHeap()->CreateSRV(srvDesc, TexData.texResource.Get());
 	TexData.Index = useIndex;
 
 	if (Handle.empty()) {

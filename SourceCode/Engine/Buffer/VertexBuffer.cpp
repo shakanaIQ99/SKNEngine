@@ -23,7 +23,7 @@ void VertexBuffer::Create(size_t length, size_t singleSize, const void* data)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	// リソースを生成
-	HRESULT result = SKNEngine::DirectXCommon::GetInstance()->GetDevice()->CreateCommittedResource(
+	HRESULT result = SKNEngine::DirectXCommon::GetDevice()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,

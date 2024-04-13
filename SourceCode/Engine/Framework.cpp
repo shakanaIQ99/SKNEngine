@@ -11,6 +11,8 @@
 #include"AudioManager.h"
 #include"LightGroup.h"
 #include"TextureManager.h"
+#include"SceneFactory.h"
+#include"SceneManager.h"
 
 template <class T>
 inline void complete_type_safe_delete(T*& p) {
@@ -23,25 +25,6 @@ inline void complete_type_safe_delete(T*& p) {
 }
 void Framework::Initialize()
 {
-	dxWindow = std::make_unique<DxWindow>();
-	dxWindow->CreateGameWindow(title.c_str(), windowWidth, windowHeight);
-
-	fps = std::make_unique<FPS>();
-	fps->Initialize();
-
-	SKNEngine::DirectXCommon::GetInstance()->Initialize(dxWindow.get());
-	Input::Init(dxWindow.get());
-	ImGuiManager::GetInstance()->Initialize(dxWindow.get());
-	OBJ3D::StaticInitialize();
-	Draw3DLine::CreateGraphicsPipeline();
-	ParticleManager::StaticInitialize();
-	SpriteCommon::Initialize();
-	PostEffect::CreateGraphicsPipeline();
-	AudioManager::StaticInitialize();
-
-	
-
-
 
 #ifdef _DEBUG
 	//デバッグレイヤーをオンに
@@ -53,6 +36,38 @@ void Framework::Initialize()
 	}
 #endif	
 
+	dxWindow = std::make_unique<DxWindow>();
+	dxWindow->CreateGameWindow(title.c_str(), windowWidth, windowHeight);
+
+
+
+	SKNEngine::DirectXCommon::Initialize(dxWindow.get());
+
+	fps = std::make_unique<FPS>();
+	fps->Initialize();
+
+	Input::Init(dxWindow.get());
+	ImGuiManager::GetInstance()->Initialize(dxWindow.get());
+	OBJ3D::StaticInitialize();
+	Draw3DLine::CreateGraphicsPipeline();
+	ParticleManager::StaticInitialize();
+	SpriteCommon::Initialize();
+	PostEffect::CreateGraphicsPipeline();
+	AudioManager::StaticInitialize();
+
+	
+#ifdef _DEBUG
+	ComPtr<ID3D12InfoQueue> infoQueue;
+	if (SUCCEEDED(SKNEngine::DirectXCommon::GetDevice()->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+	}
+#endif
+
+	//シーンファクトリーを生成し、マネージャにセット
+	AbstractSceneFactory* sceneFactory = new SceneFactory();
+	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
+
 }
 
 void Framework::Finalize()
@@ -61,7 +76,6 @@ void Framework::Finalize()
 	AudioManager::StaticFinalize();
 	TextureManager::StaticFinalize();
 	ImGuiManager::GetInstance()->Finalize();
-	SKNEngine::DirectXCommon::GetInstance()->Finalize();
 	dxWindow->TerminateGameWindow();
 }
 
@@ -74,7 +88,7 @@ void Framework::Update()
 
 	Input::InputUpdate();
 
-	SKNEngine::DirectXCommon::GetInstance()->SetClearColor();
+	SKNEngine::DirectXCommon::SetClearColor();
 }
 bool& Framework::GetEndRequest()
 {
@@ -94,7 +108,7 @@ void Framework::SetWindowData(const std::string& Title, const float Width, const
 
 void Framework::SetWindowColor(const Float4& color)
 {
-	SKNEngine::DirectXCommon::GetInstance()->SetClearColor(color);
+	SKNEngine::DirectXCommon::SetClearColor(color);
 }
 
 void Framework::Run()
@@ -116,7 +130,7 @@ void Framework::Run()
 		ImGuiManager::GetInstance()->End();
 #endif _DEBUG
 
-		SKNEngine::DirectXCommon::GetInstance()->PreDraw(dxWindow.get());
+		SKNEngine::DirectXCommon::PreDraw(dxWindow.get());
 
 		if (GetEndRequest())
 		{
@@ -132,7 +146,7 @@ void Framework::Run()
 
 #endif _DEBUG
 
-		SKNEngine::DirectXCommon::GetInstance()->PostDraw();
+		SKNEngine::DirectXCommon::PostDraw();
 
 		//FPS制御
 		fps->Update();

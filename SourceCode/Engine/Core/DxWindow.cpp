@@ -82,8 +82,8 @@ bool DxWindow::ProcessMessage()
 	//×ボタンで終了メッセージが来たらゲームループを抜ける
 	if (msg.message == WM_QUIT)
 	{
-		return true;
+		return false;
 	}
 
-	return false;
+	return true;
 }

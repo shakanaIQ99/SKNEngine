@@ -6,52 +6,54 @@
 
 using namespace SKNEngine;
 
-
-DirectXCommon* directX = nullptr;
-
 void DirectXCommon::Initialize(DxWindow* win)
 {
-	InitializeDXGIdevice();
+	DirectXCommon* common = GetInstance();
 
-	InitializeCommand();
+	common->InitializeDXGIdevice();
 
-	InitializeSwapChain(win);
+	common->InitializeCommand();
 
-	InitializeRenserTargetView();
+	common->InitializeSwapChain(win);
 
-	InitializeDepthBuffer();
+	common->InitializeRenserTargetView();
 
-	InitializeFence();
+	common->InitializeDepthBuffer();
 
-	descHeap = make_unique<DescriptorHeap>();
-	descHeap->Initialize(device.Get());
+	common->InitializeFence();
+
+	common->descHeap = make_unique<DescriptorHeap>();
+	common->descHeap->Initialize(common->device.Get());
 }
 
 void DirectXCommon::PreDraw(DxWindow* win)
 {
+
+	DirectXCommon* common = GetInstance();
+
 	//HRESULT result;
 	//バックバッファの番号を取得(2つなので0番か1番)
-	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+	UINT bbIndex = common->swapChain->GetCurrentBackBufferIndex();
 
 	D3D12_RESOURCE_BARRIER barrierDesc{};
 
-	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get();				//バックバッファを指定
+	barrierDesc.Transition.pResource = common->backBuffers[bbIndex].Get();				//バックバッファを指定
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;		//表示状態から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;	//描画状態へ
 
-	commandList->ResourceBarrier(1, &barrierDesc);
+	common->commandList->ResourceBarrier(1, &barrierDesc);
 
 	//レンダーターゲットビューのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
-	rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
-	commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = common->rtvHeap->GetCPUDescriptorHandleForHeapStart();
+	rtvHandle.ptr += bbIndex * common->device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = common->dsvHeap->GetCPUDescriptorHandleForHeapStart();
+	common->commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
 	//3. 画面クリア
 	
 
-	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	common->commandList->ClearRenderTargetView(rtvHandle, common->clearColor, 0, nullptr);
+	common->commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	D3D12_VIEWPORT viewport{};
 	viewport.Width = static_cast<FLOAT>(win->window_width);
@@ -61,7 +63,7 @@ void DirectXCommon::PreDraw(DxWindow* win)
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 
-	commandList->RSSetViewports(1, &viewport);
+	common->commandList->RSSetViewports(1, &viewport);
 
 	D3D12_RECT scissorRect{};
 	scissorRect.left = 0;																//切り抜き座標左
@@ -70,63 +72,82 @@ void DirectXCommon::PreDraw(DxWindow* win)
 	scissorRect.bottom = static_cast<LONG>(scissorRect.left + win->window_height);		//切り抜き座標下
 
 	//シザー矩形設定コマンドを、コマンドリストに積む
-	commandList->RSSetScissorRects(1, &scissorRect);
+	common->commandList->RSSetScissorRects(1, &scissorRect);
 
 }
 
 void DirectXCommon::PostDraw()
 {
+	DirectXCommon* common = GetInstance();
+
 	HRESULT result;
 
-	UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
+	UINT bbIndex = common->swapChain->GetCurrentBackBufferIndex();
 
 	D3D12_RESOURCE_BARRIER barrierDesc{};
 
-	barrierDesc.Transition.pResource = backBuffers[bbIndex].Get();
+	barrierDesc.Transition.pResource = common->backBuffers[bbIndex].Get();
 	barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;	//描画状態から
 	barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;			//表示状態へ
-	commandList->ResourceBarrier(1, &barrierDesc);
+	common->commandList->ResourceBarrier(1, &barrierDesc);
 
-	result=commandList->Close();
+	result= common->commandList->Close();
 	assert(SUCCEEDED(result));
 	//コマンドリストの実行
-	ID3D12CommandList* commandLists[] = { commandList.Get() };
-	commandQueue->ExecuteCommandLists(1, commandLists);
+	ID3D12CommandList* commandLists[] = { common->commandList.Get() };
+	common->commandQueue->ExecuteCommandLists(1, commandLists);
 
 	//画面に表示するバッファをフリップ(裏表の入れ替え)
-	result = swapChain->Present(1, 0);
+	result = common->swapChain->Present(1, 0);
 	assert(SUCCEEDED(result));
 
 	//コマンドの実行完了を待つ
-	commandQueue->Signal(fence.Get(), ++fenceVal);
-	if (fence->GetCompletedValue() != fenceVal)
+	common->commandQueue->Signal(common->fence.Get(), ++common->fenceVal);
+	if (common->fence->GetCompletedValue() != common->fenceVal)
 	{
 		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-		fence->SetEventOnCompletion(fenceVal, event);
+		common->fence->SetEventOnCompletion(common->fenceVal, event);
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
 
 	//キューをクリア
-	result = commandAllocator->Reset();
+	result = common->commandAllocator->Reset();
 	assert(SUCCEEDED(result));
 	//再びコマンドリストをためる準備
-	result = commandList->Reset(commandAllocator.Get(), nullptr);
+	result = common->commandList->Reset(common->commandAllocator.Get(), nullptr);
 	assert(SUCCEEDED(result));
 
 }
 
-void SKNEngine::DirectXCommon::Finalize()
+ComPtr<ID3D12Device> SKNEngine::DirectXCommon::GetDevice()
 {
-	directX = nullptr;
+	return GetInstance()->device.Get();
+}
+
+ID3D12GraphicsCommandList* SKNEngine::DirectXCommon::GetCommandList()
+{
+	return GetInstance()->commandList.Get();
+}
+
+DescriptorHeap* SKNEngine::DirectXCommon::GetDescriptorHeap()
+{
+	return GetInstance()->descHeap.get();
+}
+
+size_t SKNEngine::DirectXCommon::GetBackBufferCount()
+{
+	return GetInstance()->backBuffers.size();
 }
 
 void SKNEngine::DirectXCommon::SetClearColor(Float4 color)
 {
-	clearColor[0] = color.x;
-	clearColor[1] = color.y;
-	clearColor[2] = color.z;
-	clearColor[3] = color.w;
+	DirectXCommon* common = GetInstance();
+
+	common->clearColor[0] = color.x;
+	common->clearColor[1] = color.y;
+	common->clearColor[2] = color.z;
+	common->clearColor[3] = color.w;
 }
 
 DirectXCommon* SKNEngine::DirectXCommon::GetInstance()

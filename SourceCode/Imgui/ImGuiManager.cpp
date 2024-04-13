@@ -6,14 +6,14 @@ using namespace SKNEngine;
 void ImGuiManager::Initialize(DxWindow* win)
 {
 	
-	srvheap = DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap();
+	srvheap = DirectXCommon::GetDescriptorHeap()->GetHeap();
 
 	ImGui::CreateContext();
 
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(win->GetHwnd());
-	ImGui_ImplDX12_Init(DirectXCommon::GetInstance()->GetDevice().Get(), static_cast<int>(DirectXCommon::GetInstance()->GetBackBufferCount()),
+	ImGui_ImplDX12_Init(DirectXCommon::GetDevice().Get(), static_cast<int>(DirectXCommon::GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, srvheap.Get(),
 		srvheap.Get()->GetCPUDescriptorHandleForHeapStart(),
 		srvheap.Get()->GetGPUDescriptorHandleForHeapStart());
@@ -44,10 +44,10 @@ void ImGuiManager::End()
 void ImGuiManager::Draw()
 {
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetDescriptorHeaps(1, srvheap.GetAddressOf());
+	DirectXCommon::GetCommandList()->SetDescriptorHeaps(1, srvheap.GetAddressOf());
 
 
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DirectXCommon::GetInstance()->GetCommandList());
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), DirectXCommon::GetCommandList());
 
 }
 

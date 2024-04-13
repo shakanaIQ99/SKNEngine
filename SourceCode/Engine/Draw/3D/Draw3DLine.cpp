@@ -30,16 +30,16 @@ void Draw3DLine::Draw(Vector3 startpos, Vector3 endpos)
 
 	vbView = vertexBuffer->GetView();
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetPipelineState(pipeline.pipelineState.Get());
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootSignature(pipeline.rootSignature.Get());
+	DirectXCommon::GetCommandList()->SetPipelineState(pipeline.pipelineState.Get());
+	DirectXCommon::GetCommandList()->SetGraphicsRootSignature(pipeline.rootSignature.Get());
 
-	DirectXCommon::GetInstance()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-	DirectXCommon::GetInstance()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+	DirectXCommon::GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+	DirectXCommon::GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
-	DirectXCommon::GetInstance()->GetCommandList()->SetGraphicsRootConstantBufferView(1, constBuffB1->GetGPUVirtualAddress());
+	DirectXCommon::GetCommandList()->SetGraphicsRootConstantBufferView(0, wt.constBuffB0->GetGPUVirtualAddress());
+	DirectXCommon::GetCommandList()->SetGraphicsRootConstantBufferView(1, constBuffB1->GetGPUVirtualAddress());
 
-	DirectXCommon::GetInstance()->GetCommandList()->DrawInstanced(_countof(vertices), 1, 0, 0);
+	DirectXCommon::GetCommandList()->DrawInstanced(_countof(vertices), 1, 0, 0);
 }
 
 
@@ -61,7 +61,7 @@ void Draw3DLine::CreateColorBuff()
 	cbResourceDescB1.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = DirectXCommon::GetInstance()->GetDevice().Get()->CreateCommittedResource(
+	result = DirectXCommon::GetDevice().Get()->CreateCommittedResource(
 		&cbHeapPropB1,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDescB1,	//リソース設定

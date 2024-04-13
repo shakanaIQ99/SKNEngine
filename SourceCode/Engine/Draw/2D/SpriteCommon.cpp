@@ -17,8 +17,8 @@ PipelineSet SpriteCommon::spritepipline;
 
 void SpriteCommon::Initialize()
 {
-	device = DirectXCommon::GetInstance()->GetDevice();
-	cmdList = DirectXCommon::GetInstance()->GetCommandList();
+	device = DirectXCommon::GetDevice();
+	cmdList = DirectXCommon::GetCommandList();
 	spritepipline = Pipeline::CreateSpritePipline(device.Get());
 }
 
@@ -39,7 +39,7 @@ void SpriteCommon::DrawCommand(TextureHandle Handle,D3D12_VERTEX_BUFFER_VIEW vbV
 	//プリミティブ形状の設定コマンド
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
-	cmdList->SetDescriptorHeaps(1, DirectXCommon::GetInstance()->GetDescriptorHeap()->GetHeap().GetAddressOf());
+	cmdList->SetDescriptorHeaps(1, DirectXCommon::GetDescriptorHeap()->GetHeap().GetAddressOf());
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = TextureManager::GetTextureData(Handle).gpuHandle;
 
 	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
