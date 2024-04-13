@@ -19,9 +19,6 @@ struct TextureData
 {
 	ComPtr<ID3D12Resource> texResource;
 
-	ComPtr <ID3D12DescriptorHeap> srvHeap;
-
-	UINT heapIndex = -1;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = D3D12_GPU_DESCRIPTOR_HANDLE();
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = D3D12_CPU_DESCRIPTOR_HANDLE();
@@ -41,7 +38,7 @@ public:
 		return &instance;
 	}
 	
-	static TextureHandle Load(const std::string filePath, const std::string handle = "");
+	static TextureHandle Load(const std::string FilePath, const std::string Handle = "");
 
 	static TextureData* GetTextureData(uint32_t handle);
 
@@ -51,15 +48,9 @@ public:
 
 private:
 
-	TextureHandle LoadTexture(const string& filePath);
+	TextureHandle LoadTexture(const string& FilePath, TextureHandle Handle);
 
-	void FileLoad(const string& filePath, TexMetadata& metadata, ScratchImage& scratchImg);
-
-	TextureData* LoadFromTextureData(const string& filePath);
-
-	ComPtr<ID3D12Resource>CreateTexBuff(TexMetadata& metadata, ScratchImage& scratchImg);
-
-	D3D12_GPU_DESCRIPTOR_HANDLE CreateSRV(ID3D12Resource* texResource, TexMetadata& metadata);
+	TextureHandle CreateHandle(TextureData TexData,TextureHandle Handle);
 
 	
 	static TextureManager* texManager;
@@ -67,7 +58,7 @@ private:
 	recursive_mutex mutex;
 	map<TextureHandle, TextureData> textureMap;
 
-	D3D12_HEAP_PROPERTIES texHeapProp{};
+
 
 	static vector<string>filePaths;
 

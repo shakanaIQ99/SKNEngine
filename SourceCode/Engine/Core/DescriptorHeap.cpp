@@ -36,7 +36,7 @@ UINT64 DescriptorHeap::CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Re
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
 	device->CreateShaderResourceView(resource, &desc, handle.cpuHandle);
-	SRVCount++;
+	//SRVCount++;
 
 	return handle.gpuHandle.ptr;
 }
