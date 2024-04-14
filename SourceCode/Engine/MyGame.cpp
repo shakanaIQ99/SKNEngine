@@ -16,12 +16,16 @@ void MyGame::Initialize()
 
 	TextureManager::Load("Resources/Error.png", "ERRORTEXTURE");
 	TextureManager::Load("Resources/white1x1.png", "EMPTYHANDOLE");
+	LoadResource();
+
+
 
 
 	//シーンマネージャーに最初のシーンをセット
 	SceneManager::GetInstance()->ChangeScene("GAME");
 
-	LoadResource();
+
+
 
 }
 

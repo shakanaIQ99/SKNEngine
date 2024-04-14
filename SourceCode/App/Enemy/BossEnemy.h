@@ -37,6 +37,7 @@ public:
 	/// </summary>
 	BossEnemy();
 
+
 	/// <summary>
 	/// プレイヤーポインタ
 	/// </summary>
@@ -125,6 +126,11 @@ public:
 	void HitParticle(Vector3 vec);
 
 	const std::list<std::unique_ptr<DeathParticle>>& GetDps() { return deathPaticles; };
+
+	void Finalize()
+	{
+
+	}
 
 	/// <summary>
 	/// 座標取得

@@ -79,7 +79,7 @@ private:
 	/// </summary>
 	void ImGuiView();
 
-	Player player;
+	//Player player;
 	BossEnemy boss;
 	Field field;
 

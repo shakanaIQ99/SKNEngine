@@ -280,7 +280,7 @@
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
     <ClCompile Include="SourceCode\Engine\SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
