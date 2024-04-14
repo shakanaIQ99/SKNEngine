@@ -19,7 +19,7 @@ void Player::Init()
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
 	
 	colBox.reset(OBJ3D::Create());
-	colBox->SetModel(ObjModel::LoadFromOBJ("Player"));
+	colBox->SetModel(model.get());
 
 
 	colBox->Wt.scale_ = St->Wt.scale_;

@@ -46,7 +46,6 @@ public:
 	void Finalize() override
 	{
 		delete light;
-
 		delete skydome_model;
 		delete skydome;
 	}
@@ -79,7 +78,7 @@ private:
 	/// </summary>
 	void ImGuiView();
 
-	//Player player;
+	Player player;
 	BossEnemy boss;
 	Field field;
 

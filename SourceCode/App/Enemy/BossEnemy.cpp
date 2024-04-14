@@ -26,7 +26,8 @@ void BossEnemy::Init()
 	hp = maxhp;
 
 	colBox.reset(OBJ3D::Create());
-	colBox->SetModel(ObjModel::LoadFromOBJ("maru"));
+	colBoxModel.reset(ObjModel::LoadFromOBJ("maru"));
+	colBox->SetModel(colBoxModel.get());
 
 
 	colBox->Wt.scale_ = St->Wt.scale_;

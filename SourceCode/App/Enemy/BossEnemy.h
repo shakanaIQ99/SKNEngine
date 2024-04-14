@@ -86,6 +86,7 @@ public:
 	AtkPattern GetAtkPattern()
 	{
 		return BossAtk;
+	
 	}
 
 	/// <summary>
@@ -129,7 +130,7 @@ public:
 
 	void Finalize()
 	{
-
+		colBox.reset();
 	}
 
 	/// <summary>
@@ -232,6 +233,7 @@ private:
 	//std::unique_ptr<ObjModel> hbulletModel;
 
 	std::unique_ptr<OBJ3D> colBox;
+	std::unique_ptr<ObjModel> colBoxModel;
 	bool colLock = false;
 
 	//演出周り
