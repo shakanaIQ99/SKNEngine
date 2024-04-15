@@ -21,6 +21,7 @@
 #include"Field.h"
 #include"DeathParticle.h"
 #include "BulletManager.h"
+#include"AudioManager.h"
 
 enum struct SceneType
 {
@@ -48,6 +49,7 @@ public:
 		delete light;
 		delete skydome_model;
 		delete skydome;
+		AudioManager::Stop("bgm");
 	}
 
 private:

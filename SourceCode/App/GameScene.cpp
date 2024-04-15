@@ -74,6 +74,7 @@ void GameScene::Initialize()
 	GameUpdate();
 	camera.SetTarget(&player.prePlayer);
 	sceneChaflag = true;
+	AudioManager::Play("bgm", 0.3f, true);
 }
 
 void GameScene::Update()
