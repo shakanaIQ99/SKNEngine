@@ -54,8 +54,7 @@ private:
 
 	TextureData& Get(const TextureHandle& handle);
 
-	[[nodiscard]]
-	ID3D12Resource* UploadTextureData(ID3D12Resource* Texture, const ScratchImage& MipImages);
+
 
 	recursive_mutex mutex;
 	map<TextureHandle, TextureData> textureMap;
