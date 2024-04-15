@@ -56,10 +56,6 @@ private:
 	/// メイン更新
 	/// </summary>
 	void GameUpdate();
-	/// <summary>
-	/// メイン描画
-	/// </summary>
-	void GameDraw();
 
 	void StartUpdate();
 
@@ -95,22 +91,12 @@ private:
 	float cameraDistance = 20.0f;
 
 
-	std::unique_ptr<Sprite2D> SceneCha;
-
-	std::unique_ptr<Sprite2D> clearSc;
+	
 
 	bool sceneChaflag = false;
 	bool endSceneChaflag = false;
 
 	int sceneChangeTimer = 0;
-
-	const int sceneChangeTime = 60;
-
-	float sceneAlpha = 255.0f;
-
-
-
-	SceneType scene = SceneType::GAMESCENE;
 
 	Vector3 sceneCamera = { 0,0,0 };
 

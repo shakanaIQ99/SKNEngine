@@ -1,7 +1,7 @@
 #include "TitleScene.h"
 #include "SpriteCommon.h"
 #include "Input.h"
-#include "SceneManager.h"
+#include "SceneControl.h"
 
 void TitleScene::Initialize()
 {
@@ -25,7 +25,7 @@ void TitleScene::Update()
 
 	if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A) || Input::GetPressKey(DIK_END))
 	{
-		SceneManager::GetInstance()->ChangeScene("GAME");
+		SceneControl::GetInstance()->Change("GAME");
 	}
 
 	preTitle->Update();

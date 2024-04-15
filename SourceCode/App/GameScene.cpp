@@ -8,6 +8,7 @@
 #include"AudioManager.h"
 #include"TextureManager.h"
 #include"SceneManager.h"
+#include"SceneControl.h"
 
 using namespace SKNEngine;
 
@@ -46,13 +47,8 @@ void GameScene::Initialize()
 
 
 	//スプライト周り
-	SceneCha = std::make_unique<Sprite2D>();
-	SceneCha->Initialize("Scene");
-	SceneCha->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
+	
 
-	clearSc = std::make_unique<Sprite2D>();
-	clearSc->Initialize("Clear");
-	clearSc->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
 
 
 	//パーティクル周り
@@ -85,75 +81,24 @@ void GameScene::Update()
 	Vector3 lightDir0 = { 0,0,-1 };
 	light->SetDirLightDir(0, lightDir0);
 	
-	switch (scene)
+
+	if (sceneChaflag)
 	{
-	case SceneType::GAMESCENE:
-		if (sceneChaflag)
-		{
-			StartUpdate();
+		StartUpdate();
 			
-		}
-		else
-		{
-			GameUpdate();
-			
-		}
-		if (player.GameEnd() || boss.GameEnd())
-		{
-			endSceneChaflag = true;
-			
-		}
-		if (endSceneChaflag)
-		{
-			sceneChangeTimer++;
-			if (sceneChangeTimer >= sceneChangeTime)
-			{
-				if (player.GameEnd())
-				{
-					scene = SceneType::GAMEOVER;
-					clearSc->SetTexture("GameOver");
-				}
-				else if(boss.GameEnd())
-				{
-					scene = SceneType::CLEARSCENE;
-					clearSc->SetTexture("Clear");
-				}
-				
-				player.Reset();
-				camera.Reset();
-				endSceneChaflag = false;
-				AudioManager::Stop("bgm");
-			}
-		}
-		break;
-
-	case SceneType::CLEARSCENE:
-		
-		sceneChangeTimer--;
-
-		if (sceneChangeTimer <= 0)
-		{
-			SceneManager::GetInstance()->ChangeScene("TITLE");
-		}
-
-		break;
-
-	case SceneType::GAMEOVER:
-
-		sceneChangeTimer--;
-
-		if (sceneChangeTimer <= 0)
-		{
-			SceneManager::GetInstance()->ChangeScene("TITLE");
-		}
-
-
-		break;
 	}
+	else
+	{
+		GameUpdate();
+			
+	}
+	if (player.GameEnd() || boss.GameEnd())
+	{
+		SceneControl::GetInstance()->Change("RESULT");
+		SceneControl::GetInstance()->SetWin(boss.GameEnd());
+	}
+		
 
-	sceneAlpha = EaseOutSine(0, 255.0f, static_cast<float>(sceneChangeTimer), static_cast<float>(sceneChangeTime));
-	SceneCha->Wt.color = { sceneAlpha / 255.0f ,sceneAlpha / 255.0f ,sceneAlpha / 255.0f ,sceneAlpha / 255.0f };
-	SceneCha->Update();
 #ifdef _DEBUG
 	ImGuiView();
 #endif
@@ -163,25 +108,36 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	switch (scene)
-	{
-	case SceneType::GAMESCENE:
-		GameDraw();
-		break;
-	case SceneType::CLEARSCENE:
-		SpriteCommon::PreDraw();
-		clearSc->Draw();
-		break;
-	case SceneType::GAMEOVER:
-		SpriteCommon::PreDraw();
-		clearSc->Draw();
-		break;
-	}
-	
-	SpriteCommon::PreDraw();
-	SceneCha->Draw();
+	skydome->Draw();
+	field.Draw();
 
-	
+	BulletManager::ManageBulletUpdate();
+
+	player.Draw();
+	boss.Draw();
+	//ParticleManager::PreDraw(dxcommon->GetCommandList());
+
+	// 3Dオブクジェクトの描画
+	//particleMan->Draw();
+
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	//ParticleManager::PostDraw();
+
+	SpriteCommon::PreDraw();
+	if (!sceneChaflag)
+	{
+		player.DrawUI();
+		boss.DrawUI();
+	}
+
+	//sprite->Draw({ 0,0 });
+	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
+
 	
 }
 
@@ -286,42 +242,6 @@ void GameScene::GameUpdate()
 	boss.Update();
 }
 
-
-
-void GameScene::GameDraw()
-{
-	
-	skydome->Draw();
-	field.Draw();
-
-	BulletManager::ManageBulletUpdate();
-
-	player.Draw();
-	boss.Draw();
-	//ParticleManager::PreDraw(dxcommon->GetCommandList());
-
-	// 3Dオブクジェクトの描画
-	//particleMan->Draw();
-
-
-	/// <summary>
-	/// ここに3Dオブジェクトの描画処理を追加できる
-	/// </summary>
-
-	// 3Dオブジェクト描画後処理
-	//ParticleManager::PostDraw();
-
-	SpriteCommon::PreDraw();
-	if (!sceneChaflag)
-	{
-		player.DrawUI();
-		boss.DrawUI();
-	}
-
-	//sprite->Draw({ 0,0 });
-	//sprite2->DrawClip({ 80.0f,180.0f }, { 200.0f,100.0f }, {});
-
-}
 
 void GameScene::StartUpdate()
 {

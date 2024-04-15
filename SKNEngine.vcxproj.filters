@@ -282,6 +282,12 @@
     <ClCompile Include="SourceCode\Engine\SceneManager.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\App\SceneControl.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\SceneChanger.cpp">
+      <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -484,6 +490,12 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\SceneManager.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\SceneControl.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\SceneChanger.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

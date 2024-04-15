@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "AudioManager.h"
 #include "TextureManager.h"
+#include "SceneControl.h"
 
 void MyGame::Initialize()
 {
@@ -23,6 +24,7 @@ void MyGame::Initialize()
 
 	//シーンマネージャーに最初のシーンをセット
 	SceneManager::GetInstance()->ChangeScene("TITLE");
+	SceneControl::GetInstance()->Initialize();
 
 
 
@@ -68,6 +70,7 @@ void MyGame::Update()
 
 	//シーンマネージャーの更新処理
 	SceneManager::GetInstance()->Update();
+	SceneControl::GetInstance()->Update();
 
 }
 
@@ -75,6 +78,7 @@ void MyGame::SceneDraw()
 {
 	postEffect->PreDrawScene();
 	SceneManager::GetInstance()->Draw();
+	SceneControl::GetInstance()->Draw();
 	postEffect->PostDrawScene();
 }
 
