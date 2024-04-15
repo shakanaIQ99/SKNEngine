@@ -1,5 +1,5 @@
 #include "TextureManager.h"
-
+#include <d3dx12.h>
 using namespace SKNEngine;
 
 TextureHandle TextureManager::LoadTexture(const string& FilePath, TextureHandle Handle)
@@ -52,7 +52,7 @@ TextureHandle TextureManager::LoadTexture(const string& FilePath, TextureHandle 
 	metadata.format = MakeSRGB(metadata.format);
 
 	D3D12_HEAP_PROPERTIES texHeapProp{};
-	texHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	texHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
 	texHeapProp.CPUPageProperty =
 		D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	texHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
@@ -70,7 +70,7 @@ TextureHandle TextureManager::LoadTexture(const string& FilePath, TextureHandle 
 		&texHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&rsDesc,	//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
+		D3D12_RESOURCE_STATE_COPY_DEST,
 		nullptr,
 		IID_PPV_ARGS(&texdata.texResource)
 	);
@@ -161,6 +161,15 @@ TextureData& TextureManager::Get(const TextureHandle& Handle)
 	}
 
 	return textureMap["ERRORTEXTURE"];
+}
+
+ID3D12Resource* TextureManager::UploadTextureData(ID3D12Resource* Texture, const ScratchImage& MipImages)
+{
+	vector<D3D12_SUBRESOURCE_DATA> subResource;
+	PrepareUpload(DirectXCommon::GetDevice().Get(), MipImages.GetImages(), MipImages.GetImageCount(), MipImages.GetMetadata(), subResource);
+
+
+	return nullptr;
 }
 
 

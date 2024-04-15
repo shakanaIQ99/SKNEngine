@@ -7,6 +7,7 @@
 #include"DeathParticle.h"
 #include"AudioManager.h"
 #include"TextureManager.h"
+#include"SceneManager.h"
 
 using namespace SKNEngine;
 
@@ -45,15 +46,6 @@ void GameScene::Initialize()
 
 
 	//スプライト周り
-
-	preTitle = std::make_unique<Sprite2D>();
-	preTitle->Initialize("Title");
-	preTitle->Wt.translation_ = { DxWindow::window_width / 2.0f,DxWindow::window_height / 4.5f ,0.0f };
-
-	preTitle2 = std::make_unique<Sprite2D>();
-	preTitle2->Initialize("Title2");
-	preTitle2->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) + 60.0f ,0.0f };
-
 	SceneCha = std::make_unique<Sprite2D>();
 	SceneCha->Initialize("Scene");
 	SceneCha->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) ,0.0f };
@@ -81,8 +73,11 @@ void GameScene::Initialize()
 	//field->Wt->translation_.y = -5.0f;
 	player.Reset();
 	boss.Reset();
-	camera.Reset();
 	BulletManager::Clear();
+	camera.Reset();
+	GameUpdate();
+	camera.SetTarget(&player.prePlayer);
+	sceneChaflag = true;
 }
 
 void GameScene::Update()
@@ -92,34 +87,6 @@ void GameScene::Update()
 	
 	switch (scene)
 	{
-	case SceneType::TITLE:
-		TitleUpdate();
-		if (Input::GetPadButtonDown(XINPUT_GAMEPAD_A) || Input::GetPressKey(DIK_END))
-		{
-			sceneChaflag = true;
-		}
-
-		if (sceneChaflag)
-		{
-			sceneChangeTimer++;
-			if (sceneChangeTimer >= sceneChangeTime)
-			{
-				player.Reset();
-				boss.Reset();
-				BulletManager::Clear();
-				camera.Reset();
-				GameUpdate();
-				//camera.setPos(boss.GetPos());
-				camera.SetTarget(&player.prePlayer);
-				scene = SceneType::GAMESCENE;
-				
-			}
-		}
-		else
-		{
-			sceneChangeTimer = 0;
-		}
-		break;
 	case SceneType::GAMESCENE:
 		if (sceneChaflag)
 		{
@@ -166,10 +133,7 @@ void GameScene::Update()
 
 		if (sceneChangeTimer <= 0)
 		{
-			sceneChangeTimer = 0;
-			scene = SceneType::TITLE;
-			player.Reset();
-			camera.Reset();
+			SceneManager::GetInstance()->ChangeScene("TITLE");
 		}
 
 		break;
@@ -180,10 +144,7 @@ void GameScene::Update()
 
 		if (sceneChangeTimer <= 0)
 		{
-			sceneChangeTimer = 0;
-			scene = SceneType::TITLE;
-			player.Reset();
-			camera.Reset();
+			SceneManager::GetInstance()->ChangeScene("TITLE");
 		}
 
 
@@ -204,9 +165,6 @@ void GameScene::Draw()
 {
 	switch (scene)
 	{
-	case SceneType::TITLE:
-		TitleDraw();
-		break;
 	case SceneType::GAMESCENE:
 		GameDraw();
 		break;
@@ -313,24 +271,6 @@ void GameScene::ALLCol()
 
 }
 
-void GameScene::TitleUpdate()
-{
-	if (tenmetu > 254.0f || tenmetu < 0.0f)
-	{
-		decri *= -1.0f;
-	}
-
-	tenmetu += decri;
-
-
-
-	preTitle2->Wt.color = { tenmetu / 255.0f ,tenmetu / 255.0f ,tenmetu / 255.0f ,tenmetu / 255.0f };
-	camera.Update();
-	preTitle->Update();
-	preTitle2->Update();
-	player.TitleUpdate();
-}
-
 void GameScene::GameUpdate()
 {
 
@@ -346,19 +286,7 @@ void GameScene::GameUpdate()
 	boss.Update();
 }
 
-void GameScene::TitleDraw()
-{
-	
-	/*skydome->Draw();
-	field.Draw();*/
-	player.Draw();
-	SpriteCommon::PreDraw();
 
-	preTitle->Draw();
-	preTitle2->Draw();
-
-
-}
 
 void GameScene::GameDraw()
 {

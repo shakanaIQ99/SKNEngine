@@ -51,21 +51,11 @@ public:
 	}
 
 private:
-	/// <summary>
-	/// タイトル更新
-	/// </summary>
-	void TitleUpdate();
 
 	/// <summary>
 	/// メイン更新
 	/// </summary>
 	void GameUpdate();
-
-	/// <summary>
-	/// タイトル描画
-	/// </summary>
-	void TitleDraw();
-
 	/// <summary>
 	/// メイン描画
 	/// </summary>
@@ -104,9 +94,6 @@ private:
 	Vector3 flontVec = { 0,0,1.0f };
 	float cameraDistance = 20.0f;
 
-	std::unique_ptr<Sprite2D> preTitle;
-
-	std::unique_ptr<Sprite2D> preTitle2;
 
 	std::unique_ptr<Sprite2D> SceneCha;
 
@@ -119,16 +106,11 @@ private:
 
 	const int sceneChangeTime = 60;
 
-	float tenmetu = 255.0f;
-
 	float sceneAlpha = 255.0f;
 
-	float sceneAlpha2 = 255.0f;
-
-	float decri = 3.0f;
 
 
-	SceneType scene = SceneType::TITLE;
+	SceneType scene = SceneType::GAMESCENE;
 
 	Vector3 sceneCamera = { 0,0,0 };
 

@@ -22,7 +22,7 @@ void MyGame::Initialize()
 
 
 	//シーンマネージャーに最初のシーンをセット
-	SceneManager::GetInstance()->ChangeScene("GAME");
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 
 
 

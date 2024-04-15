@@ -6,6 +6,7 @@
 #include <map>
 #include <mutex>
 #include "Float4.h"
+#include <vector>
 
 using namespace std;
 
@@ -52,6 +53,9 @@ private:
 	TextureHandle CreateHandle(TextureData TexData,TextureHandle Handle);
 
 	TextureData& Get(const TextureHandle& handle);
+
+	[[nodiscard]]
+	ID3D12Resource* UploadTextureData(ID3D12Resource* Texture, const ScratchImage& MipImages);
 
 	recursive_mutex mutex;
 	map<TextureHandle, TextureData> textureMap;
