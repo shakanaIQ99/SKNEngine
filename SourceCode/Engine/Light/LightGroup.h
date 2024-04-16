@@ -9,9 +9,6 @@ class LightGroup
 private:
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-public: 
-	static const int DirLightNum = 1;
-	static const int PointLightNum = 1;
 
 public: 
 
@@ -20,8 +17,8 @@ public:
 	{
 		
 		Vector3 ambientColor;
-		DirectionLight::ConstBufferData dirLights[DirLightNum];
-		PointLight::ConstBufferData pointLights[PointLightNum];
+		DirectionLight::ConstBufferData dirLights;
+		PointLight::ConstBufferData pointLights;
 	};
 
 public: 
@@ -47,21 +44,21 @@ public:
 	void SetAmbientColor(const Vector3& color);
 
 	
-	void SetDirLightActive(int index, bool active);
+	void SetDirLightActive(bool active);
 
 	
-	void SetDirLightDir(int index, const Vector3& lightdir);
+	void SetDirLightDir(const Vector3& lightdir);
 
 	
-	void SetDirLightColor(int index, const Vector3& lightcolor);
+	void SetDirLightColor(const Vector3& lightcolor);
 
-	void SetPointLightActive(int index, bool active);
+	void SetPointLightActive( bool active);
 
-	void SetPointLightPos(int index, const Vector3& lightpos);
+	void SetPointLightPos(const Vector3& lightpos);
 
-	void SetPointLightColor(int index, const Vector3& lightcolor);
+	void SetPointLightColor(const Vector3& lightcolor);
 
-	void SetPointLightAtten(int index, const Vector3& lightatten);
+	void SetPointLightAtten(const Vector3& lightatten);
 private: 
 	ComPtr<ID3D12Resource> constBuff;
 
@@ -69,8 +66,8 @@ private:
 	Vector3 ambientColor = {1.0f,1.0f,1.0f };
 
 	
-	DirectionLight dirLights[DirLightNum];
-	PointLight pointLights[PointLightNum];
+	DirectionLight dirLights_;
+	PointLight pointLights;
 
 	
 	bool dirty = false;

@@ -31,9 +31,6 @@ OBJ3D::OBJ3D()
 
 void OBJ3D::StaticInitialize()
 {
-	
-	ObjModel::SetDevice(DirectXCommon::GetDevice().Get());
-
 	ObjPipeline = Pipeline::CreateModelPipline(DirectXCommon::GetDevice().Get());
 }
 
@@ -84,8 +81,8 @@ void OBJ3D::Draw()
 	
 	if (model == nullptr) return;
 
-	DirectXCommon::GetCommandList()->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
 	lightGroup->Draw(DirectXCommon::GetCommandList(), 3);
+	DirectXCommon::GetCommandList()->SetGraphicsRootConstantBufferView(0, Wt.constBuffB0->GetGPUVirtualAddress());
 	model->Draw(DirectXCommon::GetCommandList(), 1);
 }
 

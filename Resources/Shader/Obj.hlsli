@@ -14,15 +14,13 @@ cbuffer ConstBufferDataMaterial1:register(b1)
 	float m_alpha : packoffset(c2.w);
 };
 
-static const uint DIR_LIGHT_NUM = 1;
 
 struct DirLight
 {
+    uint active;
     float3 lightv;
     float3 lightcolor;
-    uint active;
 };
-static const uint POINT_LIGHT_NUM = 1;
 
 struct PointLight
 {
@@ -35,8 +33,8 @@ struct PointLight
 cbuffer cbuff2 : register(b2)
 {
     float3 ambientColor;
-    DirLight dirLights[DIR_LIGHT_NUM];
-    PointLight pointLights[POINT_LIGHT_NUM];
+    DirLight dirLights;
+    PointLight pointLights;
 }
 
 struct VSOutput

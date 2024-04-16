@@ -15,6 +15,7 @@ LightGroup* LightGroup::Create()
 
 void LightGroup::Initialize()
 {
+	//dirLights.Initialize();
 
 	DefaultLightSetting();
 
@@ -75,34 +76,34 @@ void LightGroup::TransferConstBuffer()
 	{
 		constMap->ambientColor = ambientColor;
 
-		for (int i = 0; i < DirLightNum; i++)
+		
+		
+		if (dirLights_.IsActive())
 		{
-			if (dirLights[i].IsActive())
-			{
-				constMap->dirLights[i].active = 1;
-				constMap->dirLights[i].lightv = -dirLights[i].GetLightDir();
-				constMap->dirLights[i].lightcolor = dirLights[i].GetLightColor();
-			}
-			else
-			{
-				constMap->dirLights[i].active = 0;
-			}
+			constMap->dirLights.active = true;
 		}
+		else
+		{
+			constMap->dirLights.active = false;
+		}
+		
+		constMap->dirLights.lightv = -dirLights_.GetLightDir();
+		constMap->dirLights.lightcolor = dirLights_.GetLightColor();
 
-		for (int i = 0; i < PointLightNum; i++)
+	
+		
+		if (pointLights.IsActive())
 		{
-			if (pointLights[i].IsActive())
-			{
-				constMap->pointLights[i].active = 1;
-				constMap->pointLights[i].lightpos = pointLights[i].GetLightPos();
-				constMap->pointLights[i].lightcolor = pointLights[i].GetLightColor();
-				constMap->pointLights[i].lightatten = pointLights[i].GetLightAtten();
-			}
-			else
-			{
-				constMap->pointLights[i].active = 0;
-			}
+			constMap->pointLights.active = 1;
 		}
+		else
+		{
+			constMap->pointLights.active = 0;
+		}
+		constMap->pointLights.lightpos = pointLights.GetLightPos();
+		constMap->pointLights.lightcolor = pointLights.GetLightColor();
+		constMap->pointLights.lightatten = pointLights.GetLightAtten();
+		
 
 
 		constBuff->Unmap(0, nullptr);
@@ -111,12 +112,11 @@ void LightGroup::TransferConstBuffer()
 
 void LightGroup::DefaultLightSetting()
 {
-	for (int i = 0; i < DirLightNum; i++)
-	{
-		dirLights[i].SetActive(true);
-		dirLights[i].SetLightColor({ 1.0f, 1.0f, 1.0f });
-		dirLights[i].SetLightDir({ 0.0f, -1.0f, 0.0f });
-	}
+	
+	dirLights_.SetActive(true);
+	/*dirLights.SetLightColor({ 1.0f, 0.0f, 1.0f });
+	dirLights.SetLightDir({ 0.0f, -1.0f, 0.0f });*/
+	
 }
 
 void LightGroup::SetAmbientColor(const Vector3& color)
@@ -125,52 +125,42 @@ void LightGroup::SetAmbientColor(const Vector3& color)
 	dirty = true;
 }
 
-void LightGroup::SetDirLightActive(int index, bool active)
+void LightGroup::SetDirLightActive(bool active)
 {
-	assert(0 <= index && index < DirLightNum);
-
-	dirLights[index].SetActive(active);
+	dirLights_.SetActive(active);
 }
 
-void LightGroup::SetDirLightDir(int index, const Vector3& lightdir)
+void LightGroup::SetDirLightDir(const Vector3& lightdir)
 {
-	assert(0 <= index && index < DirLightNum);
-
-	dirLights[index].SetLightDir(lightdir);
+	dirLights_.SetLightDir(lightdir);
 	dirty = true;
 }
 
-void LightGroup::SetDirLightColor(int index, const Vector3& lightcolor)
+void LightGroup::SetDirLightColor(const Vector3& lightcolor)
 {
-	assert(0 <= index && index < DirLightNum);
-
-	dirLights[index].SetLightColor(lightcolor);
+	dirLights_.SetLightColor(lightcolor);
 	dirty = true;
 }
 
-void LightGroup::SetPointLightActive(int index, bool active)
+void LightGroup::SetPointLightActive(bool active)
 {
-	assert(0 <= index && index < PointLightNum);
-	pointLights[index].SetActive(active);
+	pointLights.SetActive(active);
 }
 
-void LightGroup::SetPointLightPos(int index, const Vector3& lightpos)
+void LightGroup::SetPointLightPos(const Vector3& lightpos)
 {
-	assert(0 <= index && index < PointLightNum);
-	pointLights[index].SetLightPos(lightpos);
+	pointLights.SetLightPos(lightpos);
 	dirty = true;
 }
 
-void LightGroup::SetPointLightColor(int index, const Vector3& lightcolor)
+void LightGroup::SetPointLightColor(const Vector3& lightcolor)
 {
-	assert(0 <= index && index < PointLightNum);
-	pointLights[index].SetLightColor(lightcolor);
+	pointLights.SetLightColor(lightcolor);
 	dirty = true;
 }
 
-void LightGroup::SetPointLightAtten(int index, const Vector3& lightatten)
+void LightGroup::SetPointLightAtten(const Vector3& lightatten)
 {
-	assert(0 <= index && index < PointLightNum);
-	pointLights[index].SetLightAtten(lightatten);
+	pointLights.SetLightAtten(lightatten);
 	dirty = true;
 }

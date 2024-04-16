@@ -56,10 +56,6 @@ void GameScene::Initialize()
 
 
 
-	light->SetDirLightActive(0, true);
-
-	
-
 	//light->SetDirLightColor(0, lightColor0);
 
 	
@@ -79,9 +75,6 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
-	Vector3 lightDir0 = { 0,0,-1 };
-	light->SetDirLightDir(0, lightDir0);
-	
 
 	if (sceneChaflag)
 	{
@@ -109,7 +102,7 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	skydome->Draw();
+	//skydome->Draw();
 	field.Draw();
 
 	BulletManager::ManageBulletUpdate();

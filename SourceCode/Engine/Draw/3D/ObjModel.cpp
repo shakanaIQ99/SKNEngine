@@ -4,10 +4,9 @@
 #include<fstream>
 #include<sstream>
 #include <DirectXTex.h>
+#include "DirectXCommon.h"
 
 
-
-ID3D12Device* ObjModel::device = nullptr;
 
 ObjModel* ObjModel::LoadFromOBJ(const string& modelname, bool smoothing)
 {
@@ -147,7 +146,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = device->CreateCommittedResource(
+	result = SKNEngine::DirectXCommon::GetDevice()->CreateCommittedResource(
 		&heapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,
@@ -185,7 +184,7 @@ void ObjModel::LoadFromOBJInternal(const string& modelname, bool smoothing)
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	result = device->CreateCommittedResource(
+	result = SKNEngine::DirectXCommon::GetDevice()->CreateCommittedResource(
 		&heapProp,	//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,	//リソース設定
@@ -286,7 +285,7 @@ void ObjModel::CreateBuffers()
 	cbResourceDescB1.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = SKNEngine::DirectXCommon::GetDevice()->CreateCommittedResource(
 		&cbHeapPropB1,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDescB1,	//リソース設定
@@ -317,7 +316,7 @@ void ObjModel::AddSmoothData(unsigned short indexPosition, unsigned short indexV
 
 void ObjModel::CaliculateSmoothedVertexNormals()
 {
-	/*auto itr = smoothData.begin();
+	auto itr = smoothData.begin();
 	for (; itr != smoothData.end(); ++itr)
 	{
 		std::vector<unsigned short>& v = itr->second;
@@ -328,13 +327,13 @@ void ObjModel::CaliculateSmoothedVertexNormals()
 			normal += Vector3(vertices[index].normal.x, vertices[index].normal.y, vertices[index].normal.z);
 		}
 		normal /= (float)v.size();
-		normal.normalize();
+		normal.Normalize();
 		for (unsigned short index : v)
 		{
 			vertices[index].normal = normal;
 		}
 
-	}*/
+	}
 }
 
 
