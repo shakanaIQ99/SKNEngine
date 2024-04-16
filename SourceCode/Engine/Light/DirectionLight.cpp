@@ -1,17 +1,8 @@
 #include "DirectionLight.h"
 #include<cassert>
+#include"DirectXCommon.h"
 
 
-ID3D12Device* DirectionLight::device = nullptr;
-
-void DirectionLight::StaticInitialize(ID3D12Device* _device)
-{
-	assert(!DirectionLight::device);
-	assert(_device);
-	DirectionLight::device = _device;
-
-
-}
 
 DirectionLight* DirectionLight::Create()
 {
@@ -40,7 +31,7 @@ void DirectionLight::Initialize()
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	//定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = SKNEngine::DirectXCommon::GetDevice()->CreateCommittedResource(
 		&cbHeapProp,		//ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
 		&cbResourceDesc,	//リソース設定
@@ -88,7 +79,8 @@ void DirectionLight::Draw(ID3D12GraphicsCommandList* cmdlist, UINT rootParamInde
 
 void DirectionLight::SetLightDir(const Vector3& _lightdir)
 {
-	lightdir = _lightdir.GetNormalize();
+	lightdir = _lightdir;
+	lightdir.Normalize();
 	dirty = true;
 }
 

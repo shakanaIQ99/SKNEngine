@@ -22,8 +22,6 @@ public:
 		unsigned int active;
 	};
 
-	static void StaticInitialize(ID3D12Device* _device);
-
 	static DirectionLight* Create();
 
 	void Initialize();
@@ -46,10 +44,6 @@ public:
 	inline bool IsActive() { return active; }
 
 private:
-
-
-
-	static ID3D12Device* device;
 
 	ComPtr<ID3D12Resource> constBuff;
 

@@ -2,6 +2,10 @@
 #include "BaseScene.h"
 #include "Sprite2D.h"
 
+enum class TitleState
+{
+	
+};
 
 class TitleScene:public BaseScene
 {

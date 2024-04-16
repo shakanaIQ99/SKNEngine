@@ -23,13 +23,6 @@
 #include "BulletManager.h"
 #include"AudioManager.h"
 
-enum struct SceneType
-{
-	TITLE,
-	GAMESCENE,
-	CLEARSCENE,
-	GAMEOVER
-};
 
 class GameScene:public BaseScene
 {
