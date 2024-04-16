@@ -78,31 +78,31 @@ void LightGroup::TransferConstBuffer()
 
 		
 		
-		if (dirLights_.IsActive())
+		if (dirLights.IsActive())
 		{
 			constMap->dirLights.active = true;
+			constMap->dirLights.lightv = -dirLights.GetLightDir();
+			constMap->dirLights.lightcolor = dirLights.GetLightColor();
 		}
 		else
 		{
-			constMap->dirLights.active = false;
+			constMap->dirLights.active = 0;
 		}
 		
-		constMap->dirLights.lightv = -dirLights_.GetLightDir();
-		constMap->dirLights.lightcolor = dirLights_.GetLightColor();
 
 	
 		
 		if (pointLights.IsActive())
 		{
 			constMap->pointLights.active = 1;
+			constMap->pointLights.lightpos = pointLights.GetLightPos();
+			constMap->pointLights.lightcolor = pointLights.GetLightColor();
+			constMap->pointLights.lightatten = pointLights.GetLightAtten();
 		}
 		else
 		{
 			constMap->pointLights.active = 0;
 		}
-		constMap->pointLights.lightpos = pointLights.GetLightPos();
-		constMap->pointLights.lightcolor = pointLights.GetLightColor();
-		constMap->pointLights.lightatten = pointLights.GetLightAtten();
 		
 
 
@@ -113,9 +113,9 @@ void LightGroup::TransferConstBuffer()
 void LightGroup::DefaultLightSetting()
 {
 	
-	dirLights_.SetActive(true);
-	/*dirLights.SetLightColor({ 1.0f, 0.0f, 1.0f });
-	dirLights.SetLightDir({ 0.0f, -1.0f, 0.0f });*/
+	dirLights.SetActive(true);
+	dirLights.SetLightColor({ 1.0f, 1.0f, 1.0f });
+	dirLights.SetLightDir({ 0.0f, -1.0f, 0.0f });
 	
 }
 
@@ -127,18 +127,18 @@ void LightGroup::SetAmbientColor(const Vector3& color)
 
 void LightGroup::SetDirLightActive(bool active)
 {
-	dirLights_.SetActive(active);
+	dirLights.SetActive(active);
 }
 
 void LightGroup::SetDirLightDir(const Vector3& lightdir)
 {
-	dirLights_.SetLightDir(lightdir);
+	dirLights.SetLightDir(lightdir);
 	dirty = true;
 }
 
 void LightGroup::SetDirLightColor(const Vector3& lightcolor)
 {
-	dirLights_.SetLightColor(lightcolor);
+	dirLights.SetLightColor(lightcolor);
 	dirty = true;
 }
 

@@ -17,6 +17,7 @@ public:
 	{
 		
 		Vector3 ambientColor;
+		float pad;
 		DirectionLight::ConstBufferData dirLights;
 		PointLight::ConstBufferData pointLights;
 	};
@@ -66,7 +67,7 @@ private:
 	Vector3 ambientColor = {1.0f,1.0f,1.0f };
 
 	
-	DirectionLight dirLights_;
+	DirectionLight dirLights;
 	PointLight pointLights;
 
 	

@@ -102,7 +102,7 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	//skydome->Draw();
+	skydome->Draw();
 	field.Draw();
 
 	BulletManager::ManageBulletUpdate();

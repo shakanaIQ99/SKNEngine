@@ -9,7 +9,7 @@
 void Player::Init()
 {
 
-	ModelInit("Player");
+	ModelInit("Player",true);
 
 
 	
