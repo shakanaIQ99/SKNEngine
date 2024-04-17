@@ -1,6 +1,10 @@
 #pragma once
 #include "BaseScene.h"
 #include "Sprite2D.h"
+#include "Camera.h"
+#include "LightGroup.h"
+#include "OBJ3D.h"
+#include "Field.h"
 
 enum class TitleState
 {
@@ -19,6 +23,8 @@ public:
 	void Finalize() override;
 
 private:
+	Camera camera;
+	LightGroup* light = nullptr;
 
 	std::unique_ptr<Sprite2D> preTitle;
 

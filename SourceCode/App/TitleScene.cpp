@@ -12,6 +12,10 @@ void TitleScene::Initialize()
 	preTitle2 = std::make_unique<Sprite2D>();
 	preTitle2->Initialize("Title2");
 	preTitle2->Wt.translation_ = { DxWindow::window_width / 2.0f,(DxWindow::window_height / 2.0f) + 60.0f ,0.0f };
+
+	light = LightGroup::Create();
+	OBJ3D::SetLight(light);
+	camera.Initialize();
 }
 
 void TitleScene::Update()
@@ -34,6 +38,10 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
+
+
+
+
 	SpriteCommon::PreDraw();
 	preTitle->Draw();
 	preTitle2->Draw();
