@@ -34,10 +34,10 @@ void GameScene::Initialize()
 	skydome = OBJ3D::Create();
 	skydome->SetModel(skydome_model);
 
-	field.Init(&camera);
+	field.Initialize(&camera);
 
-	boss.Init();
-	player.Init();
+	boss.Initialize();
+	player.Initialize();
 
 	camera.SetTarget(&player.St->Wt.translation_);
 	//camera.setTarget(&player.St->Wt);
@@ -94,7 +94,7 @@ void GameScene::Update()
 		
 
 #ifdef _DEBUG
-	ImGuiView();
+	ImGuiMode();
 #endif
 	
 
@@ -272,7 +272,7 @@ void GameScene::StartUpdate()
 	}
 }
 
-void GameScene::ImGuiView()
+void GameScene::ImGuiMode()
 {
 	//ImguI
 	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);

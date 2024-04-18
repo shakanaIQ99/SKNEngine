@@ -3,6 +3,7 @@
 #include"SceneManager.h"
 #include"Sprite2D.h"
 #include<memory>
+#include"ImguiManager.h"
 
 class SceneControl
 {
@@ -22,11 +23,17 @@ public:
 		return isWin;
 	}
 
+	void ImGuiMode();
+
 public:
 	static SceneControl* GetInstance();
 private:
 
 	std::unique_ptr<Sprite2D> sceneChangeTexture;
+	std::unique_ptr<Sprite2D> loading;
+
+	bool loadFlag = false;
+
 
 	int sceneChangeTimer = 0;
 

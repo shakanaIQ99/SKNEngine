@@ -50,3 +50,8 @@ float myMath::Clamp(float f, float min, float max)
 	return f;
 }
 
+float myMath::Lerp(float s, float e, float t)
+{
+	return s + (e - s) * t;
+}
+

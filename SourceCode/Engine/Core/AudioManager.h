@@ -61,7 +61,7 @@ public:
 	}
 
 	static void StaticInitialize() {
-		GetInstance()->Init();
+		GetInstance()->Initialize();
 	}
 
 	static void StaticFinalize() {
@@ -90,7 +90,7 @@ private:
 	AudioManager(const AudioManager&) {};
 	AudioManager& operator=(const AudioManager&) { return *this; }
 
-	void Init();
+	void Initialize();
 	void Finalize();
 };
 

@@ -68,6 +68,7 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList, UINT rootParamIndexMaterial);
 
+	void SetTexture(TextureHandle Handle);
 private:
 
 	void LoadFromOBJInternal(const string& modelname,bool smoothing);
@@ -81,6 +82,7 @@ private:
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
 
 	void CaliculateSmoothedVertexNormals();
+
 
 	vector<unsigned short>indices;
 	vector<VertexPos> vertices;

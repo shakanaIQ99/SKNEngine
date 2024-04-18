@@ -17,7 +17,6 @@ private:
 	std::string nextSceneName;
 
 public:
-
 	//更新処理
 	void Update();
 
@@ -37,6 +36,7 @@ public:
 	static SceneManager* GetInstance();
 
 private:
+
 
 	SceneManager() = default;
 	~SceneManager() = default;

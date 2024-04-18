@@ -6,7 +6,7 @@ using namespace SKNEngine;
 
 PipelineSet Draw3DLine::pipeline;
 Camera* Draw3DLine::camera = nullptr;
-void Draw3DLine::Init()
+void Draw3DLine::Initialize()
 {
 	wt.CreateConstBuffer();
 	CreateColorBuff();

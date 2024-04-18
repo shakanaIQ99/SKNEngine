@@ -51,7 +51,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init();
+	void Initialize();
 
 	/// <summary>
 	/// リセット
@@ -209,7 +209,7 @@ private:
 	/// <summary>
 	/// ImGui関係
 	/// </summary>
-	void ImGuiSet();
+	void ImGuiMode();
 
 	void aiming();
 

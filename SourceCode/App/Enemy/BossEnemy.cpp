@@ -15,14 +15,14 @@ BossEnemy::BossEnemy()
 {
 }
 
-void BossEnemy::Init()
+void BossEnemy::Initialize()
 {
 	ModelInit("enemy");
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
-	LeserPoint.Init();
+	LeserPoint.Initialize();
 	hp = maxhp;
 
 	colBox.reset(OBJ3D::Create());
@@ -46,7 +46,7 @@ void BossEnemy::Reset()
 {
 
 	
-	LeserPoint.Init();
+	LeserPoint.Initialize();
 	St->Wt.translation_ = { 0,0.0f,80.0f };
 	hp = maxhp;
 	//エフェクトや弾周りの初期化
@@ -228,7 +228,7 @@ void BossEnemy::Update(bool flag)
 
 
 #ifdef _DEBUG
-	ImGuiSet();
+	ImGuiMode();
 #endif
 
 	//エリア外行かないように
@@ -811,7 +811,7 @@ void BossEnemy::MineAttackReset()
 	mineCool = mineCoolTime;
 }
 
-void BossEnemy::ImGuiSet()
+void BossEnemy::ImGuiMode()
 {
 	//ImguI
 	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);

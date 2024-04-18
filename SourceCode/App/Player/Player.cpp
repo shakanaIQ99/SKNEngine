@@ -6,7 +6,7 @@
 #include"AudioManager.h"
 
 
-void Player::Init()
+void Player::Initialize()
 {
 
 	ModelInit("Player",true);
@@ -170,7 +170,7 @@ void Player::Update()
 	
 
 #ifdef _DEBUG
-	ImGuiSet();
+	ImGuiMode();
 #endif
 
 	LockOn();
@@ -548,7 +548,7 @@ Vector2 Player::WorldToMonitor(Vector3 pos)
 	return Vector2(positionReticle.x, positionReticle.y);
 }
 
-void Player::ImGuiSet()
+void Player::ImGuiMode()
 {
 	//ImguI
 	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 800, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
@@ -632,7 +632,7 @@ void Player::TitleUpdate()
 
 
 #ifdef _DEBUG
-	ImGuiSet();
+	ImGuiMode();
 #endif
 	St->Update(camera->GetView());
 }
@@ -649,7 +649,7 @@ void Player::StartUpdate()
 	}
 	prePlayer.translation_ = St->Wt.translation_;
 #ifdef _DEBUG
-	ImGuiSet();
+	ImGuiMode();
 #endif
 	St->Update(camera->GetView());
 }

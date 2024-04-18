@@ -336,4 +336,9 @@ void ObjModel::CaliculateSmoothedVertexNormals()
 	}
 }
 
+void ObjModel::SetTexture(TextureHandle Handle)
+{
+	handle = Handle;
+}
+
 

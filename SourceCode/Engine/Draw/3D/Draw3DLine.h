@@ -11,7 +11,7 @@ class Draw3DLine
 {
 public:
 
-	void Init();
+	void Initialize();
 
 	void Draw(Vector3 startpos, Vector3 endpos);
 

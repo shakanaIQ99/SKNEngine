@@ -23,7 +23,7 @@ public:
 
 	static Input* GetInstance();
 
-	static void Init(DxWindow* win);
+	static void StaticInitialize(DxWindow* win);
 
 	static void InputUpdate();
 

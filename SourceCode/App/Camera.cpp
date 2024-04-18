@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include <cmath>
 #include"Input.h"
+#include"ImGuiManager.h"
+#include "Matrix4.h"
 
 void Camera::Initialize()
 {
@@ -37,25 +39,28 @@ void Camera::Update()
 {
 
 	wt.UpdateMatrix(&viewProjection_);
+	//ワールド前方ベクトル
+	forward = { 0.0f, 0.0f, 1.0f };
+	//ワールド上方ベクトル
+	Vector3 up(0, 1, 0);
+	forward *= wt.matWorld_;
 
 	viewProjection_.SetEye(wt.translation_);
 
-	//ワールド前方ベクトル
-	forward = { 0.0f, 0.0f, 1.0f };
-
-	//レールカメラの回転を反映
-	forward = forward*wt.matWorld_;
-
 	//視点から前方に適当な距離進んだ位置が注視点
-	viewProjection_.SetTarget(viewProjection_.Geteye() + forward);
-
-	//ワールド上方ベクトル
-	Vector3 up(0, 1, 0);
+	if (targetFlag)
+	{
+		viewProjection_.SetTarget(interTarget);
+	}
+	else
+	{
+		viewProjection_.SetTarget(wt.translation_ + forward);
+	}
+	
 
 	//レールカメラの回転を反映(レールカメラの上方ベクトル)
-	viewProjection_.SetUp(up*wt.matWorld_);
-
-	if (targetWT)
+	viewProjection_.SetUp(up * wt.matWorld_);
+	if (targetWT&&!DebugMode)
 	{
 		Vector3 offset = { -20.0f,20.0f,-20.0f };
 
@@ -89,6 +94,10 @@ void Camera::Update()
 	}
 
 
+#ifdef _DEBUG
+	ImGuiMode();
+#endif
+
 	viewProjection_.Update();
 
 }
@@ -116,10 +125,10 @@ void Camera::SetPos(Vector3 pos)
 	wt.UpdateMatrix(&viewProjection_);
 }
 
-void Camera::SetTarget(Vector3 Target)
-{
-	viewProjection_.SetTarget(Target);
-}
+//void Camera::SetTarget(Vector3 Target)
+//{
+//	viewProjection_.SetTarget(Target);
+//}
 
 void Camera::SetRotate(Vector3 rotate)
 {
@@ -130,6 +139,32 @@ void Camera::SetRotate(Vector3 rotate)
 void Camera::SetWorldMat(Matrix4 woeldMat)
 {
 	wt.matWorld_ = woeldMat;
+}
+
+void Camera::ImGuiMode()
+{
+	//ImguI
+	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
+	ImGui::SetNextWindowSize({ 400, 500 });
+
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	ImGui::Begin("Camera", NULL, window_flags);
+
+	ImGui::Text("Position");
+	ImGui::DragFloat("X", &wt.translation_.x, 0.5f);
+	ImGui::DragFloat("Y", &wt.translation_.y, 0.5f);
+	ImGui::DragFloat("Z", &wt.translation_.z, 0.5f);
+	ImGui::NewLine();
+	ImGui::Text("Rota");
+	ImGui::DragFloat("RX", &wt.rotation_.x, myMath::AngleToRadian(2.0f));
+	ImGui::DragFloat("RY", &wt.rotation_.y, myMath::AngleToRadian(2.0f));
+	ImGui::DragFloat("RZ", &wt.rotation_.z, myMath::AngleToRadian(2.0f));
+	ImGui::Checkbox("DebugCamera", &DebugMode);
+
+	ImGui::End();
+
+
 }
 
 

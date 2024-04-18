@@ -4,7 +4,7 @@
 const float Field::areaLimit = 250.0f;	//半径
 const float Field::limitLine = 125.0f;	//半径
 
-void Field::Init(Camera* _camera)
+void Field::Initialize(Camera* _camera)
 {
 
 	ground.clear();
@@ -41,7 +41,7 @@ void Field::Update()
 		Ground->Update(camera->GetView());
 	}
 #ifdef _DEBUG
-	ImGuiSet();
+	ImGuiMode();
 #endif
 
 
@@ -76,7 +76,7 @@ float Field::GetUpArea()
 	return upAreaLimit;
 }
 
-void Field::ImGuiSet()
+void Field::ImGuiMode()
 {
 	//ImguI
 	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);

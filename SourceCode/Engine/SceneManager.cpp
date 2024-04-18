@@ -16,9 +16,10 @@ void SceneManager::Update()
 		//シーン切り替え
 		scene = std::move(nextScene);
 
+		
 		//次シーンを初期化する
 		scene->Initialize();
-
+		
 		//シーンの名前を変更
 		sceneName = nextSceneName;
 	}
@@ -28,6 +29,7 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	scene->Draw();
+	
 }
 
 void SceneManager::Finalize()

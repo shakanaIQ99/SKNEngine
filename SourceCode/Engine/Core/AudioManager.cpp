@@ -132,7 +132,7 @@ void AudioManager::Stop(AudioHandle handle)
 	}
 }
 
-void AudioManager::Init()
+void AudioManager::Initialize()
 {
 	HRESULT result;
 	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);

@@ -7,7 +7,7 @@ class Field
 {
 public:
 
-	void Init(Camera* _camera);
+	void Initialize(Camera* _camera);
 
 	void Update();
 
@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// ImGui関係
 	/// </summary>
-	void ImGuiSet();
+	void ImGuiMode();
 
 private:
 

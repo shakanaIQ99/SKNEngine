@@ -39,5 +39,6 @@ namespace myMath
 
 	float Clamp(float f, float min, float max);
 
+	float Lerp(float s, float e, float t);
 }
 

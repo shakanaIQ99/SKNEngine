@@ -31,17 +31,22 @@ public:
 
 	void SetPos(Vector3 pos);
 
-	void SetTarget(Vector3 Target);
+	//void SetTarget(Vector3 Target);
 	/// <summary>
 	/// カメラに追従先のトランスフォームを渡す
 	/// </summary>
-	void SetTarget(WorldTransform* target) { targetWT = target; }
+	void SetTarget(WorldTransform* Target) { targetWT = Target; }
+	void SetTarget(Vector3 Target) { interTarget = Target; }
 
 	void SetRotate(Vector3 rotate);
 
 	void SetWorldMat(Matrix4 woeldMat);
 
+	void SetTargetFlag(bool Flag) { targetFlag = Flag; }
+
 private:
+
+	void ImGuiMode();
 
 	const WorldTransform* targetWT = nullptr;
 
@@ -54,7 +59,7 @@ private:
 
 	Vector3 forward = { 0.0f, 0.0f, 1.0f };
 
-	Vector3 interTarget = {};
+	Vector3 interTarget;
 
 	float cameraRotateX = 0;
 	float cameraRotateY = 0;
@@ -62,6 +67,9 @@ private:
 	float rotateY = 0;
 
 	const float cameraDPI = 0.05f;
+
+	bool DebugMode = false;
+	bool targetFlag = false;
 
 };
 

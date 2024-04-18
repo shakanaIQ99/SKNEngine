@@ -46,7 +46,7 @@ void Framework::Initialize()
 	fps = std::make_unique<FPS>();
 	fps->Initialize();
 
-	Input::Init(dxWindow.get());
+	Input::StaticInitialize(dxWindow.get());
 	ImGuiManager::GetInstance()->Initialize(dxWindow.get());
 	OBJ3D::StaticInitialize();
 	Draw3DLine::CreateGraphicsPipeline();

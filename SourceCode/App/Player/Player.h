@@ -14,7 +14,7 @@ public:
 		boss = enemy;
 	}
 
-	void Init();
+	void Initialize();
 
 	void Reset();
 
@@ -113,7 +113,7 @@ private:
 	Vector2 WorldToMonitor(Vector3 pos);
 
 
-	void ImGuiSet();
+	void ImGuiMode();
 
 	
 	

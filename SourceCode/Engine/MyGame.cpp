@@ -33,15 +33,15 @@ void MyGame::Initialize()
 
 void MyGame::LoadResource()
 {
-	AudioManager::Load("Resources/Sound/wallhit.wav", "hit");//
-	AudioManager::Load("Resources/Sound/shot.wav", "shot");//
+	AudioManager::Load("Resources/Sound/wallhit.wav", "hit");
+	AudioManager::Load("Resources/Sound/shot.wav", "shot");
 	AudioManager::Load("Resources/Sound/enemyshot.wav", "Eshot");
-	AudioManager::Load("Resources/Sound/mine.wav", "mine");//
-	AudioManager::Load("Resources/Sound/charge.wav", "charge");//
-	AudioManager::Load("Resources/Sound/jump.wav", "jump");//
-	AudioManager::Load("Resources/Sound/dash.wav", "dash");//
+	AudioManager::Load("Resources/Sound/mine.wav", "mine");
+	AudioManager::Load("Resources/Sound/charge.wav", "charge");
+	AudioManager::Load("Resources/Sound/jump.wav", "jump");
+	AudioManager::Load("Resources/Sound/dash.wav", "dash");
 	AudioManager::Load("Resources/Sound/homing.wav", "homing");
-	AudioManager::Load("Resources/Sound/BGM.wav", "bgm");//
+	AudioManager::Load("Resources/Sound/BGM.wav", "bgm");
 
 	TextureManager::Load("Resources/title.png", "Title");
 	TextureManager::Load("Resources/title2.png", "Title2");
@@ -51,7 +51,7 @@ void MyGame::LoadResource()
 	TextureManager::Load("Resources/HpBar.png", "HpBar");
 	TextureManager::Load("Resources/Reticle.png", "Reticle");
 	TextureManager::Load("Resources/preKeyUI.png", "KeyUI");
-
+	TextureManager::Load("Resources/Load.png", "Load");
 
 }
 

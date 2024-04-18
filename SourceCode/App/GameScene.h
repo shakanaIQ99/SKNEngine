@@ -57,7 +57,7 @@ private:
 	/// <summary>
 	/// ImGui関係
 	/// </summary>
-	void ImGuiView();
+	void ImGuiMode();
 
 	Player player;
 	BossEnemy boss;
