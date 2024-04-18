@@ -159,6 +159,10 @@ private:
 
 	Vector2 Lock2DPos = { 0,0 };
 
+	int lockOnReticleTimer = 0;
+
+	const int lockOnReticleTime = 30;
+
 	float scale = 1.0f;
 	int dpRate = 0;
 	const int dpRateNum = 1;

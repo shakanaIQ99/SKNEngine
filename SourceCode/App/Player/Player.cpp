@@ -474,12 +474,14 @@ void Player::LockOn()
 	
 	if (ScLock(boss))
 	{
-
-		Lock2DPos = WorldToMonitor(boss->translation_);
+		lockOnReticleTimer++;
+		if (lockOnReticleTimer > lockOnReticleTime)lockOnReticleTimer = lockOnReticleTime;
+		Lock2DPos =EaseOutQuint({ DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f },WorldToMonitor(boss->translation_),static_cast<float>(lockOnReticleTimer), static_cast<float>(lockOnReticleTime));
 		locked = true;
 	}
 	else
 	{
+		lockOnReticleTimer = 0;
 		Lock2DPos = { DxWindow::window_width / 2.0f,DxWindow::window_height / 2.0f };
 		locked = false;
 	}

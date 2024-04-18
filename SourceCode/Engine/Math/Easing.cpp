@@ -35,6 +35,15 @@ Vector3 EaseOutQuint(Vector3 start, Vector3 end, float movetime, float endtime)
 	return vec;
 }
 
+Vector2 EaseOutQuint(Vector2 start, Vector2 end, float movetime, float endtime)
+{
+	Vector2 vec;
+	vec.x = EaseOutQuint(start.x, end.x, movetime, endtime);
+	vec.y = EaseOutQuint(start.y, end.y, movetime, endtime);
+
+	return vec;
+}
+
 double EaseInBack(float t, int start, int end, int num, double p1)
 {
 	const double c1 = p1;
