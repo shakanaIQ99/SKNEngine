@@ -230,7 +230,7 @@ private:
 
 private:
 	std::unique_ptr<ObjModel> bulletModel;
-	//std::unique_ptr<ObjModel> hbulletModel;
+	std::unique_ptr<ObjModel> hbulletModel;
 
 	std::unique_ptr<OBJ3D> colBox;
 	std::unique_ptr<ObjModel> colBoxModel;

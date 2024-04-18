@@ -19,6 +19,7 @@ void BossEnemy::Initialize()
 {
 	ModelInit("enemy");
 	bulletModel.reset(ObjModel::LoadFromOBJ("maru"));
+	hbulletModel.reset(ObjModel::LoadFromOBJ("Homing"));
 	EnemyMine::SetModel(ObjModel::LoadFromOBJ("maru"));
 	
 	St->color = { 1.0f,1.0f,1.0f,1.0f };
@@ -724,7 +725,7 @@ void BossEnemy::HardShot()
 		if (BurstTime % hBurstRate == 0)
 		{
 			AudioManager::Play("homing");
-			BulletManager::CreateHomingBullet(bulletModel.get(), St->Wt.translation_, BulletVec, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
+			BulletManager::CreateHomingBullet(hbulletModel.get(), St->Wt.translation_, BulletVec, &player->St->Wt.translation_, 1.5f, hBulletSpeed, Tag::ENEMYHARD);
 		}
 		
 

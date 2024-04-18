@@ -47,6 +47,7 @@ void HomingBullet::Update()
 	float c_vec = atan2(b.x, b.z);
 
 	St->Wt.rotation_.y = (p_pos + c_vec);
+	St->Wt.rotation_.z += 0.1f;
 
 	St->Update(camera->GetView());
 	if (--deathTimer <= 0 )
