@@ -32,6 +32,16 @@ public:
 	/// <param name="model">モデル</param>
 	/// <param name="position">初期座標</param>
 	/// <param name="velocity">速度</param>
+	void CreateTrailParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity, float Scale, Float4 Color);
+
+
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="model">モデル</param>
+	/// <param name="position">初期座標</param>
+	/// <param name="velocity">速度</param>
 	void CreateHitParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity, float Scale, Float4 Color);
 
 	/// <summary>

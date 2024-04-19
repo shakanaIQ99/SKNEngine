@@ -44,10 +44,10 @@ Vector2 EaseOutQuint(Vector2 start, Vector2 end, float movetime, float endtime)
 	return vec;
 }
 
-double EaseInBack(float t, int start, int end, int num, double p1)
+float EaseInBack(float t, float start, float end, int num, float p1)
 {
-	const double c1 = p1;
-	const double c3 = c1 + 1;
+	const float c1 = p1;
+	const float c3 = c1 + 1;
 
-	return (end - start) * pow((c3 * t * t * t - c1 * t * t), num) + start;
+	return (end - start) * powf((c3 * t * t * t - c1 * t * t), static_cast<float>(num)) + start;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include"Bullet.h"
+#include "DeathParticle.h"
 class HomingBullet :public Bullet
 {
 public:
@@ -22,11 +23,18 @@ private:
 
 	float homingPower = 0;
 
+	//演出周り
+
+	std::list<std::unique_ptr<DeathParticle>> deathPaticles;
+
+
 	//寿命<frm>
 	static const int32_t lifeTime = 60 * 10;
 
 	//デスタイマー
 	int32_t deathTimer = lifeTime;
+
+	int trailCount = 0;
 
 
 };

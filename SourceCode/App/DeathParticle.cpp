@@ -46,6 +46,43 @@ void DeathParticle::CreateDeathParticle(const Vector3& Position, const Vector3& 
 	velocity = Velocity;
 }
 
+void DeathParticle::CreateTrailParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity, float Scale, Float4 Color)
+{
+	St->Wt.translation_ = Position;
+	St->Wt.rotation_ = Rota;
+	startScale = Scale;
+	scale = 0;
+	St->Wt.scale_ = { startScale,startScale,startScale };
+	St->color = Color;
+	velocity = Velocity;
+	velocity.y = 0;
+
+	std::random_device rd;
+	std::default_random_engine eng(rd());
+	std::default_random_engine eng2(rd());
+	std::default_random_engine eng3(rd());
+	std::uniform_real_distribution<float> distr(-1.0f, 1.0f);
+
+	romdom = { distr(eng),distr(eng2),distr(eng3) };
+
+	/*Matrix4 rotaMat;
+
+
+
+	rotaMat *= Matrix4::RotationY(distr(eng));
+	rotaMat *= Matrix4::RotationX(distr(eng2));*/
+
+	mode = Pattern::STRAIGHT;
+	lifeTime = 10;
+	deathTimer = lifeTime;
+
+	velocity = velocity/* * rotaMat*/;
+
+	velocity.Normalize();
+	romdom *= spead;
+	velocity *= (spead * 2);
+}
+
 void DeathParticle::CreateHitParticle(const Vector3& Position, const Vector3& Rota, const Vector3& Velocity, float Scale, Float4 Color)
 {
 	St->Wt.translation_ = Position;
@@ -80,7 +117,7 @@ void DeathParticle::CreateHitParticle(const Vector3& Position, const Vector3& Ro
 
 	velocity.Normalize();
 	romdom *= spead;
-	velocity *= (spead*2);
+	velocity *= (spead);
 }
 
 void DeathParticle::Update()
@@ -88,7 +125,11 @@ void DeathParticle::Update()
 	switch (mode)
 	{
 	case Pattern::STRAIGHT:
-
+		scale = EaseInBack(static_cast<float>(deathTimer) / static_cast<float>(lifeTime), startScale, 0.0f);
+		//St->color.z = EaseInSine(0, 1.0f, static_cast<float>(deathTimer), static_cast<float>(lifeTime));
+		St->Wt.translation_ = St->Wt.translation_ + velocity;
+		St->Wt.rotation_ = St->Wt.rotation_ + romdom;
+		St->Wt.scale_ = { scale,scale,scale };
 
 		break;
 
