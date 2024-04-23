@@ -144,7 +144,7 @@ void Camera::SetWorldMat(Matrix4 woeldMat)
 void Camera::ImGuiMode()
 {
 	//ImguI
-	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x + 400, ImGui::GetMainViewport()->WorkPos.y + 10 }, ImGuiCond_Once);
+	ImGui::SetNextWindowPos({ ImGui::GetMainViewport()->WorkPos.x, ImGui::GetMainViewport()->WorkPos.y + 20 }, ImGuiCond_Once);
 	ImGui::SetNextWindowSize({ 400, 500 });
 
 	ImGuiWindowFlags window_flags = 0;

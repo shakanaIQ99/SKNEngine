@@ -1,5 +1,4 @@
 #include "GameScene.h"
-#include"FbxLoader.h"
 #include"StuructTransform.h"
 #include"Input.h"
 #include"Collision.h"
@@ -7,7 +6,6 @@
 #include"DeathParticle.h"
 #include"AudioManager.h"
 #include"TextureManager.h"
-#include"SceneManager.h"
 #include"SceneControl.h"
 
 using namespace SKNEngine;
