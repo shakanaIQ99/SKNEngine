@@ -91,6 +91,12 @@
     <Filter Include="ソース ファイル\ヘッダー ファイル\Application\Bullet">
       <UniqueIdentifier>{7a473052-9228-400d-9441-855fa6718717}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ヘッダー ファイル\Application\Scenes">
+      <UniqueIdentifier>{a7352f13-450e-4478-a7a7-7afe4dfb51f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\cppファイル\Application\Scenes">
+      <UniqueIdentifier>{ca5a267a-fcee-49f1-a9cf-16b7cc86044e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Engine\Core\DirectXCommon.cpp">
@@ -198,9 +204,6 @@
     <ClCompile Include="SourceCode\Engine\Math\Float4.cpp">
       <Filter>ソース ファイル\cppファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\App\GameScene.cpp">
-      <Filter>ソース ファイル\cppファイル\Application</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\App\Camera.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
     </ClCompile>
@@ -267,15 +270,6 @@
     <ClCompile Include="SourceCode\Engine\MyGame.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SourceCode\App\ResultScene.cpp">
-      <Filter>ソース ファイル\cppファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\App\TitleScene.cpp">
-      <Filter>ソース ファイル\cppファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceCode\App\TutorialScene.cpp">
-      <Filter>ソース ファイル\cppファイル\Application</Filter>
-    </ClCompile>
     <ClCompile Include="SourceCode\Engine\SceneFactory.cpp">
       <Filter>ソース ファイル\cppファイル</Filter>
     </ClCompile>
@@ -287,6 +281,18 @@
     </ClCompile>
     <ClCompile Include="SourceCode\App\SceneChanger.cpp">
       <Filter>ソース ファイル\cppファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\TutorialScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\TitleScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\ResultScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\App\GameScene.cpp">
+      <Filter>ソース ファイル\cppファイル\Application\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +410,6 @@
     <ClInclude Include="SourceCode\App\Camera.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\GameScene.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\App\StuructTransform.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
@@ -479,15 +482,6 @@
     <ClInclude Include="SourceCode\Engine\SceneFactory.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\App\ResultScene.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\App\TitleScene.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="SourceCode\App\TutorialScene.h">
-      <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Engine\SceneManager.h">
       <Filter>ソース ファイル\ヘッダー ファイル</Filter>
     </ClInclude>
@@ -496,6 +490,18 @@
     </ClInclude>
     <ClInclude Include="SourceCode\App\SceneChanger.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\TutorialScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\TitleScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\GameScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\App\ResultScene.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Application\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

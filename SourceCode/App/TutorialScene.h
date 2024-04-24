@@ -7,6 +7,7 @@
 #include "Field.h"
 #include "ObjModel.h"
 #include "Field.h"
+#include "Player.h"
 
 class TutorialScene:public BaseScene
 {
@@ -24,6 +25,8 @@ private:
 	void ImGuiMode();
 
 	Camera camera;
+
+	Player player;
 
 	LightGroup* light = nullptr;
 

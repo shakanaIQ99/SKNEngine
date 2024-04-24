@@ -173,6 +173,8 @@ void Player::Update()
 	ImGuiMode();
 #endif
 
+	if (Input::GetKey(DIK_F5))muteki = !muteki;
+
 	LockOn();
 
 	St->Update(camera->GetView());
