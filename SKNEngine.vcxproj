@@ -60,7 +60,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)SourceCode;$(ProjectDir)SourceCode\Engine\Draw;$(ProjectDir)SourceCode\Engine\Buffer;$(ProjectDir)SourceCode\Imgui;$(ProjectDir)SourceCode\Engine\Light;$(ProjectDir)SourceCode\Engine\Math;$(ProjectDir)SourceCode\Engine\Core;$(ProjectDir)SourceCode\App\Player;$(ProjectDir)SourceCode\App;$(ProjectDir)SourceCode\App\Enemy;$(ProjectDir)SourceCode\Engine;$(ProjectDir)SourceCode\Engine\Draw\3D;$(ProjectDir)SourceCode\Engine\Draw\2D;$(ProjectDir)SourceCode\App\Bullet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SourceCode;$(ProjectDir)SourceCode\Engine\Draw;$(ProjectDir)SourceCode\Engine\Buffer;$(ProjectDir)SourceCode\Imgui;$(ProjectDir)SourceCode\Engine\Light;$(ProjectDir)SourceCode\Engine\Math;$(ProjectDir)SourceCode\Engine\Core;$(ProjectDir)SourceCode\App\Player;$(ProjectDir)SourceCode\App;$(ProjectDir)SourceCode\App\Enemy;$(ProjectDir)SourceCode\Engine;$(ProjectDir)SourceCode\Engine\Draw\3D;$(ProjectDir)SourceCode\Engine\Draw\2D;$(ProjectDir)SourceCode\App\Bullet;$(ProjectDir)SourceCode\Engine\BehaviorTree;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)SourceCode;$(ProjectDir)SourceCode\Engine\Draw;$(ProjectDir)SourceCode\Engine\Buffer;$(ProjectDir)SourceCode\Imgui;$(ProjectDir)SourceCode\Engine\Light;$(ProjectDir)SourceCode\Engine\Math;$(ProjectDir)SourceCode\Engine\Core;$(ProjectDir)SourceCode\App\Player;$(ProjectDir)SourceCode\App;$(ProjectDir)SourceCode\App\Enemy;$(ProjectDir)SourceCode\Engine;$(ProjectDir)SourceCode\Engine\Draw\3D;$(ProjectDir)SourceCode\Engine\Draw\2D;$(ProjectDir)SourceCode\App\Bullet;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)SourceCode;$(ProjectDir)SourceCode\Engine\Draw;$(ProjectDir)SourceCode\Engine\Buffer;$(ProjectDir)SourceCode\Imgui;$(ProjectDir)SourceCode\Engine\Light;$(ProjectDir)SourceCode\Engine\Math;$(ProjectDir)SourceCode\Engine\Core;$(ProjectDir)SourceCode\App\Player;$(ProjectDir)SourceCode\App;$(ProjectDir)SourceCode\App\Enemy;$(ProjectDir)SourceCode\Engine;$(ProjectDir)SourceCode\Engine\Draw\3D;$(ProjectDir)SourceCode\Engine\Draw\2D;$(ProjectDir)SourceCode\App\Bullet;$(ProjectDir)SourceCode\Engine\BehaviorTree;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -101,6 +101,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTree.cpp" />
     <ClCompile Include="SourceCode\App\SceneChanger.cpp" />
     <ClCompile Include="SourceCode\App\SceneControl.cpp" />
     <ClCompile Include="SourceCode\Engine\SceneManager.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="SourceCode\App\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTree.h" />
     <ClInclude Include="SourceCode\App\SceneChanger.h" />
     <ClInclude Include="SourceCode\App\SceneControl.h" />
     <ClInclude Include="SourceCode\Engine\SceneManager.h" />
