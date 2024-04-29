@@ -101,6 +101,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\ActionNode.cpp" />
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\ConditionNode.cpp" />
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\NodeBase.cpp" />
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\SelectorNode.cpp" />
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\SequencerNode.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTree.cpp" />
     <ClCompile Include="SourceCode\App\SceneChanger.cpp" />
     <ClCompile Include="SourceCode\App\SceneControl.cpp" />
@@ -183,6 +188,11 @@
     <ClCompile Include="SourceCode\App\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\ActionNode.h" />
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\ConditionNode.h" />
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\NodeBase.h" />
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\SelectorNode.h" />
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\SequencerNode.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTree.h" />
     <ClInclude Include="SourceCode\App\SceneChanger.h" />
     <ClInclude Include="SourceCode\App\SceneControl.h" />

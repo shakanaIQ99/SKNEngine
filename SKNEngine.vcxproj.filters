@@ -309,6 +309,21 @@
     <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTree.cpp">
       <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\ActionNode.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\ConditionNode.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\NodeBase.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\SelectorNode.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\SequencerNode.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -519,6 +534,21 @@
       <Filter>ソース ファイル\ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTree.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\ActionNode.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\ConditionNode.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\NodeBase.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\SelectorNode.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\SequencerNode.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
     </ClInclude>
   </ItemGroup>
