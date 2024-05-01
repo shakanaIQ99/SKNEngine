@@ -327,6 +327,9 @@
     <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.cpp">
       <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\RootNode.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -555,6 +558,9 @@
       <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.h">
+      <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\RootNode.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
     </ClInclude>
   </ItemGroup>

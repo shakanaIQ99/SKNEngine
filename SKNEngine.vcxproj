@@ -101,6 +101,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\RootNode.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\ActionNode.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\ConditionNode.cpp" />
@@ -189,6 +190,7 @@
     <ClCompile Include="SourceCode\App\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\RootNode.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\ActionNode.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\ConditionNode.h" />
