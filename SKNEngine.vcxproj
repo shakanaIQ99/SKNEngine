@@ -101,6 +101,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\LoopNode.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\RootNode.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\ActionNode.cpp" />
@@ -190,6 +191,7 @@
     <ClCompile Include="SourceCode\App\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\LoopNode.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\RootNode.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\ActionNode.h" />
@@ -267,6 +269,7 @@
     <ClInclude Include="SourceCode\App\UI.h" />
     <ClInclude Include="SourceCode\App\TitleScene.h" />
     <ClInclude Include="SourceCode\App\TutorialScene.h" />
+    <ClInclude Include="SourceCode\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\3DLine.hlsli" />
