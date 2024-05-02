@@ -1,5 +1,8 @@
 #pragma once
-class LoopNode
+namespace SKNBT
 {
-};
+	class LoopNode
+	{
+	};
 
+}

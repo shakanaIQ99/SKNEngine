@@ -1,18 +1,21 @@
 #pragma once
 #include"NodeBase.h"
-class SelectorNode:public NodeBase
+
+namespace SKNBT
 {
-public:
-    void OnStart() override;
-    NodeStatus Update() override;
-    void OnEnd() override;
-    void OnAbort() override;
+    class SelectorNode :public NodeBase
+    {
+    public:
+        void OnStart() override;
+        NodeStatus Update() override;
+        void OnEnd() override;
+        void OnAbort() override;
 
-    void SetParam(std::string param) override;
+        void SetParam(std::string param) override;
 
-    void InitNode();
-    std::string GetNodeType() override;
+        void InitNode();
+        std::string GetNodeType() override;
 
-    int32_t selectedIndex = -1;
-};
-
+        int32_t selectedIndex = -1;
+    };
+}

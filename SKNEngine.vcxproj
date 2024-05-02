@@ -144,10 +144,12 @@
     <ClCompile Include="SourceCode\Engine\Draw\2D\DrawCommon.cpp" />
     <ClCompile Include="SourceCode\Engine\Core\DxWindow.cpp" />
     <ClCompile Include="SourceCode\Engine\Core\FPS.cpp" />
+    <ClCompile Include="SourceCode\Imgui\GraphEditor.cpp" />
     <ClCompile Include="SourceCode\Imgui\ImGuiManager.cpp" />
     <ClCompile Include="SourceCode\Imgui\imgui.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\ImGuizmo.cpp" />
     <ClCompile Include="SourceCode\Imgui\imgui_demo.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MinSpace</Optimization>
     </ClCompile>
@@ -238,9 +240,11 @@
     <ClInclude Include="SourceCode\Engine\Draw\2D\DrawCommon.h" />
     <ClInclude Include="SourceCode\Engine\Core\DxWindow.h" />
     <ClInclude Include="SourceCode\Engine\Core\FPS.h" />
+    <ClInclude Include="SourceCode\Imgui\GraphEditor.h" />
     <ClInclude Include="SourceCode\Imgui\ImGuiManager.h" />
     <ClInclude Include="SourceCode\Imgui\imconfig.h" />
     <ClInclude Include="SourceCode\Imgui\imgui.h" />
+    <ClInclude Include="SourceCode\Imgui\ImGuizmo.h" />
     <ClInclude Include="SourceCode\Imgui\imgui_impl_dx12.h" />
     <ClInclude Include="SourceCode\Imgui\imgui_impl_win32.h" />
     <ClInclude Include="SourceCode\Imgui\imgui_internal.h" />

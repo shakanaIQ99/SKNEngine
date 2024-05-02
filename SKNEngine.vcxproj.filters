@@ -333,6 +333,12 @@
     <ClCompile Include="SourceCode\Engine\BehaviorTree\LoopNode.cpp">
       <Filter>ソース ファイル\cppファイル\Engine\BehaviorTree</Filter>
     </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\GraphEditor.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceCode\Imgui\ImGuizmo.cpp">
+      <Filter>ソース ファイル\cppファイル\Engine\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SourceCode\Engine\Core\DirectXCommon.h">
@@ -571,6 +577,12 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Engine\BehaviorTree\LoopNode.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Imgui\GraphEditor.h">
+      <Filter>ソース ファイル\cppファイル\Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Imgui\ImGuizmo.h">
+      <Filter>ソース ファイル\cppファイル\Engine\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

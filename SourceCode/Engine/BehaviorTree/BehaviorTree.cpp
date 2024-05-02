@@ -1,18 +1,18 @@
 #include "BehaviorTree.h"
 
-BehaviorTree::BehaviorTree()
+SKNBT::BehaviorTree::BehaviorTree()
 {
 }
 
-void BehaviorTree::SetFactory(const BehaviorTreeFactory& factory)
+void SKNBT::BehaviorTree::SetFactory(const BehaviorTreeFactory& factory)
 {
 }
 
-BehaviorTreeFactory* BehaviorTree::GetFactory()
+SKNBT::BehaviorTreeFactory* SKNBT::BehaviorTree::GetFactory()
 {
 	return nullptr;
 }
 
-void BehaviorTree::Tick()
+void SKNBT::BehaviorTree::Tick()
 {
 }
