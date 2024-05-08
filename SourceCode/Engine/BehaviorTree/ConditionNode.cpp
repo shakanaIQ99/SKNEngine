@@ -17,7 +17,7 @@ void ConditionNode::OnAbort()
 {
 }
 
-void ConditionNode::SetParam(std::string param)
+void ConditionNode::SetParam(std::string Param)
 {
 }
 

@@ -2,17 +2,18 @@
 #include "BehaviorTreeFactory.h"
 #include "NodeBase.h"
 #include <memory>
+#include <list>
 
+class BehaviorTreeFactory;
+class NodeBase;
 
 class BehaviorTree
 {
 public:
-
 	BehaviorTree();
 
-	void SetFactory(const BehaviorTreeFactory& factory);
-	BehaviorTreeFactory* GetFactory();
-
+	void SetFactory(BehaviorTreeFactory& factory);
+	BehaviorTreeFactory* GetFactory() const { return funcFactory.get(); }
 	void Tick();
 
 	std::unique_ptr<NodeBase> root;
@@ -20,6 +21,6 @@ public:
 
 
 private:
-	BehaviorTreeFactory funcFactory;
+	std::unique_ptr<BehaviorTreeFactory> funcFactory;
 };
 

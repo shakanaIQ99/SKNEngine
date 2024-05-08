@@ -3,17 +3,32 @@
 #include <memory>
 #include <string>
 #include "BehaviorTree.h"
+class NodeStatus
+{
+
+public:
+    enum STATUS
+    {
+        Inactive,
+        Success,
+        Failure,
+        Running,
+        Completed
+    };
+
+    NodeStatus() = default;
+    constexpr NodeStatus(STATUS Status) : status(Status) { }
+
+
+    constexpr bool operator==(NodeStatus a) const { return status == a.status; }
+    constexpr bool operator!=(NodeStatus a) const { return status != a.status; }
+
+private:
+    STATUS status;
+    
+};
 
 class BehaviorTree;
-
-enum class NodeStatus
-{
-    Inactive,
-    Success,
-    Failure,
-    Running,
-    Completed
-};
 
 class NodeBase
 {
@@ -43,3 +58,6 @@ public:
     NodeBase() {};
     virtual ~NodeBase() {};
 };
+
+
+

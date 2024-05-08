@@ -17,7 +17,7 @@ void SelectorNode::OnAbort()
 {
 }
 
-void SelectorNode::SetParam(std::string param)
+void SelectorNode::SetParam(std::string Param)
 {
 }
 

@@ -10,6 +10,7 @@ void BehaviorTreeFactory::RegisterAction(std::string key, std::function<NodeStat
 	actionTable.emplace(key, func);
 }
 
+
 const std::function<NodeStatus(void)> BehaviorTreeFactory::GetActionFunc(const std::string& key)
 {
 	return actionTable.at(key);

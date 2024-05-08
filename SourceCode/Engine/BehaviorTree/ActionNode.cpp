@@ -6,7 +6,7 @@ void ActionNode::OnStart()
 
 NodeStatus ActionNode::Update()
 {
-	return;
+	return parentBT->GetFactory()->GetActionFunc(funcKey)();
 }
 
 void ActionNode::OnEnd()
@@ -17,7 +17,7 @@ void ActionNode::OnAbort()
 {
 }
 
-void ActionNode::SetParam(std::string param)
+void ActionNode::SetParam(std::string Param)
 {
 }
 

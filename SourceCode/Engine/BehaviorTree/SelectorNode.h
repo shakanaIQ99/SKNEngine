@@ -11,7 +11,7 @@
         void OnEnd() override;
         void OnAbort() override;
 
-        void SetParam(std::string param) override;
+        void SetParam(std::string Param) override;
 
         void InitNode();
         std::string GetNodeType() override;

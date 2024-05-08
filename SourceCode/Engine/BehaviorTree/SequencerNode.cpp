@@ -17,7 +17,7 @@ void SequencerNode::OnAbort()
 {
 }
 
-void SequencerNode::SetParam(std::string param)
+void SequencerNode::SetParam(std::string Param)
 {
 }
 
