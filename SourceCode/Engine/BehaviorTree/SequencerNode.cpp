@@ -1,31 +1,31 @@
 #include "SequencerNode.h"
 
-void SKNBT::SequencerNode::OnStart()
+void SequencerNode::OnStart()
 {
 }
 
-SKNBT::NodeStatus SKNBT::SequencerNode::Update()
+NodeStatus SequencerNode::Update()
 {
 	return NodeStatus();
 }
 
-void SKNBT::SequencerNode::OnEnd()
+void SequencerNode::OnEnd()
 {
 }
 
-void SKNBT::SequencerNode::OnAbort()
+void SequencerNode::OnAbort()
 {
 }
 
-void SKNBT::SequencerNode::SetParam(std::string param)
+void SequencerNode::SetParam(std::string param)
 {
 }
 
-void SKNBT::SequencerNode::InitNode()
+void SequencerNode::InitNode()
 {
 }
 
-std::string SKNBT::SequencerNode::GetNodeType()
+std::string SequencerNode::GetNodeType()
 {
 	return std::string();
 }

@@ -4,21 +4,18 @@
 #include <functional>
 #include "NodeBase.h"
 
-namespace SKNBT
+
+class BehaviorTreeFactory
 {
+public:
+	void RegisterCondition(std::string, std::function<bool()>);
+	//void RegisterAction(std::string, std::function<SKNBT::NodeStatus>);
 
-	class BehaviorTreeFactory
-	{
-	public:
-		void RegisterCondition(std::string, std::function<bool()>);
-		void RegisterAction(std::string, std::function<SKNBT::NodeStatus>);
+	/*const std::function<NodeStatus()> GetActionFunc(const std::string& key);
+	const std::function<bool()> GetConditionFunc(const std::string& key);*/
 
-		const std::function<NodeStatus> GetActionFunc(const std::string& key);
-		const std::function<bool()> GetConditionFunc(const std::string& key);
+private:
+	std::unordered_map<std::string, std::function<bool()>> conditionTable;
+	std::unordered_map<std::string, std::function<NodeStatus()>> actionTable;
+};
 
-	private:
-		std::unordered_map<std::string, std::function<bool()>> conditionTable;
-		std::unordered_map<std::string, std::function<NodeStatus()>> actionTable;
-	};
-
-}

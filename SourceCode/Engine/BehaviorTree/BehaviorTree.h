@@ -1,27 +1,25 @@
 #pragma once
-#include"BehaviorTreeFactory.h"
-#include"NodeBase.h"
+#include "BehaviorTreeFactory.h"
+#include "NodeBase.h"
 #include <memory>
 
-namespace SKNBT
+
+class BehaviorTree
 {
-	class BehaviorTree
-	{
-	public:
+public:
 
-		BehaviorTree();
+	BehaviorTree();
 
-		void SetFactory(const BehaviorTreeFactory& factory);
-		BehaviorTreeFactory* GetFactory();
+	void SetFactory(const BehaviorTreeFactory& factory);
+	BehaviorTreeFactory* GetFactory();
 
-		void Tick();
+	void Tick();
 
-		std::unique_ptr<NodeBase> root;
-		std::list<std::unique_ptr<NodeBase>> floatingNodes;
+	std::unique_ptr<NodeBase> root;
+	std::list<std::unique_ptr<NodeBase>> floatingNodes;
 
 
-	private:
-		BehaviorTreeFactory funcFactory_;
-	};
+private:
+	BehaviorTreeFactory funcFactory;
+};
 
-}

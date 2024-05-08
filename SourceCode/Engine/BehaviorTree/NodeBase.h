@@ -4,45 +4,42 @@
 #include <string>
 #include "BehaviorTree.h"
 
-namespace SKNBT
+class BehaviorTree;
+
+enum class NodeStatus
 {
-    class BehaviorTree;
+    Inactive,
+    Success,
+    Failure,
+    Running,
+    Completed
+};
 
-    enum class NodeStatus
-    {
-        Inactive,
-        Success,
-        Failure,
-        Running,
-        Completed
-    };
+class NodeBase
+{
+protected:
 
-    class NodeBase
-    {
-    protected:
+    std::list<std::unique_ptr<NodeBase>> children;
 
-        std::list<std::unique_ptr<NodeBase>> children;
+    uint32_t activeIndex = 0;
 
-        uint32_t activeIndex = 0;
+    BehaviorTree* parentBT = nullptr;
+    NodeBase* parent = nullptr;
+    std::string param;
+public:
+    virtual void OnStart() = 0;
+    virtual NodeStatus Update() = 0;
+    virtual void OnEnd() = 0;
+    virtual void OnAbort();
 
-        BehaviorTree* parentBT = nullptr;
-        NodeBase* parent = nullptr;
-        std::string param;
-    public:
-        virtual void OnStart() = 0;
-        virtual SKNBT::NodeStatus Update() = 0;
-        virtual void OnEnd() = 0;
-        virtual void OnAbort();
+    virtual void SetParam(std::string Param);
 
-        virtual void SetParam(std::string Param);
+    std::string GetParam();
+    NodeBase* GetParent();
+    const std::list<std::unique_ptr<NodeBase>>& GetChildren();
 
-        std::string GetParam();
-        NodeBase* GetParent();
-        const std::list<std::unique_ptr<NodeBase>>& GetChildren();
+    virtual std::string GetNodeType() = 0;
 
-        virtual std::string GetNodeType() = 0;
-
-        NodeBase() {};
-        virtual ~NodeBase() {};
-    };
-}
+    NodeBase() {};
+    virtual ~NodeBase() {};
+};

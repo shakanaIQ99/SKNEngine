@@ -1,31 +1,31 @@
 #include "ConditionNode.h"
 
-void SKNBT::ConditionNode::OnStart()
+void ConditionNode::OnStart()
 {
 }
 
-SKNBT::NodeStatus SKNBT::ConditionNode::Update()
+NodeStatus ConditionNode::Update()
 {
 	return NodeStatus();
 }
 
-void SKNBT::ConditionNode::OnEnd()
+void ConditionNode::OnEnd()
 {
 }
 
-void SKNBT::ConditionNode::OnAbort()
+void ConditionNode::OnAbort()
 {
 }
 
-void SKNBT::ConditionNode::SetParam(std::string param)
+void ConditionNode::SetParam(std::string param)
 {
 }
 
-void SKNBT::ConditionNode::InitNode()
+void ConditionNode::InitNode()
 {
 }
 
-std::string SKNBT::ConditionNode::GetNodeType()
+std::string ConditionNode::GetNodeType()
 {
 	return std::string();
 }

@@ -1,31 +1,31 @@
 #include "SelectorNode.h"
 
-void SKNBT::SelectorNode::OnStart()
+void SelectorNode::OnStart()
 {
 }
 
-SKNBT::NodeStatus SKNBT::SelectorNode::Update()
+NodeStatus SelectorNode::Update()
 {
 	return NodeStatus();
 }
 
-void SKNBT::SelectorNode::OnEnd()
+void SelectorNode::OnEnd()
 {
 }
 
-void SKNBT::SelectorNode::OnAbort()
+void SelectorNode::OnAbort()
 {
 }
 
-void SKNBT::SelectorNode::SetParam(std::string param)
+void SelectorNode::SetParam(std::string param)
 {
 }
 
-void SKNBT::SelectorNode::InitNode()
+void SelectorNode::InitNode()
 {
 }
 
-std::string SKNBT::SelectorNode::GetNodeType()
+std::string SelectorNode::GetNodeType()
 {
 	return std::string();
 }

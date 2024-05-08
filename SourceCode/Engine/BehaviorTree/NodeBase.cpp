@@ -1,26 +1,26 @@
 #include "NodeBase.h"
 
-void SKNBT::NodeBase::OnAbort()
+void NodeBase::OnAbort()
 {
 	OnEnd();
 }
 
-void SKNBT::NodeBase::SetParam(std::string Param)
+void NodeBase::SetParam(std::string Param)
 {
 	param = Param;
 }
 
-std::string SKNBT::NodeBase::GetParam()
+std::string NodeBase::GetParam()
 {
 	return param;
 }
 
-SKNBT::NodeBase* SKNBT::NodeBase::GetParent()
+NodeBase* NodeBase::GetParent()
 {
 	return parent;
 }
 
-const std::list<std::unique_ptr<SKNBT::NodeBase>>& SKNBT::NodeBase::GetChildren()
+const std::list<std::unique_ptr<NodeBase>>& NodeBase::GetChildren()
 {
 	return children;
 }

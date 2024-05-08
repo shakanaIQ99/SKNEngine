@@ -1,31 +1,31 @@
 #include "ActionNode.h"
 
-void SKNBT::ActionNode::OnStart()
+void ActionNode::OnStart()
 {
 }
 
-SKNBT::NodeStatus SKNBT::ActionNode::Update()
+NodeStatus ActionNode::Update()
 {
 	return;
 }
 
-void SKNBT::ActionNode::OnEnd()
+void ActionNode::OnEnd()
 {
 }
 
-void SKNBT::ActionNode::OnAbort()
+void ActionNode::OnAbort()
 {
 }
 
-void SKNBT::ActionNode::SetParam(std::string param)
+void ActionNode::SetParam(std::string param)
 {
 }
 
-void SKNBT::ActionNode::InitNode()
+void ActionNode::InitNode()
 {
 }
 
-std::string SKNBT::ActionNode::GetNodeType()
+std::string ActionNode::GetNodeType()
 {
 	return std::string();
 }
