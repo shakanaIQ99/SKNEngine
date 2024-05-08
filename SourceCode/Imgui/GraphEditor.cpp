@@ -32,7 +32,9 @@
 #include <float.h>
 #include <array>
 #include "GraphEditor.h"
-
+#pragma warning(push)
+#pragma warning (disable:4245)
+#pragma warning (disable:4189)
 namespace GraphEditor {
 
 static inline float Distance(const ImVec2& a, const ImVec2& b)
@@ -1109,3 +1111,6 @@ bool EditOptions(Options& options)
 }
 
 } // namespace
+
+
+#pragma warning(pop)
