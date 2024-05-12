@@ -113,7 +113,7 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
 			1,
 			Array{"MyInput"},
 			nullptr,
-			6,
+			2,
 			Array{"MyOutput0", "MyOuput1"},
 			nullptr
 		},
