@@ -19,6 +19,8 @@ void ActionNode::OnAbort()
 
 void ActionNode::SetParam(std::string Param)
 {
+	NodeBase::SetParam(param);
+	funcKey = param;
 }
 
 void ActionNode::InitNode()
@@ -27,5 +29,5 @@ void ActionNode::InitNode()
 
 std::string ActionNode::GetNodeType()
 {
-	return std::string();
+	return "Action";
 }

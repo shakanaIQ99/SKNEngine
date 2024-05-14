@@ -1,5 +1,5 @@
 #include "SelectorNode.h"
-
+#include <random>
 void SelectorNode::OnStart()
 {
 }
@@ -14,7 +14,11 @@ NodeStatus SelectorNode::Update()
 
 	if (selectedIndex < 0)
 	{
-		//selectedIndex = Util::RNG(0, (int32_t)children.size() - 1, true);
+		std::random_device rd;
+		std::default_random_engine eng(rd());
+		std::uniform_real_distribution<int> distr(0, static_cast<int>(children.size())-1);
+
+		selectedIndex = distr(eng);
 	}
 
 	NodeStatus childStatus = NodeStatus::Inactive;
@@ -53,13 +57,15 @@ void SelectorNode::OnAbort()
 
 void SelectorNode::SetParam(std::string Param)
 {
+	NodeBase::SetParam(param);
 }
 
 void SelectorNode::InitNode()
 {
+	selectedIndex = -1;
 }
 
 std::string SelectorNode::GetNodeType()
 {
-	return std::string();
+	return "Selector";
 }
