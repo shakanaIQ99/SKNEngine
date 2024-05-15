@@ -1,5 +1,6 @@
 #include "SelectorNode.h"
 #include <random>
+#include <iostream>
 void SelectorNode::OnStart()
 {
 }
@@ -16,7 +17,7 @@ NodeStatus SelectorNode::Update()
 	{
 		std::random_device rd;
 		std::default_random_engine eng(rd());
-		std::uniform_real_distribution<int> distr(0, static_cast<int>(children.size())-1);
+		std::uniform_int_distribution<int> distr(0, static_cast<int>(children.size())-1);
 
 		selectedIndex = distr(eng);
 	}
