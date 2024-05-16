@@ -270,6 +270,16 @@ private:
 	Vector3 knockVec = { 0,0,0 };
 	float knockSpeed = 0;
 	const float knockSpeedNum = 5.0f;
+
+	//無敵時間付与
+
+	const float mutekiOnDamageNum = 5.0f;
+
+	float gainDamege = 0;
+
+	int mutekitimer = 0;
+
+	bool debugMuteki = false;
 	
 
 };

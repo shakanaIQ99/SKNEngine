@@ -114,6 +114,15 @@ void Player::Update()
 	sprite_HPbar->Wt.translation_.x = 200.0f-(8.0f * (maxhp-hp));
 	sprite_HPbar->Wt.scale_.x = (10.0f * hp / maxhp);
 	prePlayer.translation_ =Lerp(prePlayer.translation_, St->Wt.translation_, 0.3f);
+	if (muteki)
+	{
+		mutekitimer++;
+		if (mutekitimer > 30)
+		{
+			muteki = false;
+			mutekitimer = 0;
+		}
+	}
 
 	sprite_ENGauge->Wt.scale_.x = enGaugeSize * static_cast<float>(gaugeEN) / static_cast<float>(maxGaugeEN);
 	if (hp > maxhp)
@@ -190,7 +199,15 @@ void Player::Update()
 
 void Player::Damege(float dmg)
 {
-	hp -= dmg * static_cast<float>(1 - muteki);
+	if(!muteki)gainDamege += dmg;
+
+	if (mutekiOnDamageNum < gainDamege)
+	{
+		muteki = true;
+		gainDamege = 0;
+	}
+
+	if(!debugMuteki)hp -= dmg * static_cast<float>(1 - muteki);
 	AudioManager::Play("hit");
 }
 
@@ -579,7 +596,7 @@ void Player::ImGuiMode()
 	ImGui::NewLine();
 	ImGui::Text("BoostMode::%d", boostMode);
 	ImGui::Checkbox("InfEN", &infEN);
-	ImGui::Checkbox("muteki", &muteki);
+	ImGui::Checkbox("muteki", &debugMuteki);
 	ImGui::Checkbox("colLock", &colLock);
 
 
