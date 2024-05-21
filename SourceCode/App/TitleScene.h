@@ -6,11 +6,7 @@
 #include "OBJ3D.h"
 #include "Field.h"
 #include "ObjModel.h"
-#pragma warning (push)
-#pragma warning (disable:4245)
-#pragma warning (disable:4189)
-#include "GraphEditor.h"
-#pragma warning (pop)
+
 enum class TitleState
 {
 	TITLEBASE,

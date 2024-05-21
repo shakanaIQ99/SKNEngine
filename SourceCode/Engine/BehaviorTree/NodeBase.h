@@ -55,13 +55,13 @@ public:
 
     virtual std::string GetNodeType() = 0;
 
-    template<class NodeType>
+    template <class NodeType>
     void AddNode(const std::string& param)
     {
-        children_.emplace_back(std::make_unique<NodeType>());
+        //children.emplace_back(std::make_unique<NodeType>());
         Last()->SetParam(param);
-        Last()->parentBT_ = parentBT_;
-        Last()->parent_ = this;
+        Last()->parentBT = parentBT;
+        Last()->parent= this;
     };
 
     NodeBase* Last();
