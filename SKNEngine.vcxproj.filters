@@ -572,9 +572,6 @@
     <ClInclude Include="SourceCode\Engine\BehaviorTree\RootNode.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
     </ClInclude>
-    <ClInclude Include="SourceCode\json.hpp">
-      <Filter>ソース ファイル\ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="SourceCode\Engine\BehaviorTree\LoopNode.h">
       <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
     </ClInclude>
@@ -583,6 +580,9 @@
     </ClInclude>
     <ClInclude Include="SourceCode\Imgui\ImGuizmo.h">
       <Filter>ソース ファイル\cppファイル\Engine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\json.hpp">
+      <Filter>ソース ファイル\ヘッダー ファイル\Engine\BehaviorTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,9 @@ public:
 	std::unique_ptr<NodeBase> root;
 	std::list<std::unique_ptr<NodeBase>> floatingNodes;
 
+	void LoadJson(std::string path);
+	void SaveJson(std::string path);
+
 
 private:
 	std::unique_ptr<BehaviorTreeFactory> funcFactory;

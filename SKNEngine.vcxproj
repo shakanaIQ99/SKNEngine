@@ -273,7 +273,7 @@
     <ClInclude Include="SourceCode\App\UI.h" />
     <ClInclude Include="SourceCode\App\TitleScene.h" />
     <ClInclude Include="SourceCode\App\TutorialScene.h" />
-    <ClInclude Include="SourceCode\json.hpp" />
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shader\3DLine.hlsli" />

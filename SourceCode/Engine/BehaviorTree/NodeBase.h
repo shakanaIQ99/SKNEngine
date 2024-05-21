@@ -55,6 +55,21 @@ public:
 
     virtual std::string GetNodeType() = 0;
 
+    template<class NodeType>
+    void AddNode(const std::string& param)
+    {
+        children_.emplace_back(std::make_unique<NodeType>());
+        Last()->SetParam(param);
+        Last()->parentBT_ = parentBT_;
+        Last()->parent_ = this;
+    };
+
+    NodeBase* Last();
+    std::unique_ptr<NodeBase>* LastPtr();
+
+    //新しいNodeのuptrへのポインタを返す
+    std::unique_ptr<NodeBase>* ChangeParent(NodeBase* newParent);
+
     NodeBase() {};
     virtual ~NodeBase() {};
 };
