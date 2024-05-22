@@ -197,7 +197,7 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
 		},//0
 
 		{
-			"CrossORLeave",
+			"Selector",
 			3,
 			400, 0,
 			false
@@ -218,7 +218,7 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
 		},//3
 
 		{
-			"Condition",
+			"CrossLange",
 			4,
 			1200, 400,
 			false
@@ -244,6 +244,13 @@ struct GraphEditorDelegate : public GraphEditor::Delegate
 			1200, -400,
 			false
 		},//7
+
+		{
+			"FarLange",
+			4,
+			1200, 400,
+			false
+		},//4
 
 	};
 
