@@ -263,6 +263,20 @@ BossEnemy::BossEnemy()
 {
 }
 
+void BossEnemy::InitBehaviorTree()
+{
+	//ファクトリーに関数を登録
+	BehaviorTreeFactory factory;
+
+	//factory.RegisterAction("", std::bind(&Boss::CastMarkerAim1Rand5, this));
+	
+	//factory.RegisterCondition("PlayerInsideRushRange", std::bind(&Boss::IsPlayerInsideRushRange, this));
+
+	bTree->SetFactory(factory);
+
+	bTree->LoadJson("");
+}
+
 void BossEnemy::Initialize()
 {
 	ModelInit("enemy");

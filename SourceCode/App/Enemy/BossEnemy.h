@@ -7,6 +7,7 @@
 #include"Draw3DLine.h"
 #include"Player.h"
 #include"DeathParticle.h"
+#include"BehaviorTree.h"
 
 enum struct AtkPattern
 {
@@ -36,6 +37,8 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	BossEnemy();
+
+	void InitBehaviorTree();
 
 
 	/// <summary>
@@ -229,6 +232,9 @@ private:
 	}
 
 private:
+
+	BehaviorTree* bTree;
+
 	std::unique_ptr<ObjModel> bulletModel;
 	std::unique_ptr<ObjModel> hbulletModel;
 
