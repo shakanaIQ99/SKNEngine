@@ -58,7 +58,7 @@ public:
     template <class NodeType>
     void AddNode(const std::string& param)
     {
-        //children.emplace_back(std::make_unique<NodeType>());
+        children.emplace_back(std::make_unique<NodeType>());
         Last()->SetParam(param);
         Last()->parentBT = parentBT;
         Last()->parent= this;
