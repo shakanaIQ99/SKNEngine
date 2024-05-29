@@ -101,6 +101,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\EditerNode.cpp" />
+    <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTreeEditer.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\LoopNode.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\RootNode.cpp" />
     <ClCompile Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.cpp" />
@@ -193,6 +195,8 @@
     <ClCompile Include="SourceCode\App\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\EditerNode.h" />
+    <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTreeEditer.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\LoopNode.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\RootNode.h" />
     <ClInclude Include="SourceCode\Engine\BehaviorTree\BehaviorTreeFactory.h" />
