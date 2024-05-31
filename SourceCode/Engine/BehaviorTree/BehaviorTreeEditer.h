@@ -5,7 +5,7 @@ class BehaviorTreeEditer
 {
 public:
 
-
+	static void Draw();
 
 
 
