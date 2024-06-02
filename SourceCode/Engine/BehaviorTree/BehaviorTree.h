@@ -3,6 +3,12 @@
 #include "NodeBase.h"
 #include <memory>
 #include <list>
+#include "ActionNode.h"
+#include "LoopNode.h"
+#include "SequencerNode.h"
+#include "SelectorNode.h"
+#include "ConditionNode.h"
+#include "RootNode.h"
 
 class BehaviorTreeFactory;
 class NodeBase;

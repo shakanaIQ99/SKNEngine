@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include "BehaviorTree.h"
+
 class NodeStatus
 {
 
@@ -29,10 +30,11 @@ private:
 };
 
 class BehaviorTree;
+class EditerNode;
 
 class NodeBase
 {
-protected:
+public:
 
     std::list<std::unique_ptr<NodeBase>> children;
 
@@ -54,6 +56,9 @@ public:
     const std::list<std::unique_ptr<NodeBase>>& GetChildren();
 
     virtual std::string GetNodeType() = 0;
+
+    
+    EditerNode* editorNodePtr = nullptr;
 
     template <class NodeType>
     void AddNode(const std::string& param)
