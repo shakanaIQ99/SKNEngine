@@ -1,10 +1,10 @@
 #include "LoopNode.h"
 
-void LoopNode::OnStart()
+void SKN::LoopNode::OnStart()
 {
 }
 
-NodeStatus LoopNode::Update()
+SKN::NodeStatus SKN::LoopNode::Update()
 {
     if (loopCount < param || param == 0)
     {
@@ -24,25 +24,25 @@ NodeStatus LoopNode::Update()
     return NodeStatus::Running;
 }
 
-void LoopNode::OnEnd()
+void SKN::LoopNode::OnEnd()
 {
 }
 
-void LoopNode::OnAbort()
+void SKN::LoopNode::OnAbort()
 {
 }
 
-void LoopNode::SetParam(std::string Param)
+void SKN::LoopNode::SetParam(std::string Param)
 {
     NodeBase::SetParam(Param);
 }
 
-void LoopNode::InitNode()
+void SKN::LoopNode::InitNode()
 {
     loopCount = 0;
 }
 
-std::string LoopNode::GetNodeType()
+std::string SKN::LoopNode::GetNodeType()
 {
     return "Loop";
 }

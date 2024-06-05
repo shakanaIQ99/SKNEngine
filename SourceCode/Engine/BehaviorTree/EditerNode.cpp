@@ -12,7 +12,7 @@ static std::vector<std::string> itemList
 	"Root"
 };
 
-EditerNode::EditerNode(std::unique_ptr<NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master)
+EditerNode::EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master)
 {
 	node = Node;
 	(*node)->editorNodePtr = this;
@@ -24,39 +24,39 @@ EditerNode::EditerNode(std::unique_ptr<NodeBase>* Node, std::string UniqueName, 
 
 void EditerNode::ChangeNodeType(std::string type)
 {
-	std::unique_ptr<NodeBase>* lastNode = std::move(node);
+	std::unique_ptr<SKN::NodeBase>* lastNode = std::move(node);
 
-	NodeBase* last = lastNode->get();
+	SKN::NodeBase* last = lastNode->get();
 
 	std::string param = last->GetParam();
-	NodeBase* parent = last->parent;
+	SKN::NodeBase* parent = last->parent;
 	auto children = std::move(last->children);
 	auto parentBT = last->parentBT;
 
 	//NodeTypeによって分岐
 	if (type == "Action")
 	{
-		*node = std::make_unique<ActionNode>();
+		*node = std::make_unique<SKN::ActionNode>();
 	}
 	else if (type == "Loop")
 	{
-		*node = std::make_unique<LoopNode>();
+		*node = std::make_unique<SKN::LoopNode>();
 	}
 	else if (type == "Selector")
 	{
-		*node = std::make_unique<SelectorNode>();
+		*node = std::make_unique<SKN::SelectorNode>();
 	}
 	else if (type == "Sequencer")
 	{
-		*node = std::make_unique<SequencerNode>();
+		*node = std::make_unique<SKN::SequencerNode>();
 	}
 	else if (type == "Condition")
 	{
-		*node = std::make_unique<ConditionNode>();
+		*node = std::make_unique<SKN::ConditionNode>();
 	}
 	else
 	{
-		*node = std::make_unique<RootNode>();
+		*node = std::make_unique<SKN::RootNode>();
 	}
 
 	(*node)->SetParam(param);

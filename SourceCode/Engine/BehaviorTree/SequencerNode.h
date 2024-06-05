@@ -1,6 +1,6 @@
 #pragma once
 #include "NodeBase.h"
-
+namespace SKN {
     class SequencerNode :public NodeBase
     {
     public:
@@ -16,3 +16,4 @@
         std::string GetNodeType() override;
     };
 
+}

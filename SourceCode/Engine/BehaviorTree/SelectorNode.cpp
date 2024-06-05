@@ -1,11 +1,11 @@
 #include "SelectorNode.h"
 #include <random>
 #include <iostream>
-void SelectorNode::OnStart()
+void SKN::SelectorNode::OnStart()
 {
 }
 
-NodeStatus SelectorNode::Update()
+SKN::NodeStatus SKN::SelectorNode::Update()
 {
 	if (children.size() < 0)
 	{
@@ -48,25 +48,25 @@ NodeStatus SelectorNode::Update()
 	return NodeStatus::Running;
 }
 
-void SelectorNode::OnEnd()
+void SKN::SelectorNode::OnEnd()
 {
 }
 
-void SelectorNode::OnAbort()
+void SKN::SelectorNode::OnAbort()
 {
 }
 
-void SelectorNode::SetParam(std::string Param)
+void SKN::SelectorNode::SetParam(std::string Param)
 {
 	NodeBase::SetParam(param);
 }
 
-void SelectorNode::InitNode()
+void SKN::SelectorNode::InitNode()
 {
 	selectedIndex = -1;
 }
 
-std::string SelectorNode::GetNodeType()
+std::string SKN::SelectorNode::GetNodeType()
 {
 	return "Selector";
 }

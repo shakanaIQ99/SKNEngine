@@ -13,25 +13,25 @@
 using namespace nlohmann;
 using namespace std;
 
-BehaviorTree::BehaviorTree()
+SKN::BehaviorTree::BehaviorTree()
 {
 	root = std::make_unique<RootNode>();
 	dynamic_cast<RootNode*>(root.get())->SetRootBT(this);
 }
 
-void BehaviorTree::SetFactory(BehaviorTreeFactory& factory)
+void SKN::BehaviorTree::SetFactory(BehaviorTreeFactory& factory)
 {
 	funcFactory.reset(&factory);
 }
 
 
 
-void BehaviorTree::Tick()
+void SKN::BehaviorTree::Tick()
 {
 	root->Update();
 }
 
-void BehaviorTree::LoadJson(std::string path)
+void SKN::BehaviorTree::LoadJson(std::string path)
 {
 	ifstream file;
 
@@ -109,6 +109,6 @@ void BehaviorTree::LoadJson(std::string path)
 	file.close();
 }
 
-void BehaviorTree::SaveJson(std::string path)
+void SKN::BehaviorTree::SaveJson(std::string path)
 {
 }

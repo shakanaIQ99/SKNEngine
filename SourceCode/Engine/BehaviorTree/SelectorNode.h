@@ -1,8 +1,6 @@
 #pragma once
 #include"NodeBase.h"
-
-
-
+namespace SKN {
     class SelectorNode :public NodeBase
     {
     public:
@@ -19,3 +17,4 @@
         int32_t selectedIndex = -1;
     };
 
+}

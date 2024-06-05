@@ -1,10 +1,10 @@
 #include "RootNode.h"
 
-void RootNode::OnStart()
+void SKN::RootNode::OnStart()
 {
 }
 
-NodeStatus RootNode::Update()
+SKN::NodeStatus SKN::RootNode::Update()
 {
 	if (children.size())
 	{
@@ -14,26 +14,26 @@ NodeStatus RootNode::Update()
 	return NodeStatus::Success;
 }
 
-void RootNode::OnEnd()
+void SKN::RootNode::OnEnd()
 {
 }
 
-void RootNode::OnAbort()
+void SKN::RootNode::OnAbort()
 {
 	NodeBase::OnAbort();
 }
 
-void RootNode::SetRootBT(BehaviorTree* bt)
+void SKN::RootNode::SetRootBT(BehaviorTree* bt)
 {
 	parentBT = bt;
 }
 
-void RootNode::SetParam(std::string Param)
+void SKN::RootNode::SetParam(std::string Param)
 {
 	NodeBase::SetParam(Param);
 }
 
-std::string RootNode::GetNodeType()
+std::string SKN::RootNode::GetNodeType()
 {
 	return "Root";
 }

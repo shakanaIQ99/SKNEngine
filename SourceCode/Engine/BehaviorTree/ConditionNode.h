@@ -1,6 +1,6 @@
 #pragma once
 #include "NodeBase.h"
-
+namespace SKN {
     class ConditionNode :public NodeBase
     {
     public:
@@ -17,3 +17,4 @@
         int32_t selectedIndex = -1;
     };
 
+}

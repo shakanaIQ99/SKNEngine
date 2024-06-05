@@ -1,10 +1,10 @@
 #include "SequencerNode.h"
 
-void SequencerNode::OnStart()
+void SKN::SequencerNode::OnStart()
 {
 }
 
-NodeStatus SequencerNode::Update()
+SKN::NodeStatus SKN::SequencerNode::Update()
 {
 	if (children.size() <= activeIndex)
 	{
@@ -44,25 +44,25 @@ NodeStatus SequencerNode::Update()
 	return NodeStatus::Running;
 }
 
-void SequencerNode::OnEnd()
+void SKN::SequencerNode::OnEnd()
 {
 }
 
-void SequencerNode::OnAbort()
+void SKN::SequencerNode::OnAbort()
 {
 }
 
-void SequencerNode::SetParam(std::string Param)
+void SKN::SequencerNode::SetParam(std::string Param)
 {
 	NodeBase::SetParam(param);
 }
 
-void SequencerNode::InitNode()
+void SKN::SequencerNode::InitNode()
 {
 	activeIndex = 0;
 }
 
-std::string SequencerNode::GetNodeType()
+std::string SKN::SequencerNode::GetNodeType()
 {
 	return "Sequencer";
 }

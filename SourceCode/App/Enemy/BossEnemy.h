@@ -233,7 +233,7 @@ private:
 
 private:
 
-	BehaviorTree* bTree;
+	SKN::BehaviorTree* bTree;
 
 	std::unique_ptr<ObjModel> bulletModel;
 	std::unique_ptr<ObjModel> hbulletModel;

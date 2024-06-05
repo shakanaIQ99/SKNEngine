@@ -1,6 +1,6 @@
 #pragma once
 #include"NodeBase.h"
-
+namespace SKN {
     class ActionNode :public NodeBase
     {
     public:
@@ -18,4 +18,4 @@
     private:
         std::string funcKey;
     };
-
+}

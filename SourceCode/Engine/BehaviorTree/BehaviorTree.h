@@ -10,26 +10,29 @@
 #include "ConditionNode.h"
 #include "RootNode.h"
 
-class BehaviorTreeFactory;
-class NodeBase;
+namespace SKN {
 
-class BehaviorTree
-{
-public:
-	BehaviorTree();
+	class BehaviorTreeFactory;
+	class NodeBase;
 
-	void SetFactory(BehaviorTreeFactory& factory);
-	BehaviorTreeFactory* GetFactory() const { return funcFactory.get(); }
-	void Tick();
+	class BehaviorTree
+	{
+	public:
+		BehaviorTree();
 
-	std::unique_ptr<NodeBase> root;
-	std::list<std::unique_ptr<NodeBase>> floatingNodes;
+		void SetFactory(BehaviorTreeFactory& factory);
+		BehaviorTreeFactory* GetFactory() const { return funcFactory.get(); }
+		void Tick();
 
-	void LoadJson(std::string path);
-	void SaveJson(std::string path);
+		std::unique_ptr<NodeBase> root;
+		std::list<std::unique_ptr<NodeBase>> floatingNodes;
+
+		void LoadJson(std::string path);
+		void SaveJson(std::string path);
 
 
-private:
-	std::unique_ptr<BehaviorTreeFactory> funcFactory;
-};
+	private:
+		std::unique_ptr<BehaviorTreeFactory> funcFactory;
+	};
 
+}

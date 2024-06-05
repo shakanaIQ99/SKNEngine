@@ -1,33 +1,33 @@
 #include "ActionNode.h"
-
-void ActionNode::OnStart()
+#include "BehaviorTree.h"
+void SKN::ActionNode::OnStart()
 {
 }
 
-NodeStatus ActionNode::Update()
+SKN::NodeStatus SKN::ActionNode::Update()
 {
 	return parentBT->GetFactory()->GetActionFunc(funcKey)();
 }
 
-void ActionNode::OnEnd()
+void SKN::ActionNode::OnEnd()
 {
 }
 
-void ActionNode::OnAbort()
+void SKN::ActionNode::OnAbort()
 {
 }
 
-void ActionNode::SetParam(std::string Param)
+void SKN::ActionNode::SetParam(std::string Param)
 {
 	NodeBase::SetParam(param);
 	funcKey = param;
 }
 
-void ActionNode::InitNode()
+void SKN::ActionNode::InitNode()
 {
 }
 
-std::string ActionNode::GetNodeType()
+std::string SKN::ActionNode::GetNodeType()
 {
 	return "Action";
 }

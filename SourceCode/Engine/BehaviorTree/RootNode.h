@@ -1,7 +1,8 @@
 #pragma once
 #include "NodeBase.h"
+#include "BehaviorTree.h"
 
-
+namespace SKN {
 
     class RootNode :public NodeBase
     {
@@ -11,9 +12,9 @@
         void OnEnd() override;
         void OnAbort() override;
 
-        void SetRootBT(BehaviorTree* bt);
+        void SetRootBT(SKN::BehaviorTree* bt);
 
         void SetParam(std::string Param) override;
         std::string GetNodeType() override;
     };
-
+}

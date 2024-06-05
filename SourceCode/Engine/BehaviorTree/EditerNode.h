@@ -1,13 +1,14 @@
 #pragma once
 #include"NodeBase.h"
 #include"Vector2.h"
+
 class BehaviorTreeEditer;
 class EditerNode
 {
 public:
 	friend BehaviorTreeEditer;
 
-	EditerNode(std::unique_ptr<NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master);
+	EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master);
 
 	void ChangeNodeType(std::string type);
 
@@ -17,7 +18,7 @@ public:
 
 	void SetComboBoxItem(std::string nodeType);
 private:
-	std::unique_ptr<NodeBase>* node;
+	std::unique_ptr<SKN::NodeBase>* node;
 	Vector2 pos;
 	Vector2 size;
 
@@ -31,4 +32,3 @@ private:
 
 
 };
-

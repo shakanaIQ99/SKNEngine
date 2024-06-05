@@ -1,41 +1,41 @@
 #include "NodeBase.h"
-
-void NodeBase::OnAbort()
+#include "BehaviorTree.h"
+void SKN::NodeBase::OnAbort()
 {
 	OnEnd();
 }
 
-void NodeBase::SetParam(std::string Param)
+void SKN::NodeBase::SetParam(std::string Param)
 {
 	param = Param;
 }
 
-std::string NodeBase::GetParam()
+std::string SKN::NodeBase::GetParam()
 {
 	return param;
 }
 
-NodeBase* NodeBase::GetParent()
+SKN::NodeBase* SKN::NodeBase::GetParent()
 {
 	return parent;
 }
 
-const std::list<std::unique_ptr<NodeBase>>& NodeBase::GetChildren()
+const std::list<std::unique_ptr<SKN::NodeBase>>& SKN::NodeBase::GetChildren()
 {
 	return children;
 }
 
-NodeBase* NodeBase::Last()
+SKN::NodeBase* SKN::NodeBase::Last()
 {
 	return children.back().get();
 }
 
-std::unique_ptr<NodeBase>* NodeBase::LastPtr()
+std::unique_ptr<SKN::NodeBase>* SKN::NodeBase::LastPtr()
 {
 	return &children.back();
 }
 
-std::unique_ptr<NodeBase>* NodeBase::ChangeParent(NodeBase* newParent)
+std::unique_ptr<SKN::NodeBase>* SKN::NodeBase::ChangeParent(NodeBase* newParent)
 {
 	//両方ある場合
 	if (parent != nullptr && newParent != nullptr)

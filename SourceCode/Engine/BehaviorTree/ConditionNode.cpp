@@ -1,10 +1,10 @@
 #include "ConditionNode.h"
-
-void ConditionNode::OnStart()
+#include "BehaviorTree.h"
+void SKN::ConditionNode::OnStart()
 {
 }
 
-NodeStatus ConditionNode::Update()
+SKN::NodeStatus SKN::ConditionNode::Update()
 {
 	bool doesConditionMatch = parentBT->GetFactory()->GetConditionFunc(param)();
 	if (selectedIndex < 0)
@@ -45,25 +45,25 @@ NodeStatus ConditionNode::Update()
 	return NodeStatus::Running;
 }
 
-void ConditionNode::OnEnd()
+void SKN::ConditionNode::OnEnd()
 {
 }
 
-void ConditionNode::OnAbort()
+void SKN::ConditionNode::OnAbort()
 {
 }
 
-void ConditionNode::SetParam(std::string Param)
+void SKN::ConditionNode::SetParam(std::string Param)
 {
 	NodeBase::SetParam(param);
 }
 
-void ConditionNode::InitNode()
+void SKN::ConditionNode::InitNode()
 {
 	selectedIndex = -1;
 }
 
-std::string ConditionNode::GetNodeType()
+std::string SKN::ConditionNode::GetNodeType()
 {
 	return "Condition";
 }
