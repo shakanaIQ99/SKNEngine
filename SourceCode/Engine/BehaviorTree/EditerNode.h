@@ -1,6 +1,7 @@
 #pragma once
 #include"NodeBase.h"
 #include"Vector2.h"
+#include"GraphEditor.h"
 
 class BehaviorTreeEditer;
 class EditerNode
@@ -21,6 +22,8 @@ private:
 	std::unique_ptr<SKN::NodeBase>* node;
 	Vector2 pos;
 	Vector2 size;
+
+	GraphEditor::Node eNode;
 
 	Vector2 firstPos = { 0.0f,0.0f };
 

@@ -12,9 +12,6 @@
 
 namespace SKN {
 
-	class BehaviorTreeFactory;
-	class NodeBase;
-
 	class BehaviorTree
 	{
 	public:
