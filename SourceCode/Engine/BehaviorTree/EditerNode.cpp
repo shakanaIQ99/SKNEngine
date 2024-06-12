@@ -15,6 +15,8 @@ static std::vector<std::string> itemList
 EditerNode::EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master)
 {
 	node = Node;
+	eNode.mName = UniqueName.c_str();
+	eNode.mRect
 	(*node)->editorNodePtr = this;
 
 	uniqueName = UniqueName;
