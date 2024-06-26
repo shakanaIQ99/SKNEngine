@@ -16,7 +16,7 @@ EditerNode::EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueN
 {
 	node = Node;
 	eNode.mName = UniqueName.c_str();
-	eNode.mRect
+	eNode.mRect =
 	(*node)->editorNodePtr = this;
 
 	uniqueName = UniqueName;
