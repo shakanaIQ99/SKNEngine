@@ -4,12 +4,24 @@
 #include"GraphEditor.h"
 
 class BehaviorTreeEditer;
+
+struct EGNode
+{
+	const char* name;
+	GraphEditor::TemplateIndex templateIndex;
+	float x, y;
+	bool mSelected;
+	const char* nodeTypeName;
+};
+
+
+
 class EditerNode
 {
 public:
 	friend BehaviorTreeEditer;
 
-	EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master);
+	EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master, GraphEditor::TemplateIndex TemplateIndex);
 
 	void ChangeNodeType(std::string type);
 
@@ -23,7 +35,7 @@ private:
 	Vector2 pos;
 	Vector2 size;
 
-	GraphEditor::Node eNode;
+	EGNode eNode;
 
 	Vector2 firstPos = { 0.0f,0.0f };
 

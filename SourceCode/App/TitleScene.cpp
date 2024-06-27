@@ -4,6 +4,7 @@
 #include "SceneControl.h"
 #include "ImGuiManager.h"
 #include "Easing.h"
+#include "BehaviorTreeEditer.h"
 
 
 
@@ -159,6 +160,8 @@ void TitleScene::ImGuiMode()
 	ImGui::DragFloat("Y", &titlePlayer->Wt.translation_.y, 0.5f);
 
 	ImGui::End();
+
+	BehaviorTreeEditer::Draw();
 }
 
 

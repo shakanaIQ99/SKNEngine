@@ -12,11 +12,13 @@ static std::vector<std::string> itemList
 	"Root"
 };
 
-EditerNode::EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master)
+EditerNode::EditerNode(std::unique_ptr<SKN::NodeBase>* Node, std::string UniqueName, BehaviorTreeEditer* Master, GraphEditor::TemplateIndex TemplateIndex)
 {
 	node = Node;
-	eNode.mName = UniqueName.c_str();
-	eNode.mRect
+	eNode.name = UniqueName.c_str();
+	eNode.x = firstPos.x;
+	eNode.y = firstPos.y;
+	eNode.templateIndex = TemplateIndex;
 	(*node)->editorNodePtr = this;
 
 	uniqueName = UniqueName;
@@ -80,6 +82,8 @@ void EditerNode::Draw()
 
 const Vector2& EditerNode::GetPos()
 {
+	pos.x = eNode.x;
+	pos.y = eNode.y;
 	return pos;
 }
 
