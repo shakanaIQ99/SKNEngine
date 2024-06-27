@@ -2,6 +2,7 @@
 #include"EditerNode.h"
 #include"BehaviorTree.h"
 
+struct GraphEditorDelegate;
 
 class BehaviorTreeEditer
 {
