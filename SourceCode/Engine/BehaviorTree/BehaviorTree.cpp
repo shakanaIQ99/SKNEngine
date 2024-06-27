@@ -23,7 +23,7 @@ SKN::BehaviorTree::BehaviorTree()
 void SKN::BehaviorTree::SetFactory(BehaviorTreeFactory& factory)
 {
 	funcFactory.reset(&factory);
-}
+}  
 
 
 
