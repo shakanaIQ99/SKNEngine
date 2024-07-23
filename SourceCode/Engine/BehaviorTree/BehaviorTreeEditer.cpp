@@ -248,13 +248,32 @@ void BehaviorTreeEditer::Draw()
 	
 		static int templateNum = 0;
 		const char* templateName[] = { "Root","Sequencer","Action","Selector","Condition","Loop" };
-		ImGui::Combo("##MovemodeNumCombo", &templateNum, templateName, IM_ARRAYSIZE(templateName));
+		static const char* current_item = templateName[0];
+		//ImGui::Combo("##MovemodeNumCombo", &templateNum, templateName, IM_ARRAYSIZE(templateName));
+		if (ImGui::BeginCombo("##combo", current_item)) // The second parameter is the label previewed before opening the combo.
+		{
+			for (int n = 0; n < IM_ARRAYSIZE(templateName); n++)
+			{
+				bool is_selected = (current_item == templateName[n]); // You can store your selection however you want, outside or inside your objects
+				if (ImGui::Selectable(templateName[n], is_selected, ImGuiSelectableFlags_DontClosePopups))
+				{
+					current_item = templateName[n];
+					templateNum = n;
+				}
+				if (is_selected)
+				{
+
+					ImGui::SetItemDefaultFocus();   // You may set the initial focus when opening the combo (scrolling + for keyboard navigation support)
+				}
+			}
+			ImGui::EndCombo();
+		}
 		static int NodeNum = 0;
-		const char* NodeName[] = { "aaaa","bbbb","cccc","rrrr","dddd","ssss" };
+		const char* NodeName[] = { "Attack1","Attack2","Conddition1","Conddition2","Attack3","Attack4" ,"Blank"};
 		ImGui::Combo("##MovemodeNumCombo", &NodeNum, NodeName, IM_ARRAYSIZE(NodeName));
 		if (ImGui::Button("CreateNode"))
 		{
-			delegate.mNodes.push_back(EGNode(templateName[templateNum], templateNum,0, 0,false,NodeName[NodeNum]));
+			delegate.mNodes.push_back(EGNode(templateName[templateNum], templateNum,10, 10,false,NodeName[NodeNum]));
 			
 		}
 		if (ImGui::Button("DeleteNode"))
